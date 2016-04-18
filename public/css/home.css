@@ -1,0 +1,23 @@
+body {
+  background: url(/images/bg.png) no-repeat center center fixed;
+  background-size: cover; }
+
+.main {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  -webkit-transform: translateY(-50%) translateX(-50%);
+  transform: translateY(-50%) translateX(-50%); }
+
+.content {
+  width: 100%;
+  float: none;
+  box-shadow: none; }
+
+h1.title {
+  font-size: 56pt; }
+  @media screen and (max-width: 800px) {
+    h1.title {
+      font-size: 32pt; } }
+
+/*# sourceMappingURL=home.css.map */

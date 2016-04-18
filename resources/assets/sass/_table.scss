@@ -1,0 +1,21 @@
+@import 'colors';
+
+.content table {
+    margin: auto;
+    th {
+        @include bg_theme_gradient();
+        color: white;
+        width: 20em;
+        line-height: 2.5em;
+    }
+    td, th {
+        text-align: center;
+        border:1px solid darkgray;
+    }
+    tbody {
+        cursor: pointer;
+    }
+    tr:hover {
+        background-color: lightgray;
+    }
+}
