@@ -22,6 +22,3 @@ Route::get('/map/fluidos/{id}', 'mapController@fluidosCampo');
 Route::get('/matrix/arenas','matrixController@arenas_select');
 Route::get('/matrix/arenas/{id}', 'matrixController@arenas_use');
 
-Route::get('/test', function(){
-	return 'hit';
-});
