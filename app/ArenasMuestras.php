@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ArenasMuestras extends Model
 {
-    protected $fillable = ['grain_size', 'frecuency', 'name_id'];
+    protected $fillable = ['grain_size', 'frequency'];
 
     protected $table = 'arenas_muestras';
 

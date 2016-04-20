@@ -29,6 +29,6 @@ $factory->define(App\ArenasMuestrasTabla::class, function(Faker\Generator $faker
 $factory->define(App\ArenasMuestras::class, function(Faker\Generator $faker){
     return [
         'grain_size' => $faker->numberBetween(5,1000),
-        'frecuency' => $faker->numberBetween(1,250),
+        'frequency' => $faker->numberBetween(1,250),
     ];
 });

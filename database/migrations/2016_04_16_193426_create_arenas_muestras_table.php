@@ -18,7 +18,7 @@ class CreateArenasMuestrasTable extends Migration
             $table->integer('name_id');
 
             $table->double('grain_size');
-            $table->integer('frecuency');
+            $table->integer('frequency');
         });
     }
 
