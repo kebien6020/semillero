@@ -21,8 +21,8 @@ class matrixController extends Controller
         objSort($samples, function($obj){return $obj['grain_size'];});
 
         // Cast to object
-        foreach ($samples as &$sample) {
-            $sample = (object) $sample;
+        foreach ($samples as $key => $sample) {
+            $samples[$key] = (object) $sample;
         }
 
         // Average and Total
@@ -31,7 +31,7 @@ class matrixController extends Controller
 
         foreach ($samples as $sample) {
             $frequency_sum += $sample->frequency;
-            $value_sum += $sample->grain_size * $sample->frequency;
+            $value_sum += ($sample->grain_size) * ($sample->frequency);
         }
 
         $average = $value_sum / $frequency_sum;
@@ -50,9 +50,10 @@ class matrixController extends Controller
                 $cummulative_rel_frequency[$i] += $cummulative_rel_frequency[$i-1];
             }
 
-            $plot_data[$i][0] = $samples[$i]->grain_size;
+            $plot_data[$i][0] = $sample->grain_size;
             $plot_data[$i][1] = $cummulative_rel_frequency[$i];
         }
+
 
         $string_data ='';
 
