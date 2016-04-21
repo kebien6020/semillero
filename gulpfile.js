@@ -13,5 +13,6 @@ var elixir = require('laravel-elixir');
 
 elixir(function(mix) {
     mix.sass('app.scss')
-       .sass('home.scss');
+       .sass('home.scss')
+       .scripts(['flot/jquery.flot.js'],'public/js/flot.js');
 });
