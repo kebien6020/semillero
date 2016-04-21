@@ -66,7 +66,7 @@ $(document).ready(function(){
     <tbody>
         <tr>
             <td>Tamaño Grano Promedio [Micras]</td>
-            <td>{{ $results->average }}</td>
+            <td>{{ round($results->average, 2) }}</td>
         </tr>
         <tr>
             <td>Tipo Grano de la Arena</td>
@@ -74,15 +74,15 @@ $(document).ready(function(){
         </tr>
         <tr>
             <td>Percentil D40 (X60)</td>
-            <td>{{ $results->x60 }}</td>
+            <td>{{ round($results->x60, 2) }}</td>
         </tr>
         <tr>
             <td>Percentil D90 (X10)</td>
-            <td>{{ $results->x10 }}</td>
+            <td>{{ round($results->x10, 2) }}</td>
         </tr>
         <tr>
             <td>Coeficiente de uniformidad (U)</td>
-            <td>{{ $results->u }}</td>
+            <td>{{ round($results->u, 3) }}</td>
         </tr>
         <tr>
             <td>Uniformidad Arena</td>
@@ -98,12 +98,12 @@ $(document).ready(function(){
         @if ($results->liner)
             <tr>
                 <td>Tamaño de la Ranura [in]</td>
-                <td>{{ $results->groove_size }}</td>
+                <td>{{ round($results->groove_size, 4) }}</td>
             </tr>
         @else {{-- gravel --}}
             <tr>
                 <td>Tamaño Grava Promedio [in]</td>
-                <td>{{ $results->average_gravel_size }}</td>
+                <td>{{ round($results->average_gravel_size, 4) }}</td>
             </tr>
             <tr>
                 <td>Tamaño Grava US. Mesh</td>
