@@ -13,6 +13,11 @@ class mapController extends Controller
         return view('map.sla');
     }
 
+    function arenasPozos(){
+        $pozos = \App\ArenasPozo::with('arenas_campo')->get();
+        return view('map.arenas_pozos', ['pozos' => $pozos->toJSON()]);
+    }
+
     function fluidos(){
 
         $campos = FluidosCampo::all();

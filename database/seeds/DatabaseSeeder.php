@@ -12,5 +12,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call(ArenasMuestrasTablasSeeder::class);
+        $this->call(FluidosCamposSeeder::class);
+        $this->call(ArenasMapSeeder::class);
     }
 }

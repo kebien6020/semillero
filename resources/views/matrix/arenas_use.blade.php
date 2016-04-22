@@ -8,19 +8,19 @@
 <script type="text/javascript">
 
 $(document).ready(function(){
-    data = {{ $plot_data }};
-    min = data[0][0];
-    x10_line = [
+    var data = {{ $plot_data }};
+    var min = data[0][0];
+    var x10_line = [
         [min       , 10],
         [{{ $x10 }}, 10],
         [{{ $x10 }}, 0 ],
     ];
-    x60_line = [
+    var x60_line = [
         [min       , 60],
         [{{ $x60 }}, 60],
         [{{ $x60 }}, 0 ],
     ];
-    options = {
+    var options = {
         xaxis: {
             transform: function(v){
                 if (v<=0) return 0;
