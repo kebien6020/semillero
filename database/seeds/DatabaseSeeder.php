@@ -14,5 +14,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ArenasMuestrasTablasSeeder::class);
         $this->call(FluidosCamposSeeder::class);
         $this->call(ArenasMapSeeder::class);
+        $this->call(UsersSeeder::class);
     }
 }

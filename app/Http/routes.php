@@ -23,3 +23,8 @@ Route::get('/fluidos/map/campos/{id}', 'fluidosController@campoDetail');
 Route::get('/arenas/matrix','arenasController@matrixSelect');
 Route::get('/arenas/matrix/{id}', 'arenasController@matrixResults');
 Route::get('/arenas/map', 'arenasController@mapPozos');
+Route::get('/arenas/map/add_data', 'arenasController@mapAddData');
+Route::get('/arenas/map/add_data_submit', 'arenasController@mapDoAddData');
+
+// Autentication
+Route::get('auth/logout', 'Auth\AuthController@getLogout');
