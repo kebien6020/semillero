@@ -23,7 +23,7 @@ $(document).ready(function($) {
     </thead>
     <tbody>
         @foreach($campos as $campo)
-            <tr class="clickable-row" data-href="/map/fluidos/{{ $campo->id }}">
+            <tr class="clickable-row" data-href="/fluidos/map/campos/{{ $campo->id }}">
                 <td>{{ $campo->name }}</td>
                 <td>{{ $campo->number_wells }}</td>
             </tr>

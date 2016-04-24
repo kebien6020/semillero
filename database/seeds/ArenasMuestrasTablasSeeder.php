@@ -16,7 +16,7 @@ class ArenasMuestrasTablasSeeder extends Seeder
 
         // Manually seed the same sample data provided with the algorithm
         $table = App\ArenasMuestrasTabla::create([
-            'name' => 'Datos para la muestra de interes']);
+            'name' => 'Datos de Ejemplo en un Pozo X']);
         $table->samples()->saveMany([
             new App\ArenasMuestras(['grain_size' => 5, 'frequency' => 5]),
             new App\ArenasMuestras(['grain_size' => 10, 'frequency' => 10]),

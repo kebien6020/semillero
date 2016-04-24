@@ -19,11 +19,10 @@
 
     <h1 class="title">Semillero de Completamiento</h1>
     <div class="button-container">
-        <a href="/map/arenas" class="fancy-button">Mapa de Mecanismos de Control de Arenas</a>
-        <a href="/matrix/arenas" class="fancy-button">Selección de un Mecanismo de Control de Arenas</a>
-        <a href="/map/sla" class="fancy-button">Mapa de Sistemas de Levantamiento Artificial</a>
-        <a href="/map/sla" class="fancy-button">Mapa de Conectividad</a>
-        <a href="/map/fluidos" class="fancy-button">Mapa de Fluidos de Completamiento</a>
+        <a href="/arenas/map" class="fancy-button">Mapa de Mecanismos de Control de Arenas</a>
+        <a href="/arenas/matrix" class="fancy-button">Selección de un Mecanismo de Control de Arenas</a>
+        <a href="/sla/map" class="fancy-button">Mapa de Sistemas de Levantamiento Artificial</a>
+        <a href="/fluidos/map/campos" class="fancy-button">Mapa de Fluidos de Completamiento</a>
     </div>
 
 

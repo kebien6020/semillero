@@ -14,10 +14,10 @@
     <div class="sidebar-widget">
         <h2>Menu</h2>
         <ul>
-            <li><a href="/map/arenas">Mapa control de arenas</a></li>
-            <li><a href="/matrix/arenas">Selección control de arenas</a></li>
-            <li><a href="/map/fluidos">Fluidos de completamiento</a></li>
-            <li><a href="/map/sla">SLA</a></li>
+            <li><a href="/arenas/map">Mapa control de arenas</a></li>
+            <li><a href="/arenas/matrix">Selección control de arenas</a></li>
+            <li><a href="/fluidos/map/campos">Fluidos de completamiento</a></li>
+            <li><a href="/sla/map">SLA</a></li>
         </ul>
     </div>
 </div>

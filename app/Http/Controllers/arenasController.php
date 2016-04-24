@@ -6,9 +6,14 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
-class matrixController extends Controller
+class arenasController extends Controller
 {
-    function arenas_use($id){
+    function mapPozos(){
+        $pozos = \App\ArenasPozo::with('arenas_campo')->get();
+        return view('arenas.map_pozos', ['pozos' => $pozos->toJSON()]);
+    }
+
+    function matrixResults($id){
 
         $tabla = \App\ArenasMuestrasTabla::find($id);
         
@@ -124,7 +129,7 @@ class matrixController extends Controller
         }
 
 
-        return view('matrix.arenas_use', [
+        return view('arenas.matrix_results', [
             'samples' => $samples,
             'cummulative_rel_frequency' => $cummulative_rel_frequency,
             'plot_data' => $string_data,
@@ -134,12 +139,18 @@ class matrixController extends Controller
         ]);
     }
 
-    function arenas_select(){
+    function matrixSelect(){
         $tablas = \App\ArenasMuestrasTabla::all();
-        return view('matrix.arenas_select', ['tablas' => $tablas]);
+        return view('arenas.matrix_select', ['tablas' => $tablas]);
     }
 }
 
+
+/*
+ ****************************
+ * Utility functions
+ ****************************
+ */
 
 // Sort by callback function
 function objSort(&$objArray,$indexFunction,$sort_flags=SORT_ASC) {

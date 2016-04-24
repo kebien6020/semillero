@@ -15,11 +15,11 @@ Route::get('/', function () {
     return view('home');
 });
 
-Route::get('/map/sla', 'mapController@sla');
+Route::get('/sla/map', 'slaController@mapPozos');
 
-Route::get('/map/fluidos', 'mapController@fluidos');
-Route::get('/map/fluidos/{id}', 'mapController@fluidosCampo');
+Route::get('/fluidos/map/campos', 'fluidosController@mapCampos');
+Route::get('/fluidos/map/campos/{id}', 'fluidosController@campoDetail');
 
-Route::get('/matrix/arenas','matrixController@arenas_select');
-Route::get('/matrix/arenas/{id}', 'matrixController@arenas_use');
-Route::get('/map/arenas', 'mapController@arenasPozos');
+Route::get('/arenas/matrix','arenasController@matrixSelect');
+Route::get('/arenas/matrix/{id}', 'arenasController@matrixResults');
+Route::get('/arenas/map', 'arenasController@mapPozos');

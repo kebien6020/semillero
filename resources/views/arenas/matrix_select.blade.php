@@ -7,7 +7,7 @@
 <p>Seleccionar entre los datos guardados</p>
 <ol>
     @foreach ($tablas as $tabla)
-    <li><a href="/matrix/arenas/{{ $tabla->id }}">
+    <li><a href="/arenas/matrix/{{ $tabla->id }}">
         {{ $tabla->name }}
     </a></li>
     @endforeach

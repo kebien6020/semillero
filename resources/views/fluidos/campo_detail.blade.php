@@ -25,7 +25,7 @@
 </table>
 
 <div class="button-container">
-    <a class="fancy-button-small" href="/map/fluidos">
+    <a class="fancy-button-small" href="/fluidos/map/campos">
         Volver
     </a>
 </div>
