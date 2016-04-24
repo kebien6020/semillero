@@ -6,12 +6,20 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\ArenasMuestrasTabla;
+use App\ArenasCuenca;
+use App\ArenasCampo;
+
+use DB;
 
 class arenasController extends Controller
 {
     function mapPozos(){
         $pozos = \App\ArenasPozo::with('arenas_campo')->get();
         return view('arenas.map_pozos', ['pozos' => $pozos->toJSON()]);
+    }
+
+    function mapAddData(){
+        return view('arenas.map_add_data');
     }
 
     function matrixResults($id){
@@ -101,6 +109,26 @@ class arenasController extends Controller
         $tablas = \App\ArenasMuestrasTabla::all();
         return view('arenas.matrix_select', ['tablas' => $tablas]);
     }
+
+    function listCuencas(){
+        $cuencas = ArenasCuenca::all();
+        return view('arenas.list_cuencas', ['cuencas' => $cuencas]);
+    }
+
+    function listCampos($cuenca_id){
+        $campos = DB::table('arenas_sand_controls')
+        ->join('arenas_campos', 'arenas_campos.id', '=', 'arenas_sand_controls.arenas_campo_id')
+        ->select(['arenas_campos.*'])
+        ->distinct()
+        ->get();
+        return view('arenas.list_campos', ['campos' => $campos]);
+    }
+
+    function viewCampo($campo_id){
+        $campo = ArenasCampo::find($campo_id);
+        $sandControls = $campo->sandControls;
+        return view('arenas.view_campo', ['sandControls' => $sandControls, 'campo' => $campo->name]);
+    }
 }
 
 
@@ -109,15 +137,6 @@ class arenasController extends Controller
  * Utility functions
  ****************************
  */
-
-// Sort by callback function
-function objSort(&$objArray,$indexFunction,$sort_flags=SORT_ASC) {
-    $indeces = [];
-    foreach($objArray as $obj) {
-        $indeces[] = $indexFunction($obj);
-    }
-    return array_multisort($indeces,$objArray,$sort_flags);
-}
 
 // Get values for interpolation
 function valuesAround($value, $arr){

@@ -11,4 +11,12 @@ class ArenasCampo extends Model
     public function pozos(){
         return $this->hasMany('App\ArenasPozo');
     }
+
+    public function sandControls(){
+        return $this->hasMany('App\ArenasSandControl');
+    }
+
+    public function cuenca(){
+        return $this->belongsTo('App\ArenasCuenca');
+    }
 }

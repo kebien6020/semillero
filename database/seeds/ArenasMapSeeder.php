@@ -11,19 +11,29 @@ class ArenasMapSeeder extends Seeder
      */
     public function run()
     {
+        DB::table('arenas_cuencas')->delete();
         DB::table('arenas_campos')->delete();
         DB::table('arenas_pozos')->delete();
 
-        $apiay = App\ArenasCampo::create([
-            'name' => 'APIAY',
-            'vicepresidency' => 'VRO',
-        ]);
+        // Seed Cuencas
+        $llo = App\ArenasCuenca::create(['name' => 'Llanos Orientales']);
 
-        $cano_sur = App\ArenasCampo::create([
-            'name' => 'CAÑO SUR',
-            'vicepresidency' => 'VEX',
-        ]);
+        // Seed Campos
+        $apiay = $llo->campos()->save(
+            new App\ArenasCampo([
+                'name' => 'APIAY',
+                'vicepresidency' => 'VRO',
+            ])
+        );
 
+        $cano_sur = $llo->campos()->save(
+            new App\ArenasCampo([
+                'name' => 'CAÑO SUR',
+                'vicepresidency' => 'VEX',
+            ])
+        );
+
+        // Seed Pozos
         $apiay->pozos()->saveMany([
             new App\ArenasPozo([
                 'name' => 'APIAY 17H',
@@ -99,6 +109,30 @@ class ArenasMapSeeder extends Seeder
                 'event' => 'OCM',
                 'longitude' => -74.74177758,
                 'latitude' => 3.780789057,
+            ])
+        ]);
+
+        // Seed SandControls
+        $apiay->sandControls()->saveMany([
+            new App\ArenasSandControl([
+                'interval_depth' => '10254.92-10293.5',
+                'uniformity_coefficient' => '5.89',
+                'grain_size' => 281.13,
+                'grain_size_range' => '251-500',
+                'sand_type' => 'Arena media',
+                'sand_uniformity' => 'Altamente no uniforme',
+                'installed_mechanism' => 'Liner Ranurado',
+                'installed_groove_thickness' => 0.02,
+                'installed_gravel_size' => null,
+                'installed_gravel_us' => null,
+                'recommended_mechanism' => 'Empaque con Grava y Malla',
+                'recommended_groove_thickness' => 0.033,
+                'recommended_gravel_size' => 0.066,
+                'recommended_gravel_us' => '10/20',
+                'alternative_mechanism' => 'Liner Ranurado',
+                'alternative_groove_thickness' => 0.022,
+                'alternative_gravel_size' => null,
+                'alternative_gravel_us' => null,
             ])
         ]);
     }
