@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use App\ArenasMuestrasTabla;
 
 class arenasController extends Controller
 {
@@ -15,56 +16,12 @@ class arenasController extends Controller
 
     function matrixResults($id){
 
-        $tabla = \App\ArenasMuestrasTabla::find($id);
+        $tabla = ArenasMuestrasTabla::find($id);
         
-        // Cast to array
-        $samples = $tabla->samples->toArray();
+        $stats = $tabla->stats();
 
-        // Sort by grain_size
-        objSort($samples, function($obj){return $obj['grain_size'];});
-
-        // Cast to object
-        foreach ($samples as $key => $sample) {
-            $samples[$key] = (object) $sample;
-        }
-
-        // Average and Total
-        $frequency_sum = 0;
-        $value_sum = 0;
-
-        foreach ($samples as $sample) {
-            $frequency_sum += $sample->frequency;
-            $value_sum += ($sample->grain_size) * ($sample->frequency);
-        }
-
-        $average = $value_sum / $frequency_sum;
-
-        // Relative Frequency - Data for plotting
-        $rel_frequency = [];    //relative_frequency
-        $cummulative_rel_frequency = [];
-        $plot_data = [];
-
-        for ($i=0; $i < count($samples); $i++) { 
-            $sample = $samples[$i];
-            $rel_frequency[$i] = $sample->frequency / $frequency_sum *100;
-
-            $cummulative_rel_frequency[$i] = $rel_frequency[$i];
-            if ($i > 0) {
-                $cummulative_rel_frequency[$i] += $cummulative_rel_frequency[$i-1];
-            }
-
-            $plot_data[$i][0] = $sample->grain_size;
-            $plot_data[$i][1] = $cummulative_rel_frequency[$i];
-        }
-
-
-        $string_data ='';
-
-        $string_data .= '[';
-        foreach($plot_data as $point) { 
-            $string_data .= '[' . $point[0] . ',' . $point[1] . '],';
-        }
-        $string_data .= ']';
+        $average = $stats['average'];
+        $plot_data = $stats['plot_data'];
 
         $x10 = interpolate_y(10,$plot_data);
         $x60 = interpolate_y(60,$plot_data);
@@ -91,11 +48,11 @@ class arenasController extends Controller
         else if ($results->u <= 5) $results->u_txt = 'Arena no uniforme';
         else $results->u_txt = 'Arena altamente no uniforme';
 
-        $results->liner = $results->u <= 4.8; // true->liner, false->gravel
+        $results->gravel = $results->u > 4.8; // true->gravel, false->liner
         
         $results->suggested = '';
-        if ($results->liner){
-            $results->groove_size = 0;
+        $results->groove_size = 0;
+        if (!$results->gravel){
             if ($results->u <= 1.5){
                 $results->suggested = 'Liner ranurado';
                 $results->groove_size = ($average*2)/25400;
@@ -113,9 +70,11 @@ class arenasController extends Controller
             $results->average_gravel_size = ($average*6)/25400;
             if ($results->u <= 5){
                 $results->suggested = 'Empaque con grava y liner ranurado';
+                $results->groove_size = ($average*2)/25400;
             }
             else {
                 $results->suggested = 'Empaque con grava y malla';
+                $results->groove_size = ($average*3)/25400;
             }
 
             $ags = $results->average_gravel_size;
@@ -130,9 +89,8 @@ class arenasController extends Controller
 
 
         return view('arenas.matrix_results', [
-            'samples' => $samples,
-            'cummulative_rel_frequency' => $cummulative_rel_frequency,
-            'plot_data' => $string_data,
+            'samples' => $tabla->samples()->orderBy('grain_size')->get(),
+            'plot_data' => json_encode($plot_data),
             'x10' => $x10,
             'x60' => $x60,
             'results' => $results,

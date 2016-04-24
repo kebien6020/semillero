@@ -43,7 +43,6 @@ $(document).ready(function(){
         <tr>
             <th>Tamaño de grano (Xi) [Micras]</th>
             <th>Frecuencia (fi)</th>
-            <th>Frecuencia relativa acumulada</th>
         </tr>
     </thead>
     <tbody>
@@ -51,7 +50,6 @@ $(document).ready(function(){
             <tr db-id={{ $samples[$i]->id }} >
                 <td>{{ $samples[$i]->grain_size }}</td>
                 <td>{{ $samples[$i]->frequency }}</td>
-                <td>{{ sprintf('%.3f', $cummulative_rel_frequency[$i]) }}</td>
             </tr>
         @endfor
     </tbody>
@@ -95,15 +93,14 @@ $(document).ready(function(){
         <tr>
             <td colspan="2">Configuración del Mecanismo</td>
         </tr>
-        @if ($results->liner)
-            <tr>
-                <td>Tamaño de la Ranura [in]</td>
-                <td>{{ round($results->groove_size, 4) }}</td>
-            </tr>
-        @else {{-- gravel --}}
+        <tr>
+            <td>Tamaño de la Ranura [in]</td>
+            <td>{{ round($results->groove_size, 3) }}</td>
+        </tr>
+        @if ($results->gravel)
             <tr>
                 <td>Tamaño Grava Promedio [in]</td>
-                <td>{{ round($results->average_gravel_size, 4) }}</td>
+                <td>{{ round($results->average_gravel_size, 3) }}</td>
             </tr>
             <tr>
                 <td>Tamaño Grava US. Mesh</td>
