@@ -27,7 +27,8 @@ Route::get('/arenas/map/add_data', 'arenasController@mapAddData');
 Route::get('/arenas/map/add_data_submit', 'arenasController@mapDoAddData');
 Route::get('/arenas/campos', 'arenasController@listCampos');
 Route::get('/arenas/campos/{id}', 'arenasController@viewCampo');
-
+Route::get('/arenas/campos_add_data', 'arenasController@camposAddData');
+Route::post('/arenas/campos_add_data_submit','arenasController@camposAddDataSubmit');
 
 // Autentication
 Route::get('auth/logout', 'Auth\AuthController@getLogout');

@@ -121,6 +121,9 @@ class arenasController extends Controller
             'arenas_cuencas.name as cuenca_name',
             'arenas_cuencas.id as cuenca_id',
         ])
+        ->distinct()
+        ->orderBy('arenas_cuencas.name','ASC')
+        ->orderBy('arenas_campos.name', 'ASC')
         ->get();
         $cuencas = [];
         foreach ($campos_cuencas as $campo_cuenca){
@@ -147,6 +150,71 @@ class arenasController extends Controller
         $campo = ArenasCampo::find($campo_id);
         $sandControls = $campo->sandControls;
         return view('arenas.view_campo', ['sandControls' => $sandControls, 'campo' => $campo->name]);
+    }
+
+    function camposAddData(){
+        return view('arenas.campos_add_data');
+    }
+
+    function camposAddDataSubmit(Request $request){
+        $raw_data =  $request->input('raw-data');
+        $lines = preg_split('/(\\r\\n)/', $raw_data);
+        $cuencas = [];
+        foreach ($lines as $line) {
+            $values = preg_split('/\\t/', $line);
+            
+            // Normalize null values
+            foreach ($values as $key => $value) {
+                if($value == 'N/A' or $value == '-' or $value == '')
+                    $values[$key] = null;
+            }
+
+            $campo_name = $values[1];
+            $cuenca_name = $values[2];
+            $sand_control_i = 0;
+
+            if (!array_key_exists($cuenca_name, $cuencas)){
+                $cuencas[$cuenca_name] = [];
+            }
+            if (!array_key_exists($campo_name, $cuencas[$cuenca_name])){
+                $cuencas[$cuenca_name][$campo_name] = [];
+            }
+            while (!empty($cuencas[$cuenca_name][$campo_name][$sand_control_i])){
+                $sand_control_i++;
+            }
+            $cuencas[$cuenca_name][$campo_name][$sand_control_i] = [
+                'interval_depth' => $values[0],
+                'uniformity_coefficient' => $values[3],
+                'grain_size' => $values[4],
+                'grain_size_range' => $values[5],
+                'sand_type' => $values[6],
+                'sand_uniformity' => $values[7],
+                'installed_mechanism' => $values[8],
+                'installed_groove_thickness' => $values[9],
+                'installed_gravel_size' => $values[10],
+                'installed_gravel_us' => $values[11],
+                'recommended_mechanism' => $values[12],
+                'recommended_groove_thickness' => $values[13],
+                'recommended_gravel_size' => $values[14],
+                'recommended_gravel_us' => $values[15],
+                'alternative_mechanism' => $values[16],
+                'alternative_groove_thickness' => $values[17],
+                'alternative_gravel_size' => $values[18],
+                'alternative_gravel_us' => $values[19],
+            ];
+
+        }
+        
+        foreach ($cuencas as $name => $campos){
+            $modelCuenca = ArenasCuenca::firstOrCreate(['name' => $name]);
+            foreach ($campos as $campo_name => $sandControls){
+                $modelCampo = $modelCuenca->campos()->firstOrCreate(['name' => $campo_name]);
+                foreach ($sandControls as $sandControl){
+                    $modelCampo->sandControls()->save(new ArenasSandControl($sandControl));
+                }
+            }
+        }
+        return redirect('/arenas/campos');
     }
 }
 
@@ -189,4 +257,22 @@ function interpolate_y_between($value, $points){
 
 function interpolate_y($value, $arr){
     return interpolate_y_between($value, valuesAround($value,$arr));
+}
+
+function unflatten($array,$prefix = '')
+{
+    $result = array();
+    foreach($array as $key=>$value)
+    {
+        if(!empty($prefix))
+        {
+            $key = preg_replace('#^'.preg_quote($prefix).'#','',$key);
+        }
+        if(strpos($key,'.') !== false)
+        {
+            parse_str('result['.str_replace('.','][',$key)."]=".$value);
+        }
+        else $result[$key] = $value;
+    }
+    return $result;
 }

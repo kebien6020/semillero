@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Control de Arenas - Cuencas')
+@section('title', 'Control de Arenas por Campos')
 
 @section('content')
 
@@ -19,5 +19,11 @@
     </li>
     @endforeach
 </ol>
+
+<div class="button-container">
+    <a class="fancy-button-small" href="/arenas/campos_add_data">
+        Añadir datos
+    </a>
+</div>
 
 @endsection
