@@ -6,10 +6,17 @@
 
 <p>Seleccione un campo:</p>
 <ol>
-    @foreach ($campos as $campo)
-    <li><a href="/arenas/cuencas/campo/{{ $campo->id }}">
-        {{ $campo->name }}
-    </a></li>
+    @foreach ($cuencas as $cuenca)
+    <li>
+        {{ $cuenca->name }}
+        <ol>
+            @foreach ($cuenca->campos as $campo)
+            <li>
+                <a href="/arenas/campos/{{ $campo->id }}">{{ $campo->name }}</a>
+            </li>
+            @endforeach
+        </ol>
+    </li>
     @endforeach
 </ol>
 

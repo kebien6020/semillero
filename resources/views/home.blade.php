@@ -21,7 +21,7 @@
     <div class="button-container">
         <a href="/arenas/map" class="fancy-button">Mapa de Mecanismos de Control de Arenas</a>
         <a href="/arenas/matrix" class="fancy-button">Selección de un Mecanismo de Control de Arenas</a>
-        <a href="/arenas/cuencas" class="fancy-button">Matriz general de Mecanismos de Control de Arenas</a>
+        <a href="/arenas/campos" class="fancy-button">Matriz general de Mecanismos de Control de Arenas</a>
         <a href="/sla/map" class="fancy-button">Mapa de Sistemas de Levantamiento Artificial</a>
         <a href="/fluidos/map/campos" class="fancy-button">Mapa de Fluidos de Completamiento</a>
     </div>

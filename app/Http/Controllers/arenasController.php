@@ -5,9 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use App\ArenasMuestrasTabla;
 use App\ArenasCuenca;
 use App\ArenasCampo;
+use App\ArenasMuestrasTabla;
+use App\ArenasSandControl;
 
 use DB;
 
@@ -110,18 +111,36 @@ class arenasController extends Controller
         return view('arenas.matrix_select', ['tablas' => $tablas]);
     }
 
-    function listCuencas(){
-        $cuencas = ArenasCuenca::all();
-        return view('arenas.list_cuencas', ['cuencas' => $cuencas]);
-    }
-
-    function listCampos($cuenca_id){
-        $campos = DB::table('arenas_sand_controls')
-        ->join('arenas_campos', 'arenas_campos.id', '=', 'arenas_sand_controls.arenas_campo_id')
-        ->select(['arenas_campos.*'])
-        ->distinct()
+    function listCampos(){
+        $campos_cuencas = ArenasCuenca::query()
+        ->join('arenas_campos', 'arenas_campos.arenas_cuenca_id', '=', 'arenas_cuencas.id')
+        ->join('arenas_sand_controls', 'arenas_sand_controls.arenas_campo_id', '=', 'arenas_campos.id')
+        ->select([
+            'arenas_campos.name',
+            'arenas_campos.id',
+            'arenas_cuencas.name as cuenca_name',
+            'arenas_cuencas.id as cuenca_id',
+        ])
         ->get();
-        return view('arenas.list_campos', ['campos' => $campos]);
+        $cuencas = [];
+        foreach ($campos_cuencas as $campo_cuenca){
+            $id = $campo_cuenca->cuenca_id;
+            if (array_key_exists($id, $cuencas)){
+                $cuencas[$id]->campos[] = (object)[
+                    'id' => $campo_cuenca->id,
+                    'name' => $campo_cuenca->name,
+                ];
+
+            } else {
+                $cuencas[$id] = (object)[];
+                $cuencas[$id]->name = $campo_cuenca->cuenca_name;
+                $cuencas[$id]->campos = [(object)[
+                    'id' => $campo_cuenca->id,
+                    'name' => $campo_cuenca->name,
+                ]];
+            }
+        }
+        return view('arenas.list_campos', ['cuencas' => $cuencas]);
     }
 
     function viewCampo($campo_id){

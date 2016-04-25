@@ -25,9 +25,8 @@ Route::get('/arenas/matrix/{id}', 'arenasController@matrixResults');
 Route::get('/arenas/map', 'arenasController@mapPozos');
 Route::get('/arenas/map/add_data', 'arenasController@mapAddData');
 Route::get('/arenas/map/add_data_submit', 'arenasController@mapDoAddData');
-Route::get('/arenas/cuencas', 'arenasController@listCuencas');
-Route::get('/arenas/cuencas/{id}', 'arenasController@listCampos');
-Route::get('/arenas/cuencas/campo/{id}', 'arenasController@viewCampo');
+Route::get('/arenas/campos', 'arenasController@listCampos');
+Route::get('/arenas/campos/{id}', 'arenasController@viewCampo');
 
 
 // Autentication
