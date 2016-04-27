@@ -111,29 +111,5 @@ class ArenasMapSeeder extends Seeder
                 'latitude' => 3.780789057,
             ])
         ]);
-
-        // Seed SandControls
-        $apiay->sandControls()->saveMany([
-            new App\ArenasSandControl([
-                'interval_depth' => '10254.92-10293.5',
-                'uniformity_coefficient' => '5.89',
-                'grain_size' => 281.13,
-                'grain_size_range' => '251-500',
-                'sand_type' => 'Arena media',
-                'sand_uniformity' => 'Altamente no uniforme',
-                'installed_mechanism' => 'Liner Ranurado',
-                'installed_groove_thickness' => 0.02,
-                'installed_gravel_size' => null,
-                'installed_gravel_us' => null,
-                'recommended_mechanism' => 'Empaque con Grava y Malla',
-                'recommended_groove_thickness' => 0.033,
-                'recommended_gravel_size' => 0.066,
-                'recommended_gravel_us' => '10/20',
-                'alternative_mechanism' => 'Liner Ranurado',
-                'alternative_groove_thickness' => 0.022,
-                'alternative_gravel_size' => null,
-                'alternative_gravel_us' => null,
-            ])
-        ]);
     }
 }

@@ -29,12 +29,13 @@ function initMap(){  // Called in asynchronous callback
     var infoWindows = [];
     var markers = [];
     for (var pozo of pozos){
-        var content = '<h2>' + pozo.name + '</h2>' +
-            '<p><strong>Fecha de inicio de la Operación: </strong>' + pozo.start_date + '</p>' +
-            '<p><strong>Fecha de Finalización de la Operación: </strong>' + pozo.end_date + '</p>' +
-            '<p><strong>Siglas del evento: </strong>' + pozo.event + '</p>' +
-            '<p><strong>Campo: </strong>' + pozo.arenas_campo.name + '</p>' +
-            '<p><strong>Vicepresidencia: </strong>' + pozo.arenas_campo.vicepresidency + '</p>';
+        var content = '<h2>' + pozo.name + '</h2>';
+        content += '<p><strong>Mecanismo de control de arena: </strong>' + pozo.mechanism + '</p>';
+        content += '<p><strong>Fecha de instalación del mecanismo de control de arena: </strong>' + pozo.install_date + '</p>';
+        content += '<p><strong>Campo: </strong>' + pozo.arenas_campo.name + '</p>';
+        if (pozo.event)
+            content += '<p><strong>Siglas del evento: </strong>' + pozo.event + '</p>';
+        content += '<p style="text-align: center;"><a href="/arenas/map/' + pozo.id + '">Mas detalles</a>';
         infoWindows.push(new google.maps.InfoWindow({content: content}));
         markers.push(new google.maps.Marker({
             position: {lng: pozo.longitude, lat: pozo.latitude},

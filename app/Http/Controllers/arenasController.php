@@ -9,6 +9,7 @@ use App\ArenasCuenca;
 use App\ArenasCampo;
 use App\ArenasMuestrasTabla;
 use App\ArenasSandControl;
+use App\ArenasPozo;
 
 use DB;
 
@@ -19,8 +20,88 @@ class arenasController extends Controller
         return view('arenas.map_pozos', ['pozos' => $pozos->toJSON()]);
     }
 
+    function mapDetail($id){
+        $pozo = ArenasPozo::find($id);
+        return view('arenas.map_detail', ['pozo' => $pozo]);
+    }
+
     function mapAddData(){
         return view('arenas.map_add_data');
+    }
+
+    function mapAddDataSubmit(Request $request){
+        $raw_data =  $request->input('raw-data');
+        $lines = preg_split('/(\\r\\n)/', $raw_data);
+        $campos = [];
+        foreach ($lines as $line) {
+            $values = preg_split('/\\t/', $line);
+            
+            // Normalize null values
+            foreach ($values as $key => $value) {
+                if($value == 'N/A' or $value == '-' or $value == '')
+                    $values[$key] = null;
+            }
+
+            $campo_name = $values[1];
+            $pozo_i = 0;
+
+            if (!array_key_exists($campo_name, $campos)){
+                $campos[$campo_name] = [];
+            }
+            while (!empty($campos[$campo_name]['pozos'][$pozo_i])){
+                $pozo_i++;
+            }
+
+            $campos[$campo_name]['vicepresidency'] = $values[0];
+            $campos[$campo_name]['average_length'] = $values[26];
+
+            $install_date = $values[3];
+            if ($install_date != null){
+                $install_date = \Carbon\Carbon::createFromFormat('d/m/Y',$install_date);
+            }
+
+            $campos[$campo_name]['pozos'][$pozo_i] = [
+                'name' => $values[2],
+                'install_date' => $install_date,
+                'event' => $values[4],
+                'mechanism' => $values[5],
+                'completion_type' => $values[6],
+                'mesh_type' => $values[7],
+                'gravel_us' => $values[8],
+                'grade' => $values[9],
+                'joints' => $values[10],
+                'diameter' => $values[11],
+                'internal_diameter' => $values[12],
+                'clearance' => $values[13],
+                'top' => $values[14],
+                'length' => $values[15],
+                'bottom' => $values[16],
+                'weight' => $values[17],
+                'north' => $values[18],
+                'east' => $values[19],
+                'town' => $values[20],
+                'slots_per_ft' => $values[21],
+                'slot_width' => $values[22],
+                'mesh' => $values[23],
+                'slot_gauge' => $values[24],
+                'ideal_size' => $values[25],
+                'longitude' => $values[27],
+                'latitude' => $values[28],
+            ];
+
+        }
+        //return dd($campos);
+        foreach ($campos as $campo_name => $campo){
+            $modelCampo = ArenasCampo::firstOrCreate([
+                'name' => $campo_name,
+                'vicepresidency' => $campo['vicepresidency'],
+                'average_length' => $campo['average_length'],
+            ]);
+            foreach ($campo['pozos'] as $pozo){
+                $modelCampo->pozos()->save(new ArenasPozo($pozo));
+            }
+        }
+        return redirect('/arenas/map');
     }
 
     function matrixResults($id){
@@ -216,6 +297,8 @@ class arenasController extends Controller
         }
         return redirect('/arenas/campos');
     }
+
+
 }
 
 

@@ -11,8 +11,7 @@ class fluidosController extends Controller
 {
     function mapCampos(){
 
-        $campos = FluidosCampo::all();
-
+        $campos = FluidosCampo::with('fluidos')->get();
         return view('fluidos.map_campos',['campos' => $campos]);
     }
 
