@@ -13,6 +13,20 @@
 
 var map;
 var pozos = {!! $pozos !!};
+var colors = {
+    'LINER RANURADO (Sin empaquetamiento)': 'red',
+    'LINER RANURADO EMPAQUETADO CON GRAVA': 'orange',
+    'EMPAQUE DE GRAVA Y LINER RANURADO': 'yellow',
+    'EMPAQUETAMIENTO CON GRAVA Y MALLAS': 'aqua',
+    'MALLAS ': 'blue',
+    'MALLAS INFLOW CONTROL DEVICE': 'purple',
+    'EMPAQUE CON GRAVA Y LINER RANURADO (No hay información sobre si hay una malla o un Liner Ranurado instalado)': 'gray',
+
+};
+
+function getIcon(color){
+    return '/images/spotlight-poi-' + color + '.png';
+}
 
 function initMap(){  // Called in asynchronous callback
     //Map
@@ -37,9 +51,12 @@ function initMap(){  // Called in asynchronous callback
             content += '<p><strong>Siglas del evento: </strong>' + pozo.event + '</p>';
         content += '<p style="text-align: center;"><a href="/arenas/map/' + pozo.id + '">Mas detalles</a>';
         infoWindows.push(new google.maps.InfoWindow({content: content}));
+
+        var color = colors[pozo.mechanism];
         markers.push(new google.maps.Marker({
             position: {lng: pozo.longitude, lat: pozo.latitude},
             map: map,
+            icon: getIcon(color),
         }));
         markers[i].addListener(
             'click',
@@ -78,6 +95,12 @@ function markerListener(i, infoWindows, marker){
     }
 }
 
+$(document).ready(function(){
+    for (var mechanism in colors){
+        $('#legend').append('<p style="padding:0;margin:0;"><img width="11" height="20" src="' + getIcon(colors[mechanism]) +'">'+ mechanism +'</p>');
+    }
+});
+
     </script>
 
 @endsection
@@ -87,6 +110,8 @@ function markerListener(i, infoWindows, marker){
         html , body , .main , .content , #map {height: 100%;}
     </style>
 
-    <div id="map" style="height:100%;"></div>
+    <div id="map" style="height:100%;">
+    </div>
+    <div id="legend" style="position:relative; top:-100%; left:80%; width:20%;background-color:white;font-size:8pt; padding:5px"></div>
 
 @endsection

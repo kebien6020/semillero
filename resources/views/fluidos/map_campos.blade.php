@@ -52,4 +52,11 @@ function initMap(){
     </tbody>
 </table>
 <div id="map" style="width:600px; height:400px;"></div>
+
+<form action="/fluidos/map/campos_add_data_submit" method="post">
+    {{ csrf_field() }}
+    <textarea name="raw_data"></textarea>
+    <input type="submit" value="Cargar">
+</form>
+
 @endsection
