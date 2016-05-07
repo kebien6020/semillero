@@ -39,18 +39,5 @@ Route::get('/{project}/table_upload/{table_name}', 'uploadController@form');
 Route::post('/{project}/table_upload/{table_name}', 'uploadController@match');
 Route::put('/{project}/table_upload/{table_name}', 'uploadController@put');
 
-Route::get('/dev/upload', function(){
-    return '<form action="/dev/upload_submit" method="post" enctype="multipart/form-data"><input type="file" name="the_file"><button>'.csrf_field().'</form>';
-});
-
-Route::post('/dev/upload_submit', function(Request $request){
-    $file = $request->file('the_file');
-    $excel = Excel::selectSheetsByIndex(0)->load($file);
-    $sheet = $excel->get()->first();
-    $columns = $sheet->first()->keys();
-
-    return dd($columns);
-});
-
 // Autentication
 Route::get('auth/logout', 'Auth\AuthController@getLogout');
