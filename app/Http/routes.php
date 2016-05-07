@@ -35,6 +35,10 @@ Route::get('/arenas/campos/{id}', 'arenasController@viewCampo');
 Route::get('/arenas/campos_add_data', 'arenasController@camposAddData');
 Route::post('/arenas/campos_add_data_submit','arenasController@camposAddDataSubmit');
 
+Route::get('/{project}/table_upload/{table_name}', 'uploadController@form');
+Route::post('/{project}/table_upload/{table_name}', 'uploadController@match');
+Route::put('/{project}/table_upload/{table_name}', 'uploadController@put');
+
 Route::get('/dev/upload', function(){
     return '<form action="/dev/upload_submit" method="post" enctype="multipart/form-data"><input type="file" name="the_file"><button>'.csrf_field().'</form>';
 });
@@ -43,15 +47,9 @@ Route::post('/dev/upload_submit', function(Request $request){
     $file = $request->file('the_file');
     $excel = Excel::selectSheetsByIndex(0)->load($file);
     $sheet = $excel->get()->first();
+    $columns = $sheet->first()->keys();
 
-    $basins = $sheet->groupBy('cuenca');
-    foreach ($basins as $basin_name => $basin) {
-        $basins[$basin_name] = $basin->groupBy('project');
-        foreach ($basins[$basin_name] as $field_name => $field) {
-            $basins[$basin_name][$field_name] = $field->keyBy('nombre_comun_del_pozo');
-        }
-    }
-    return $basins;
+    return dd($columns);
 });
 
 // Autentication
