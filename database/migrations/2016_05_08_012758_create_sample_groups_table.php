@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateArenasMuestrasTablasTable extends Migration
+class CreateSampleGroupsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,9 +12,10 @@ class CreateArenasMuestrasTablasTable extends Migration
      */
     public function up()
     {
-        Schema::create('arenas_muestras_tablas', function (Blueprint $table) {
+        Schema::create('sample_groups', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
+
             $table->string('name');
         });
     }
@@ -26,6 +27,6 @@ class CreateArenasMuestrasTablasTable extends Migration
      */
     public function down()
     {
-        Schema::drop('arenas_muestras_tablas');
+        Schema::drop('sample_groups');
     }
 }

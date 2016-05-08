@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateFluidosCamposTable extends Migration
+class CreateFluidsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,12 +12,12 @@ class CreateFluidosCamposTable extends Migration
      */
     public function up()
     {
-        Schema::create('fluidos_campos', function (Blueprint $table) {
+        Schema::create('fluids', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
 
             $table->string('name');
-            $table->integer('number_wells');
+            $table->string('color');
         });
     }
 
@@ -28,6 +28,6 @@ class CreateFluidosCamposTable extends Migration
      */
     public function down()
     {
-        Schema::drop('fluidos_campos');
+        Schema::drop('fluids');
     }
 }

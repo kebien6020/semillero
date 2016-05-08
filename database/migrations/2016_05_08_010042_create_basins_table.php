@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class ArenasCamposAddAverageLength extends Migration
+class CreateBasinsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,8 +12,11 @@ class ArenasCamposAddAverageLength extends Migration
      */
     public function up()
     {
-        Schema::table('arenas_campos', function (Blueprint $table) {
-            $table->double('average_length')->nullable();
+        Schema::create('basins', function (Blueprint $table) {
+            $table->increments('id');
+            $table->timestamps();
+
+            $table->string('name');
         });
     }
 
@@ -24,8 +27,6 @@ class ArenasCamposAddAverageLength extends Migration
      */
     public function down()
     {
-        Schema::table('arenas_campos', function (Blueprint $table) {
-            $table->dropColumn('average_length');
-        });
+        Schema::drop('basins');
     }
 }

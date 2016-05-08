@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSLAPozosTable extends Migration
+class CreateWellsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,21 +12,16 @@ class CreateSLAPozosTable extends Migration
      */
     public function up()
     {
-        Schema::create('s_l_a_pozos', function (Blueprint $table) {
+        Schema::create('wells', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
 
-            $table->date('start_date')->nullable();
-            $table->date('end_date')->nullable();
-            $table->string('sla')->nullable();
-            $table->string('event');
-            $table->string('field')->nullable();
             $table->string('name');
-            $table->string('east')->nullable();
-            $table->string('north')->nullable();
+            $table->string('town')->nullable();
             $table->double('longitude')->nullable();
             $table->double('latitude')->nullable();
-            $table->string('department')->nullable();
+
+            $table->integer('field_id');
         });
     }
 
@@ -37,6 +32,6 @@ class CreateSLAPozosTable extends Migration
      */
     public function down()
     {
-        Schema::drop('s_l_a_pozos');
+        Schema::drop('wells');
     }
 }

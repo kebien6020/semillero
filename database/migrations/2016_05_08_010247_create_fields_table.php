@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateFluidosCamposFluidosTable extends Migration
+class CreateFieldsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,13 +12,14 @@ class CreateFluidosCamposFluidosTable extends Migration
      */
     public function up()
     {
-        Schema::create('fluidos_campos_fluidos', function (Blueprint $table) {
+        Schema::create('fields', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
 
-            $table->integer('campo_id');
-            $table->integer('fluido_id');
-            $table->decimal('percentage',13,12);
+            $table->string('name');
+            $table->string('vicepresidency');
+
+            $table->integer('basin_id');
         });
     }
 
@@ -29,6 +30,6 @@ class CreateFluidosCamposFluidosTable extends Migration
      */
     public function down()
     {
-        Schema::drop('fluidos_campos_fluidos');
+        Schema::drop('fields');
     }
 }

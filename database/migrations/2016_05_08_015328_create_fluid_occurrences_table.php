@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateArenasCamposTable extends Migration
+class CreateFluidOccurrencesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,14 +12,16 @@ class CreateArenasCamposTable extends Migration
      */
     public function up()
     {
-        Schema::create('arenas_campos', function (Blueprint $table) {
+        Schema::create('fluid_occurrences', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
 
-            $table->string('name');
-            $table->string('vicepresidency');
+            $table->string('event');
+            $table->string('start_date');
+            $table->double('density')->nullable();
 
-            $table->integer('arenas_cuenca_id');
+            $table->integer('well_id')->nullable();
+            $table->integer('fluid_id')->nullable();
         });
     }
 
@@ -30,6 +32,6 @@ class CreateArenasCamposTable extends Migration
      */
     public function down()
     {
-        Schema::drop('arenas_campos');
+        Schema::drop('fluid_occurrences');
     }
 }

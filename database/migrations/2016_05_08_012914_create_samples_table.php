@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateArenasCuencasTable extends Migration
+class CreateSamplesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,11 +12,14 @@ class CreateArenasCuencasTable extends Migration
      */
     public function up()
     {
-        Schema::create('arenas_cuencas', function (Blueprint $table) {
+        Schema::create('samples', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
 
-            $table->string('name');
+            $table->double('grain_size');
+            $table->integer('frequency');
+
+            $table->integer('sample_group_id');
         });
     }
 
@@ -27,6 +30,6 @@ class CreateArenasCuencasTable extends Migration
      */
     public function down()
     {
-        Schema::drop('arenas_cuencas');
+        Schema::drop('samples');
     }
 }

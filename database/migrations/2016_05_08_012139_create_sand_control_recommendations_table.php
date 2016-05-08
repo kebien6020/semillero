@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateFluidosCompletamientoTable extends Migration
+class CreateSandControlRecommendationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,12 +12,14 @@ class CreateFluidosCompletamientoTable extends Migration
      */
     public function up()
     {
-        Schema::create('fluidos_completamiento', function (Blueprint $table) {
+        Schema::create('sand_control_recommendations', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
 
-            $table->string('name');
-            $table->string('color');
+            $table->string('recommended_mechanism');
+            $table->string('recommended_us_mesh')->nullable();
+
+            $table->integer('sand_control_summary_id');
         });
     }
 
@@ -28,6 +30,6 @@ class CreateFluidosCompletamientoTable extends Migration
      */
     public function down()
     {
-        Schema::drop('fluidos_completamiento');
+        Schema::drop('sand_control_recommendations');
     }
 }

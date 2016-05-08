@@ -4,16 +4,15 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ArenasPozo extends Model
+class SandControl extends Model
 {
-    protected $fillable = [
-        'name',
+    protected $fillable = 
+    [
         'install_date',
         'event',
         'mechanism',
         'completion_type',
         'mesh_type',
-        'gravel_us',
         'grade',
         'joints',
         'diameter',
@@ -23,21 +22,17 @@ class ArenasPozo extends Model
         'length',
         'bottom',
         'weight',
-        'north',
-        'east',
-        'town',
-        'slots_per_ft',
+        'slots_per_feet',
         'slot_width',
         'mesh',
         'slot_gauge',
         'ideal_size',
-        'longitude',
-        'latitude',
     ];
 
-    protected $dates = ['install_date'];
-
-    public function arenas_campo(){
-        return $this->belongsTo('App\ArenasCampo');
+    public function well()
+    {
+        return $this->belongsTo('App\Well');
     }
+
+    protected $dates = ['created_at', 'updated_at', 'install_date'];
 }

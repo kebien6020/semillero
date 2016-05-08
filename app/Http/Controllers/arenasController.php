@@ -90,7 +90,6 @@ class arenasController extends Controller
             ];
 
         }
-        //return dd($campos);
         foreach ($campos as $campo_name => $campo){
             $modelCampo = ArenasCampo::firstOrCreate([
                 'name' => $campo_name,

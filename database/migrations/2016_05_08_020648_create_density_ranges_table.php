@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateArenasMuestrasTable extends Migration
+class CreateDensityRangesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,13 +12,14 @@ class CreateArenasMuestrasTable extends Migration
      */
     public function up()
     {
-        Schema::create('arenas_muestras', function (Blueprint $table) {
+        Schema::create('density_ranges', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            $table->integer('name_id');
 
-            $table->double('grain_size');
-            $table->integer('frequency');
+            $table->double('min');
+            $table->double('max');
+
+            $table->integer('fluid_id');
         });
     }
 
@@ -29,6 +30,6 @@ class CreateArenasMuestrasTable extends Migration
      */
     public function down()
     {
-        Schema::drop('arenas_muestras');
+        Schema::drop('density_ranges');
     }
 }
