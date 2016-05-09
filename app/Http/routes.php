@@ -24,16 +24,12 @@ Route::post('/sla/test/map/add_data_submit', 'slaController@testMapAddDataSubmit
 Route::get('/fluidos/map/campos', 'fluidosController@mapCampos');
 Route::get('/fluidos/map/campos/{id}', 'fluidosController@campoDetail');
 
-Route::get('/arenas/matrix','arenasController@matrixSelect');
-Route::get('/arenas/matrix/{id}', 'arenasController@matrixResults');
-Route::get('/arenas/map', 'arenasController@mapPozos');
-Route::get('/arenas/map/{id}', 'arenasController@mapDetail');
-Route::get('/arenas/map_add_data', 'arenasController@mapAddData');
-Route::post('/arenas/map_add_data_submit', 'arenasController@mapAddDataSubmit');
-Route::get('/arenas/campos', 'arenasController@listCampos');
-Route::get('/arenas/campos/{id}', 'arenasController@viewCampo');
-Route::get('/arenas/campos_add_data', 'arenasController@camposAddData');
-Route::post('/arenas/campos_add_data_submit','arenasController@camposAddDataSubmit');
+Route::get('/arenas/map', 'ArenasController@mapPozos');
+Route::get('/arenas/map/{id}', 'ArenasController@mapDetail');
+Route::get('/arenas/matrix','ArenasController@matrixSelect');
+Route::get('/arenas/matrix/{id}', 'ArenasController@matrixResults');
+Route::get('/arenas/campos', 'ArenasController@listCampos');
+Route::get('/arenas/campos/{id}', 'ArenasController@viewCampo');
 
 Route::get('/{project}/table_upload/{table_name}', 'uploadController@form');
 Route::post('/{project}/table_upload/{table_name}', 'uploadController@match');

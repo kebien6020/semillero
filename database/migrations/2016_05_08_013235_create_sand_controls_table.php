@@ -17,11 +17,11 @@ class CreateSandControlsTable extends Migration
             $table->timestamps();
 
             $table->string('install_date');
-            $table->string('event');
+            $table->string('event')->nullable();
             $table->string('mechanism');
             $table->string('completion_type')->nullable();
-            $table->string('mesh_type')->nullable;
-            $table->string('gravel_size')->nullable;
+            $table->string('mesh_type')->nullable();
+            $table->string('gravel_size')->nullable();
             $table->string('grade')->nullable();
             $table->integer('joints')->nullable();
             $table->double('diameter')->nullable();
@@ -36,6 +36,7 @@ class CreateSandControlsTable extends Migration
             $table->double('mesh')->nullable();
             $table->double('slot_gauge')->nullable();
             $table->double('ideal_size')->nullable();
+            $table->string('group');
 
             $table->integer('well_id');
         });

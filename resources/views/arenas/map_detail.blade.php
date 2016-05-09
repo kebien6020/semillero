@@ -4,174 +4,162 @@
 
 @section('content')
 
-<h2>Pozo {{ $pozo->name }}</h2>
+<h2>Pozo {{ $sandControl->well->name }}</h2>
 <table>
     <thead>
         <tr>
-            <th colspan="2">Control de Arenas en el pozo {{ $pozo->name }}</th>
+            <th colspan="2">Control de Arenas en el pozo {{ $sandControl->well->name }}</th>
         </tr>
     </thead>
     <tbody>
-        @if ( $pozo->mechanism != null)
+        @if ( $sandControl->mechanism != null)
         <tr>
             <td>Mecanismo de control de arena</td>
-            <td>{{ $pozo->mechanism }}</td>
+            <td>{{ $sandControl->mechanism }}</td>
         </tr>
         @endif
-        @if ( $pozo->arenas_campo->vicepresidency != null)
+        @if ( $sandControl->well->field->vicepresidency != null)
         <tr>
             <td>Vicepresidencia</td>
-            <td>{{ $pozo->arenas_campo->vicepresidency }}</td>
+            <td>{{ $sandControl->well->field->vicepresidency }}</td>
         </tr>
         @endif
-        @if ( $pozo->arenas_campo->name != null)
+        @if ( $sandControl->well->field->name != null)
         <tr>
             <td>Nombre del Campo</td>
-            <td>{{ $pozo->arenas_campo->name }}</td>
+            <td>{{ $sandControl->well->field->name }}</td>
         </tr>
         @endif
-        @if ( $pozo->name != null)
+        @if ( $sandControl->well->name != null)
         <tr>
             <td>Nombre del Pozo</td>
-            <td>{{ $pozo->name }}</td>
+            <td>{{ $sandControl->well->name }}</td>
         </tr>
         @endif
-        @if ( $pozo->install_date != null)
+        @if ( $sandControl->install_date != null)
         <tr>
             <td>Fecha de instalación del mecanismo de control de arena</td>
-            <td>{{ $pozo->install_date }}</td>
+            <td>{{ $sandControl->install_date }}</td>
         </tr>
         @endif
-        @if ( $pozo->event != null)
+        @if ( $sandControl->event != null)
         <tr>
             <td>Siglas del evento</td>
-            <td>{{ $pozo->event }}</td>
+            <td>{{ $sandControl->event }}</td>
         </tr>
         @endif
-        @if ( $pozo->completion_type != null)
+        @if ( $sandControl->completion_type != null)
         <tr>
             <td>Tipo de Completamiento según el empaquetamiento de grava</td>
-            <td>{{ $pozo->completion_type }}</td>
+            <td>{{ $sandControl->completion_type }}</td>
         </tr>
         @endif
-        @if ( $pozo->mesh_type != null)
+        @if ( $sandControl->mesh_type != null)
         <tr>
             <td>Tipo de malla</td>
-            <td>{{ $pozo->mesh_type }}</td>
+            <td>{{ $sandControl->mesh_type }}</td>
         </tr>
         @endif
-        @if ( $pozo->gravel_us != null)
+        @if ( $sandControl->gravel_size != null)
         <tr>
             <td>Tamaño de la Grava (US Mesh)</td>
-            <td>{{ $pozo->gravel_us }}</td>
+            <td>{{ $sandControl->gravel_size }}</td>
         </tr>
         @endif
-        @if ( $pozo->grade != null)
+        @if ( $sandControl->grade != null)
         <tr>
             <td>Grado</td>
-            <td>{{ $pozo->grade }}</td>
+            <td>{{ $sandControl->grade }}</td>
         </tr>
         @endif
-        @if ( $pozo->joints != null)
+        @if ( $sandControl->joints != null)
         <tr>
             <td>Número de juntas bajadas</td>
-            <td>{{ $pozo->joints }}</td>
+            <td>{{ $sandControl->joints }}</td>
         </tr>
         @endif
-        @if ( $pozo->diameter != null)
+        @if ( $sandControl->diameter != null)
         <tr>
             <td>Diámetro Nominal (in)</td>
-            <td>{{ $pozo->diameter }}</td>
+            <td>{{ $sandControl->diameter }}</td>
         </tr>
         @endif
-        @if ( $pozo->internal_diameter != null)
+        @if ( $sandControl->internal_diameter != null)
         <tr>
             <td>Diámetro Interno</td>
-            <td>{{ $pozo->internal_diameter }}</td>
+            <td>{{ $sandControl->internal_diameter }}</td>
         </tr>
         @endif
-        @if ( $pozo->clearance != null)
+        @if ( $sandControl->clearance != null)
         <tr>
             <td>Holgura (in)</td>
-            <td>{{ $pozo->clearance }}</td>
+            <td>{{ $sandControl->clearance }}</td>
         </tr>
         @endif
-        @if ( $pozo->top != null)
+        @if ( $sandControl->top != null)
         <tr>
             <td>Tope del mecanismo (ft)</td>
-            <td>{{ $pozo->top }}</td>
+            <td>{{ $sandControl->top }}</td>
         </tr>
         @endif
-        @if ( $pozo->length != null)
-        <tr>
-            <td>Longitud (ft)</td>
-            <td>{{ $pozo->length }}</td>
-        </tr>
-        @endif
-        @if ( $pozo->bottom != null)
+        @if ( $sandControl->bottom != null)
         <tr>
             <td>Fondo del mecanismo</td>
-            <td>{{ $pozo->bottom }}</td>
+            <td>{{ $sandControl->bottom }}</td>
         </tr>
         @endif
-        @if ( $pozo->weight != null)
+        @if ( $sandControl->length != null)
+        <tr>
+            <td>Longitud (ft)</td>
+            <td>{{ $sandControl->length }}</td>
+        </tr>
+        @endif
+        @if ( $sandControl->weight != null)
         <tr>
             <td>Peso Nominal (lb/ft)</td>
-            <td>{{ $pozo->weight }}</td>
+            <td>{{ $sandControl->weight }}</td>
         </tr>
         @endif
-        @if ( $pozo->north != null)
-        <tr>
-            <td>Norte (m)</td>
-            <td>{{ $pozo->north }}</td>
-        </tr>
-        @endif
-        @if ( $pozo->east != null)
-        <tr>
-            <td>Este(m)</td>
-            <td>{{ $pozo->east }}</td>
-        </tr>
-        @endif
-        @if ( $pozo->town != null)
+        @if ( $sandControl->well->town != null)
         <tr>
             <td>Municipio</td>
-            <td>{{ $pozo->town }}</td>
+            <td>{{ $sandControl->well->town }}</td>
         </tr>
         @endif
-        @if ( $pozo->slots_per_ft != null)
+        @if ( $sandControl->slots_per_ft != null)
         <tr>
             <td>Número de ranuras por pie</td>
-            <td>{{ $pozo->slots_per_ft }}</td>
+            <td>{{ $sandControl->slots_per_ft }}</td>
         </tr>
         @endif
-        @if ( $pozo->slot_width != null)
+        @if ( $sandControl->slot_width != null)
         <tr>
             <td>Ancho de la ranura del Liner  (in)</td>
-            <td>{{ $pozo->slot_width }}</td>
+            <td>{{ $sandControl->slot_width }}</td>
         </tr>
         @endif
-        @if ( $pozo->mesh != null)
+        @if ( $sandControl->mesh != null)
         <tr>
             <td>Mesh</td>
-            <td>{{ $pozo->mesh }}</td>
+            <td>{{ $sandControl->mesh }}</td>
         </tr>
         @endif
-        @if ( $pozo->slot_gauge != null)
+        @if ( $sandControl->slot_gauge != null)
         <tr>
             <td>Slot Gauge de la malla (in)</td>
-            <td>{{ $pozo->slot_gauge }}</td>
+            <td>{{ $sandControl->slot_gauge }}</td>
         </tr>
         @endif
-        @if ( $pozo->ideal_size != null)
+        @if ( $sandControl->ideal_size != null)
         <tr>
             <td>Tamaño de grano ideal para completar  con el pozo con el mecanismo de conntrol seleccionado (micrómetros)</td>
-            <td>{{ $pozo->ideal_size }}</td>
+            <td>{{ $sandControl->ideal_size }}</td>
         </tr>
         @endif
-        @if ( $pozo->average_length != null)
+        @if ( $field_avg_len != null)
         <tr>
-            <td>Longitud Promedio del mecanismo por Campo (ft)</td>
-            <td>{{ $pozo->arenas_campo->average_length }}</td>
+            <td>Longitud Promedio del mecanismo en el Campo (ft)</td>
+            <td>{{ $field_avg_len }}</td>
         </tr>
         @endif
     </tbody>

@@ -241,6 +241,7 @@ class UploadController extends Controller
                     ['name' => 'field',             'display_name' => 'Campo'],
                     ['name' => 'vicepresidency',    'display_name' => 'Vicepresidencia'],
                     ['name' => 'basin',             'display_name' => 'Cuenca'],
+                    ['name' => 'group',             'display_name' => 'Grupo'],
                 ],
                 'hierarchy' => [
                     [
@@ -272,7 +273,6 @@ class UploadController extends Controller
                         'model' => SandControl::class,
                         'prev' => 'sandControls',
                         'action' => 'none',
-                        'column' => 'date',
                         'fields' => [
                             'event' => 'event',
                             'date' => 'install_date',
@@ -294,6 +294,7 @@ class UploadController extends Controller
                             'mesh' => 'mesh',
                             'slot_gauge' => 'slot_gauge',
                             'ideal_size' => 'ideal_size',
+                            'group' => 'group',
                         ],
                     ],
                 ],
@@ -396,8 +397,11 @@ class UploadController extends Controller
             $parsed[$i] = [];
             foreach ($convert_col as $column => $excel_column)
             {
-                // TODO: Sanitize cell content (trim spaces, filter out nulls)
-                $parsed[$i][$column] = $row[$excel_column];
+                $cell = $row[$excel_column];
+                $cell = trim($cell);
+                if ($cell == 'N/A' or $cell == '-' or $cell == '')
+                    $cell = null;
+                $parsed[$i][$column] = $cell;
             }
         }
         $parsed = collect($parsed);

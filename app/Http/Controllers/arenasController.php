@@ -5,115 +5,59 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use App\ArenasCuenca;
-use App\ArenasCampo;
-use App\ArenasMuestrasTabla;
-use App\ArenasSandControl;
-use App\ArenasPozo;
+
+use App\Basin;
+use App\Field;
+use App\Sample;
+use App\SampleGroup;
+use App\SandControl;
+use App\SandControlSummary;
 
 use DB;
 
-class arenasController extends Controller
+class ArenasController extends Controller
 {
     function mapPozos(){
-        $pozos = \App\ArenasPozo::with('arenas_campo')->get();
-        return view('arenas.map_pozos', ['pozos' => $pozos->toJSON()]);
+        $sandControls = SandControl::with('well.field.basin')->get();
+        $groups = SandControl::all('group')
+            ->unique('group')
+            ->pluck('group')
+            ->sort()->values();
+        return view('arenas.map_pozos', [
+            'sandControls' => $sandControls->toJson(),
+            'groups' => $groups->toJson(),
+        ]);
     }
 
     function mapDetail($id){
-        $pozo = ArenasPozo::find($id);
-        return view('arenas.map_detail', ['pozo' => $pozo]);
+        $sandControl = SandControl::find($id);
+        $wellsOfField = Field::with('wells.sandControls')->find($sandControl->well->field->id)->wells;
+        $field_avg_len = $wellsOfField->pluck('sandControls')->flatten()->avg('length');
+        return view('arenas.map_detail', [
+            'sandControl' => $sandControl,
+            'field_avg_len' => $field_avg_len,
+        ]);
     }
-
-    function mapAddData(){
-        return view('arenas.map_add_data');
-    }
-
-    function mapAddDataSubmit(Request $request){
-        $raw_data =  $request->input('raw-data');
-        $lines = preg_split('/(\\r\\n)/', $raw_data);
-        $campos = [];
-        foreach ($lines as $line) {
-            $values = preg_split('/\\t/', $line);
-            
-            // Normalize null values
-            foreach ($values as $key => $value) {
-                if($value == 'N/A' or $value == '-' or $value == '')
-                    $values[$key] = null;
-            }
-
-            $campo_name = $values[1];
-            $pozo_i = 0;
-
-            if (!array_key_exists($campo_name, $campos)){
-                $campos[$campo_name] = [];
-            }
-            while (!empty($campos[$campo_name]['pozos'][$pozo_i])){
-                $pozo_i++;
-            }
-
-            $campos[$campo_name]['vicepresidency'] = $values[0];
-            $campos[$campo_name]['average_length'] = $values[26];
-
-            $install_date = $values[3];
-            if ($install_date != null){
-                $install_date = \Carbon\Carbon::createFromFormat('d/m/Y',$install_date);
-            }
-
-            $campos[$campo_name]['pozos'][$pozo_i] = [
-                'name' => $values[2],
-                'install_date' => $install_date,
-                'event' => $values[4],
-                'mechanism' => $values[5],
-                'completion_type' => $values[6],
-                'mesh_type' => $values[7],
-                'gravel_us' => $values[8],
-                'grade' => $values[9],
-                'joints' => $values[10],
-                'diameter' => $values[11],
-                'internal_diameter' => $values[12],
-                'clearance' => $values[13],
-                'top' => $values[14],
-                'length' => $values[15],
-                'bottom' => $values[16],
-                'weight' => $values[17],
-                'north' => $values[18],
-                'east' => $values[19],
-                'town' => $values[20],
-                'slots_per_ft' => $values[21],
-                'slot_width' => $values[22],
-                'mesh' => $values[23],
-                'slot_gauge' => $values[24],
-                'ideal_size' => $values[25],
-                'longitude' => $values[27],
-                'latitude' => $values[28],
-            ];
-
-        }
-        foreach ($campos as $campo_name => $campo){
-            $modelCampo = ArenasCampo::firstOrCreate([
-                'name' => $campo_name,
-                'vicepresidency' => $campo['vicepresidency'],
-                'average_length' => $campo['average_length'],
-            ]);
-            foreach ($campo['pozos'] as $pozo){
-                $modelCampo->pozos()->save(new ArenasPozo($pozo));
-            }
-        }
-        return redirect('/arenas/map');
+    
+    function matrixSelect(){
+        $tablas = SampleGroup::all();
+        return view('arenas.matrix_select', ['tablas' => $tablas]);
     }
 
     function matrixResults($id){
 
-        $tabla = ArenasMuestrasTabla::find($id);
+        $tabla = SampleGroup::find($id);
         
         $stats = $tabla->stats();
 
         $average = $stats['average'];
         $plot_data = $stats['plot_data'];
 
-        $x10 = interpolate_y(10,$plot_data);
-        $x60 = interpolate_y(60,$plot_data);
+        $x10 = interpolate_y(10, $plot_data);
+        $x60 = interpolate_y(60, $plot_data);
+        $x90 = interpolate_y(90, $plot_data);
+        $x50 = interpolate_y(50, $plot_data);
+        $x30 = interpolate_y(30, $plot_data);
 
         // Results
 
@@ -130,51 +74,81 @@ class arenasController extends Controller
         
         $results->x10 = $x10;
         $results->x60 = $x60;
+        $results->x90 = $x90;
+        $results->x50 = $x50;
+        $results->x30 = $x30;
         
         $results->u = $x60/$x10;
         $results->u_txt = '';
         if ($results->u <= 3) $results->u_txt = 'Arena uniforme';
         else if ($results->u <= 5) $results->u_txt = 'Arena no uniforme';
         else $results->u_txt = 'Arena altamente no uniforme';
-
-        $results->gravel = $results->u > 4.8; // true->gravel, false->liner
         
         $results->suggested = '';
-        $results->groove_size = 0;
-        if (!$results->gravel){
-            if ($results->u <= 1.5){
-                $results->suggested = 'Liner ranurado';
-                $results->groove_size = ($average*2)/25400;
-            }
-            else if ($results->u <= 3) {
-                $results->suggested = 'Malla weded wire wrapped';
-                $results->groove_size = ($average*3)/25400;
-            }
-            else {
-                $results->suggested = 'Malla premium';
-                $results->groove_size = ($average*3)/25400;
-            }
+        if ($results->u <= 1.5)
+        {
+            $results->suggested_1 = 'Liner ranurado';
+            $results->suggested_2 = 'Empaque con Grava y Liner Ranurado';
         }
-        else {  //gravel
-            $results->average_gravel_size = ($average*6)/25400;
-            if ($results->u <= 5){
-                $results->suggested = 'Empaque con grava y liner ranurado';
-                $results->groove_size = ($average*2)/25400;
-            }
-            else {
-                $results->suggested = 'Empaque con grava y malla';
-                $results->groove_size = ($average*3)/25400;
-            }
+        else if ($results->u <= 3)
+        {
+            $results->suggested_1 = 'Malla weded wire wrapped';
+            $results->suggested_2 = 'Empaque con grava y malla';
+        }
+        else if ($results->u <= 5)
+        {
+            $results->suggested_1 = 'Malla premium';
+            $results->suggested_2 = 'Empaque con grava y malla';
+        }
+        else {
+            $results->suggested_1 = 'No se recomienda control de arena tipo mecánico';
+            $results->suggested_2 = null;
+        }
 
-            $ags = $results->average_gravel_size;
-            $results->us_gravel_mesh = '';
-            if ($ags >= 0.010 and $ags <=0.017) $results->us_gravel_mesh = '40/60';
-            else if ($ags <= 0.033) $results->us_gravel_mesh = '20/40';
-            else if ($ags <= 0.079) $results->us_gravel_mesh = '10/20';
-            else if ($ags <= 0.094) $results->us_gravel_mesh = '8/10';
-            else if ($ags <= 0.132) $results->us_gravel_mesh = '6/8';
-            else $results->us_gravel_mesh = 'No comercialmente disponible';
-        }
+        $results->average_gravel_size = ($average*6)/25400;
+
+        $ags = $results->average_gravel_size;
+        $results->us_gravel_mesh = '';
+        if ($ags >= 0.010 and $ags <=0.017) $results->us_gravel_mesh = '40/60';
+        else if ($ags <= 0.033) $results->us_gravel_mesh = '20/40';
+        else if ($ags <= 0.079) $results->us_gravel_mesh = '10/20';
+        else if ($ags <= 0.094) $results->us_gravel_mesh = '8/10';
+        else if ($ags <= 0.132) $results->us_gravel_mesh = '6/8';
+        else $results->us_gravel_mesh = 'No comercialmente disponible';
+
+        $results->config = (object)[];
+
+        $results->config = [
+            (object)[
+                'name' => 'Coberly',
+                'min' => $x90,
+                'max' => 2*$x90,
+            ],
+            (object)[
+                'name' => 'Coberly Actualizado',
+                'min' => 2*$x90,
+                'max' => 3*$x90,
+            ],
+            (object)[
+                'name' => 'Penberthy',
+                'min' => 2*$average,
+                'max' => 3*$average,
+            ],
+            (object)[
+                'name' => 'Regent Energy (Canada Reference)',
+                'min' => 2*$x30,
+                'max' => 3.5*$x50,
+            ],
+        ];
+
+        $rec_min = collect($results->config)->pluck('min')->min();
+        $rec_max = collect($results->config)->pluck('max')->max();
+
+        $results->config[] = (object)[
+            'name' =>'Rango Sugerido Tamaño de Ranura',
+            'min' => $rec_min,
+            'max' => $rec_max,
+        ];
 
 
         return view('arenas.matrix_results', [
@@ -182,119 +156,32 @@ class arenasController extends Controller
             'plot_data' => json_encode($plot_data),
             'x10' => $x10,
             'x60' => $x60,
+            'x90' => $x90,
+            'x50' => $x50,
+            'x30' => $x30,
             'results' => $results,
         ]);
     }
 
-    function matrixSelect(){
-        $tablas = \App\ArenasMuestrasTabla::all();
-        return view('arenas.matrix_select', ['tablas' => $tablas]);
-    }
 
-    function listCampos(){
-        $campos_cuencas = ArenasCuenca::query()
-        ->join('arenas_campos', 'arenas_campos.arenas_cuenca_id', '=', 'arenas_cuencas.id')
-        ->join('arenas_sand_controls', 'arenas_sand_controls.arenas_campo_id', '=', 'arenas_campos.id')
-        ->select([
-            'arenas_campos.name',
-            'arenas_campos.id',
-            'arenas_cuencas.name as cuenca_name',
-            'arenas_cuencas.id as cuenca_id',
-        ])
-        ->distinct()
-        ->orderBy('arenas_cuencas.name','ASC')
-        ->orderBy('arenas_campos.name', 'ASC')
-        ->get();
-        $cuencas = [];
-        foreach ($campos_cuencas as $campo_cuenca){
-            $id = $campo_cuenca->cuenca_id;
-            if (array_key_exists($id, $cuencas)){
-                $cuencas[$id]->campos[] = (object)[
-                    'id' => $campo_cuenca->id,
-                    'name' => $campo_cuenca->name,
-                ];
-
-            } else {
-                $cuencas[$id] = (object)[];
-                $cuencas[$id]->name = $campo_cuenca->cuenca_name;
-                $cuencas[$id]->campos = [(object)[
-                    'id' => $campo_cuenca->id,
-                    'name' => $campo_cuenca->name,
-                ]];
+    function listCampos(){;
+        $basins = Basin::with('fields.sandControlSummary')->get();
+        foreach ($basins as $i => $basin) {
+            foreach ($basin->fields as $j => $field) {
+                if (!count($field->sandControlSummary))
+                    $basins[$i]->fields->forget($j);
             }
+            if (!count($basin->fields))
+                $basins->forget($i);
         }
-        return view('arenas.list_campos', ['cuencas' => $cuencas]);
+        $basins = $basins->sortBy('name')->values();
+        return view('arenas.list_campos', ['basins' => $basins]);
     }
 
-    function viewCampo($campo_id){
-        $campo = ArenasCampo::find($campo_id);
-        $sandControls = $campo->sandControls;
-        return view('arenas.view_campo', ['sandControls' => $sandControls, 'campo' => $campo->name]);
-    }
-
-    function camposAddData(){
-        return view('arenas.campos_add_data');
-    }
-
-    function camposAddDataSubmit(Request $request){
-        $raw_data =  $request->input('raw-data');
-        $lines = preg_split('/(\\r\\n)/', $raw_data);
-        $cuencas = [];
-        foreach ($lines as $line) {
-            $values = preg_split('/\\t/', $line);
-            
-            // Normalize null values
-            foreach ($values as $key => $value) {
-                if($value == 'N/A' or $value == '-' or $value == '')
-                    $values[$key] = null;
-            }
-
-            $campo_name = $values[1];
-            $cuenca_name = $values[2];
-            $sand_control_i = 0;
-
-            if (!array_key_exists($cuenca_name, $cuencas)){
-                $cuencas[$cuenca_name] = [];
-            }
-            if (!array_key_exists($campo_name, $cuencas[$cuenca_name])){
-                $cuencas[$cuenca_name][$campo_name] = [];
-            }
-            while (!empty($cuencas[$cuenca_name][$campo_name][$sand_control_i])){
-                $sand_control_i++;
-            }
-            $cuencas[$cuenca_name][$campo_name][$sand_control_i] = [
-                'interval_depth' => $values[0],
-                'uniformity_coefficient' => $values[3],
-                'grain_size' => $values[4],
-                'grain_size_range' => $values[5],
-                'sand_type' => $values[6],
-                'sand_uniformity' => $values[7],
-                'installed_mechanism' => $values[8],
-                'installed_groove_thickness' => $values[9],
-                'installed_gravel_size' => $values[10],
-                'installed_gravel_us' => $values[11],
-                'recommended_mechanism' => $values[12],
-                'recommended_groove_thickness' => $values[13],
-                'recommended_gravel_size' => $values[14],
-                'recommended_gravel_us' => $values[15],
-                'alternative_mechanism' => $values[16],
-                'alternative_groove_thickness' => $values[17],
-                'alternative_gravel_size' => $values[18],
-                'alternative_gravel_us' => $values[19],
-            ];
-
-        }
-        
-        foreach ($cuencas as $name => $campos){
-            $modelCuenca = ArenasCuenca::firstOrCreate(['name' => $name]);
-            foreach ($campos as $campo_name => $sandControls){
-                $modelCampo = $modelCuenca->campos()->firstOrCreate(['name' => $campo_name]);
-                foreach ($sandControls as $sandControl){
-                    $modelCampo->sandControls()->save(new ArenasSandControl($sandControl));
-                }
-            }
-        }
-        return redirect('/arenas/campos');
+    function viewCampo($id){
+        $sandControlSummary = SandControlSummary::where(['field_id' => $id])->first();
+        $sandControlSummary->load('field', 'sandControlRecommendations');
+        return view('arenas.view_campo', ['summary' => $sandControlSummary]);
     }
 
 

@@ -6,13 +6,13 @@
 
 <p>Seleccione un campo:</p>
 <ol>
-    @foreach ($cuencas as $cuenca)
+    @foreach ($basins as $basin)
     <li>
-        {{ $cuenca->name }}
+        {{ $basin->name }}
         <ol>
-            @foreach ($cuenca->campos as $campo)
+            @foreach ($basin->fields->sortBy('name')->values() as $field)
             <li>
-                <a href="/arenas/campos/{{ $campo->id }}">{{ $campo->name }}</a>
+                <a href="/arenas/campos/{{ $field->id }}">{{ $field->name }}</a>
             </li>
             @endforeach
         </ol>
@@ -21,7 +21,7 @@
 </ol>
 
 <div class="button-container">
-    <a class="fancy-button-small" href="/arenas/campos_add_data">
+    <a class="fancy-button-small" href="/arenas/table_upload/arenas_campos">
         Añadir datos
     </a>
 </div>

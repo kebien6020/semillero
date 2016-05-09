@@ -12,17 +12,17 @@
     <script type="text/javascript">
 
 var map;
-var pozos = {!! $pozos !!};
-var colors = {
-    'LINER RANURADO (Sin empaquetamiento)': 'red',
-    'LINER RANURADO EMPAQUETADO CON GRAVA': 'orange',
-    'EMPAQUE DE GRAVA Y LINER RANURADO': 'yellow',
-    'EMPAQUETAMIENTO CON GRAVA Y MALLAS': 'aqua',
-    'MALLAS ': 'blue',
-    'MALLAS INFLOW CONTROL DEVICE': 'purple',
-    'EMPAQUE CON GRAVA Y LINER RANURADO (No hay información sobre si hay una malla o un Liner Ranurado instalado)': 'gray',
-
-};
+var sandControls = {!! $sandControls !!};
+var groups = {!! $groups !!};
+var colors_base = ['red', 'orange', 'yellow', 'aqua', 'blue', 'purple', 'gray'];
+var colors = {};
+for (var i = 0; i < groups.length; ++i)
+{
+    var j = i;
+    if (i >= colors_base.length)
+        j = colors_base.length - 1;
+    colors[groups[i]] = colors_base[j];
+}
 
 function getIcon(color){
     return '/images/spotlight-poi-' + color + '.png';
@@ -42,19 +42,19 @@ function initMap(){  // Called in asynchronous callback
     var i = 0;
     var infoWindows = [];
     var markers = [];
-    for (var pozo of pozos){
-        var content = '<h2>' + pozo.name + '</h2>';
-        content += '<p><strong>Mecanismo de control de arena: </strong>' + pozo.mechanism + '</p>';
-        content += '<p><strong>Fecha de instalación del mecanismo de control de arena: </strong>' + pozo.install_date + '</p>';
-        content += '<p><strong>Campo: </strong>' + pozo.arenas_campo.name + '</p>';
-        if (pozo.event)
-            content += '<p><strong>Siglas del evento: </strong>' + pozo.event + '</p>';
-        content += '<p style="text-align: center;"><a href="/arenas/map/' + pozo.id + '">Mas detalles</a>';
+    for (var sandControl of sandControls){
+        var content = '<h2>' + sandControl.well.name + '</h2>';
+        content += '<p><strong>Mecanismo de control de arena: </strong>' + sandControl.mechanism + '</p>';
+        content += '<p><strong>Fecha de instalación del mecanismo de control de arena: </strong>' + sandControl.install_date + '</p>';
+        content += '<p><strong>Campo: </strong>' + sandControl.well.field.name + '</p>';
+        if (sandControl.event)
+            content += '<p><strong>Siglas del evento: </strong>' + sandControl.event + '</p>';
+        content += '<p style="text-align: center;"><a href="/arenas/map/' + sandControl.id + '">Mas detalles</a>';
         infoWindows.push(new google.maps.InfoWindow({content: content}));
 
-        var color = colors[pozo.mechanism];
+        var color = colors[sandControl.group];
         markers.push(new google.maps.Marker({
-            position: {lng: pozo.longitude, lat: pozo.latitude},
+            position: {lng: sandControl.well.longitude, lat: sandControl.well.latitude},
             map: map,
             icon: getIcon(color),
         }));

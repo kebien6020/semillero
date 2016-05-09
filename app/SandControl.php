@@ -28,6 +28,7 @@ class SandControl extends Model
         'mesh',
         'slot_gauge',
         'ideal_size',
+        'group',
     ];
 
     public function well()
