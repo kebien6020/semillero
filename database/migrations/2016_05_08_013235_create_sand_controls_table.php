@@ -16,11 +16,12 @@ class CreateSandControlsTable extends Migration
             $table->increments('id');
             $table->timestamps();
 
-            $table->dateTime('install_date');
+            $table->string('install_date');
             $table->string('event');
             $table->string('mechanism');
             $table->string('completion_type')->nullable();
             $table->string('mesh_type')->nullable;
+            $table->string('gravel_size')->nullable;
             $table->string('grade')->nullable();
             $table->integer('joints')->nullable();
             $table->double('diameter')->nullable();

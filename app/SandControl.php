@@ -13,6 +13,7 @@ class SandControl extends Model
         'mechanism',
         'completion_type',
         'mesh_type',
+        'gravel_size',
         'grade',
         'joints',
         'diameter',
@@ -34,5 +35,5 @@ class SandControl extends Model
         return $this->belongsTo('App\Well');
     }
 
-    protected $dates = ['created_at', 'updated_at', 'install_date'];
+    //protected $dates = ['created_at', 'updated_at', 'install_date'];
 }

@@ -18,7 +18,7 @@ class Field extends Model
         return $this->hasMany('App\Well');
     }
 
-    public function sandControlSummaries()
+    public function sandControlSummary()
     {
         return $this->hasOne('App\SandControlSummary');
     }

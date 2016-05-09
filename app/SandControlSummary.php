@@ -10,6 +10,7 @@ class SandControlSummary extends Model
         'interval_avg_len',
         'uniformity',
         'avg_grain_size',
+        'grain_size_range',
         'type',
         'uniformity_txt',
         'installed_mechanism',
