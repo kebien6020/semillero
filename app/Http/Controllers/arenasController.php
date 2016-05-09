@@ -121,23 +121,23 @@ class ArenasController extends Controller
         $results->config = [
             (object)[
                 'name' => 'Coberly',
-                'min' => $x90,
-                'max' => 2*$x90,
+                'min' => $x90/25400,
+                'max' => 2*$x90/25400,
             ],
             (object)[
                 'name' => 'Coberly Actualizado',
-                'min' => 2*$x90,
-                'max' => 3*$x90,
+                'min' => 2*$x90/25400,
+                'max' => 3*$x90/25400,
             ],
             (object)[
                 'name' => 'Penberthy',
-                'min' => 2*$average,
-                'max' => 3*$average,
+                'min' => 2*$average/25400,
+                'max' => 3*$average/25400,
             ],
             (object)[
                 'name' => 'Regent Energy (Canada Reference)',
-                'min' => 2*$x30,
-                'max' => 3.5*$x50,
+                'min' => 2*$x30/25400,
+                'max' => 3.5*$x50/25400,
             ],
         ];
 
@@ -178,7 +178,7 @@ class ArenasController extends Controller
         return view('arenas.list_campos', ['basins' => $basins]);
     }
 
-    function viewCampo($id){
+    function campoDetail($id){
         $sandControlSummary = SandControlSummary::where(['field_id' => $id])->first();
         $sandControlSummary->load('field', 'sandControlRecommendations');
         return view('arenas.view_campo', ['summary' => $sandControlSummary]);
