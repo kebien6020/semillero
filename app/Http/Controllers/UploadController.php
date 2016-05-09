@@ -91,7 +91,7 @@ class UploadController extends Controller
 
         Storage::delete($request->session()->get('file'));
 
-        return redirect('/' . $project . '/table_upload/'. $table_name);
+        return redirect($this->tables[$table_name]['redirect_to']);
     }
 
     private function _get_proj($project)
@@ -118,6 +118,7 @@ class UploadController extends Controller
         $this->tables = [
             'fluidos_pozos' => [
                 'project' => 'fluidos',
+                'redirect_to' => '/fluidos/map',
                 'columns' => [
                     ['name' => 'event',          'display_name' => 'Siglas del evento'],
                     ['name' => 'date',           'display_name' => 'Fecha de inicio'],
@@ -185,6 +186,7 @@ class UploadController extends Controller
             ],
             'fluidos_rangos' => [
                 'project' => 'fluidos',
+                'redirect_to' => '/fluidos/map',
                 'columns' => [
                     ['name' => 'fluid', 'display_name' => 'Fluido de completamiento'],
                     ['name' => 'min', 'display_name' => 'Minimo'],
@@ -213,6 +215,7 @@ class UploadController extends Controller
             ],
             'arenas_pozos' => [
                 'project' => 'arenas',
+                'redirect_to' => '/arenas/map',
                 'columns' => [
                     ['name' => 'date',              'display_name' => 'Fecha de instalación'],
                     ['name' => 'event',             'display_name' => 'Siglas del evento'],
@@ -301,6 +304,7 @@ class UploadController extends Controller
             ],
             'arenas_campos' => [
                 'project' => 'arenas',
+                'redirect_to' => '/arenas/campos',
                 'columns' => [
                     ['name' => 'interval_avg_len',      'display_name' => 'Profundidad Promedio'],
                     ['name' => 'uniformity',            'display_name' => 'Coeficiente de uniformidad (U)'],
@@ -364,6 +368,7 @@ class UploadController extends Controller
             ],
             'arenas_muestras' => [
                 'project' => 'arenas',
+                'redirect_to' => '/arenas/matrix',
                 'columns' => [
                     ['name' => 'grain_size',      'display_name' => 'Tamaño de grano (Xi) [Micras]'],
                     ['name' => 'frequency',            'display_name' => 'Frecuencia (fi)'],

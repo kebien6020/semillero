@@ -13,8 +13,8 @@
     @endforeach
 </ol>
 <div class="button-container">
-    <div class="fancy-button-small">
-        Nuevo
-    </div>
+    <a href="/arenas/table_upload/arenas_muestras" class="fancy-button-small">
+        Cargar datos
+    </a>
 </div>
 @endsection

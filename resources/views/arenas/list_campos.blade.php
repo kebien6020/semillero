@@ -21,8 +21,8 @@
 </ol>
 
 <div class="button-container">
-    <a class="fancy-button-small" href="/arenas/table_upload/arenas_campos">
-        Añadir datos
+    <a href="/arenas/table_upload/arenas_campos" class="fancy-button-small">
+        Cargar datos
     </a>
 </div>
 

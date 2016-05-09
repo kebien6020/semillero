@@ -106,12 +106,15 @@ $(document).ready(function(){
 @endsection
 
 @section('content')
-    <style type="text/css" media="screen">
-        html , body , .main , .content , #map {height: 100%;}
-    </style>
 
-    <div id="map" style="height:100%;">
+    <div style="position:relative">
+        <div id="legend" style="position:absolute; top:0; right:0; width:20%; background-color:white;font-size:8pt; padding:5px; z-index:2;"></div>
+        <div id="map" style="height:600px;"></div>
     </div>
-    <div id="legend" style="position:relative; top:-100%; left:80%; width:20%;background-color:white;font-size:8pt; padding:5px"></div>
+    <div class="button-container">
+        <a href="/arenas/table_upload/arenas_pozos" class="fancy-button-small">
+            Cargar datos
+        </a>
+    </div>
 
 @endsection
