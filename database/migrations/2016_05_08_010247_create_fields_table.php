@@ -18,6 +18,8 @@ class CreateFieldsTable extends Migration
 
             $table->string('name');
             $table->string('vicepresidency');
+            $table->double('longitude')->nullable();
+            $table->double('latitude')->nullable();
 
             $table->integer('basin_id');
         });

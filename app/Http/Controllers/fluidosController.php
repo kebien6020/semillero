@@ -6,22 +6,45 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
 use App\Http\Requests;
+
 use App\Field;
+use App\Fluid;
+use App\FluidOccurrence;
 
 use DB;
 
 
-class fluidosController extends Controller
+class FluidosController extends Controller
 {
-    function mapCampos(){
-
-        //$campos = Field::with('fluids')->get();
-
-        $campos = Field::with('wells.fluidOccurrence')->get();
-        return view('fluidos.map_campos',['campos' => $campos]);
+    function mapCampos()
+    {
+        $fields = Field::whereNotNull('longitude', 'and')->whereNotNull('latitude')->get();
+        $fields->load('wells.fluidOccurrence');
+        foreach ($fields as $i => $field) {
+            foreach ($field->wells as $j => $well) {
+                if (!count($well->fluidOccurrence))
+                    $fields[$i]->wells->forget($j);
+            }
+            if (!count($field->wells))
+                $fields->forget($i);
+        }
+        $fields = $fields->values();
+        $fieldsWithDistribution = [];
+        foreach ($fields as $field) {
+            $fieldsWithDistribution[] = (object)[
+                'id' => $field->id,
+                'name' => $field->name,
+                'longitude' => $field->longitude,
+                'latitude' => $field->latitude,
+                'distribution' => $field->fluidDistribution(),
+            ];
+        }
+        $fieldsWithDistribution = collect($fieldsWithDistribution);
+        return view('fluidos.map_campos', ['fields' => $fieldsWithDistribution->toJson()]);
     }
 
-    function campoDetail($id){
+    function campoDetail($id)
+    {
         /*$campo = Field::with('wells.fluidOccurrence.fluid')->find($id);
         $fluids = new Collection;
         foreach ($campo->wells as $i => $well)
@@ -42,5 +65,15 @@ class fluidosController extends Controller
         dd($res);
 
         return view('fluidos.campo_detail', ['campo'=>$campo->name, 'fluidos' => $fluidos]);
+    }
+
+    function mapPozos()
+    {
+        $occurrences = FluidOccurrence::with('well.field.basin', 'fluid')->get();
+        $fluids = Fluid::all();
+        return view('fluidos.map_pozos',[
+            'occurrences' => $occurrences->toJson(),
+            'fluids' => $fluids->sortBy('name')->values()->toJson(),
+        ]);
     }
 }

@@ -118,20 +118,22 @@ class UploadController extends Controller
         $this->tables = [
             'fluidos_pozos' => [
                 'project' => 'fluidos',
-                'redirect_to' => '/fluidos/map',
+                'redirect_to' => '/fluidos/map/pozos',
                 'columns' => [
-                    ['name' => 'event',          'display_name' => 'Siglas del evento'],
-                    ['name' => 'date',           'display_name' => 'Fecha de inicio'],
-                    ['name' => 'density',        'display_name' => 'Densidad'],
-                    ['name' => 'fluid',          'display_name' => 'Fluido de completamiento'],
-                    ['name' => 'color',          'display_name' => 'Color para representar al fluido'],
-                    ['name' => 'well',           'display_name' => 'Nombre común del pozo'],
-                    ['name' => 'town',           'display_name' => 'Municipio'],
-                    ['name' => 'longitude',      'display_name' => 'Longitud'],
-                    ['name' => 'latitude',       'display_name' => 'Latitud'],
-                    ['name' => 'field',          'display_name' => 'Campo'],
-                    ['name' => 'vicepresidency', 'display_name' => 'Vicepresidencia'],
-                    ['name' => 'basin',          'display_name' => 'Cuenca'],
+                    ['name' => 'event',           'display_name' => 'Siglas del evento'],
+                    ['name' => 'date',            'display_name' => 'Fecha de inicio'],
+                    ['name' => 'density',         'display_name' => 'Densidad'],
+                    ['name' => 'fluid',           'display_name' => 'Fluido de completamiento'],
+                    ['name' => 'color',           'display_name' => 'Color para representar al fluido'],
+                    ['name' => 'well',            'display_name' => 'Nombre común del pozo'],
+                    ['name' => 'town',            'display_name' => 'Municipio'],
+                    ['name' => 'longitude',       'display_name' => 'Longitud'],
+                    ['name' => 'latitude',        'display_name' => 'Latitud'],
+                    ['name' => 'field',           'display_name' => 'Campo'],
+                    ['name' => 'field_longitude', 'display_name' => 'Longitud para el Campo'],
+                    ['name' => 'field_latitude',  'display_name' => 'Latitud para el Campo'],
+                    ['name' => 'vicepresidency',  'display_name' => 'Vicepresidencia'],
+                    ['name' => 'basin',           'display_name' => 'Cuenca'],
                 ],
                 'hierarchy' => [
                     [
@@ -145,7 +147,12 @@ class UploadController extends Controller
                         'prev' => 'fields',
                         'action' => 'groupBy',
                         'column' => 'field',
-                        'fields' => ['field' => 'name', 'vicepresidency' => 'vicepresidency'],
+                        'fields' => [
+                            'field' => 'name',
+                            'vicepresidency' => 'vicepresidency',
+                            'field_longitude' => 'longitude',
+                            'field_latitude' => 'latitude',
+                        ],
                     ],
                     [
                         'model' => Well::class,
@@ -186,7 +193,7 @@ class UploadController extends Controller
             ],
             'fluidos_rangos' => [
                 'project' => 'fluidos',
-                'redirect_to' => '/fluidos/map',
+                'redirect_to' => '/fluidos/map/campos',
                 'columns' => [
                     ['name' => 'fluid', 'display_name' => 'Fluido de completamiento'],
                     ['name' => 'min', 'display_name' => 'Minimo'],

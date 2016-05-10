@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Field extends Model
 {
-    protected $fillable = ['name', 'vicepresidency'];
+    protected $fillable = ['name', 'vicepresidency', 'longitude', 'latitude'];
 
     public function basin()
     {
@@ -21,5 +21,17 @@ class Field extends Model
     public function sandControlSummary()
     {
         return $this->hasOne('App\SandControlSummary');
+    }
+
+    public function fluidDistribution()
+    {
+        $fluidOccurrences = $this->wells->pluck('fluidOccurrence')->flatten();
+        $fluid_ids = $fluidOccurrences->unique('fluid_id')->pluck('fluid_id');
+        $res = [];
+        foreach ($fluid_ids as $fluid_id) {
+            $res[Fluid::find($fluid_id)->name] = 
+                $fluidOccurrences->where('fluid_id', $fluid_id)->count();
+        }
+        return $res;
     }
 }

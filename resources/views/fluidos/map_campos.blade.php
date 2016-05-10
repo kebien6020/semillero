@@ -1,30 +1,39 @@
 @extends('layouts.master')
 
-@section('title', 'Mapa de Fluidos de Completamiento')
+@section('title', 'Mapa Fluidos Campos')
 
 @section('head')
 
-<script 
+    <script 
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA4T9LZ5gwZIHTA550ip33BbLvO9ob1Ji8&callback=initMap"
         type="text/javascript"
         charset="utf-8" async defer></script>
-
-@endsection
-
-@section('content')
-
-<p>Aquí va a ir mapa de fluidos de completamiento. Por ahora aqui estan los datos por campo:</p>
-
-<script>
-$(document).ready(function($) {
-    $(".clickable-row").click(function() {
-        window.document.location = $(this).data("href");
-    });
-});
+    <script src="/js/flot.js" type="text/javascript" charset="utf-8" async defer></script>
+    <script type="text/javascript">
 
 var map;
-function initMap(){
-	//Map
+var fields = JSON.parse('{!! $fields !!}');
+var plotOptions = {
+    series: {
+        pie: {
+            show: true,
+            radius: 1,
+            label: {
+                radius: 3/4,
+                show: true,
+                background: {
+                    opacity: 0.5,
+                    color: "#000"
+                }
+            },
+            formatter: labelFormatter,
+        }
+    },
+    legend: {show: false},
+};
+
+function initMap(){  // Called in asynchronous callback
+    //Map
     var options = {
         center: {lng:-73, lat:4},
         zoom: 6,
@@ -32,31 +41,59 @@ function initMap(){
     };
     var $div_map = document.getElementById('map');
     map = new google.maps.Map($div_map, options);
+
+    //Markers
+    var i = 0;
+    var infoWindows = [];
+    var markers = [];
+    for (var field of fields){
+        var content = '<h2>' + field.name + '</h2>';
+        var plotId = 'plot_' + field.id;
+        content += '<div style="width:200px; height:200px;" id="' + plotId + '"></div>';
+
+        infoWindows.push(new google.maps.InfoWindow({content: content}));
+        markers.push(new google.maps.Marker({
+            position: {lng: field.longitude, lat: field.latitude},
+            map: map,
+        }));
+        markers[i].addListener(
+            'click',
+            markerListener(i, infoWindows, markers[i], plotId, field.distribution)
+        );
+        i++;
+    }
 }
-</script>
 
-<table>
-    <thead>
-        <tr>
-            <th>Campo</th>
-            <th>No. Pozos</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach($campos as $campo)
-            <tr class="clickable-row" data-href="/fluidos/map/campos/{{ $campo->id }}">
-                <td>{{ $campo->name }}</td>
-                <td>{{ $campo->wells()->count() }}</td>
-            </tr>
-        @endforeach
-    </tbody>
-</table>
-<div id="map" style="width:600px; height:400px;"></div>
+function markerListener(i, infoWindows, marker, plotId, plotData){
+    return function(){
+        for (var info of infoWindows){
+            info.close();
+        }
+        infoWindows[i].open(map, marker);
+        var data = [];
+        for (var key in plotData){
+            data.push({label:key, data:plotData[key]});
+        }
+        $.plot('#' + plotId, data, plotOptions);
+    }
+}
 
-<form action="/fluidos/map/campos_add_data_submit" method="post">
-    {{ csrf_field() }}
-    <textarea name="raw_data"></textarea>
-    <input type="submit" value="Cargar">
-</form>
+function labelFormatter(label, series) {
+    return "<div style='font-size:8pt; text-align:center; padding:2px; color:black;'>" + label + "<br/>" + Math.round(series.data) + "%</div>";
+}
+
+    </script>
+
+@endsection
+
+@section('content')
+
+    <div id="map" style="height:600px;"></div>
+    
+    <div class="button-container">
+        <a href="/fluidos/table_upload/fluidos_pozos" class="fancy-button-small">
+            Cargar datos
+        </a>
+    </div>
 
 @endsection
