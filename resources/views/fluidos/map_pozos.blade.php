@@ -15,7 +15,7 @@ var map;
 var occurrences = JSON.parse('{!! $occurrences !!}');
 var fluids = JSON.parse('{!! $fluids !!}');
 
-function getIcon(color){
+function getIconUrl(color){
     // Expand from shorthand
     var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
     color = color.replace(shorthandRegex, function(m, r, g, b) {
@@ -23,11 +23,8 @@ function getIcon(color){
     });
     if (color.length == 7)
         color = color.slice(1);
-    // Request pin image from google itself.
-    return {
-        img:'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2%7C' + color,
-        shadow: 'http://chart.apis.google.com/chart?chst=d_map_pin_shadow'
-    };
+    // Pin image from google itself
+    return 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|' + color;
 }
 
 function initMap(){  // Called in asynchronous callback
@@ -55,18 +52,26 @@ function initMap(){  // Called in asynchronous callback
             content += '<p><strong>Siglas del evento: </strong>' + occurrence.event + '</p>';
         infoWindows.push(new google.maps.InfoWindow({content: content}));
 
-        var icon = getIcon(occurrence.fluid.color);
+        var iconUrl = getIconUrl(occurrence.fluid.color);
+        var icon = makePin(iconUrl);
         markers.push(new google.maps.Marker({
             position: {lng: occurrence.well.longitude, lat: occurrence.well.latitude},
             map: map,
-            icon: icon.img,
-            shadow: icon.shadow,
+            icon: icon,
         }));
         markers[i].addListener(
             'click',
             markerListener(i, infoWindows, markers[i])
         );
         i++;
+    }
+    function makePin(url){
+        return {
+            url: url,
+            size: google.maps.Size(21, 34),
+            origin: google.maps.Point(0,0),
+            anchor: google.maps.Point(10, 34),
+        };
     }
 }
 
@@ -83,7 +88,7 @@ $(document).ready(function(){
     for (var fluid of fluids){
         $('#legend')
             .append('<p style="padding:0;margin:0;"><img width="11" height="20" src="' +
-                getIcon(fluid.color).img +'">'+ fluid.name +'</p>');
+                getIconUrl(fluid.color) +'">'+ fluid.name +'</p>');
     }
 });
 
