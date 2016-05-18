@@ -19,7 +19,7 @@ class CreateSandControlSummariesTable extends Migration
             $table->string('interval_avg_len');
             $table->string('uniformity');
             $table->double('avg_grain_size');
-            $table->double('grain_size_range');
+            $table->string('grain_size_range');
             $table->string('type');
             $table->string('uniformity_txt');
             $table->string('installed_mechanism');

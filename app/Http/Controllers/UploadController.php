@@ -80,8 +80,8 @@ class UploadController extends Controller
         if (! $request->session()->has('file') or
             ! Storage::exists($request->session()->get('file')))
         {
-            // TODO: Proper error page
-            return 'Error, no hay un archivo cargado';
+            // File already deleted, there was a previus succesfull upload
+            return redirect($this->tables[$table_name]['redirect_to']);
         }
 
         $excel = Excel::selectSheetsByIndex(0)->load($filename, null, null, true);
@@ -173,9 +173,7 @@ class UploadController extends Controller
                         'column' => 'date',
                         'fields' => [
                             'event' => 'event',
-                            'date' => ['start_date', function($date){
-                                return $date;
-                            }],
+                            'date' => 'start_date',
                             'density' => 'density',
                         ],
                     ],
@@ -378,7 +376,7 @@ class UploadController extends Controller
                 'redirect_to' => '/arenas/matrix',
                 'columns' => [
                     ['name' => 'grain_size',      'display_name' => 'Tamaño de grano (Xi) [Micras]'],
-                    ['name' => 'frequency',            'display_name' => 'Frecuencia (fi)'],
+                    ['name' => 'frequency',            'display_name' => 'Peso de Muestra (W) [gr]'],
                     ['name' => 'table_name',        'display_name' => 'Nombre de la Tabla'],
                 ],
                 'hierarchy' => [

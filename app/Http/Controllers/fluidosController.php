@@ -45,19 +45,6 @@ class FluidosController extends Controller
 
     function campoDetail($id)
     {
-        /*$campo = Field::with('wells.fluidOccurrence.fluid')->find($id);
-        $fluids = new Collection;
-        foreach ($campo->wells as $i => $well)
-        {
-            $fluids->put($i, $well->fluidOccurrence->fluid);
-        }
-        $fluids = $fluids->groupBy('id');
-
-        foreach ($fluids->groupBy('id') as $id => $fluid_collection)
-        {
-
-        }*/
-
         $res = DB::table('fluid_occurrences')
             ->join('fluids', 'fluids.id', '=', 'fluid_occurrences.fluid_id')
             ->join('wells', 'wells.id', '=', 'fluid_occurrences.well_id')

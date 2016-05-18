@@ -17,7 +17,8 @@ use DB;
 
 class ArenasController extends Controller
 {
-    function mapPozos(){
+    function mapPozos()
+    {
         $sandControls = SandControl::with('well.field.basin')->get();
         $groups = SandControl::all('group')
             ->unique('group')
@@ -29,7 +30,8 @@ class ArenasController extends Controller
         ]);
     }
 
-    function mapDetail($id){
+    function mapDetail($id)
+    {
         $sandControl = SandControl::find($id);
         $wellsOfField = Field::with('wells.sandControls')->find($sandControl->well->field->id)->wells;
         $field_avg_len = $wellsOfField->pluck('sandControls')->flatten()->avg('length');
@@ -39,12 +41,14 @@ class ArenasController extends Controller
         ]);
     }
     
-    function matrixSelect(){
+    function matrixSelect()
+    {
         $tablas = SampleGroup::all();
         return view('arenas.matrix_select', ['tablas' => $tablas]);
     }
 
-    function matrixResults($id){
+    function matrixResults($id)
+    {
 
         $tabla = SampleGroup::find($id);
         
@@ -84,7 +88,7 @@ class ArenasController extends Controller
         else if ($results->u <= 5) $results->u_txt = 'Arena no uniforme';
         else $results->u_txt = 'Arena altamente no uniforme';
         
-        $results->suggested = '';
+        $results->recommended = true;
         if ($results->u <= 1.5)
         {
             $results->suggested_1 = 'Liner ranurado';
@@ -103,6 +107,7 @@ class ArenasController extends Controller
         else {
             $results->suggested_1 = 'No se recomienda control de arena tipo mecánico';
             $results->suggested_2 = null;
+            $results->recommended = false;
         }
 
         $results->average_gravel_size = ($average*6)/25400;
@@ -164,7 +169,8 @@ class ArenasController extends Controller
     }
 
 
-    function listCampos(){;
+    function listCampos()
+    {
         $basins = Basin::with('fields.sandControlSummary')->get();
         foreach ($basins as $i => $basin) {
             foreach ($basin->fields as $j => $field) {
@@ -178,7 +184,8 @@ class ArenasController extends Controller
         return view('arenas.list_campos', ['basins' => $basins]);
     }
 
-    function campoDetail($id){
+    function campoDetail($id)
+    {
         $sandControlSummary = SandControlSummary::where(['field_id' => $id])->first();
         $sandControlSummary->load('field', 'sandControlRecommendations');
         return view('arenas.view_campo', ['summary' => $sandControlSummary]);
@@ -195,7 +202,8 @@ class ArenasController extends Controller
  */
 
 // Get values for interpolation
-function valuesAround($value, $arr){
+function valuesAround($value, $arr)
+{
     // We can't interpolate with less than 2 points
     if (count($arr) <= 1) return null;
     // When the value is too small, interpolate with the first 2 points
@@ -214,9 +222,8 @@ function valuesAround($value, $arr){
     return [$point1, $point2];
 }
 
-function interpolate_y_between($value, $points){
-    // (x2-x1)/(y2-y1)*(y-y1) + x1
-
+function interpolate_y_between($value, $points)
+{
     $x1 = $points[0][0];
     $x2 = $points[1][0];
     $y1 = $points[0][1];
@@ -224,7 +231,8 @@ function interpolate_y_between($value, $points){
     return ($x2 - $x1)/($y2 - $y1)*($value - $y1) + $x1;
 }
 
-function interpolate_y($value, $arr){
+function interpolate_y($value, $arr)
+{
     return interpolate_y_between($value, valuesAround($value,$arr));
 }
 

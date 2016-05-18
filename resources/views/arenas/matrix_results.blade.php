@@ -57,7 +57,7 @@ $(document).ready(function(){
     <thead>
         <tr>
             <th>Tamaño de grano (Xi) [Micras]</th>
-            <th>Frecuencia (fi)</th>
+            <th>Peso de muestra (W) [gr]</th>
         </tr>
     </thead>
     <tbody>
@@ -123,6 +123,7 @@ $(document).ready(function(){
             <td><strong>{{ $results->suggested_2 }}</strong></td>
         </tr>
         @endif
+        @if ($results->recommended)
         <tr>
             <td>Tamaño de grava promedio</td>
             <td>{{ round($results->average_gravel_size, 3) }}</td>
@@ -131,8 +132,10 @@ $(document).ready(function(){
             <td>Tamaño de grava US. Mesh</td>
             <td>{{ $results->us_gravel_mesh }}</td>
         </tr>
+        @endif
     </tbody>
 </table>
+@if ($results->recommended)
 <table>
     <thead>
         <tr>
@@ -153,6 +156,6 @@ $(document).ready(function(){
         @endforeach
     </tbody>
 </table>
-
+@endif
 
 @endsection
