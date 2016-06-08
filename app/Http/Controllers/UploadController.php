@@ -25,6 +25,28 @@ use Excel;
 use Storage;
 use Validator;
 
+use Exception;
+
+class ValueOutOfRangeException extends Exception {
+    function __construct($val, $name, $min, $max) {
+        parent::__construct("Value for " . $name . " out of range: " . $val);
+
+        $this->value = $val;
+        $this->under = (bool)($val < $min);
+        $this->min = $min;
+        $this->max = $max;
+    }
+
+    public function __toString() {
+        return __CLASS__ . ": [{$this->code}]: {$this->message}\n";
+    }
+
+    public $value;
+    public $under;
+    public $min;
+    public $max;
+}
+
 class UploadController extends Controller
 {
 
@@ -87,7 +109,23 @@ class UploadController extends Controller
         $excel = Excel::selectSheetsByIndex(0)->load($filename, null, null, true);
         $sheet = $excel->get()->first();
 
-        $this->parseTable($sheet, $table_name, $request->input('columns'));
+        try {
+            $this->parseTable($sheet, $table_name, $request->input('columns'));
+        } catch (ValueOutOfRangeException $e) {
+            $msg = 'Error: ';
+            if ($e->under){
+                $msg .= 'El valor es menor a ' . $e->min . ' micras.';
+            } else {
+                $msg .= 'El valor es mayor a ' . $e->max . ' micras.';
+            }
+            $msg .= ' El valor debe ser menor o igual a ' . $e->min;
+            $msg .= ' micras y mayor o igual a ' . $e->max . ' micras.';
+            $msg .= ' Verifique que la unidad reportada sea micras.';
+
+            return redirect()
+                ->action('uploadController@form', [$project, $table_name])
+                ->with('error', $msg);
+        }
 
         Storage::delete($request->session()->get('file'));
 
@@ -375,9 +413,9 @@ class UploadController extends Controller
                 'project' => 'arenas',
                 'redirect_to' => '/arenas/matrix',
                 'columns' => [
-                    ['name' => 'grain_size',      'display_name' => 'Tamaño de grano (Xi) [Micras]'],
-                    ['name' => 'frequency',            'display_name' => 'Peso de Muestra (W) [gr]'],
-                    ['name' => 'table_name',        'display_name' => 'Nombre de la Tabla'],
+                    ['name' => 'grain_size', 'display_name' => 'Tamaño de grano (Xi) [Micras]'],
+                    ['name' => 'frequency',  'display_name' => 'Peso de Muestra (W) [gr]'],
+                    ['name' => 'table_name', 'display_name' => 'Nombre de la Tabla'],
                 ],
                 'hierarchy' => [
                     [
@@ -391,7 +429,13 @@ class UploadController extends Controller
                         'prev' => 'samples',
                         'action' => 'none',
                         'column' => 'grain_size',
-                        'fields' => ['grain_size' => 'grain_size', 'frequency' => 'frequency'],
+                        'fields' => [
+                            'grain_size' => ['grain_size', function($val){
+                                if($val < 62 or $val > 2000)
+                                    throw new ValueOutOfRangeException($val, 'grain_size', 62, 2000);
+                            }],
+                            'frequency' => 'frequency',
+                        ],
                     ],
                 ],
             ],

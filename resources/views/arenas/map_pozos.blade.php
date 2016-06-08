@@ -4,6 +4,8 @@
 
 @section('head')
 
+    <link href="/css/map.css" rel="stylesheet" type="text/css">
+
     <script 
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA4T9LZ5gwZIHTA550ip33BbLvO9ob1Ji8&callback=initMap"
         type="text/javascript"
@@ -44,17 +46,33 @@ function initMap(){  // Called in asynchronous callback
     var markers = [];
     for (var sandControl of sandControls){
         var content = '<h2>' + sandControl.well.name + '</h2>';
-        content += '<p><strong>Mecanismo de control de arena: </strong>' + sandControl.mechanism + '</p>';
-        content += '<p><strong>Fecha de instalación del mecanismo de control de arena: </strong>' + sandControl.install_date + '</p>';
-        content += '<p><strong>Campo: </strong>' + sandControl.well.field.name + '</p>';
-        if (sandControl.event)
-            content += '<p><strong>Siglas del evento: </strong>' + sandControl.event + '</p>';
-        content += '<p style="text-align: center;"><a href="/arenas/map/' + sandControl.id + '">Mas detalles</a>';
+        content += '<p><strong>Mecanismo de control de arena: </strong>';
+        content += sandControl.mechanism + '</p>';
+
+        content += '<p><strong>Fecha de instalación del mecanismo de control de arena: </strong>';
+        content += sandControl.install_date + '</p>';
+
+        content += '<p><strong>Campo: </strong>';
+        content += sandControl.well.field.name + '</p>';
+
+        if (sandControl.event){
+            content += '<p><strong>Siglas del evento: </strong>';
+            content += sandControl.event + '</p>';
+        }
+        content += '<p style="text-align: center;">'
+        content += '<a href="/arenas/map/' + sandControl.id;
+        content += '">Mas detalles</a>' + '|';
+        content += '<a href="/arenas/map/' + sandControl.well.id + '/edit';
+        content += '">Editar</a>';
+
         infoWindows.push(new google.maps.InfoWindow({content: content}));
 
         var color = colors[sandControl.group];
         markers.push(new google.maps.Marker({
-            position: {lng: sandControl.well.longitude, lat: sandControl.well.latitude},
+            position: {
+                lng: sandControl.well.longitude,
+                lat: sandControl.well.latitude
+            },
             map: map,
             icon: getIcon(color),
         }));
@@ -65,26 +83,6 @@ function initMap(){  // Called in asynchronous callback
         i++;
     }
 }
-
-/* This will be in the map for fluids
-var plotOptions = {
-    series: {
-        pie: {
-            show: true,
-            radius: 1,
-            label: {
-                radius: 3/4,
-                show: true,
-                background: {
-                    opacity: 0.5,
-                    color: "#000"
-                }
-            }
-        }
-    },
-    legend: {show: false},
-};
-*/
 
 function markerListener(i, infoWindows, marker){
     return function(){
@@ -97,7 +95,11 @@ function markerListener(i, infoWindows, marker){
 
 $(document).ready(function(){
     for (var mechanism in colors){
-        $('#legend').append('<p style="padding:0;margin:0;"><img width="11" height="20" src="' + getIcon(colors[mechanism]) +'">'+ mechanism +'</p>');
+        $('#legend').append(
+            '<p style="padding:0;margin:0;">'
+            + '<img width="11" height="20" src="'
+            + getIcon(colors[mechanism]) + '">'
+            + mechanism +'</p>');
     }
 });
 
@@ -107,14 +109,15 @@ $(document).ready(function(){
 
 @section('content')
 
-    <div style="position:relative">
-        <div id="legend" style="position:absolute; top:0; right:0; width:20%; background-color:white;font-size:8pt; padding:5px; z-index:2;"></div>
-        <div id="map" style="height:600px;"></div>
-    </div>
-    <div class="button-container">
-        <a href="/arenas/table_upload/arenas_pozos" class="fancy-button-small">
-            Cargar datos
-        </a>
-    </div>
+<div id="legend"></div>
+<div id="map"></div>
+<div class="buttons">
+    <a href="/arenas/table_upload/arenas_pozos" class="btn btn-primary">
+        Cargar tabla
+    </a>
+    <a href="#" class="btn btn-primary">
+        Añadir pozo
+    </a>
+</div>
 
 @endsection

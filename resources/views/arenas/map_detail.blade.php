@@ -1,11 +1,13 @@
-@extends('layouts.master')
+@extends('layouts.container')
 
 @section('title', 'Control de Arenas - Detalle de Pozo')
 
 @section('content')
 
-<h2>Pozo {{ $sandControl->well->name }}</h2>
-<table>
+<div class="page-header">
+    <h2>Pozo {{ $sandControl->well->name }}</h2>
+</div>
+<table class="table-hover">
     <thead>
         <tr>
             <th colspan="2">Control de Arenas en el pozo {{ $sandControl->well->name }}</th>
@@ -165,5 +167,10 @@
     </tbody>
 </table>
 
+<div class="buttons">
+    <a href="/arenas/map/{{ $sandControl->id }}/edit" class="btn btn-primary">
+        Editar
+    </a>
+</div>
 
 @endsection

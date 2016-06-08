@@ -1,26 +1,49 @@
 @extends('layouts.master_min')
 
-@section('header')
+@section('navbar')
 
-<header>
-    <h1 class="title"><a href="/">Semillero de Completamiento</a></h1>
-</header>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navigation-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">Semillero</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navigation-collapse">
+          <ul class="nav navbar-nav">
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Mecanismos de Control de Arenas<span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="/arenas/map">Mapa por Pozos</a></li>
+                <li><a href="/arenas/matrix">Matriz de Selección</a></li>
+                <li><a href="/arenas/campos">Información por Campos</a></li>
+              </ul>
+            </li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Fluidos de Completamiento<span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="/fluidos/map/pozos">Mapa por Pozos</a></li>
+                <li><a href="/fluidos/map/campos">Mapa por Campos</a></li>
+              </ul>
+            </li>
+          </ul>
+          <!-- TODO: About...
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#">Acerca de...</a></li>
+          </ul>
+          -->
+        </div>
+    </div>
+</nav>
 
 @endsection
 
-@section('menu')
+@section('raw-content')
 
-<div class="sidebar">
-    <div class="sidebar-widget">
-        <h2>Menu</h2>
-        <ul>
-            <li><a href="/arenas/map">Mapa control de arenas</a></li>
-            <li><a href="/arenas/matrix">Selección control de arenas</a></li>
-            <li><a href="/arenas/campos">Matriz control de arenas</a></li>
-            <li><a href="/fluidos/map/campos">Mapa de Fluidos de Completamiento por Campo</a></li>
-            <li><a href="/fluidos/map/pozos">Mapa de Fluidos de Completamiento por Pozos</a></li>
-        </ul>
-    </div>
-</div>
+@yield('content')
 
 @endsection

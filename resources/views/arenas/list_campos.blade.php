@@ -1,27 +1,29 @@
-@extends('layouts.master')
+@extends('layouts.container')
 
 @section('title', 'Control de Arenas por Campos')
 
 @section('content')
 
+<div class="page-header">
+    <h1>Información por Campos <small>Mecanismos de Control de Arenas</small></h1>
+</div>
+
 <p>Seleccione un campo:</p>
-<ol>
+<ol class="list-group">
     @foreach ($basins as $basin)
-    <li>
+    <li class="list-group-item">
         {{ $basin->name }}
-        <ol>
+        <div class="list-group">
             @foreach ($basin->fields->sortBy('name')->values() as $field)
-            <li>
-                <a href="/arenas/campos/{{ $field->id }}">{{ $field->name }}</a>
-            </li>
+                <a class="list-group-item" href="/arenas/campos/{{ $field->id }}">{{ $field->name }}</a>
             @endforeach
-        </ol>
+        </div>
     </li>
     @endforeach
 </ol>
 
-<div class="button-container">
-    <a href="/arenas/table_upload/arenas_campos" class="fancy-button-small">
+<div class="buttons">
+    <a href="/arenas/table_upload/arenas_campos" class="btn btn-primary">
         Cargar datos
     </a>
 </div>

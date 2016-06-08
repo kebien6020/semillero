@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends('layouts.container')
 
 @section('title', 'Selección de Control de Arenas')
 
@@ -53,7 +53,7 @@ $(document).ready(function(){
 @section('content')
 
 <h2>Matriz de selección de control de arenas</h2>
-<table>
+<table class="table-hover">
     <thead>
         <tr>
             <th>Tamaño de grano (Xi) [Micras]</th>
@@ -72,7 +72,7 @@ $(document).ready(function(){
 
 <div class="plot">{{-- Placeholder for the plot --}}</div>
 
-<table>
+<table class="table-hover">
     <thead>
         <tr><th colspan="2">Resultados</th></tr>
     </thead>

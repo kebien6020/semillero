@@ -10,17 +10,12 @@
     
     <link rel="stylesheet" href="/css/app.css">
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <script src="/js/jquery.js"></script>
     @yield('head')
 </head>
 <body>
-    @yield('header')
-    <div class="main">
-        <div class="content">
-            @yield('content')
-        </div>
-
-        @yield('menu')
-    </div>
+    @yield('navbar')
+    @yield('raw-content')
+    <script src="/js/bootstrap.js" type="text/javascript" charset="utf-8" async defer></script>
 </body>
 </html>

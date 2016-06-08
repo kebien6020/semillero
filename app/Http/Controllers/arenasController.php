@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\HtmlString;
 
 use App\Http\Requests;
 
@@ -12,8 +13,11 @@ use App\Sample;
 use App\SampleGroup;
 use App\SandControl;
 use App\SandControlSummary;
+use App\Well;
 
+use Carbon\Carbon;
 use DB;
+use Exception;
 
 class ArenasController extends Controller
 {
@@ -39,6 +43,63 @@ class ArenasController extends Controller
             'sandControl' => $sandControl,
             'field_avg_len' => $field_avg_len,
         ]);
+    }
+
+    function mapEdit($id)
+    {
+        $well = Well::find($id);
+        $allSandControls = SandControl::all();
+        $generate_select = function($name, $selected, $class) use ($allSandControls){
+            $options = $allSandControls
+                ->pluck($name)
+                ->unique()
+                ->values()
+                ->sort()
+                ->toArray();
+            $res = '<select name="' . $name . '" class="' . $class . '"">';
+            foreach ($options as $option) {
+                if ($option == null) $option = '-';
+                $res .= '<option value="' . $option . '"';
+                if ($selected == $option)
+                    $res .= ' selected';
+                $res .= '>' . $option . '</option>';
+            }
+            $res .= '</select>';
+            return new HtmlString($res);
+        };
+        return view('arenas.map_edit', [
+            'well' => $well,
+            'sandControl' => $well->sandControls->first(),
+            'generate_select' => $generate_select,
+        ]);
+    }
+
+    function mapUpdate(Request $request, $id)
+    {
+        $sandControl = SandControl::findOrFail($id);
+        $well = $sandControl->well;
+        $well->longitude = $request->longitude;
+        $well->latitude = $request->latitude;
+        $sandControlValues = $request->except([
+            'longitude',
+            'latitude',
+            'submit',
+            '_method',
+            '_token',
+        ]);
+        try {
+            foreach ($sandControlValues as $key => $value) {
+                if($value == '-') $value = null;
+                if($key == 'install_date') $value = new Carbon($value);
+                $sandControl[$key] = $value;
+            }
+        } catch (Exception $e) {
+            // TODO: Proper error message
+            return back()->withInput()->with('error', 'Fecha de instalación incorrecta: ' . $e->getMessage());
+        }
+        $sandControl->save();
+        $well->save();
+        return redirect('/arenas/map/' . $id);
     }
     
     function matrixSelect()

@@ -15,16 +15,37 @@
     {{-- End Cool Background --}}
 @endsection
 
-@section('content')
+@section('raw-content')
+    
+<div class="jumbotron" style="background:rgba(255,255,255,0.3);">
+    <div class="container">
+        <div class="page-header text-center">
+            <h1 class="title">Semillero</h1>
+        </div>
+        <div class="btn-group btn-group-lg">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                Mecanismos de Control de Arenas
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a href="/arenas/map">Mapa por Pozos</a></li>
+                <li><a href="/arenas/matrix">Matriz de Selección</a></li>
+                <li><a href="/arenas/campos">Información por Campos</a></li>
+            </ul>
+        </div>
 
-    <h1 class="title">Semillero de Completamiento</h1>
-    <div class="button-container">
-        <a href="/arenas/map" class="fancy-button">Mapa de Mecanismos de Control de Arenas</a>
-        <a href="/arenas/matrix" class="fancy-button">Selección de un Mecanismo de Control de Arenas</a>
-        <a href="/arenas/campos" class="fancy-button">Matriz general de Mecanismos de Control de Arenas</a>
-        <a href="/fluidos/map/pozos" class="fancy-button">Mapa de Fluidos de Completamiento por Campo</a>
-        <a href="/fluidos/map/campos" class="fancy-button">Mapa de Fluidos de Completamiento por Pozos</a>
+        <div class="btn-group btn-group-lg">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                Fluidos de Completamiento
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a href="/fluidos/map/pozos">Mapa por Pozos</a></li>
+                <li><a href="/fluidos/map/campos">Matriz por Campos</a></li>
+            </ul>
+        </div>
     </div>
+</div>
 
 
 @endsection

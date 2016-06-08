@@ -4,6 +4,8 @@
 
 @section('head')
 
+    <link href="/css/map.css" rel="stylesheet" type="text/css">
+
     <script 
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA4T9LZ5gwZIHTA550ip33BbLvO9ob1Ji8&callback=initMap"
         type="text/javascript"
@@ -88,12 +90,11 @@ function labelFormatter(label, series) {
 
 @section('content')
 
-    <div id="map" style="height:600px;"></div>
-    
-    <div class="button-container">
-        <a href="/fluidos/table_upload/fluidos_pozos" class="fancy-button-small">
-            Cargar datos
-        </a>
-    </div>
+<div id="map"></div>
+<div class="buttons">
+    <a href="/arenas/table_upload/arenas_pozos" class="btn btn-primary">
+        Cargar tabla
+    </a>
+</div>
 
 @endsection

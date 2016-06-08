@@ -1,12 +1,12 @@
 body {
   background: url(/images/bg.png) no-repeat center center fixed;
-  background-size: cover; }
+  background-size: cover;
+  padding-top: 50px; }
 
 .main {
   position: absolute;
   top: 40%;
   left: 50%;
-  -webkit-transform: translateY(-50%) translateX(-50%);
   transform: translateY(-50%) translateX(-50%); }
 
 .content {
