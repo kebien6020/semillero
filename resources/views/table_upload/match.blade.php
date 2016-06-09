@@ -7,7 +7,7 @@
 <p>Por favor seleccione para cada columna necesaria la columna
     del archivo que contiene la información requerida</p>
 <form class="form-horizontal"
-    action="/{{ $project->name }}/table_upload/{{ $table_name }}"
+    action="{{ url($project->name . '/table_upload/' . $table_name) }}"
     method="post">
     {{ method_field('PUT') }}
     {{ csrf_field() }}

@@ -37,9 +37,9 @@ Route::get('/arenas/matrix/{id}', 'ArenasController@matrixResults');
 Route::get('/arenas/campos', 'ArenasController@listCampos');
 Route::get('/arenas/campos/{id}', 'ArenasController@campoDetail');
 
-Route::get('/{project}/table_upload/{table_name}', 'uploadController@form');
-Route::post('/{project}/table_upload/{table_name}', 'uploadController@match');
-Route::put('/{project}/table_upload/{table_name}', 'uploadController@put');
+Route::get('/{project}/table_upload/{table_name}', 'UploadController@form');
+Route::post('/{project}/table_upload/{table_name}', 'UploadController@match');
+Route::put('/{project}/table_upload/{table_name}', 'UploadController@put');
 
 // Autentication
 Route::get('auth/logout', 'Auth\AuthController@getLogout');

@@ -114,16 +114,17 @@ class UploadController extends Controller
         } catch (ValueOutOfRangeException $e) {
             $msg = 'Error: ';
             if ($e->under){
-                $msg .= 'El valor es menor a ' . $e->min . ' micras.';
+                $msg .= 'El valor es menor a ' . $e->min . ' micras';
             } else {
-                $msg .= 'El valor es mayor a ' . $e->max . ' micras.';
+                $msg .= 'El valor es mayor a ' . $e->max . ' micras';
             }
-            $msg .= ' El valor debe ser menor o igual a ' . $e->min;
-            $msg .= ' micras y mayor o igual a ' . $e->max . ' micras.';
+            $msg .= ' (' . $e->value . ').';
+            $msg .= ' El valor debe ser mayor o igual a ' . $e->min;
+            $msg .= ' micras y menor o igual a ' . $e->max . ' micras.';
             $msg .= ' Verifique que la unidad reportada sea micras.';
 
             return redirect()
-                ->action('uploadController@form', [$project, $table_name])
+                ->action('UploadController@form', [$project, $table_name])
                 ->with('error', $msg);
         }
 
@@ -433,6 +434,7 @@ class UploadController extends Controller
                             'grain_size' => ['grain_size', function($val){
                                 if($val < 62 or $val > 2000)
                                     throw new ValueOutOfRangeException($val, 'grain_size', 62, 2000);
+                                return $val;
                             }],
                             'frequency' => 'frequency',
                         ],
@@ -500,6 +502,7 @@ class UploadController extends Controller
                 {
                     $fields[$name] = $func($fields[$name]);
                 }
+                unset($func);
             }
             if (array_key_exists('column', $info))
             {

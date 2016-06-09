@@ -11,13 +11,13 @@
 <p>Seleccionar entre los datos guardados</p>
 <div class="list-group">
     @foreach ($tablas as $tabla)
-    <a class="list-group-item" href="/arenas/matrix/{{ $tabla->id }}">
+    <a class="list-group-item" href="{{ url('arenas/matrix/' . $tabla->id) }}">
         {{ $tabla->name }}
     </a>
     @endforeach
 </div>
 <div class="buttons">
-    <a href="/arenas/table_upload/arenas_muestras" class="btn btn-primary">
+    <a href="{{ url('arenas/table_upload/arenas_muestras') }}" class="btn btn-primary">
         Cargar datos
     </a>
 </div>

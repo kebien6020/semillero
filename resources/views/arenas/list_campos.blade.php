@@ -15,7 +15,7 @@
         {{ $basin->name }}
         <div class="list-group">
             @foreach ($basin->fields->sortBy('name')->values() as $field)
-                <a class="list-group-item" href="/arenas/campos/{{ $field->id }}">{{ $field->name }}</a>
+                <a class="list-group-item" href="{{ url('arenas/campos/' . $field->id) }}">{{ $field->name }}</a>
             @endforeach
         </div>
     </li>
@@ -23,7 +23,7 @@
 </ol>
 
 <div class="buttons">
-    <a href="/arenas/table_upload/arenas_campos" class="btn btn-primary">
+    <a href="{{ url('arenas/table_upload/arenas_campos') }}" class="btn btn-primary">
         Cargar datos
     </a>
 </div>

@@ -10,7 +10,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="/">Semillero</a>
+          <a class="navbar-brand" href="{{ url('/') }}">Semillero</a>
         </div>
 
         <div class="collapse navbar-collapse" id="navigation-collapse">
@@ -18,16 +18,16 @@
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Mecanismos de Control de Arenas<span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
-                <li><a href="/arenas/map">Mapa por Pozos</a></li>
-                <li><a href="/arenas/matrix">Matriz de Selección</a></li>
-                <li><a href="/arenas/campos">Información por Campos</a></li>
+                <li><a href="{{ url('arenas/map') }}">Mapa por Pozos</a></li>
+                <li><a href="{{ url('arenas/matrix') }}">Matriz de Selección</a></li>
+                <li><a href="{{ url('arenas/campos') }}">Información por Campos</a></li>
               </ul>
             </li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Fluidos de Completamiento<span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
-                <li><a href="/fluidos/map/pozos">Mapa por Pozos</a></li>
-                <li><a href="/fluidos/map/campos">Mapa por Campos</a></li>
+                <li><a href="{{ url('fluidos/map/pozos') }}">Mapa por Pozos</a></li>
+                <li><a href="{{ url('fluidos/map/campos') }}">Mapa por Campos</a></li>
               </ul>
             </li>
           </ul>

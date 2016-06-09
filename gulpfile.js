@@ -15,6 +15,7 @@ elixir(function(mix) {
     mix.sass('app.scss')
        .sass('home.scss')
        .sass('map.scss')
+       .sass('flot.scss')
        .scripts(['flot/jquery.flot.js','flot/jquery.flot.pie.js'],
             'public/js/flot.js')
        .scripts([

@@ -4,13 +4,13 @@
 
 @section('head')
 
-    <link href="/css/map.css" rel="stylesheet" type="text/css">
+    <link href="{{ url('css/map.css') }}" rel="stylesheet" type="text/css">
 
     <script 
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA4T9LZ5gwZIHTA550ip33BbLvO9ob1Ji8&callback=initMap"
         type="text/javascript"
         charset="utf-8" async defer></script>
-    <script src="/js/flot.js" type="text/javascript" charset="utf-8" async defer></script>
+    <script src="{{ url('js/flot.js') }}" type="text/javascript" charset="utf-8" async defer></script>
     <script type="text/javascript">
 
 var map;
@@ -27,7 +27,7 @@ for (var i = 0; i < groups.length; ++i)
 }
 
 function getIcon(color){
-    return '/images/spotlight-poi-' + color + '.png';
+    return '{{ url('images') }}/spotlight-poi-' + color + '.png';
 }
 
 function initMap(){  // Called in asynchronous callback
@@ -60,9 +60,9 @@ function initMap(){  // Called in asynchronous callback
             content += sandControl.event + '</p>';
         }
         content += '<p style="text-align: center;">'
-        content += '<a href="/arenas/map/' + sandControl.id;
+        content += '<a href="{{ url('arenas/map') }}/' + sandControl.id;
         content += '">Mas detalles</a>' + '|';
-        content += '<a href="/arenas/map/' + sandControl.well.id + '/edit';
+        content += '<a href="{{ url('arenas/map') }}/' + sandControl.well.id + '/edit';
         content += '">Editar</a>';
 
         infoWindows.push(new google.maps.InfoWindow({content: content}));
@@ -70,8 +70,8 @@ function initMap(){  // Called in asynchronous callback
         var color = colors[sandControl.group];
         markers.push(new google.maps.Marker({
             position: {
-                lng: sandControl.well.longitude,
-                lat: sandControl.well.latitude
+                lng: Number(sandControl.well.longitude),
+                lat: Number(sandControl.well.latitude)
             },
             map: map,
             icon: getIcon(color),
@@ -112,7 +112,7 @@ $(document).ready(function(){
 <div id="legend"></div>
 <div id="map"></div>
 <div class="buttons">
-    <a href="/arenas/table_upload/arenas_pozos" class="btn btn-primary">
+    <a href="{{ url('arenas/table_upload/arenas_pozos') }}" class="btn btn-primary">
         Cargar tabla
     </a>
     <a href="#" class="btn btn-primary">

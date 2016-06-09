@@ -3,7 +3,7 @@
 @section('title','Home')
 
 @section('head')
-    <link rel="stylesheet" type="text/css" href="/css/home.css">
+    <link rel="stylesheet" type="text/css" href="{{ url('css/home.css') }}">
 
     {{-- Cool Background --}}
     <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js"></script>
@@ -28,9 +28,9 @@
                 <span class="caret"></span>
             </button>
             <ul class="dropdown-menu">
-                <li><a href="/arenas/map">Mapa por Pozos</a></li>
-                <li><a href="/arenas/matrix">Matriz de Selección</a></li>
-                <li><a href="/arenas/campos">Información por Campos</a></li>
+                <li><a href="{{ url('arenas/map') }}">Mapa por Pozos</a></li>
+                <li><a href="{{ url('arenas/matrix') }}">Matriz de Selección</a></li>
+                <li><a href="{{ url('arenas/campos') }}">Información por Campos</a></li>
             </ul>
         </div>
 
@@ -40,8 +40,8 @@
                 <span class="caret"></span>
             </button>
             <ul class="dropdown-menu">
-                <li><a href="/fluidos/map/pozos">Mapa por Pozos</a></li>
-                <li><a href="/fluidos/map/campos">Matriz por Campos</a></li>
+                <li><a href="{{ url('fluidos/map/pozos') }}">Mapa por Pozos</a></li>
+                <li><a href="{{ url('fluidos/map/campos') }}">Matriz por Campos</a></li>
             </ul>
         </div>
     </div>

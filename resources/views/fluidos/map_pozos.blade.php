@@ -4,13 +4,13 @@
 
 @section('head')
 
-    <link href="/css/map.css" rel="stylesheet" type="text/css">
+    <link href="{{ url('css/map.css') }}" rel="stylesheet" type="text/css">
 
     <script 
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA4T9LZ5gwZIHTA550ip33BbLvO9ob1Ji8&callback=initMap"
         type="text/javascript"
         charset="utf-8" async defer></script>
-    <script src="/js/flot.js" type="text/javascript" charset="utf-8" async defer></script>
+    <script src="{{ url('js/flot.js') }}" type="text/javascript" charset="utf-8" async defer></script>
     <script type="text/javascript">
 
 var map;
@@ -103,7 +103,7 @@ $(document).ready(function(){
 <div id="legend"></div>
 <div id="map"></div>
 <div class="buttons">
-    <a href="/arenas/table_upload/arenas_pozos" class="btn btn-primary">
+    <a href="{{ url('arenas/table_upload/arenas_pozos') }}" class="btn btn-primary">
         Cargar tabla
     </a>
     <a href="#" class="btn btn-primary">

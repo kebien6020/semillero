@@ -10,7 +10,7 @@
     <pre>{{ session('error') }}</pre>
 @endif
 
-<form action="/arenas/map/{{ $well->id }}" method="POST">
+<form action="{{ url('arenas/map/' . $well->id) }}" method="POST">
     {{ method_field('PUT') }}
     {{ csrf_field() }}
     

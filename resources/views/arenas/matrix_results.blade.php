@@ -4,11 +4,13 @@
 
 @section('head')
 
-<script src="/js/flot.js" type="text/javascript" charset="utf-8"></script>
+<link rel="stylesheet" href="/css/flot.css">
+
+<script src="{{ url('js/flot.js') }}" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
 
 $(document).ready(function(){
-    var data = {{ $plot_data }};
+    var data = {!! $plot_data !!};
     var min = data[0][0];
     var x10_line = [
         [min       , 10],
@@ -40,10 +42,51 @@ $(document).ready(function(){
             transform: function(v){
                 if (v<=0) return 0;
                 return Math.log10(v);
+            },
+            ticks: function(axis){
+                var res = []
+                for (var i = 0; i < axis.max; i += 100){
+                    if (i <= 500)
+                        res.push(i);
+                    else if (i % 200 == 0)
+                        res.push(i);
+                }
+                return res;
             }
-        }
+        },
+        yaxis: {
+            min: 0,
+            max: 100,
+            ticks: 10
+        },
+        grid: {
+            labelMargin: 10,
+            margin: {
+                top: 10,
+                bottom: 20,
+                left: 20
+            },
+        },
+        colors: ['blue', 'gray', 'gray', 'gray', 'gray', 'gray']
     };
-    $.plot('.plot', [data, x10_line, x60_line, x90_line, x50_line, x30_line], options);
+    $container = $('.plot');
+    $.plot($container, [data, x10_line, x60_line, x90_line, x50_line, x30_line], options);
+
+    // yaxis
+    $("<div class='axisLabel yaxisLabel'></div>")
+        .text("Distribución Acumulada (%)")
+        .appendTo($container);
+
+    // Since CSS transforms use the top-left corner of the label as the transform origin,
+    // we need to center the y-axis label by shifting it down by half its width.
+    // Subtract 20 to factor the chart's bottom margin into the centering.
+    $yLabel = $('.yaxisLabel');
+    $yLabel.css("margin-top", $yLabel.width() / 2 - 20);
+
+    // xaxis
+    $("<div class='axisLabel xaxisLabel'></div>")
+        .text("Tamaño partícula (Micras)")
+        .appendTo($container);
 });
 
 </script>
@@ -55,6 +98,10 @@ $(document).ready(function(){
 <h2>Matriz de selección de control de arenas</h2>
 <table class="table-hover">
     <thead>
+        <tr>
+            <th colspan="2">
+                Datos de Entrada
+            </th>
         <tr>
             <th>Tamaño de grano (Xi) [Micras]</th>
             <th>Peso de muestra (W) [gr]</th>
@@ -70,7 +117,9 @@ $(document).ready(function(){
     </tbody>
 </table>
 
-<div class="plot">{{-- Placeholder for the plot --}}</div>
+<h2 class="header">Curva de distribución acumulada para la muestra de arena de interés</h2>
+<div class="plot">{{-- Placeholder for the plot --}}
+</div>
 
 <table class="table-hover">
     <thead>

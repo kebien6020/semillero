@@ -8,14 +8,14 @@
     <link href='https://fonts.googleapis.com/css?family=Squada+One' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
     
-    <link rel="stylesheet" href="/css/app.css">
+    <link rel="stylesheet" href="{{ url('css/app.css') }}">
 
-    <script src="/js/jquery.js"></script>
+    <script src="{{ url('js/jquery.js') }}"></script>
     @yield('head')
 </head>
 <body>
     @yield('navbar')
     @yield('raw-content')
-    <script src="/js/bootstrap.js" type="text/javascript" charset="utf-8" async defer></script>
+    <script src="{{ url('js/bootstrap.js') }}" type="text/javascript" charset="utf-8" async defer></script>
 </body>
 </html>

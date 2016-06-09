@@ -168,7 +168,7 @@
 </table>
 
 <div class="buttons">
-    <a href="/arenas/map/{{ $sandControl->id }}/edit" class="btn btn-primary">
+    <a href="{{ url('arenas/map/' . $sandControl->id) }}/edit" class="btn btn-primary">
         Editar
     </a>
 </div>
