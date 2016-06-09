@@ -5,10 +5,10 @@
 @section('content')
 
 <div class="page-header">
-    <h1>Información por Campos <small>Mecanismos de Control de Arenas</small></h1>
+    <h1>Matriz de selección preliminar de mecanismos de control de arena en los campos operados por Ecopetrol S.A.</h1>
 </div>
 
-<p>Seleccione un campo:</p>
+<p>A continuación se presenta un listado de campos organizado por cuencas sedimentarias de Colombia, seleccione el que usted desee para conocer el mecanismo de control de arena recomendado con base en el coeficiente de uniformidad.</p>
 <ol class="list-group">
     @foreach ($basins as $basin)
     <li class="list-group-item">

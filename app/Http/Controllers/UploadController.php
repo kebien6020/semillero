@@ -414,8 +414,8 @@ class UploadController extends Controller
                 'project' => 'arenas',
                 'redirect_to' => '/arenas/matrix',
                 'columns' => [
-                    ['name' => 'grain_size', 'display_name' => 'Tamaño de grano (Xi) [Micras]'],
-                    ['name' => 'frequency',  'display_name' => 'Peso de Muestra (W) [gr]'],
+                    ['name' => 'grain_size', 'display_name' => 'Tamaño de grano [Micras]'],
+                    ['name' => 'frequency',  'display_name' => 'Peso de Muestra [gr]'],
                     ['name' => 'table_name', 'display_name' => 'Nombre de la Tabla'],
                 ],
                 'hierarchy' => [

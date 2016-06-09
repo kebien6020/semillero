@@ -157,7 +157,7 @@ class ArenasController extends Controller
         }
         else if ($results->u <= 3)
         {
-            $results->suggested_1 = 'Malla weded wire wrapped';
+            $results->suggested_1 = 'Malla welded wire wrapped';
             $results->suggested_2 = 'Empaque con grava y malla';
         }
         else if ($results->u <= 5)
@@ -211,7 +211,7 @@ class ArenasController extends Controller
         $rec_max = collect($results->config)->pluck('max')->max();
 
         $results->config[] = (object)[
-            'name' =>'Rango Sugerido Tamaño de Ranura',
+            'name' =>'Rango sugerido para el tamaño de las ranuras',
             'min' => $rec_min,
             'max' => $rec_max,
         ];

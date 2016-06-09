@@ -1,16 +1,16 @@
 @extends('layouts.container')
 
-@section('title', 'Control de Arenas - Detalle de Pozo')
+@section('title', 'Información general del completamiento del pozo')
 
 @section('content')
 
 <div class="page-header">
-    <h2>Pozo {{ $sandControl->well->name }}</h2>
+    <h2>Información general del Pozo {{ ucfirst(strtolower($sandControl->well->name)) }}</h2>
 </div>
 <table class="table-hover">
     <thead>
         <tr>
-            <th colspan="2">Control de Arenas en el pozo {{ $sandControl->well->name }}</th>
+            <th colspan="2">Pozo {{ ucfirst(strtolower($sandControl->well->name)) }}</th>
         </tr>
     </thead>
     <tbody>
@@ -152,6 +152,7 @@
             <td>{{ $sandControl->slot_gauge }}</td>
         </tr>
         @endif
+        {{--
         @if ( $sandControl->ideal_size != null)
         <tr>
             <td>Tamaño de grano ideal para completar  con el pozo con el mecanismo de conntrol seleccionado (micrómetros)</td>
@@ -163,7 +164,7 @@
             <td>Longitud Promedio del mecanismo en el Campo (ft)</td>
             <td>{{ $field_avg_len }}</td>
         </tr>
-        @endif
+        @endif --}}
     </tbody>
 </table>
 

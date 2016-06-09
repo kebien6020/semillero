@@ -1,6 +1,6 @@
 @extends('layouts.master_min')
 
-@section('title','Home')
+@section('title','Página de Inicio')
 
 @section('head')
     <link rel="stylesheet" type="text/css" href="{{ url('css/home.css') }}">
@@ -20,17 +20,17 @@
 <div class="jumbotron" style="background:rgba(255,255,255,0.3);">
     <div class="container">
         <div class="page-header text-center">
-            <h1 class="title">Semillero</h1>
+            <h1 class="title">Módulo Integral de Completamiento de Pozos</h1>
         </div>
         <div class="btn-group btn-group-lg">
             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                Mecanismos de Control de Arenas
+                Aplicativo de selección de Mecanismos de Control de Arena
                 <span class="caret"></span>
             </button>
             <ul class="dropdown-menu">
-                <li><a href="{{ url('arenas/map') }}">Mapa por Pozos</a></li>
-                <li><a href="{{ url('arenas/matrix') }}">Matriz de Selección</a></li>
-                <li><a href="{{ url('arenas/campos') }}">Información por Campos</a></li>
+                <li><a href="{{ url('arenas/map') }}">Mapa de la instalación de mecanismos de control de arena</a></li>
+                <li><a href="{{ url('arenas/matrix') }}">Selección de mecanismos de control de arena con base en un análisis de granulometría</a></li>
+                <li><a href="{{ url('arenas/campos') }}">Matriz de selección preliminar de mecanismos de control de arena en los campos operados por Ecopetrol S.A.</a></li>
             </ul>
         </div>
 

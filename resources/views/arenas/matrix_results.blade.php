@@ -74,7 +74,7 @@ $(document).ready(function(){
 
     // yaxis
     $("<div class='axisLabel yaxisLabel'></div>")
-        .text("Distribución Acumulada (%)")
+        .text("Porcentaje Acumulado en Peso (%)")
         .appendTo($container);
 
     // Since CSS transforms use the top-left corner of the label as the transform origin,
@@ -95,7 +95,9 @@ $(document).ready(function(){
 
 @section('content')
 
-<h2>Matriz de selección de control de arenas</h2>
+<div class="page-header">
+    <h2>Selección de Mecanismos de Control de Arena<br><small>Análisis granulométrico</small></h2>
+</div>
 <table class="table-hover">
     <thead>
         <tr>
@@ -103,8 +105,8 @@ $(document).ready(function(){
                 Datos de Entrada
             </th>
         <tr>
-            <th>Tamaño de grano (Xi) [Micras]</th>
-            <th>Peso de muestra (W) [gr]</th>
+            <th>Tamaño de grano [Micras]</th>
+            <th>Peso de muestra [gr]</th>
         </tr>
     </thead>
     <tbody>
@@ -117,7 +119,7 @@ $(document).ready(function(){
     </tbody>
 </table>
 
-<h2 class="header">Curva de distribución acumulada para la muestra de arena de interés</h2>
+<h2 class="header">Curva de distribución granulométrica de la muestra de interés</h2>
 <div class="plot">{{-- Placeholder for the plot --}}
 </div>
 
@@ -185,10 +187,15 @@ $(document).ready(function(){
     </tbody>
 </table>
 @if ($results->recommended)
-<table>
+<style type="text/css">
+    #config_mec tbody tr:last-child td {
+        font-weight: bold;
+    }
+</style>
+<table id="config_mec">
     <thead>
         <tr>
-            <th colspan="3">Configuración del Mecanismo</th>
+            <th colspan="3">Recomendaciones para la configuración de las ranuras del mecanismo</th>
         </tr>
         <tr>
             <th>Autor</th>
@@ -201,7 +208,7 @@ $(document).ready(function(){
                 <td>{{ $config->name }}</td>
                 <td>{{ round($config->min, 3) }}</td>
                 <td>{{ round($config->max, 3) }}</td>
-            <tr>
+            </tr>
         @endforeach
     </tbody>
 </table>

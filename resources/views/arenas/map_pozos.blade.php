@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Mapa Arenas Pozos')
+@section('title', 'Mapa de control de arena')
 
 @section('head')
 
@@ -16,7 +16,7 @@
 var map;
 var sandControls = {!! $sandControls !!};
 var groups = {!! $groups !!};
-var colors_base = ['red', 'orange', 'yellow', 'aqua', 'blue', 'purple', 'gray'];
+var colors_base = ['red', 'blue', 'yellow', 'aqua'];
 var colors = {};
 for (var i = 0; i < groups.length; ++i)
 {
@@ -45,11 +45,11 @@ function initMap(){  // Called in asynchronous callback
     var infoWindows = [];
     var markers = [];
     for (var sandControl of sandControls){
-        var content = '<h2>' + sandControl.well.name + '</h2>';
+        var content = '<h2 style="text-align: center;">' + sandControl.well.name + '</h2>';
         content += '<p><strong>Mecanismo de control de arena: </strong>';
         content += sandControl.mechanism + '</p>';
 
-        content += '<p><strong>Fecha de instalación del mecanismo de control de arena: </strong>';
+        content += '<p><strong>Fecha de instalación (mes/día/año): </strong>';
         content += sandControl.install_date + '</p>';
 
         content += '<p><strong>Campo: </strong>';
@@ -61,7 +61,7 @@ function initMap(){  // Called in asynchronous callback
         }
         content += '<p style="text-align: center;">'
         content += '<a href="{{ url('arenas/map') }}/' + sandControl.id;
-        content += '">Mas detalles</a>' + '|';
+        content += '">Información del completamiento del pozo</a>' + ' | ';
         content += '<a href="{{ url('arenas/map') }}/' + sandControl.well.id + '/edit';
         content += '">Editar</a>';
 
@@ -115,9 +115,10 @@ $(document).ready(function(){
     <a href="{{ url('arenas/table_upload/arenas_pozos') }}" class="btn btn-primary">
         Cargar tabla
     </a>
+    <!-- TODO: Implement
     <a href="#" class="btn btn-primary">
         Añadir pozo
-    </a>
+    </a>-->
 </div>
 
 @endsection

@@ -16,7 +16,7 @@ class CreateSandControlsTable extends Migration
             $table->increments('id');
             $table->timestamps();
 
-            $table->string('install_date');
+            $table->string('install_date')->nullable();
             $table->string('event')->nullable();
             $table->string('mechanism');
             $table->string('completion_type')->nullable();

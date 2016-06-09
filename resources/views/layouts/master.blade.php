@@ -16,11 +16,11 @@
         <div class="collapse navbar-collapse" id="navigation-collapse">
           <ul class="nav navbar-nav">
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Mecanismos de Control de Arenas<span class="caret"></span></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Aplicativo de selección de Mecanismos de Control de Arena<span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
-                <li><a href="{{ url('arenas/map') }}">Mapa por Pozos</a></li>
-                <li><a href="{{ url('arenas/matrix') }}">Matriz de Selección</a></li>
-                <li><a href="{{ url('arenas/campos') }}">Información por Campos</a></li>
+                <li><a href="{{ url('arenas/map') }}">Mapa de la instalación de mecanismos de control de arena</a></li>
+                <li><a href="{{ url('arenas/matrix') }}">Selección de mecanismos de control de arena con base en un análisis de granulometría</a></li>
+                <li><a href="{{ url('arenas/campos') }}">Matriz de selección preliminar de mecanismos de control de arena en los campos operados por Ecopetrol S.A.</a></li>
               </ul>
             </li>
             <li class="dropdown">

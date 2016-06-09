@@ -5,10 +5,10 @@
 @section('content')
 
 <div class="page-header">
-    <h1>Matriz de Seleccion <small>Mecanismos de Control de Arena</small></h1>
+    <h1>Selección de mecanismos de control de arena con base en un análisis de granulometría</h1>
 </div>
 
-<p>Seleccionar entre los datos guardados</p>
+<p>A continuación puede seleccionar entre las muestras que han sido ingresadas en el aplicativo: </p>
 <div class="list-group">
     @foreach ($tablas as $tabla)
     <a class="list-group-item" href="{{ url('arenas/matrix/' . $tabla->id) }}">

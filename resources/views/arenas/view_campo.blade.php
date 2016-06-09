@@ -5,13 +5,13 @@
 @section('content')
 
 <div class="page-header">
-    <h1>Mecanismo de Control de Arenas <small>Campo {{ $summary->field->name }}</small></h1>
+    <h1>Mecanismo de Control de Arena Sugerido <small>Campo {{ $summary->field->name }}</small></h1>
 </div>
 
 <table class="table-hover">
     <thead>
         <tr>
-            <th colspan="2">Control de arena en el Campo {{ $summary->field->name }}</th>
+            <th colspan="2">Características granulométricas de la arena productora en el Campo {{ $summary->field->name }}</th>
         </tr>
     </thead>
     <tbody>
@@ -42,7 +42,7 @@
 
 
         <tr>
-            <th colspan="2"><strong>Tipo de Control Instalado</strong></th>
+            <th colspan="2"><strong>Tipo de Control de Arena Instalado</strong></th>
         </tr>
         <tr>
             <td>Mecanismo Usado</td>
@@ -68,7 +68,7 @@
         @endif
         @foreach ($summary->sandControlRecommendations as $i => $recommendation)
             <tr>
-                <th colspan="2"><strong>Tipo de Control Recomendado @if ($i>0) {{ $i+1 }} @endif</strong></th>
+                <th colspan="2"><strong>Tipo de Control de Arena Recomendado @if ($i>0) {{ $i+1 }} @endif</strong></th>
             </tr>
             @if($recommendation->recommended_mechanism != null)
             <tr>

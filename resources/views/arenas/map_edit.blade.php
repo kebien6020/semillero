@@ -4,7 +4,9 @@
 
 @section('content')
 
-<h1>Editando el mecanismo de control de arenas del pozo {{ $well->name }}</h1>
+<div class="page-header">
+    <h1>Sección de edición de la información del pozo {{ ucfirst(strtolower($well->name)) }}</h1>
+</div>
 
 @if (session()->has('error'))
     <pre>{{ session('error') }}</pre>
