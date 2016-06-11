@@ -433,7 +433,7 @@ function interpolate_y_between($value, $points)
     $y1 = $points[0][1];
     $y2 = $points[1][1];
     if ($y1 == $y2) return $y1;
-    return ($x2 - $x1)/($y2 - $y1)*($value - $y1) + $x1;
+    return pow(10,(log10($x2) - log10($x1))/($y2 - $y1)*($value - $y1) + log10($x1));
 }
 
 function interpolate_y($value, $arr)
