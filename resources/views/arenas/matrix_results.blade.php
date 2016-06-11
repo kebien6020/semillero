@@ -1,6 +1,6 @@
 @extends('layouts.container')
 
-@section('title', 'Selección de Control de Arenas')
+@section('title', 'Selección de Control de Arena')
 
 @section('head')
 
@@ -11,7 +11,7 @@
 
 $(document).ready(function(){
     var data = {!! $plot_data !!};
-    var min = data[0][0];
+    var min = data[0][0] < {{ $x10 }} ? data[0][0] : {{ $x10 }};
     var x10_line = [
         [min       , 10],
         [{{ $x10 }}, 10],
@@ -98,6 +98,11 @@ $(document).ready(function(){
 <div class="page-header">
     <h2>Selección de Mecanismos de Control de Arena<br><small>Análisis granulométrico</small></h2>
 </div>
+
+@if (session()->has('error'))
+    <div class="alert alert-danger">{{ session('error') }}</div>
+@endif
+
 <table class="table-hover">
     <thead>
         <tr>

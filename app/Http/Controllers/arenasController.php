@@ -143,6 +143,8 @@ class ArenasController extends Controller
         $results->x50 = $x50;
         $results->x30 = $x30;
         
+        if ($x10 == 0)
+            return redirect('/arenas/matrix')->with('error', 'No hay suficientes datos para mostrar resultados');
         $results->u = $x60/$x10;
         $results->u_txt = '';
         if ($results->u <= 3) $results->u_txt = 'Arena uniforme';
@@ -229,6 +231,69 @@ class ArenasController extends Controller
         ]);
     }
 
+    function matrixNew()
+    {
+        return view('arenas.matrix_new');
+    }
+
+    function matrixCreate(Request $request)
+    {
+        // Parse table from params
+        $params = collect($request->all());
+        // Check name is present
+        if (!$request->has('name') || empty($request->input('name')))
+            return back()->with('error', 'No se especificó un nombre para la tabla');
+        $name = $request->name;
+
+        $grain_sizes = $params->filter(function($item, $key){
+            return starts_with($key, 'grain-size-');
+        })->values();
+        $frequencies = $params->filter(function($item, $key){
+            return starts_with($key, 'frequency-');
+        })->values();
+
+        $out_of_range_flag = false;
+        $table = $grain_sizes
+            ->zip($frequencies)
+            ->transform(function($item){
+                return ['grain_size' => $item[0], 'frequency' => $item[1]];
+            })
+            ->filter(function($item){
+                if ($item['grain_size'] < 62 || $item['grain_size'] > 2000){
+                    $out_of_range_flag = true;
+                    return false;
+                }
+                return is_numeric($item['grain_size']) 
+                    && is_numeric($item['frequency']);
+            });
+        if ($table->isEmpty())
+            return back()->with('error', 'No se ingresaron datos válidos');
+        // Create and save models
+        $sample_group = SampleGroup::create(['name' => $name]);
+        foreach ($table as $item) {
+            $sample = new Sample();
+            $sample->grain_size = $item['grain_size'];
+            $sample->frequency = $item['frequency'];
+            $sample_group->samples()->save($sample);
+        }
+        $redirect =  redirect('/arenas/matrix/' . $sample_group->id);
+        if ($out_of_range_flag) {
+            $redirect->with('error', 'Se ingresaron valores fuera de rango.'
+                . ' Los valores reportados menores a 62 Micras y mayores a'
+                . ' 2000 Micras no serán tomados en cuenta para la selección'
+                . ' y diseño ya que se encuentran fuera del rango de tamaños'
+                . ' de grano para arenas.');
+        }
+        return $redirect;
+    }
+
+    function matrixDelete($id)
+    {
+        $sample_group = SampleGroup::findOrFail($id);
+        $sample_group->delete();
+
+        return redirect('/arenas/matrix')->with('success', 'Tabla eliminada exitosamente.');
+    }
 
     function listCampos()
     {
@@ -289,6 +354,7 @@ function interpolate_y_between($value, $points)
     $x2 = $points[1][0];
     $y1 = $points[0][1];
     $y2 = $points[1][1];
+    if ($y1 == $y2) return $y1;
     return ($x2 - $x1)/($y2 - $y1)*($value - $y1) + $x1;
 }
 

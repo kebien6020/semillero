@@ -9,7 +9,7 @@
 </div>
 
 @if (session()->has('error'))
-    <pre>{{ session('error') }}</pre>
+    <div class="alert alert-danger">{{ session('error') }}</div>
 @endif
 
 <form action="{{ url('arenas/map/' . $well->id) }}" method="POST">

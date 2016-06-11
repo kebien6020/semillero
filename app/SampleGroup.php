@@ -45,4 +45,10 @@ class SampleGroup extends Model
         }
         return ['average' => $average, 'plot_data' => $plot_data];
     }
+
+    public function delete()
+    {
+        $this->samples()->delete();
+        return parent::delete();
+    }
 }
