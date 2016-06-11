@@ -23,40 +23,58 @@
 </style>
 
 <script type="text/javascript">
+
     // Start with a row harcoded in the html
     var currentRow = 1;
 
-    $(document).ready(function(){
+    function addRow(grain_size = "", frequency = "") {
+        let $tr = $('<tr></tr>');
+        let $td_left = $('<td></td>');
+        let $td_right = $('<td></td>');
+        let $input_size = 
+            $('[name="grain-size-' + currentRow + '"]').clone();
+        let $input_frequency = 
+            $('[name="frequency-' + currentRow + '"]').clone();
+
+        ++currentRow;
+        $input_size
+            .attr('name', 'grain-size-' + currentRow)
+            .val(grain_size);
+        $input_frequency
+            .attr('name', 'frequency-' + currentRow)
+            .val(frequency);
+
+        $td_left.append($input_size);
+        $td_right.append($input_frequency);
+        $tr.append($td_left).append($td_right);
+        
+        let $last_tr = $('#the_form tbody > tr:last-child');
+        $last_tr.before($tr);
+    }
+    function hideRow() {
+        $prev_last_tr = $('#the_form tbody > tr:last-child');
+
+        do {
+            $prev_last_tr = $prev_last_tr.prev();
+        } while ($prev_last_tr.is(':hidden'))
+
+        $prev_last_tr.find('input').val('');
+        $prev_last_tr.hide();
+    }
+
+    $(document).ready(function() {
+        @if ($edit)
+        $('#the_form input[name="name"]').val('{{ $sample_group->name }}');
+        hideRow();
+        @foreach ($samples as $sample)
+            addRow('{{ $sample->grain_size }}', '{{ $sample->frequency }}');
+        @endforeach
+        @endif
         $('.plus-button').click(function(){
-            let $tr = $('<tr></tr>');
-            let $td_left = $('<td></td>');
-            let $td_right = $('<td></td>');
-            let $input_size = 
-                $('[name="grain-size-' + currentRow + '"]').clone();
-            let $input_frequency = 
-                $('[name="frequency-' + currentRow + '"]').clone();
-
-            ++currentRow;
-            $input_size.attr('name', 'grain-size-' + currentRow);
-            $input_frequency.attr('name', 'frequency-' + currentRow);
-
-            $td_left.append($input_size);
-            $td_right.append($input_frequency);
-            $tr.append($td_left).append($td_right);
-            
-            let $last_tr = $('#the_form tbody > tr:last-child');
-            $last_tr.before($tr);
+            addRow();
         });
         $('.minus-button').click(function(){
-            $prev_last_tr = $('#the_form tbody > tr:last-child');
-
-            do {
-                $prev_last_tr = $prev_last_tr.prev();
-            } while ($prev_last_tr.is(':hidden'))
-
-            $prev_last_tr.find('input').val('');
-            $prev_last_tr.hide();
-
+            hideRow();
         });
     });
 </script>
@@ -69,7 +87,16 @@
     <div class="alert alert-danger">{{ session('error') }}</div>
 @endif
 
-<form action="{{ url('arenas/matrix') }}" method="POST" id="the_form" class="form-horizontal">
+<form action=
+    @if ($edit)
+        "{{ url('arenas/matrix/' . $sample_group->id) }}"
+    @else 
+        "{{ url('arenas/matrix') }}"
+    @endif
+    method="POST" id="the_form" class="form-horizontal">
+    @if ($edit)
+        {{ method_field('PUT') }}
+    @endif
     {{ csrf_field() }}
     <div class="container-fluid">
         <label for="name" class="col-xs-2">Nombre de la Tabla</label>
@@ -102,7 +129,7 @@
         </tbody>
     </table>
     <div class="form-group text-center">
-        <input type="submit" name="submit" value="Agregar Muestra" class="btn btn-success">
+        <input type="submit" name="submit" value="@if($edit) Actualizar @else Agregar @endif Muestra" class="btn btn-success">
     </div>
 </form>
 

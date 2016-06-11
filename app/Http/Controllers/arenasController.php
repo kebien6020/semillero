@@ -233,12 +233,12 @@ class ArenasController extends Controller
 
     function matrixNew()
     {
-        return view('arenas.matrix_new');
+        return view('arenas.matrix_edit', ['edit' => false]);
     }
 
-    function matrixCreate(Request $request)
+    // Parse table of Sample's from params
+    private static function parseEditOrNew($request)
     {
-        // Parse table from params
         $params = collect($request->all());
         // Check name is present
         if (!$request->has('name') || empty($request->input('name')))
@@ -266,25 +266,93 @@ class ArenasController extends Controller
                 return is_numeric($item['grain_size']) 
                     && is_numeric($item['frequency']);
             });
-        if ($table->isEmpty())
-            return back()->with('error', 'No se ingresaron datos válidos');
-        // Create and save models
-        $sample_group = SampleGroup::create(['name' => $name]);
+        $redirect = null;
+
+        if ($table->isEmpty()){
+            return (object)[
+                'empty' => true,
+                'redirect' =>  back()->with('error', 'No se ingresaron datos válidos'),
+            ];
+        }
+
+        return (object)[
+            'empty' => false,
+            'name' => $name,
+            'table' => $table,
+            'redirect' => $redirect,
+            'out_of_range_flag' => $out_of_range_flag,
+        ];
+    }
+
+    private static function saveParsedTableAndRedirect($table, $sample_group, $out_of_range)
+    {
         foreach ($table as $item) {
             $sample = new Sample();
             $sample->grain_size = $item['grain_size'];
             $sample->frequency = $item['frequency'];
             $sample_group->samples()->save($sample);
         }
+
         $redirect =  redirect('/arenas/matrix/' . $sample_group->id);
-        if ($out_of_range_flag) {
+        if ($out_of_range) {
             $redirect->with('error', 'Se ingresaron valores fuera de rango.'
                 . ' Los valores reportados menores a 62 Micras y mayores a'
                 . ' 2000 Micras no serán tomados en cuenta para la selección'
                 . ' y diseño ya que se encuentran fuera del rango de tamaños'
                 . ' de grano para arenas.');
         }
+
         return $redirect;
+    }
+
+    function matrixCreate(Request $request)
+    {
+        $parsed = static::parseEditOrNew($request);
+
+        if($parsed->empty)
+            return $parsed->redirect;
+
+        // Create and save models
+        $sample_group = SampleGroup::create(['name' => $parsed->name]);
+
+        return static::saveParsedTableAndRedirect(
+            $parsed->table,
+            $sample_group,
+            $parsed->out_of_range_flag);
+        
+        
+    }
+
+    function matrixEdit($id)
+    {
+        $sample_group = SampleGroup::findOrFail($id);
+        $samples = $sample_group->samples;
+
+        return view('arenas.matrix_edit', [
+            'edit' => true,
+            'sample_group' => $sample_group,
+            'samples' => $samples,
+        ]);
+    }
+
+    function matrixUpdate(Request $request, $id)
+    {
+        $sample_group = SampleGroup::findOrFail($id);
+
+        $parsed = static::parseEditOrNew($request);
+        if ($parsed->empty)
+            return $parsed->redirect;
+
+        //Delete all existing samples in lieau of the new uploaded ones
+        $sample_group->samples()->delete();
+
+        return static::saveParsedTableAndRedirect(
+            $parsed->table,
+            $sample_group,
+            $parsed->out_of_range_flag);
+
+
+
     }
 
     function matrixDelete($id)

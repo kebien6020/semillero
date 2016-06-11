@@ -35,6 +35,8 @@ Route::get('/arenas/matrix','ArenasController@matrixSelect');
 Route::get('/arenas/matrix/{id}', 'ArenasController@matrixResults');
 Route::get('/arenas/matrix_new', 'ArenasController@matrixNew');
 Route::post('/arenas/matrix', 'ArenasController@matrixCreate');
+Route::get('/arenas/matrix/{id}/edit', 'ArenasController@matrixEdit');
+Route::put('/arenas/matrix/{id}', 'ArenasController@matrixUpdate');
 Route::delete('/arenas/matrix/{id}', 'ArenasController@matrixDelete');
 // fields
 Route::get('/arenas/campos', 'ArenasController@listCampos');

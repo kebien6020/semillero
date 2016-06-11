@@ -14,7 +14,7 @@
         height: 100%;
     }
     .list-group a {
-        width: calc(100% - 50px);
+        width: calc(100% - 50px - 50px);
         height: 100%;
         text-align: left;
     }
@@ -36,6 +36,9 @@
     }
     .list-group .list-group-item:last-child .btn:last-child {
         border-bottom-right-radius: 4px;
+    }
+    .minus-button, .minus-button:hover, .minus-button:focus {
+        color: darkred;
     }
 
 </style>
@@ -64,10 +67,13 @@
             <a class="btn btn-default" href="{{ url('arenas/matrix/' . $tabla->id) }}">
                 {{ $tabla->name }}
             </a>
+            <a class="btn btn-default icon" href="{{ url('arenas/matrix/' . $tabla->id) . '/edit' }}">
+                <span class="glyphicon glyphicon-pencil"></span>
+            </a>
             <form action="{{ url('arenas/matrix/' . $tabla->id) }}" method="POST">
                 {{ method_field('DELETE') }}
                 {{ csrf_field() }}
-                <button type="submit" class="btn btn-default icon">
+                <button type="submit" class="btn btn-default icon minus-button">
                     <span class="glyphicon glyphicon-minus"></span>
                 </button>
             </form>

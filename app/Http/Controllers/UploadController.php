@@ -462,6 +462,20 @@ class UploadController extends Controller
         }
         $parsed = collect($parsed);
 
+        if ($table_name == 'arenas_muestras') {
+            $first_invalid = null;
+            $valid = $parsed->reduce(function($acc, $sample) use (&$first_invalid){
+                $res = $acc 
+                    && $sample['grain_size'] >= 62
+                    && $sample['grain_size'] <= 2000;
+                if (!$res && $first_invalid == null)
+                    $first_invalid = $sample['grain_size'];
+                return $res;
+            }, true);
+            if (!$valid)
+                throw new ValueOutOfRangeException($first_invalid, 'grain_size', 62, 2000);
+        }
+
         // Apply actions defined in $tables
         $this->applyHierarchy($parsed, $this->tables[$table_name]['hierarchy']);
     }
