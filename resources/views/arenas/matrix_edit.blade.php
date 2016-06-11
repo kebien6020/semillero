@@ -64,11 +64,13 @@
 
     $(document).ready(function() {
         @if ($edit)
-        $('#the_form input[name="name"]').val('{{ $sample_group->name }}');
-        hideRow();
-        @foreach ($samples as $sample)
-            addRow('{{ $sample->grain_size }}', '{{ $sample->frequency }}');
-        @endforeach
+            $('#the_form input[name="name"]').val('{{ $sample_group->name }}');
+            hideRow();
+            @foreach ($samples as $sample)
+                addRow('{{ $sample->grain_size }}', '{{ $sample->frequency }}');
+            @endforeach
+        @else
+            for (let i = 0; i < 10; ++i) addRow();
         @endif
         $('.plus-button').click(function(){
             addRow();
