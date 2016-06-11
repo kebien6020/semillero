@@ -100,6 +100,10 @@ $(document).ready(function(){
 
 @section('content')
 
+@if (session()->has('success'))
+    <div class="alert alert-success">{!! session('success') !!}</div>
+@endif
+
 <div id="legend"></div>
 <div id="map"></div>
 <div class="buttons">

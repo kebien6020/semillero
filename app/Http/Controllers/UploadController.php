@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Database\Eloquent\Relations\HasOneOrMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Http\Request;
+use Illuminate\Support\HtmlString;
 
 use App\Http\Requests;
 
@@ -69,8 +70,12 @@ class UploadController extends Controller
         if (!$valid)
             App::abort(404);
 
-        // TODO: validate 'the_file' as spreadsheet file (xls, xlsx, odr, csv, etc.)
+        if ($request->has('the_file'))
+            return back()->with('error', 'Formulario incompleto.');
+
         $file = $request->file('the_file');
+        if (empty($file))
+            return back()->with('error', 'No se especifico un archivo.');
         Storage::put(
             $file->getFilename(),
             file_get_contents($file->getRealPath()));
@@ -78,7 +83,22 @@ class UploadController extends Controller
         $filename = storage_path('app') . '/' . $file->getFilename();
         
         $excel = Excel::selectSheetsByIndex(0)->load($filename)->remember(5);
-        $sheet = $excel->get()->first();
+        $sheet = null;
+        $file_empty = $excel->get()->isEmpty();
+        $sheet_empty = false;
+        if (!$file_empty)
+        {
+            $sheet = $excel->get()->first();
+            $sheet_empty = $sheet->isEmpty();
+        }
+
+        if ($sheet_empty)
+        {
+            Storage::delete($file->getFilename());
+            return back()->with('error', 'No se pudo leer hoja de cálculo.');
+        }
+
+
         $columns = $sheet->first()->keys();
 
         $request->session()->put('file', $file->getFilename());
@@ -109,8 +129,10 @@ class UploadController extends Controller
         $excel = Excel::selectSheetsByIndex(0)->load($filename, null, null, true);
         $sheet = $excel->get()->first();
 
+        $created = null;
+
         try {
-            $this->parseTable($sheet, $table_name, $request->input('columns'));
+            $created = $this->parseTable($sheet, $table_name, $request->input('columns'));
         } catch (ValueOutOfRangeException $e) {
             $msg = 'Error: ';
             if ($e->under){
@@ -130,7 +152,25 @@ class UploadController extends Controller
 
         Storage::delete($request->session()->get('file'));
 
-        return redirect($this->tables[$table_name]['redirect_to']);
+
+        $message = "Datos cargados exitosamente.";
+        if(!empty($created)){
+            foreach ($created as $model => $item) {
+                if ($item['new'] > 0)
+                    $message .= '\n'
+                        . str_plural('Creado', $item['new']) . ' '
+                        . $item['new'] . ' '
+                        . str_plural($model, $item['new']);
+                if ($item['updated'] > 0)
+                    $message .= '\n'
+                        . str_plural('Actualizado', $item['updated']) . ' '
+                        . $item['updated'] . ' '
+                        . str_plural($model, $item['updated']);
+            }
+        }
+        $message = str_replace('\n', '<br>', $message);
+        return redirect($this->tables[$table_name]['redirect_to'])
+            ->with('success', $message);
     }
 
     private function _get_proj($project)
@@ -429,7 +469,7 @@ class UploadController extends Controller
                         'model' => Sample::class,
                         'prev' => 'samples',
                         'action' => 'none',
-                        'column' => 'grain_size',
+                        /*'column' => 'grain_size',*/
                         'fields' => [
                             'grain_size' => ['grain_size', function($val){
                                 if($val < 62 or $val > 2000)
@@ -477,10 +517,10 @@ class UploadController extends Controller
         }
 
         // Apply actions defined in $tables
-        $this->applyHierarchy($parsed, $this->tables[$table_name]['hierarchy']);
+        return $this->applyHierarchy($parsed, $this->tables[$table_name]['hierarchy']);
     }
 
-    private function applyHierarchy($collection, $hierarchy, $level = 0, $parentModel = null)
+    private function applyHierarchy($collection, $hierarchy, $level = 0, $parentModel = null, $created = [])
     {
         $info = $hierarchy[$level];
         if (gettype($collection) == 'array')
@@ -527,23 +567,28 @@ class UploadController extends Controller
                     [$info['model'], 'firstOrNew'],
                     [$column_name => $fields[$column_name]]
                 );
+                static::addToCreated($created, $model, $model->exists);
             }
             else
             {
                 $model = new $info['model'];
+                static::addToCreated($created, $model);
             }
             
             $model->fill($fields);
 
             if ($parentModel == null)
+            {
                 $model->save();
+            }
             else
             {
                 $relation = call_user_func(
                     [$parentModel, $info['prev']]
                 );
-                if ($relation instanceof HasOneOrMany)
+                if ($relation instanceof HasOneOrMany){
                     $relation->save($model);
+                }
                 else
                 {
                     $model->save();
@@ -556,8 +601,20 @@ class UploadController extends Controller
             if (!$last_level)
             {
                 $child = ($grouped) ? $sub_collection : $collection;
-                $this->applyHierarchy($child, $hierarchy, $level + 1, $model);
+                $created = $this->applyHierarchy($child, $hierarchy, $level + 1, $model, $created);
             }
         }
+        return $created;
+    }
+
+    private static function addToCreated(&$created, $model, $updated = false)
+    {
+        $class = (new \ReflectionClass($model))->getShortName();
+        if (!array_key_exists($class, $created))
+            $created[$class] = ['new' => 0, 'updated' => 0];
+
+        if ($updated) ++$created[$class]['updated'];
+        else ++$created[$class]['new'];
+        
     }
 }

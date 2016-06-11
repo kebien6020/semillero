@@ -8,6 +8,10 @@
     <h1>Matriz de selección preliminar de mecanismos de control de arena en los campos operados por Ecopetrol S.A.</h1>
 </div>
 
+@if (session()->has('success'))
+    <div class="alert alert-success">{!! session('success') !!}</div>
+@endif
+
 <p>A continuación se presenta un listado de campos organizado por cuencas sedimentarias de Colombia, seleccione el que usted desee para conocer el mecanismo de control de arena recomendado con base en el coeficiente de uniformidad.</p>
 <ol class="list-group">
     @foreach ($basins as $basin)

@@ -56,7 +56,7 @@
 @endif
 
 @if (session()->has('success'))
-    <div class="alert alert-success">{{ session('success') }}</div>
+    <div class="alert alert-success">{!! session('success') !!}</div>
 @endif
 
 <p>A continuación puede seleccionar entre las muestras que han sido ingresadas en el aplicativo: </p>

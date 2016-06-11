@@ -18,6 +18,7 @@ use App\Well;
 use Carbon\Carbon;
 use DB;
 use Exception;
+use ErrorException;
 
 class ArenasController extends Controller
 {
@@ -94,8 +95,7 @@ class ArenasController extends Controller
                 $sandControl[$key] = $value;
             }
         } catch (Exception $e) {
-            // TODO: Proper error message
-            return back()->withInput()->with('error', 'Fecha de instalación incorrecta: ' . $e->getMessage());
+            return back()->withInput()->with('error', 'Frormato de fecha de instalación incorrecto: ' . $e->getMessage());
         }
         $sandControl->save();
         $well->save();
@@ -112,8 +112,18 @@ class ArenasController extends Controller
     {
 
         $tabla = SampleGroup::find($id);
-        
-        $stats = $tabla->stats();
+
+        if ($tabla->samples->isEmpty())
+            return redirect('/arenas/matrix')
+                ->with('error', 'La tabla está vacia');
+        try {
+            $stats = $tabla->stats();
+        } catch (ErrorException $e) {
+            return redirect('/arenas/matrix')
+                ->with('error',
+                    'Error al calcular el tamaño de grano promedio.'
+                    . ' (Error: ' . $e->getMessage() . ').');
+        }
 
         $average = $stats['average'];
         $plot_data = $stats['plot_data'];

@@ -90,6 +90,10 @@ function labelFormatter(label, series) {
 
 @section('content')
 
+@if (session()->has('success'))
+    <div class="alert alert-success">{!! session('success') !!}</div>
+@endif
+
 <div id="map"></div>
 <div class="buttons">
     <a href="{{ url('arenas/table_upload/arenas_pozos') }}" class="btn btn-primary">
