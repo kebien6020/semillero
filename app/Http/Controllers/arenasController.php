@@ -356,6 +356,9 @@ class ArenasController extends Controller
         //Delete all existing samples in lieau of the new uploaded ones
         $sample_group->samples()->delete();
 
+        $sample_group->name = $parsed->name;
+        $sample_group->save();
+
         return static::saveParsedTableAndRedirect(
             $parsed->table,
             $sample_group,

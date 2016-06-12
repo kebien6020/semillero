@@ -12,7 +12,7 @@
     <div class="alert alert-success">{!! session('success') !!}</div>
 @endif
 
-<p>A continuación se presenta un listado de campos organizado por cuencas sedimentarias de Colombia, seleccione el que usted desee para conocer el mecanismo de control de arena recomendado con base en el coeficiente de uniformidad.</p>
+<p>A continuación se presenta un listado de campos organizado por cuencas sedimentarias de Colombia, seleccionar el campo de interés para conocer el mecanismo de control de arena recomendado con base en variables granulométricas.</p>
 <ol class="list-group">
     @foreach ($basins as $basin)
     <li class="list-group-item">

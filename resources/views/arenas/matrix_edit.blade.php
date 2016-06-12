@@ -12,10 +12,11 @@
         margin-right: auto;
     }
     .plus-button {
-        width: 90%;
+        width: 50%;
     }
     .minus-button, .minus-button:hover, .minus-button:focus {
         color: darkred;
+        width: 50%;
     }
     #the_form .container-fluid {
         margin-bottom: 0.5em;
@@ -24,10 +25,14 @@
 
 <script type="text/javascript">
 
+    'use strict';
+
     // Start with a row harcoded in the html
     var currentRow = 1;
 
-    function addRow(grain_size = "", frequency = "") {
+    function addRow(grain_size, frequency) {
+        if (grain_size == undefined) grain_size = "";
+        if (frequency == undefined) frequency = "";
         let $tr = $('<tr></tr>');
         let $td_left = $('<td></td>');
         let $td_right = $('<td></td>');
@@ -52,7 +57,7 @@
         $last_tr.before($tr);
     }
     function hideRow() {
-        $prev_last_tr = $('#the_form tbody > tr:last-child');
+        let $prev_last_tr = $('#the_form tbody > tr:last-child');
 
         do {
             $prev_last_tr = $prev_last_tr.prev();
@@ -85,8 +90,22 @@
 
 @section('content')
 
+<div class="page-header">
+    @if ($edit)
+    <h1>Sección de edición de los datos ingresados</h1>
+    @else
+    <h1>Sección de ingreso de información granulométrica</h1>
+    @endif
+</div>
+
 @if (session()->has('error'))
     <div class="alert alert-danger">{{ session('error') }}</div>
+@endif
+
+@if ($edit)
+<p>Aquí puede modificar los datos ingresados y adicionar nueva información.</p>
+@else
+<p>Aquí puede ingresar los datos obtenidos de una muestra de arena analizada en laboratorio.</p>
 @endif
 
 <form action=
@@ -120,10 +139,10 @@
                 <td colspan="2">
                     <div class="btn-group">
                         <button type="button" class="btn btn-default plus-button">
-                            <span class="glyphicon glyphicon-plus">
+                            <span class="glyphicon glyphicon-plus"></span>Adicionar Fila
                         </button>
                         <button type="button" class="btn btn-default minus-button">
-                            <span class="glyphicon glyphicon-minus">
+                            <span class="glyphicon glyphicon-minus"></span>Eliminar Fila
                         </button>
                     </div>
                 </td>

@@ -14,12 +14,12 @@
         height: 100%;
     }
     .list-group a {
-        width: calc(100% - 50px - 50px);
+        width: calc(100% - 100px - 100px);
         height: 100%;
         text-align: left;
     }
     .list-group .icon {
-        width: 50px;
+        width: 100px;
         text-align: center;
     }
     .list-group .btn {
@@ -68,13 +68,13 @@
                 {{ $tabla->name }}
             </a>
             <a class="btn btn-default icon" href="{{ url('arenas/matrix/' . $tabla->id) . '/edit' }}">
-                <span class="glyphicon glyphicon-pencil"></span>
+                <span class="glyphicon glyphicon-pencil"></span>Editar
             </a>
             <form action="{{ url('arenas/matrix/' . $tabla->id) }}" method="POST">
                 {{ method_field('DELETE') }}
                 {{ csrf_field() }}
                 <button type="submit" class="btn btn-default icon minus-button">
-                    <span class="glyphicon glyphicon-minus"></span>
+                    <span class="glyphicon glyphicon-minus"></span>Eliminar
                 </button>
             </form>
         </div>
