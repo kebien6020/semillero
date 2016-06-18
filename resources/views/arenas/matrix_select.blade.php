@@ -48,7 +48,7 @@
 @section('content')
 
 <div class="page-header">
-    <h1>Selección de mecanismos de control de arena con base en un análisis de granulometría</h1>
+    <h1>Herramienta de selección de mecanismos de control de arena a partir de datos granulométricos</h1>
 </div>
 
 @if (session()->has('error'))
@@ -59,7 +59,11 @@
     <div class="alert alert-success">{!! session('success') !!}</div>
 @endif
 
-<p>A continuación puede seleccionar entre las muestras que han sido ingresadas en el aplicativo: </p>
+<p>Esta herramienta permite seleccionar y diseñar mecanismos de control de arena para un pozo específico a partir de los datos de una muestra granulométrica. La herramienta permite calcular los valores de interes como el coeficiente de uniformidad y tamaño de grano promedio y usarlos para la configuración de los mecanismos de control de arena, así como sugerir alternativas de diseño basadas en los postulados de exponentes en el área.</p>
+<p>La herramienta es una alternativa complementaria que se enfoca en valores específicos de una muestra real proporcionando mayor confiabilidad en los mecanimos y su configuración, respecto a la matriz de selección que lo hace de forma generalizada.</p>
+<p>A continuación seleccione la muestra de interés para llevar a cabo la selección del mecanismo mediante la herramienta. Aquí tambien la podrá editar o eliminar utilizando los botones de la parte derecha de la pantalla.</p>
+<p>Si desea incluir una muestra nueva mediante una hoja de cálculo presione el botón importar datos para seleccionar el archivo desde su computadora, de lo contrario seleccione ingresar muestra.</p>
+<p>Según la clasificación de Wenworth el tamaño de los granos de arena oscila entre 62 micras y 2000 micras.</p>
 <div class="list-group">
     @foreach ($tablas as $tabla)
     <div class="list-group-item">
@@ -83,10 +87,10 @@
 </div>
 <div class="buttons">
     <a href="{{ url('arenas/table_upload/arenas_muestras') }}" class="btn btn-primary">
-        Cargar datos
+        Importar datos
     </a>
     <a href="{{ url('arenas/matrix_new') }}" class="btn btn-primary">
-        Agregar muestra
+        Ingresar muestra
     </a>
 </div>
 @endsection

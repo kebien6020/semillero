@@ -107,12 +107,14 @@ $(document).ready(function(){
 <div id="legend"></div>
 <div id="map"></div>
 <div class="buttons">
-    <a href="{{ url('arenas/table_upload/arenas_pozos') }}" class="btn btn-primary">
+    <a href="{{ url('fluidos/table_upload/fluidos_pozos') }}" class="btn btn-primary">
         Cargar tabla
     </a>
+    <!-- TODO: Implement
     <a href="#" class="btn btn-primary">
         Añadir pozo
     </a>
+    -->
 </div>
 
 @endsection

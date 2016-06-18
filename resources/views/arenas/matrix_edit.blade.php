@@ -94,7 +94,7 @@
     @if ($edit)
     <h1>Sección de edición de los datos ingresados</h1>
     @else
-    <h1>Sección de ingreso de información granulométrica</h1>
+    <h1>Ingreso de datos granulométricos para una muestra de pozo</h1>
     @endif
 </div>
 
@@ -103,9 +103,21 @@
 @endif
 
 @if ($edit)
-<p>Aquí puede modificar los datos ingresados y adicionar nueva información.</p>
+<p>Para llevar a cabo una modificación de los datos utilice esta sección. Si requiere adicionar otro dato. Presione el botón adicionar fila en la parte inferior, y si lo requiere eliminar presione eliminar fila.</p>
+<p>Una vez completada la modificación, presione el botón "Actualizar Datos"</p>
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <h3 class="panel-title">Nota</h3>
+    </div>
+    <div class="panel-body">
+        Se recomienda hacer una copia de la información antes de ser modificada ya que los cambios sobreescribiran a los datos existentes y no se podrán recuperar.
+    </div>
+</div>
 @else
-<p>Aquí puede ingresar los datos obtenidos de una muestra de arena analizada en laboratorio.</p>
+<p>Ingrese los datos de tamaño de grano y peso de muestra para la muestra analizada en laboratorio.</p>
+<p>Recuerde dar un nombre a la tabla para su posterior identificacion en la herramienta.</p>
+<p>Si requiere utilizar mas filas o eliminar alguna de ellas utilice los botones al inferior de la página.</p>
+<p>Una vez cargados los datos, presione el botón "Agregar Datos"</p>
 @endif
 
 <form action=
@@ -150,7 +162,7 @@
         </tbody>
     </table>
     <div class="form-group text-center">
-        <input type="submit" name="submit" value="@if($edit) Actualizar @else Agregar @endif Muestra" class="btn btn-success">
+        <input type="submit" name="submit" value="@if($edit) Actualizar @else Agregar @endif Datos" class="btn btn-success">
     </div>
 </form>
 

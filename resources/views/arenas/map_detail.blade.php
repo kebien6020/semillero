@@ -7,6 +7,8 @@
 <div class="page-header">
     <h2>Información general del Pozo {{ ucfirst(strtolower($sandControl->well->name)) }}</h2>
 </div>
+
+<p>A continuación se muestra la información relacionada con mecanismos de control de arena del pozo de interés</p>
 <table class="table-hover">
     <thead>
         <tr>
@@ -76,7 +78,7 @@
         @endif
         @if ( $sandControl->joints != null)
         <tr>
-            <td>Número de juntas bajadas</td>
+            <td>BHA (Número de Juntas)</td>
             <td>{{ $sandControl->joints }}</td>
         </tr>
         @endif

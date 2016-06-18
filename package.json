@@ -7,6 +7,27 @@
   },
   "dependencies": {
     "laravel-elixir": "^5.0.0",
-    "bootstrap-sass": "^3.0.0"
+    "bootstrap-sass": "^3.0.0",
+    "jquery": "^2.0",
+    "google-maps": "~3.2.1"
+  },
+  "browserify": {
+    "transform": [ "browserify-shim" ]
+  },
+  "browser": {
+    "jquery.flot": "./resources/assets/js/flot/jquery.flot.js",
+    "jquery.flot.pie": "./resources/assets/js/flot/jquery.flot.pie.js",
+    "bootstrap": "./node_modules/bootstrap-sass/assets/javascripts/bootstrap.js"
+  },
+  "browserify-shim": {
+    "jquery.flot": {
+      "depends": ["jquery"]
+    },
+    "jquery.flot.pie": {
+      "depends": ["jquery.flot"]
+    },
+    "bootstrap": {
+      "depends": ["jquery:jQuery"]
+    }
   }
 }

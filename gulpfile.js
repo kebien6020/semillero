@@ -11,11 +11,14 @@ var elixir = require('laravel-elixir');
  |
  */
 
+elixir.config.js.browserify.watchify.options.poll = true;
+
 elixir(function(mix) {
     mix.sass('app.scss')
        .sass('home.scss')
        .sass('map.scss')
        .sass('flot.scss')
+       .sass('campos_detail.scss')
        .scripts(['flot/jquery.flot.js','flot/jquery.flot.pie.js'],
             'public/js/flot.js')
        .scripts([
@@ -26,4 +29,6 @@ elixir(function(mix) {
         ], 'public/js/bootstrap.js');
     mix.copy('resources/assets/images','public/images')
        .copy('node_modules/bootstrap-sass/assets/fonts/', 'public/fonts');
+    mix.browserify('map.js')
+       .browserify('app.js');
 });

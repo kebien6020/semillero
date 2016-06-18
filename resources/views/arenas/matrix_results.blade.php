@@ -96,7 +96,9 @@ $(document).ready(function(){
 @section('content')
 
 <div class="page-header">
-    <h2>Selección de Mecanismos de Control de Arena<br><small>Análisis granulométrico</small></h2>
+    <h2>Selección y Configuración de Mecanismos de Control de Arena</h2>
+    <h3>{{ $table_name }}</h3>
+    <h2><small>Análisis granulométrico</small></h2>
 </div>
 
 @if (session()->has('error'))
@@ -107,7 +109,7 @@ $(document).ready(function(){
     <thead>
         <tr>
             <th colspan="2">
-                Datos de Entrada
+                Datos granulométricos de la muestra de interés
             </th>
         <tr>
             <th>Tamaño de grano [Micras]</th>
@@ -125,12 +127,11 @@ $(document).ready(function(){
 </table>
 
 <h2 class="header">Curva de distribución granulométrica de la muestra de interés</h2>
-<div class="plot">{{-- Placeholder for the plot --}}
-</div>
+<div class="plot">{{-- Placeholder for the plot --}}</div>
 
 <table class="table-hover">
     <thead>
-        <tr><th colspan="2">Resultados</th></tr>
+        <tr><th colspan="2">Variables granulométricas calculadas para la selección y diseño de mecanismos de control de arena</th></tr>
     </thead>
     <tbody>
         <tr>
@@ -170,6 +171,11 @@ $(document).ready(function(){
             <td>{{ $results->u_txt }}</td>
         </tr>
         <tr>
+            <th colspan="2">
+                Mecanismos de control de arena sugeridos
+            </th>
+        </tr>
+        <tr>
             <td>Mecanismo de control de arena sugerido 1</td>
             <td><strong>{{ $results->suggested_1 }}</strong></td>
         </tr>
@@ -181,7 +187,7 @@ $(document).ready(function(){
         @endif
         @if ($results->recommended)
         <tr>
-            <td>Tamaño de grava promedio</td>
+            <td>Tamaño de grava sugerido con base en el criterio de Saucier</td>
             <td>{{ round($results->average_gravel_size, 3) }}</td>
         </tr>
         <tr>
@@ -200,10 +206,10 @@ $(document).ready(function(){
 <table id="config_mec">
     <thead>
         <tr>
-            <th colspan="3">Recomendaciones para la configuración de las ranuras del mecanismo</th>
+            <th colspan="3">Recomendaciones para la configuración/diseño del mecanismo de control de arena</th>
         </tr>
         <tr>
-            <th>Autor</th>
+            <th>Modelo (Postulado)</th>
             <th colspan="2">Rango Tamaño Ranura [in]</th>
         </tr>
     </thead>

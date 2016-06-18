@@ -15,15 +15,30 @@ body {
 }
 #legend {
     position:absolute;
-    top:50;
+    top:55px;
     right:0;
     width:20%;
     background-color:white;
     font-size:8pt;
     padding:5px;
     z-index:2;
+    border-bottom-left-radius: 4px;
+    p {
+        padding: 0;
+        margin: 0;
+    }
 }
-#buttons {
+
+.marker-title {
     text-align: center;
-    margin: 0.5rem auto;
+}
+
+.marker-field {
+    .marker-field-name {
+        font-weight: bold;
+    }
+}
+
+.marker-actions {
+    text-align: center;
 }

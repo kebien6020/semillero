@@ -39,8 +39,8 @@ Route::get('/arenas/matrix/{id}/edit', 'ArenasController@matrixEdit');
 Route::put('/arenas/matrix/{id}', 'ArenasController@matrixUpdate');
 Route::delete('/arenas/matrix/{id}', 'ArenasController@matrixDelete');
 // fields
-Route::get('/arenas/campos', 'ArenasController@listCampos');
-Route::get('/arenas/campos/{id}', 'ArenasController@campoDetail');
+Route::get('/arenas/campos', 'ArenasController@camposSelect');
+Route::get('/arenas/campos/{id}', 'ArenasController@camposDetail');
 
 Route::get('/{project}/table_upload/{table_name}', 'UploadController@form');
 Route::post('/{project}/table_upload/{table_name}', 'UploadController@match');
@@ -48,3 +48,9 @@ Route::put('/{project}/table_upload/{table_name}', 'UploadController@put');
 
 // Autentication
 Route::get('auth/logout', 'Auth\AuthController@getLogout');
+
+// Test
+Route::get('/test', function(){
+    dd(Auth::user());
+    return view('test');
+});

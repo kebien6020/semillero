@@ -1,32 +1,18 @@
-@extends('layouts.master')
-
-@section('title', 'Mapa de control de arena')
-
-@section('head')
-
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Testing</title>
+    <link href="{{ url('css/app.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ url('css/map.css') }}" rel="stylesheet" type="text/css">
+</head>
+<body>
+    <div id="map"></div>
+    <div id="legend"></div>
 
-@endsection
-
-@section('content')
-
-@if (session()->has('success'))
-    <div class="alert alert-success">{!! session('success') !!}</div>
-@endif
-
-<div id="legend"></div>
-<div id="map"></div>
-<div class="buttons">
-    <a href="{{ url('arenas/table_upload/arenas_pozos') }}" class="btn btn-primary">
-        Importar Datos
-    </a>
-    <!-- TODO: Implement
-    <a href="#" class="btn btn-primary">
-        Añadir pozo
-    </a>-->
-</div>
-<script src="/js/map.js" type="text/javascript" charset="utf-8"></script>
-<script type="text/javascript">
+    <script src="/js/map.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript">
 var markers_data = {
     title_key: 'well.name',
     longitude_key: 'well.longitude',
@@ -77,6 +63,7 @@ var markers_data = {
 Map.load(function(google, map) {
     Map.setupMarkers(markers_data);
 });
-</script>
-
-@endsection
+    </script>
+    <script src="/js/app.js" type="text/javascript" charset="utf-8"></script>
+</body>
+</html>

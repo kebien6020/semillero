@@ -37,7 +37,7 @@ class ArenasController extends Controller
 
     function mapDetail($id)
     {
-        $sandControl = SandControl::find($id);
+        $sandControl = SandControl::findOrFail($id);
         $wellsOfField = Field::with('wells.sandControls')->find($sandControl->well->field->id)->wells;
         $field_avg_len = $wellsOfField->pluck('sandControls')->flatten()->avg('length');
         return view('arenas.map_detail', [
@@ -238,6 +238,7 @@ class ArenasController extends Controller
             'x50' => $x50,
             'x30' => $x30,
             'results' => $results,
+            'table_name' => $tabla->name,
         ]);
     }
 
@@ -268,7 +269,7 @@ class ArenasController extends Controller
             ->transform(function($item){
                 return ['grain_size' => $item[0], 'frequency' => $item[1]];
             })
-            ->filter(function($item){
+            ->filter(function($item) use (&$out_of_range_flag){
                 if ($item['grain_size'] < 62 || $item['grain_size'] > 2000){
                     $out_of_range_flag = true;
                     return false;
@@ -306,7 +307,7 @@ class ArenasController extends Controller
         $redirect =  redirect('/arenas/matrix/' . $sample_group->id);
         if ($out_of_range) {
             $redirect->with('error', 'Se ingresaron valores fuera de rango.'
-                . ' Los valores reportados menores a 62 Micras y mayores a'
+                . ' Los valores reportados menores a 62 Micras o mayores a'
                 . ' 2000 Micras no serán tomados en cuenta para la selección'
                 . ' y diseño ya que se encuentran fuera del rango de tamaños'
                 . ' de grano para arenas.');
@@ -376,7 +377,7 @@ class ArenasController extends Controller
         return redirect('/arenas/matrix')->with('success', 'Tabla eliminada exitosamente.');
     }
 
-    function listCampos()
+    function camposSelect()
     {
         $basins = Basin::with('fields.sandControlSummary')->get();
         foreach ($basins as $i => $basin) {
@@ -388,14 +389,18 @@ class ArenasController extends Controller
                 $basins->forget($i);
         }
         $basins = $basins->sortBy('name')->values();
-        return view('arenas.list_campos', ['basins' => $basins]);
+        return view('arenas.campos_select', ['basins' => $basins]);
     }
 
-    function campoDetail($id)
+    function camposDetail($id)
     {
         $sandControlSummary = SandControlSummary::where(['field_id' => $id])->first();
         $sandControlSummary->load('field', 'sandControlRecommendations');
-        return view('arenas.view_campo', ['summary' => $sandControlSummary]);
+        $wells = Field::find($id)->wells()->has('sandControls')->get()->load('sandControls');
+        return view('arenas.campos_detail', [
+            'summary' => $sandControlSummary,
+            'wells' => $wells,
+        ]);
     }
 
 

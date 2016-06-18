@@ -2,6 +2,12 @@
 
 @section('title', 'Control de Arenas - Cuencas')
 
+@section('head')
+
+    <link rel="stylesheet" href="{{ url('css/campos_detail.css') }}">
+
+@endsection
+
 @section('content')
 
 <div class="page-header">
@@ -90,6 +96,20 @@
             <tr>
                 <td colspan="2">{{ $summary->remarks }}</td>
             </tr>
+        @endif
+        @if (!$wells->isEmpty())
+            <tr>
+                <th colspan="2">Pozos del campo {{ $summary->field->name }} con control de arena</th>
+            </tr>
+            <tr class="row-well"><td class="row" colspan="2">
+            @foreach ($wells as $well)
+                    <div class="col-xs-12 col-md-6 col-lg-4">
+                        <a href="{{ url('arenas/map/' . $well->sandControls->first()->id) }}">
+                            {{ $well->name }}
+                        </a>
+                    </div>
+            @endforeach
+            </td></tr>
         @endif
     </tbody>
 </table>

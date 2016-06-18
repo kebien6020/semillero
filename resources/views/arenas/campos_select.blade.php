@@ -12,7 +12,9 @@
     <div class="alert alert-success">{!! session('success') !!}</div>
 @endif
 
-<p>A continuación se presenta un listado de campos organizado por cuencas sedimentarias de Colombia, seleccionar el campo de interés para conocer el mecanismo de control de arena recomendado con base en variables granulométricas.</p>
+<p>A continuación se presenta un listado de campos organizado por cuencas sedimentarias de Colombia identificados con mecanismos de control de arena.</p>
+
+<p>Seleccionar un campo para conocer las variables granulométricas de interés, el mecanismo de control de arena instalado y el mecanismo de control de arena recomendado a partir de dichas variables.</p>
 <ol class="list-group">
     @foreach ($basins as $basin)
     <li class="list-group-item">
@@ -28,7 +30,7 @@
 
 <div class="buttons">
     <a href="{{ url('arenas/table_upload/arenas_campos') }}" class="btn btn-primary">
-        Cargar datos
+        Importar datos
     </a>
 </div>
 
