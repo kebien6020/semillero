@@ -187,7 +187,7 @@ $(document).ready(function(){
         @endif
         @if ($results->recommended)
         <tr>
-            <td>Tamaño de grava sugerido con base en el criterio de Saucier</td>
+            <td>Tamaño de grava sugerido con base en el criterio de Saucier (in)</td>
             <td>{{ round($results->average_gravel_size, 3) }}</td>
         </tr>
         <tr>

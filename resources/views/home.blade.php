@@ -29,8 +29,8 @@
             </button>
             <ul class="dropdown-menu">
                 <li><a href="{{ url('arenas/map') }}">Mapa de la instalación de mecanismos de control de arena</a></li>
+                <li><a href="{{ url('arenas/matrix') }}">Selección de mecanismos de control de arena con base en un análisis de granulometría</a></li>
                 <li><a href="{{ url('arenas/campos') }}">Matriz de selección preliminar de mecanismos de control de arena en los campos operados por Ecopetrol S.A.</a></li>
-                <li><a href="{{ url('arenas/matrix') }}">Herramienta de selección de mecanismos de control de arena a partir de datos granulométricos</a></li>
             </ul>
         </div>
 
