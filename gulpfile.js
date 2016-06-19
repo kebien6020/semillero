@@ -19,6 +19,7 @@ elixir(function(mix) {
        .sass('map.scss')
        .sass('flot.scss')
        .sass('campos_detail.scss')
+       .sass('login.scss')
        .scripts(['flot/jquery.flot.js','flot/jquery.flot.pie.js'],
             'public/js/flot.js')
        .scripts([
@@ -30,5 +31,6 @@ elixir(function(mix) {
     mix.copy('resources/assets/images','public/images')
        .copy('node_modules/bootstrap-sass/assets/fonts/', 'public/fonts');
     mix.browserify('map.js')
-       .browserify('app.js');
+       .browserify('app.js')
+       .browserify('home.js');
 });

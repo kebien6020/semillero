@@ -14,6 +14,19 @@
         </div>
 
         <div class="collapse navbar-collapse" id="navigation-collapse">
+          @if (Auth::check())
+          <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                {{Auth::user()->name}}<span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="/logout">
+                  <i class="icon-logout"></i> Cerrar sesión
+                </a></li>
+              </ul>
+            </li>
+          </ul>
+          @endif
           <ul class="nav navbar-nav">
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Aplicativo de selección de Mecanismos de Control de Arena<span class="caret"></span></a>

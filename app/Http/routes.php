@@ -13,9 +13,7 @@
 
 use Illuminate\Http\Request;
 
-Route::get('/', function () {
-    return view('home');
-});
+Route::get('/', 'HomeController@home');
 
 Route::get('/sla/map', 'slaController@mapPozos');
 Route::get('/sla/test/map', 'slaController@testMap');
@@ -46,11 +44,12 @@ Route::get('/{project}/table_upload/{table_name}', 'UploadController@form');
 Route::post('/{project}/table_upload/{table_name}', 'UploadController@match');
 Route::put('/{project}/table_upload/{table_name}', 'UploadController@put');
 
-// Autentication
-Route::get('auth/logout', 'Auth\AuthController@getLogout');
-
 // Test
 Route::get('/test', function(){
     dd(Auth::user());
     return view('test');
 });
+
+Route::auth();
+
+Route::get('/profile', 'HomeController@profile');

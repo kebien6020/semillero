@@ -4,16 +4,9 @@
 
 @section('head')
     <link rel="stylesheet" type="text/css" href="{{ url('css/home.css') }}">
-
-    {{-- Cool Background --}}
-    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js"></script>
-    <script type="text/javascript">
-    $(function(){
-        $.backstretch("images/bg.png");
-    });
-    </script>
-    {{-- End Cool Background --}}
 @endsection
+
+@section('script', 'home')
 
 @section('raw-content')
     

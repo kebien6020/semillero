@@ -22,10 +22,15 @@
         margin-bottom: 0.5em;
     }
 </style>
+@endsection
+
+@section('custom-script')
 
 <script type="text/javascript">
 
     'use strict';
+
+    let $ = jQuery;
 
     // Start with a row harcoded in the html
     var currentRow = 1;

@@ -9,6 +9,11 @@ use App\SLAPozo;
 
 class slaController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     function mapPozos(){
         return view('sla.map_pozos');
     }

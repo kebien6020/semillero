@@ -1,3 +1,5 @@
+require('./app.js');
+
 let gapi       = require('google-maps'),
     $          = require('jquery'),
     arr_unique = require('./modules/array_unique.js');

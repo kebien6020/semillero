@@ -17,7 +17,8 @@
   "browser": {
     "jquery.flot": "./resources/assets/js/flot/jquery.flot.js",
     "jquery.flot.pie": "./resources/assets/js/flot/jquery.flot.pie.js",
-    "bootstrap": "./node_modules/bootstrap-sass/assets/javascripts/bootstrap.js"
+    "bootstrap": "./node_modules/bootstrap-sass/assets/javascripts/bootstrap.js",
+    "jquery.backstretch": "./resources/assets/js/vendor/jquery-backstretch/jquery.backstretch.js"
   },
   "browserify-shim": {
     "jquery.flot": {
@@ -28,6 +29,9 @@
     },
     "bootstrap": {
       "depends": ["jquery:jQuery"]
+    },
+    "jquery.backstretch": {
+      "depends": ["jquery"]
     }
   }
 }

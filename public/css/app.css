@@ -241,7 +241,7 @@ th {
   src: url("../fonts/bootstrap/glyphicons-halflings-regular.eot");
   src: url("../fonts/bootstrap/glyphicons-halflings-regular.eot?#iefix") format("embedded-opentype"), url("../fonts/bootstrap/glyphicons-halflings-regular.woff2") format("woff2"), url("../fonts/bootstrap/glyphicons-halflings-regular.woff") format("woff"), url("../fonts/bootstrap/glyphicons-halflings-regular.ttf") format("truetype"), url("../fonts/bootstrap/glyphicons-halflings-regular.svg#glyphicons_halflingsregular") format("svg"); }
 
-.glyphicon {
+.glyphicon, .icon-logout {
   position: relative;
   top: 1px;
   display: inline-block;
@@ -742,7 +742,7 @@ th {
 .glyphicon-flash:before {
   content: "\e162"; }
 
-.glyphicon-log-out:before {
+.glyphicon-log-out:before, .icon-logout:before {
   content: "\e163"; }
 
 .glyphicon-new-window:before {

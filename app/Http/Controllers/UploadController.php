@@ -50,6 +50,10 @@ class ValueOutOfRangeException extends Exception {
 
 class UploadController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
 
     public function form($project, $table_name)
     {

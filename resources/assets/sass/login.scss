@@ -1,0 +1,122 @@
+@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap/variables";
+@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap/mixins";
+
+@import "mixins";
+
+html, body, main {
+    height: 100%;
+}
+
+main { @include container-fixed();
+    .login-container {
+        @include make-row();
+        position: relative;
+        top: 50%;
+        transform: translateY(-50%);
+        .login {
+            @include make-xs-column-offset(2);
+            @include make-xs-column(8);
+            @include make-sm-column-offset(4);
+            @include make-sm-column(4);
+            background: white;
+            padding: 20px 20px 20px;
+            border-radius: 3px;
+            box-shadow: 0 0 200px rgba(white, .5), 0 1px 2px rgba(black, .3);
+            &:before {
+                content: '';
+                position: absolute;
+                top: -8px; right: -8px; bottom: -8px; left: -8px;
+                z-index: -1;
+                background: rgba(black, .08);
+                border-radius: 4px;
+            }
+            h1 {
+                margin: -20px -20px 21px;
+                line-height: 40px;
+                font-size: 15px;
+                font-weight: bold;
+                color: #555;
+                text-align: center;
+                text-shadow: 0 1px white;
+                background: #f3f3f3;
+                border-bottom: 1px solid #cfcfcf;
+                border-radius: 3px 3px 0 0;
+                background-image: linear-gradient(top, whiteffd, #eef2f5);
+                box-shadow: 0 1px #f5f5f5;
+            }
+            label, input {
+                padding-top: $padding-base-vertical + 1;
+                margin-bottom: 5px;
+                font-size: 14px;
+            }
+            input::placeholder {
+                color: #ccc;
+                font-size: 13px;
+            }
+            .my-input-group {
+                margin: 20px 0 0;
+                &:first-child {
+                    margin-top: 0;
+                }
+            }
+
+            .remember-me, .submit {
+                label, input {
+                    padding: 0;
+                    margin: 0;
+                }
+            }
+
+            .remember-me {
+                @extend .my-input-group;
+                float: left;
+                line-height: 10px;
+
+                label {
+                    font-size: 12px;
+                    color: #777;
+                    cursor: pointer;
+                }
+
+                input {
+                    display: inline;
+                    width: auto;
+                    position: relative;
+                    bottom: 1px;
+                    margin-right: 4px;
+                    vertical-align: middle;
+                }
+            }
+            .submit{
+                @extend .my-input-group;
+                text-align: right;
+                margin-top: 25px;
+                input[type="submit"] {
+                    @include btn();
+                    @include btn-success();
+                    padding: 0 18px;
+                    height: 29px;
+                    font-size: 12px;
+                    font-weight: bold;
+                    box-sizing: content-box;
+                }
+            }
+        }
+        .login-help {
+
+            margin: 20px 0;
+            font-size: 11px;
+            color: black;
+            text-align: center;
+            position: absolute;
+            bottom: -50px;
+            width: 100%;
+
+            a {
+                text-decoration: none;
+
+                &:hover { text-decoration: underline; }
+            }
+        }
+    }
+}

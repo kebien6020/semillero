@@ -10,22 +10,27 @@
 
 @section('content')
 
-@if (session()->has('success'))
-    <div class="alert alert-success">{!! session('success') !!}</div>
-@endif
+    @if (session()->has('success'))
+        <div class="alert alert-success">{!! session('success') !!}</div>
+    @endif
 
-<div id="legend"></div>
-<div id="map"></div>
-<div class="buttons">
-    <a href="{{ url('arenas/table_upload/arenas_pozos') }}" class="btn btn-primary">
-        Importar Datos
-    </a>
-    <!-- TODO: Implement
-    <a href="#" class="btn btn-primary">
-        Añadir pozo
-    </a>-->
-</div>
-<script src="/js/map.js" type="text/javascript" charset="utf-8"></script>
+    <div id="legend"></div>
+    <div id="map"></div>
+    <div class="buttons">
+        <a href="{{ url('arenas/table_upload/arenas_pozos') }}" class="btn btn-primary">
+            Importar Datos
+        </a>
+        <!-- TODO: Implement
+        <a href="#" class="btn btn-primary">
+            Añadir pozo
+        </a>-->
+    </div>
+
+@endsection
+
+@section('script', 'map')
+
+@section('custom-script')
 <script type="text/javascript">
 var markers_data = {
     title_key: 'well.name',
@@ -68,15 +73,15 @@ var markers_data = {
     color_pallete: ['red', 'blue', 'yellow', 'aqua'],
     color_by: {
         key: 'group',
-        values: JSON.parse('{!! \App\SandControl::all()->pluck('group')->unique()->values()->toJson() !!}')
+        values: JSON.parse('{!! $groups !!}')
     },
     base_url: '{{ url('/') }}',
-    data: JSON.parse('{!! \App\SandControl::with('well.field.basin')->get()->toJson() !!}')
+    data: JSON.parse('{!! $sandControls !!}')
 }
 
-Map.load(function(google, map) {
+Map.load(function() {
     Map.setupMarkers(markers_data);
 });
 </script>
-
 @endsection
+

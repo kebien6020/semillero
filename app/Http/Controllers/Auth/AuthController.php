@@ -10,6 +10,9 @@ use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 
 class AuthController extends Controller
 {
+
+    protected $username = 'username';
+
     /*
     |--------------------------------------------------------------------------
     | Registration & Login Controller
@@ -29,6 +32,7 @@ class AuthController extends Controller
      * @var string
      */
     protected $redirectTo = '/';
+    protected $requireAuth = ['logout', 'showRegistrationForm', 'register'];
 
     /**
      * Create a new authentication controller instance.
@@ -37,7 +41,12 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
+        $this->middleware('auth', ['only' =>
+            $this->requireAuth
+        ]);
+        $this->middleware($this->guestMiddleware(), ['except' =>
+            $this->requireAuth
+        ]);
     }
 
     /**
