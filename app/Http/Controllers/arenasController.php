@@ -22,6 +22,11 @@ use ErrorException;
 
 class ArenasController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     function mapPozos()
     {
         $sandControls = SandControl::with('well.field.basin')->get();
@@ -270,7 +275,9 @@ class ArenasController extends Controller
                 return ['grain_size' => $item[0], 'frequency' => $item[1]];
             })
             ->filter(function($item) use (&$out_of_range_flag){
-                if ($item['grain_size'] < 62 || $item['grain_size'] > 2000){
+                if (is_numeric($item['grain_size'])
+                    && ($item['grain_size'] < 62 || $item['grain_size'] > 2000))
+                {
                     $out_of_range_flag = true;
                     return false;
                 }
