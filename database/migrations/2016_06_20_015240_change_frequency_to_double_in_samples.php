@@ -13,7 +13,7 @@ class ChangeFrequencyToDoubleInSamples extends Migration
     public function up()
     {
         Schema::table('samples', function (Blueprint $table) {
-            $table->double('frequency')->change();
+            $table->float('frequency')->change();
         });
     }
 
