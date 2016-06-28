@@ -57,7 +57,10 @@ function initMap(){  // Called in asynchronous callback
         var iconUrl = getIconUrl(occurrence.fluid.color);
         var icon = makePin(iconUrl);
         markers.push(new google.maps.Marker({
-            position: {lng: occurrence.well.longitude, lat: occurrence.well.latitude},
+            position: {
+                lng: Number(occurrence.well.longitude),
+                lat: Number(occurrence.well.latitude)
+            },
             map: map,
             icon: icon,
         }));

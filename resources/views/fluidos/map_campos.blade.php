@@ -55,7 +55,10 @@ function initMap(){  // Called in asynchronous callback
 
         infoWindows.push(new google.maps.InfoWindow({content: content}));
         markers.push(new google.maps.Marker({
-            position: {lng: field.longitude, lat: field.latitude},
+            position: {
+                lng: Number(field.longitude),
+                lat: Number(field.latitude)
+            },
             map: map,
         }));
         markers[i].addListener(

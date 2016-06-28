@@ -6,13 +6,16 @@
     "node-sass": "^3.7.0"
   },
   "dependencies": {
-    "laravel-elixir": "^5.0.0",
     "bootstrap-sass": "^3.0.0",
+    "google-maps": "~3.2.1",
     "jquery": "^2.0",
-    "google-maps": "~3.2.1"
+    "laravel-elixir": "^5.0.0",
+    "node-sass": "^3.8.0"
   },
   "browserify": {
-    "transform": [ "browserify-shim" ]
+    "transform": [
+      "browserify-shim"
+    ]
   },
   "browser": {
     "jquery.flot": "./resources/assets/js/flot/jquery.flot.js",
@@ -21,13 +24,19 @@
   },
   "browserify-shim": {
     "jquery.flot": {
-      "depends": ["jquery"]
+      "depends": [
+        "jquery"
+      ]
     },
     "jquery.flot.pie": {
-      "depends": ["jquery.flot"]
+      "depends": [
+        "jquery.flot"
+      ]
     },
     "bootstrap": {
-      "depends": ["jquery:jQuery"]
+      "depends": [
+        "jquery:jQuery"
+      ]
     }
   }
 }
