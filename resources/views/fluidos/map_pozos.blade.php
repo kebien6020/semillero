@@ -5,11 +5,6 @@
 @section('head')
 
     <link href="{{ url('css/map.css') }}" rel="stylesheet" type="text/css">
-
-    <script 
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA4T9LZ5gwZIHTA550ip33BbLvO9ob1Ji8&callback=initMap"
-        type="text/javascript"
-        charset="utf-8" async defer></script>
     <script src="{{ url('js/flot.js') }}" type="text/javascript" charset="utf-8" async defer></script>
     <script type="text/javascript">
 
@@ -98,6 +93,10 @@ $(document).ready(function(){
 });
 
     </script>
+    <script 
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA4T9LZ5gwZIHTA550ip33BbLvO9ob1Ji8&callback=initMap"
+        type="text/javascript"
+        charset="utf-8" async defer></script>
 
 @endsection
 
