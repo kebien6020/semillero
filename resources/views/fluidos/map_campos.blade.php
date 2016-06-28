@@ -100,7 +100,7 @@ function labelFormatter(label, series) {
 <div id="map"></div>
 <div class="buttons">
     <a href="{{ url('arenas/table_upload/arenas_pozos') }}" class="btn btn-primary">
-        Cargar tabla
+        Importar Datos
     </a>
 </div>
 

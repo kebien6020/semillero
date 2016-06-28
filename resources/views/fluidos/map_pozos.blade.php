@@ -110,7 +110,7 @@ $(document).ready(function(){
 <div id="map"></div>
 <div class="buttons">
     <a href="{{ url('fluidos/table_upload/fluidos_pozos') }}" class="btn btn-primary">
-        Cargar tabla
+        Importar Datos
     </a>
     <!-- TODO: Implement
     <a href="#" class="btn btn-primary">
