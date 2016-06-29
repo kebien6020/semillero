@@ -25,7 +25,11 @@
         Añadir pozo
     </a>-->
 </div>
-<script src="/js/map.js" type="text/javascript" charset="utf-8"></script>
+@endsection
+
+@section('script', 'map')
+
+@section('custom-script')
 <script type="text/javascript">
 var markers_data = {
     title_key: 'well.name',

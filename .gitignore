@@ -6,4 +6,4 @@ Homestead.json
 .env*
 .gitattributes
 /bash
-*/Thumbs.db
+*Thumbs.db

@@ -11,7 +11,7 @@
     
     <link rel="stylesheet" href="{{ url('css/app.css') }}">
 
-    {{--<script src="{{ url('js/jquery.js') }}"></script>--}}
+    <script src="{{ url('js/jquery.js') }}"></script>
     @yield('head')
 </head>
 <body>
