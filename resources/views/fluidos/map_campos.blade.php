@@ -6,16 +6,29 @@
 
     <link href="{{ url('css/map.css') }}" rel="stylesheet" type="text/css">
 
-    <script 
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA4T9LZ5gwZIHTA550ip33BbLvO9ob1Ji8&callback=initMap"
-        type="text/javascript"
-        charset="utf-8" async defer></script>
-    <script src="{{ url('js/flot.js') }}" type="text/javascript" charset="utf-8" async defer></script>
-    <script type="text/javascript">
+@endsection
 
-var map;
-var fields = JSON.parse('{!! $fields !!}');
-var plotOptions = {
+@section('content')
+
+@if (session()->has('success'))
+    <div class="alert alert-success">{!! session('success') !!}</div>
+@endif
+
+<div id="map"></div>
+<div class="buttons">
+    <a href="{{ url('fluidos/table_upload/fluidos_rangos') }}" class="btn btn-primary">
+        Importar Datos
+    </a>
+</div>
+
+@endsection
+
+@section('script', 'fluidos_map_campos')
+
+@section('custom-script')
+<script type="text/javascript">
+
+var plot_options = {
     series: {
         pie: {
             show: true,
@@ -34,74 +47,41 @@ var plotOptions = {
     legend: {show: false},
 };
 
-function initMap(){  // Called in asynchronous callback
-    //Map
-    var options = {
-        center: {lng:-73, lat:4},
-        zoom: 6,
-        mapTypeId: google.maps.MapTypeId.HYBRID,
-    };
-    var $div_map = document.getElementById('map');
-    map = new google.maps.Map($div_map, options);
-
-    //Markers
-    var i = 0;
-    var infoWindows = [];
-    var markers = [];
-    for (var field of fields){
-        var content = '<h2>' + field.name + '</h2>';
-        var plotId = 'plot_' + field.id;
-        content += '<div style="width:200px; height:200px;" id="' + plotId + '"></div>';
-
-        infoWindows.push(new google.maps.InfoWindow({content: content}));
-        markers.push(new google.maps.Marker({
-            position: {
-                lng: Number(field.longitude),
-                lat: Number(field.latitude)
-            },
-            map: map,
-        }));
-        markers[i].addListener(
-            'click',
-            markerListener(i, infoWindows, markers[i], plotId, field.distribution)
-        );
-        i++;
-    }
-}
-
-function markerListener(i, infoWindows, marker, plotId, plotData){
-    return function(){
-        for (var info of infoWindows){
-            info.close();
-        }
-        infoWindows[i].open(map, marker);
-        var data = [];
-        for (var key in plotData){
-            data.push({label:key, data:plotData[key]});
-        }
-        $.plot('#' + plotId, data, plotOptions);
-    }
-}
-
 function labelFormatter(label, series) {
-    return "<div style='font-size:8pt; text-align:center; padding:2px; color:black;'>" + label + "<br/>" + Math.round(series.data) + "%</div>";
+    return '<div style="font-size:8pt; text-align:center; padding:2px; color:black;">'
+        + label + '<br/>'
+        + Math.round(series.data) + '%'
+        + '</div>';
 }
 
-    </script>
+var markers_data = {
+    title_key: 'name',
+    longitude_key: 'longitude',
+    latitude_key: 'latitude',
+    color_mode: 'none',
+    base_url: '{{ url('/') }}',
+    data: JSON.parse('{!! $fields !!}'),
+    on_open_marker: function(infoWindow, field) {
+        var plotId = 'plot_' + field.id;
+        var plotHtml = '<div style="width:200px; height:200px;" id="' + plotId + '"></div>';
 
-@endsection
+        var content = infoWindow.getContent();
+        content += plotHtml;
+        infoWindow.setContent(content);
 
-@section('content')
+        var dist = field.distribution;
+        var data = [];
+        for (var key in dist){
+            data.push({label:key, data:dist[key]});
+        }
+        var $plot = $('#' + plotId);
+        $.plot($plot, data, plot_options)
+    }
+}
 
-@if (session()->has('success'))
-    <div class="alert alert-success">{!! session('success') !!}</div>
-@endif
+Map.load(function(google, map) {
+    Map.setupMarkers(markers_data);
+});
 
-<div id="map"></div>
-<div class="buttons">
-    <a href="{{ url('arenas/table_upload/arenas_pozos') }}" class="btn btn-primary">
-        Importar Datos
-    </a>
-</div>
-
+</script>
 @endsection

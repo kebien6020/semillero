@@ -30,5 +30,7 @@ elixir(function(mix) {
     mix.copy('resources/assets/images','public/images')
        .copy('node_modules/bootstrap-sass/assets/fonts/', 'public/fonts');
     mix.browserify('map.js')
-       .browserify('app.js');
+       .browserify('app.js')
+       .browserify('fluidos_map_campos.js')
+       .browserify('arenas_matrix_results.js');
 });

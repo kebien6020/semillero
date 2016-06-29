@@ -13731,6 +13731,14 @@ More detail and specific examples can be found in the included HTML file.
 },{"/home/vagrant/Code/Semillero/resources/assets/js/flot/jquery.flot.js":5}],7:[function(require,module,exports){
 'use strict';
 
+require('./app.js');
+var Map = require('./map.js'),
+    $ = require('jquery');
+window.jQuery = window.$ = $;
+
+},{"./app.js":4,"./map.js":8,"jquery":3}],8:[function(require,module,exports){
+'use strict';
+
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
 var gapi = require('google-maps'),
@@ -14050,7 +14058,7 @@ function markerListener(infoWindow, marker, callback, model) {
 // Global export
 window.Map = module.exports;
 
-},{"./app.js":4,"./modules/array_unique.js":8,"google-maps":2,"jquery":3}],8:[function(require,module,exports){
+},{"./app.js":4,"./modules/array_unique.js":9,"google-maps":2,"jquery":3}],9:[function(require,module,exports){
 "use strict";
 
 module.exports = function (array) {
@@ -14066,4 +14074,4 @@ module.exports = function (array) {
 
 },{}]},{},[7]);
 
-//# sourceMappingURL=map.js.map
+//# sourceMappingURL=fluidos_map_campos.js.map

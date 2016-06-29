@@ -68,10 +68,10 @@ var markers_data = {
     color_pallete: ['red', 'blue', 'yellow', 'aqua'],
     color_by: {
         key: 'group',
-        values: JSON.parse('{!! \App\SandControl::all()->pluck('group')->unique()->values()->toJson() !!}')
+        values: JSON.parse('{!! $groups !!}')
     },
     base_url: '{{ url('/') }}',
-    data: JSON.parse('{!! \App\SandControl::with('well.field.basin')->get()->toJson() !!}')
+    data: JSON.parse('{!! $sandControls !!}')
 }
 
 Map.load(function(google, map) {

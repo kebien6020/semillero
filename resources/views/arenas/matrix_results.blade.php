@@ -6,91 +6,6 @@
 
 <link rel="stylesheet" href="/css/flot.css">
 
-<script src="{{ url('js/flot.js') }}" type="text/javascript" charset="utf-8"></script>
-<script type="text/javascript">
-
-$(document).ready(function(){
-    var data = {!! $plot_data !!};
-    var min = data[0][0] < {{ $x10 }} ? data[0][0] : {{ $x10 }};
-    var x10_line = [
-        [min       , 10],
-        [{{ $x10 }}, 10],
-        [{{ $x10 }}, 0 ],
-    ];
-    var x60_line = [
-        [min       , 60],
-        [{{ $x60 }}, 60],
-        [{{ $x60 }}, 0 ],
-    ];
-    var x90_line = [
-        [min       , 90],
-        [{{ $x90 }}, 90],
-        [{{ $x90 }}, 0 ],
-    ];
-    var x50_line = [
-        [min       , 50],
-        [{{ $x50 }}, 50],
-        [{{ $x50 }}, 0 ],
-    ];
-    var x30_line = [
-        [min       , 30],
-        [{{ $x30 }}, 30],
-        [{{ $x30 }}, 0 ],
-    ];
-    var options = {
-        xaxis: {
-            transform: function(v){
-                if (v<=0) return 0;
-                return Math.log10(v);
-            },
-            ticks: function(axis){
-                var res = []
-                for (var i = 0; i < axis.max; i += 100){
-                    if (i <= 500)
-                        res.push(i);
-                    else if (i % 200 == 0)
-                        res.push(i);
-                }
-                return res;
-            }
-        },
-        yaxis: {
-            min: 0,
-            max: 100,
-            ticks: 10
-        },
-        grid: {
-            labelMargin: 10,
-            margin: {
-                top: 10,
-                bottom: 20,
-                left: 20
-            },
-        },
-        colors: ['blue', 'gray', 'gray', 'gray', 'gray', 'gray']
-    };
-    $container = $('.plot');
-    $.plot($container, [data, x10_line, x60_line, x90_line, x50_line, x30_line], options);
-
-    // yaxis
-    $("<div class='axisLabel yaxisLabel'></div>")
-        .text("Porcentaje Acumulado en Peso (%)")
-        .appendTo($container);
-
-    // Since CSS transforms use the top-left corner of the label as the transform origin,
-    // we need to center the y-axis label by shifting it down by half its width.
-    // Subtract 20 to factor the chart's bottom margin into the centering.
-    $yLabel = $('.yaxisLabel');
-    $yLabel.css("margin-top", $yLabel.width() / 2 - 20);
-
-    // xaxis
-    $("<div class='axisLabel xaxisLabel'></div>")
-        .text("Tamaño partícula (Micras)")
-        .appendTo($container);
-});
-
-</script>
-
 @endsection
 
 @section('content')
@@ -224,5 +139,95 @@ $(document).ready(function(){
     </tbody>
 </table>
 @endif
+
+@endsection
+
+@section('script', 'arenas_matrix_results')
+
+@section ('custom-script')
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+    var data = {!! $plot_data !!};
+    var min = data[0][0] < {{ $x10 }} ? data[0][0] : {{ $x10 }};
+    var x10_line = [
+        [min       , 10],
+        [{{ $x10 }}, 10],
+        [{{ $x10 }}, 0 ],
+    ];
+    var x60_line = [
+        [min       , 60],
+        [{{ $x60 }}, 60],
+        [{{ $x60 }}, 0 ],
+    ];
+    var x90_line = [
+        [min       , 90],
+        [{{ $x90 }}, 90],
+        [{{ $x90 }}, 0 ],
+    ];
+    var x50_line = [
+        [min       , 50],
+        [{{ $x50 }}, 50],
+        [{{ $x50 }}, 0 ],
+    ];
+    var x30_line = [
+        [min       , 30],
+        [{{ $x30 }}, 30],
+        [{{ $x30 }}, 0 ],
+    ];
+    var options = {
+        xaxis: {
+            transform: function(v){
+                if (v<=0) return 0;
+                return Math.log10(v);
+            },
+            ticks: function(axis){
+                var res = []
+                for (var i = 0; i < axis.max; i += 100){
+                    if (i <= 500)
+                        res.push(i);
+                    else if (i % 200 == 0)
+                        res.push(i);
+                }
+                return res;
+            }
+        },
+        yaxis: {
+            min: 0,
+            max: 100,
+            ticks: 10
+        },
+        grid: {
+            labelMargin: 10,
+            margin: {
+                top: 10,
+                bottom: 20,
+                left: 20
+            },
+        },
+        colors: ['blue', 'gray', 'gray', 'gray', 'gray', 'gray']
+    };
+    $container = $('.plot');
+    $.plot($container, [data, x10_line, x60_line, x90_line, x50_line, x30_line], options);
+
+    // yaxis
+    $("<div class='axisLabel yaxisLabel'></div>")
+        .text("Porcentaje Acumulado en Peso (%)")
+        .appendTo($container);
+
+    // Since CSS transforms use the top-left corner of the label as the transform origin,
+    // we need to center the y-axis label by shifting it down by half its width.
+    // Subtract 20 to factor the chart's bottom margin into the centering.
+    $yLabel = $('.yaxisLabel');
+    $yLabel.css("margin-top", $yLabel.width() / 2 - 20);
+
+    // xaxis
+    $("<div class='axisLabel xaxisLabel'></div>")
+        .text("Tamaño partícula (Micras)")
+        .appendTo($container);
+});
+
+</script>
 
 @endsection

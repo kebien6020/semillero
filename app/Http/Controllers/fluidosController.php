@@ -57,10 +57,10 @@ class FluidosController extends Controller
     function mapPozos()
     {
         $occurrences = FluidOccurrence::with('well.field.basin', 'fluid')->get();
-        $fluids = Fluid::all();
+        $fluids = Fluid::all(['name', 'color']);
         return view('fluidos.map_pozos',[
             'occurrences' => $occurrences->toJson(),
-            'fluids' => $fluids->sortBy('name')->values()->toJson(),
+            'fluids' => $fluids->toJson(),
         ]);
     }
 }

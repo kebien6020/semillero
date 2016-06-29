@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "bootstrap-sass": "^3.0.0",
+    "browserify-shim": "^3.8.12",
     "google-maps": "~3.2.1",
     "jquery": "^2.0",
     "laravel-elixir": "^5.0.0",
