@@ -19,6 +19,7 @@ elixir(function(mix) {
        .sass('map.scss')
        .sass('flot.scss')
        .sass('campos_detail.scss')
+       .sass('fluidos_map_campos.scss')
        .scripts(['flot/jquery.flot.js','flot/jquery.flot.pie.js'],
             'public/js/flot.js')
        .scripts([

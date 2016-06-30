@@ -10,6 +10,7 @@ use App\Http\Requests;
 use App\Field;
 use App\Fluid;
 use App\FluidOccurrence;
+use App\DensityRange;
 
 use DB;
 
@@ -62,5 +63,37 @@ class FluidosController extends Controller
             'occurrences' => $occurrences->toJson(),
             'fluids' => $fluids->toJson(),
         ]);
+    }
+
+    private function occurrencesInRange($min, $max, $field_id, $fluid_id)
+    {
+        return FluidOccurrence::with('well.field')
+            ->join('wells', 'wells.id', '=', 'fluid_occurrences.well_id')
+            ->join('fields', 'fields.id', '=', 'wells.field_id')
+            ->where('fluid_id', '=', $fluid_id)
+            ->where('fields.id', '=', $field_id)
+            ->where('density', '>=', $min)
+            ->where('density', '<', $max)
+            ->count();
+    }
+
+    // API function
+    function densityDist($field_id, $fluid_id)
+    {
+        $field = Field::findOrFail($field_id);
+        $ranges = DensityRange::where('fluid_id', '=', $fluid_id)->get();
+        $res = [];
+        foreach ($ranges as $range) {
+            $occurrences = $this->occurrencesInRange(
+                $range->min, $range->max,
+                $field_id, $fluid_id);
+            if ($occurrences < 1) continue;
+            $res[] = (object)[
+                'range' => $range->min . '-' . $range->max,
+                'occurrences' => $occurrences
+            ];
+        }
+
+        return ['ranges' => $res, 'field_name' => $field->name];
     }
 }

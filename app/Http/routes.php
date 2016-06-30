@@ -21,9 +21,11 @@ Route::get('/sla/map', 'slaController@mapPozos');
 Route::get('/sla/test/map', 'slaController@testMap');
 Route::post('/sla/test/map/add_data_submit', 'slaController@testMapAddDataSubmit');
 
+// fluidos
 Route::get('/fluidos/map/campos', 'fluidosController@mapCampos');
 Route::get('/fluidos/map/campos/{id}', 'fluidosController@campoDetail');
 Route::get('/fluidos/map/pozos', 'fluidosController@mapPozos');
+Route::get('/api/fluidos/density_dist/{field_id}/{fluid_id}', 'fluidosController@densityDist');
 
 // map
 Route::get('/arenas/map', 'ArenasController@mapPozos');
