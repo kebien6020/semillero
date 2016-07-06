@@ -1,16 +1,16 @@
-html {
-    position: relative;
-    height: 100%;
-}
-body {
-    min-height: 100%;
+$space-above-map: 3px;
+$navbar-height: 50px;
+$base-top-margin: 20px;
+main {
+    min-height: calc(100vh - #{$navbar-height} - #{$space-above-map});
+    padding-bottom: + $base-top-margin + 3px;
     display: flex;
-    flex-direction:column;
+    flex-direction: column;
+
 }
-.navbar {
-    margin-bottom: 0.3em;
-}
+
 #map {
+    margin-top: - $base-top-margin + $space-above-map;
     flex: 1;
 }
 #legend {

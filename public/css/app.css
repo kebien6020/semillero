@@ -4359,38 +4359,40 @@ a.badge:hover, a.badge:focus {
   text-decoration: none;
   cursor: pointer; }
 
-.jumbotron {
+.jumbotron, .white-section {
   padding-top: 30px;
   padding-bottom: 30px;
   margin-bottom: 30px;
   color: inherit;
   background-color: #eeeeee; }
-  .jumbotron h1,
-  .jumbotron .h1 {
+  .jumbotron h1, .white-section h1,
+  .jumbotron .h1, .white-section .h1 {
     color: inherit; }
-  .jumbotron p {
+  .jumbotron p, .white-section p {
     margin-bottom: 15px;
     font-size: 21px;
     font-weight: 200; }
-  .jumbotron > hr {
+  .jumbotron > hr, .white-section > hr {
     border-top-color: #d5d5d5; }
-  .container .jumbotron,
-  .container-fluid .jumbotron {
+  .container .jumbotron, .container .white-section,
+  .container-fluid .jumbotron,
+  .container-fluid .white-section {
     border-radius: 6px;
     padding-left: 15px;
     padding-right: 15px; }
-  .jumbotron .container {
+  .jumbotron .container, .white-section .container {
     max-width: 100%; }
   @media screen and (min-width: 768px) {
-    .jumbotron {
+    .jumbotron, .white-section {
       padding-top: 48px;
       padding-bottom: 48px; }
-      .container .jumbotron,
-      .container-fluid .jumbotron {
+      .container .jumbotron, .container .white-section,
+      .container-fluid .jumbotron,
+      .container-fluid .white-section {
         padding-left: 60px;
         padding-right: 60px; }
-      .jumbotron h1,
-      .jumbotron .h1 {
+      .jumbotron h1, .white-section h1,
+      .jumbotron .h1, .white-section .h1 {
         font-size: 63px; } }
 
 .thumbnail {
@@ -4418,20 +4420,20 @@ a.thumbnail:focus,
 a.thumbnail.active {
   border-color: #337ab7; }
 
-.alert {
+.alert, .success-panel, .error-panel {
   padding: 15px;
   margin-bottom: 20px;
   border: 1px solid transparent;
   border-radius: 4px; }
-  .alert h4 {
+  .alert h4, .success-panel h4, .error-panel h4 {
     margin-top: 0;
     color: inherit; }
-  .alert .alert-link {
+  .alert .alert-link, .success-panel .alert-link, .error-panel .alert-link {
     font-weight: bold; }
-  .alert > p,
-  .alert > ul {
+  .alert > p, .success-panel > p, .error-panel > p,
+  .alert > ul, .success-panel > ul, .error-panel > ul {
     margin-bottom: 0; }
-  .alert > p + p {
+  .alert > p + p, .success-panel > p + p, .error-panel > p + p {
     margin-top: 5px; }
 
 .alert-dismissable,
@@ -4444,13 +4446,13 @@ a.thumbnail.active {
     right: -21px;
     color: inherit; }
 
-.alert-success {
+.alert-success, .success-panel {
   background-color: #dff0d8;
   border-color: #d6e9c6;
   color: #3c763d; }
-  .alert-success hr {
+  .alert-success hr, .success-panel hr {
     border-top-color: #c9e2b3; }
-  .alert-success .alert-link {
+  .alert-success .alert-link, .success-panel .alert-link {
     color: #2b542c; }
 
 .alert-info {
@@ -4471,13 +4473,13 @@ a.thumbnail.active {
   .alert-warning .alert-link {
     color: #66512c; }
 
-.alert-danger {
+.alert-danger, .error-panel {
   background-color: #f2dede;
   border-color: #ebccd1;
   color: #a94442; }
-  .alert-danger hr {
+  .alert-danger hr, .error-panel hr {
     border-top-color: #e4b9c0; }
-  .alert-danger .alert-link {
+  .alert-danger .alert-link, .error-panel .alert-link {
     color: #843534; }
 
 @keyframes progress-bar-stripes {
@@ -5879,6 +5881,60 @@ form input[type="file"] {
 
 }*/
 .page-header {
+  text-align: center; }
+
+#home {
+  background: url(/images/bg.png) no-repeat center center fixed;
+  background-size: cover;
+  padding-top: 50px;
+  height: 100vh; }
+
+.white-section {
+  background: rgba(255, 255, 255, 0.3);
+  width: 100%;
+  float: none;
+  box-shadow: none; }
+
+h1.title {
+  font-size: 56pt; }
+  @media screen and (max-width: 800px) {
+    h1.title {
+      font-size: 32pt; } }
+
+main {
+  min-height: calc(100vh - 50px - 3px);
+  padding-bottom: 23px;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column; }
+
+#map {
+  margin-top: -17px;
+  -ms-flex: 1;
+  flex: 1; }
+
+#legend {
+  position: absolute;
+  top: 55px;
+  right: 0;
+  width: 20%;
+  background-color: white;
+  font-size: 8pt;
+  padding: 5px;
+  z-index: 2;
+  border-bottom-left-radius: 4px; }
+  #legend p {
+    padding: 0;
+    margin: 0; }
+
+.marker-title {
+  text-align: center; }
+
+.marker-field .marker-field-name {
+  font-weight: bold; }
+
+.marker-actions {
   text-align: center; }
 
 /*# sourceMappingURL=app.css.map */

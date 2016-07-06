@@ -2,14 +2,10 @@
 
 @section('title','Página de Inicio')
 
-@section('head')
-    <link rel="stylesheet" type="text/css" href="{{ url('css/home.css') }}">
-@endsection
-
 @section('content')
     
-<div class="jumbotron" style="background:rgba(255,255,255,0.3);">
-    <div class="container">
+<div id="home">
+    <div class="white-section">
         <div class="page-header text-center">
             <h1 class="title">Módulo Integral de Completamiento de Pozos</h1>
         </div>
@@ -43,7 +39,7 @@
 
 @section('custom-script')
 
-{{-- Cool Background --}}
+    {{-- Cool Background --
     <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js"></script>
     <script type="text/javascript">
     $(function(){

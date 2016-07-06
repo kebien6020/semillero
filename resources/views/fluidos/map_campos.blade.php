@@ -11,9 +11,7 @@
 
 @section('content')
 
-@if (session()->has('success'))
-    <div class="alert alert-success">{!! session('success') !!}</div>
-@endif
+@include('partial.messages')
 
 <div id="map"></div>
 <div class="buttons">

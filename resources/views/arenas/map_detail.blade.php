@@ -8,6 +8,8 @@
     <h2>Información general del Pozo {{ ucfirst(strtolower($sandControl->well->name)) }}</h2>
 </div>
 
+@include('partial.messages')
+
 <p>A continuación se muestra la información relacionada con mecanismos de control de arena del pozo de interés</p>
 <table class="table-hover">
     <thead>

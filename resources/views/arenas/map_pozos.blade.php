@@ -2,17 +2,9 @@
 
 @section('title', 'Mapa de control de arena')
 
-@section('head')
-
-    <link href="{{ url('css/map.css') }}" rel="stylesheet" type="text/css">
-
-@endsection
-
 @section('content')
 
-@if (session()->has('success'))
-    <div class="alert alert-success">{!! session('success') !!}</div>
-@endif
+@include('partial.messages')
 
 <div id="legend"></div>
 <div id="map"></div>

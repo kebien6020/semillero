@@ -8,9 +8,7 @@
     <h1>Sección de edición de la información del pozo {{ ucfirst(strtolower($well->name)) }}</h1>
 </div>
 
-@if (session()->has('error'))
-    <div class="alert alert-danger">{{ session('error') }}</div>
-@endif
+@include('partial.messages')
 
 <form action="{{ url('arenas/map/' . $well->id) }}" method="POST">
     {{ method_field('PUT') }}

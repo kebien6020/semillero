@@ -8,9 +8,7 @@
     <h1>Carga de Tabla de Datos <small>{{ $project->display_name }}</small></h1>
 </div>
 
-@if (session()->has('error'))
-    <div class="alert alert-danger">{{ session('error') }}</div>
-@endif
+@include('partial.messages')
 
 <p>
     Por favor cargue una tabla de excel con las siguientes caracteristicas:

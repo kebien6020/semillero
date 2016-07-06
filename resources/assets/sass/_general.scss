@@ -1,0 +1,101 @@
+// Basic Elements Tweaks
+body {
+    font-family: 'Open Sans';
+    padding-bottom: 0.5em;
+}
+
+form {
+    @extend .form-horizontal;
+    input, select {
+        @extend .form-control;
+    }
+    input[type="submit"] {
+        width: inherit;
+    }
+    input[type="file"] {
+        padding-top: 0;
+        padding-bottom: 0;
+        height: 3em;
+    }
+}
+
+// Master styles
+#navbar {
+    @extend .navbar;
+    @extend .navbar-inverse;
+    header {
+        @extend .navbar-header;
+        button {
+            @extend .navbar-toggle;
+            .bar {
+                @extend .icon-bar;
+            }
+        }
+        a {
+            @extend .navbar-brand;
+        }
+    }
+    .navigation-collapse {
+        @extend .navbar-collapse;
+        > ul {
+            @extend .nav;
+            @extend .navbar-nav;
+            > li {
+                a {
+                    @extend .dropdown-toggle;
+
+                }
+                > ul {
+                    @extend .dropdown-menu;
+                }
+                @media (max-width: 767px){
+                    &.open > ul {
+                        position: static;
+                        float: none;
+                        width: auto;
+                        margin-top: 0;
+                        background-color: transparent;
+                        border: 0;
+                        box-shadow: none;
+                        a {
+                            color: #9d9d9d;
+                            padding: 5px 15px 5px 25px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Shared styles
+
+.buttons {
+  text-align: center;
+  margin: 0.5rem auto 0 auto;
+}
+
+/*.header {
+    @include bg_theme_gradient();
+    color: white;
+    font-size: 14px;
+    padding: 8px;
+    font-weight: bold;
+    margin-bottom: 0;
+    text-align: center;
+
+}*/
+
+.page-header {
+    text-align: center;
+}
+
+.success-panel {
+    @extend .alert;
+    @extend .alert-success;
+}
+
+.error-panel {
+    @extend .alert;
+    @extend .alert-danger;
+}

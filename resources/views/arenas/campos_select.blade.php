@@ -8,9 +8,7 @@
     <h1>Matriz de selección preliminar de mecanismos de control de arena en los campos operados por Ecopetrol S.A.</h1>
 </div>
 
-@if (session()->has('success'))
-    <div class="alert alert-success">{!! session('success') !!}</div>
-@endif
+@include('partial.messages')
 
 <p>A continuación se presenta un listado de campos organizado por cuencas sedimentarias de Colombia identificados con mecanismos de control de arena.</p>
 

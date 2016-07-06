@@ -15,14 +15,7 @@ elixir.config.js.browserify.watchify.options.poll = true;
 
 elixir(function(mix) {
   // Sass
-  mix.sass([
-    'app.scss',
-    //'home.scss',
-    //'map.scss',
-    //'flot.scss',
-    //'campos_detail.scss',
-    //'fluidos_map_campos.scss'
-  ])
+  mix.sass('app.scss');
 
   // Copy assets
   mix.copy('resources/assets/images','public/images')

@@ -10,9 +10,7 @@
 
 @section('content')
 
-@if (session()->has('success'))
-    <div class="alert alert-success">{!! session('success') !!}</div>
-@endif
+@include('partial.messages')
 
 <div id="legend"></div>
 <div id="map"></div>

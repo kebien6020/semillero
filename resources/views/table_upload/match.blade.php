@@ -4,6 +4,8 @@
 
 @section('content')
 
+@include('partial.messages')
+
 <p>Por favor seleccione para cada columna necesaria la columna
     del archivo que contiene la información requerida</p>
 <form class="form-horizontal"

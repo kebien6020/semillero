@@ -2,17 +2,13 @@
 
 @section('title', 'Control de Arenas - Cuencas')
 
-@section('head')
-
-    <link rel="stylesheet" href="{{ url('css/campos_detail.css') }}">
-
-@endsection
-
 @section('content')
 
 <div class="page-header">
     <h1>Mecanismo de Control de Arena Sugerido <small>Campo {{ $summary->field->name }}</small></h1>
 </div>
+
+@include('partial.messages')
 
 <table class="table-hover">
     <thead>

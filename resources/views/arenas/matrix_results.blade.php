@@ -16,9 +16,7 @@
     <h2><small>Análisis granulométrico</small></h2>
 </div>
 
-@if (session()->has('error'))
-    <div class="alert alert-danger">{{ session('error') }}</div>
-@endif
+@include('partial.messages')
 
 <table class="table-hover">
     <thead>

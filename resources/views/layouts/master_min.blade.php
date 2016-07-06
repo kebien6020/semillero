@@ -13,9 +13,19 @@
     @yield('head')
 </head>
 <body>
+    
     @yield('navbar')
-    @yield('content')
-    <script src="{{ url('js/' . $__env->yieldContent('script','app') . '.js') }}" type="text/javascript" charset="utf-8"></script>
+    
+    <main>
+        @yield('content')
+    </main>
+    
+    <script
+        src="{{ url('js/' . $__env->yieldContent('script','app') . '.js') }}"
+        type="text/javascript"
+        charset="utf-8">
+    </script>
+    
     @yield('custom-script')
 </body>
 </html>

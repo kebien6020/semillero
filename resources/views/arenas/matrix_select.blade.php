@@ -51,13 +51,7 @@
     <h1>Herramienta de selección de mecanismos de control de arena a partir de datos granulométricos</h1>
 </div>
 
-@if (session()->has('error'))
-    <div class="alert alert-danger">{{ session('error') }}</div>
-@endif
-
-@if (session()->has('success'))
-    <div class="alert alert-success">{!! session('success') !!}</div>
-@endif
+@include('partial.messages')
 
 <p>Esta herramienta permite seleccionar y diseñar mecanismos de control de arena para un pozo específico a partir de los datos de una muestra granulométrica. La herramienta permite calcular los valores de interes como el coeficiente de uniformidad y tamaño de grano promedio y usarlos para la configuración de los mecanismos de control de arena, así como sugerir alternativas de diseño basadas en los postulados de exponentes en el área.</p>
 <p>La herramienta es una alternativa complementaria que se enfoca en valores específicos de una muestra real proporcionando mayor confiabilidad en los mecanimos y su configuración, respecto a la matriz de selección que lo hace de forma generalizada.</p>

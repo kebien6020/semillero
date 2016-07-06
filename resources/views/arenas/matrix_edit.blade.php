@@ -98,9 +98,7 @@
     @endif
 </div>
 
-@if (session()->has('error'))
-    <div class="alert alert-danger">{{ session('error') }}</div>
-@endif
+@include('partial.messages')
 
 @if ($edit)
 <p>Para llevar a cabo una modificación de los datos utilice esta sección. Si requiere adicionar otro dato. Presione el botón adicionar fila en la parte inferior, y si lo requiere eliminar presione eliminar fila.</p>
