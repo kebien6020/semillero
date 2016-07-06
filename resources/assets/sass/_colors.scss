@@ -1,9 +1,0 @@
-$theme_green_1: #23490E;
-$theme_green_2: #3A6637;
-
-@mixin bg_theme_gradient() {
-    background-color: $theme_green_1;
-    background-image: linear-gradient(to bottom,
-        $theme_green_1 0%,
-        $theme_green_2 100%);
-}

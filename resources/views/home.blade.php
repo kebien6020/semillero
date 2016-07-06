@@ -6,7 +6,7 @@
     <link rel="stylesheet" type="text/css" href="{{ url('css/home.css') }}">
 @endsection
 
-@section('raw-content')
+@section('content')
     
 <div class="jumbotron" style="background:rgba(255,255,255,0.3);">
     <div class="container">

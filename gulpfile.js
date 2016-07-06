@@ -14,24 +14,27 @@ var elixir = require('laravel-elixir');
 elixir.config.js.browserify.watchify.options.poll = true;
 
 elixir(function(mix) {
-    mix.sass('app.scss')
-       .sass('home.scss')
-       .sass('map.scss')
-       .sass('flot.scss')
-       .sass('campos_detail.scss')
-       .sass('fluidos_map_campos.scss')
-       .scripts(['flot/jquery.flot.js','flot/jquery.flot.pie.js'],
-            'public/js/flot.js')
-       .scripts([
-            '../../../bower_components/jQuery/dist/jquery.js'
-        ], 'public/js/jquery.js')
-       .scripts([
-            '../../../node_modules/bootstrap-sass/assets/javascripts/bootstrap.js'
-        ], 'public/js/bootstrap.js');
-    mix.copy('resources/assets/images','public/images')
-       .copy('node_modules/bootstrap-sass/assets/fonts/', 'public/fonts');
-    mix.browserify('map.js')
-       .browserify('app.js')
-       .browserify('fluidos_map_campos.js')
-       .browserify('arenas_matrix_results.js');
+  // Sass
+  mix.sass([
+    'app.scss',
+    //'home.scss',
+    //'map.scss',
+    //'flot.scss',
+    //'campos_detail.scss',
+    //'fluidos_map_campos.scss'
+  ])
+
+  // Copy assets
+  mix.copy('resources/assets/images','public/images')
+     .copy('node_modules/bootstrap-sass/assets/fonts/', 'public/fonts');
+
+  // Javascript
+  [
+    'map.js',
+    'app.js',
+    'fluidos_map_campos.js',
+    'arenas_matrix_results.js'
+  ].forEach(function(val){
+    mix.browserify(val);
+  });
 });
