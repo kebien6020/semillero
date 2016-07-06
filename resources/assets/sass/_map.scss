@@ -1,7 +1,7 @@
 $space-above-map: 3px;
 $navbar-height: 50px;
 $base-top-margin: 20px;
-main {
+.map-content {
     min-height: calc(100vh - #{$navbar-height} - #{$space-above-map});
     padding-bottom: + $base-top-margin + 3px;
     display: flex;

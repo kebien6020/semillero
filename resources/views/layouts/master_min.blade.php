@@ -17,7 +17,7 @@
     @yield('navbar')
     
     <main>
-        @yield('content')
+        @yield('raw-content', $__env->yieldContent('content'))
     </main>
     
     <script

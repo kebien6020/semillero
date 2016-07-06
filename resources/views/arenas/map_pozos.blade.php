@@ -6,22 +6,27 @@
 
 @include('partial.messages')
 
-<div id="legend"></div>
-<div id="map"></div>
-<div class="buttons">
-    <a href="{{ url('arenas/table_upload/arenas_pozos') }}" class="btn btn-primary">
-        Importar Datos
-    </a>
-    <!-- TODO: Implement
-    <a href="#" class="btn btn-primary">
-        Añadir pozo
-    </a>-->
+<div class="map-content">
+
+    <div id="legend"></div>
+    <div id="map"></div>
+    <div class="buttons">
+        <a href="{{ url('arenas/table_upload/arenas_pozos') }}" class="btn btn-primary">
+            Importar Datos
+        </a>
+        <!-- TODO: Implement
+        <a href="#" class="btn btn-primary">
+            Añadir pozo
+        </a>-->
+    </div>
 </div>
+
 @endsection
 
 @section('script', 'map')
 
 @section('custom-script')
+
 <script type="text/javascript">
 var markers_data = {
     title_key: 'well.name',
