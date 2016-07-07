@@ -2,35 +2,31 @@
 
 @section('title', 'Mapa Fluidos Campos')
 
-@section('head')
-
-    <link href="{{ url('css/map.css') }}" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" type="text/css" href="/css/fluidos_map_campos.css">
-
-@endsection
-
 @section('content')
 
 @include('partial.messages')
 
-<div id="map"></div>
-<div class="buttons">
-    <a href="{{ url('fluidos/table_upload/fluidos_rangos') }}" class="btn btn-primary">
-        Importar Datos
-    </a>
-</div>
+<div class="map-content">
 
-<div id="fullscreen-overlay">
-    <div id="white-overlay">
-        <h1 id="overlay-title"></h1>
-        <div class="horizontal-container">
-            <div class="left-container">
-                <h4>Distribución de fluidos</h4>
-                <div id="left-plot"></div>
-            </div>
-            <div class="right-container">
-                <h4>Distribución de densidades</h4>
-                <div id="right-plot"></div>
+    <div id="map"></div>
+    <div class="buttons">
+        <a href="{{ url('fluidos/table_upload/fluidos_rangos') }}" class="btn btn-primary">
+            Importar Datos
+        </a>
+    </div>
+
+    <div id="fullscreen-overlay">
+        <div id="white-overlay">
+            <h1 id="overlay-title"></h1>
+            <div class="horizontal-container">
+                <div class="left-container">
+                    <h4>Distribución de fluidos</h4>
+                    <div id="left-plot"></div>
+                </div>
+                <div class="right-container">
+                    <h4>Distribución de densidades</h4>
+                    <div id="right-plot"></div>
+                </div>
             </div>
         </div>
     </div>

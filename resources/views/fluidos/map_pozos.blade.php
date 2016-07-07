@@ -2,28 +2,27 @@
 
 @section('title', 'Mapa Fluidos Pozos')
 
-@section('head')
-
-    <link href="{{ url('css/map.css') }}" rel="stylesheet" type="text/css">
-
-@endsection
-
 @section('content')
 
 @include('partial.messages')
 
-<div id="legend"></div>
-<div id="map"></div>
-<div class="buttons">
-    <a href="{{ url('fluidos/table_upload/fluidos_pozos') }}" class="btn btn-primary">
-        Importar Datos
-    </a>
-    <!-- TODO: Implement
-    <a href="#" class="btn btn-primary">
-        Añadir pozo
-    </a>
-    -->
+<div class="map-content">
+
+    <div id="legend"></div>
+    <div id="map"></div>
+    <div class="buttons">
+        <a href="{{ url('fluidos/table_upload/fluidos_pozos') }}" class="btn btn-primary">
+            Importar Datos
+        </a>
+        <!-- TODO: Implement
+        <a href="#" class="btn btn-primary">
+            Añadir pozo
+        </a>
+        -->
+    </div>
+    
 </div>
+
 
 @endsection
 
