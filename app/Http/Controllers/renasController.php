@@ -52,11 +52,8 @@ class ArenasController extends Controller
     function mapDetail($id)
     {
         $sandControl = SandControl::findOrFail($id);
-        $wellsOfField = Field::with('wells.sandControls')->find($sandControl->well->field->id)->wells;
-        $field_avg_len = $wellsOfField->pluck('sandControls')->flatten()->avg('length');
         return view('arenas.map_detail', [
-            'sandControl' => $sandControl,
-            'field_avg_len' => $field_avg_len,
+            'sandControl' => $sandControl
         ]);
     }
 
