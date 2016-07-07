@@ -3,177 +3,135 @@
 @section('title', 'Información general del completamiento del pozo')
 
 @section('content')
+<?php
 
-<div class="page-header">
-    <h2>Información general del Pozo {{ ucfirst(strtolower($sandControl->well->name)) }}</h2>
-</div>
+$elems = [
+    [
+        'display' => 'Mecanismo de control de arena',
+        'content' => $sandControl->mechanism
+    ],
+    [
+        'display' => 'Vicepresidencia',
+        'content' => $sandControl->well->field->vicepresidency
+    ],
+    [
+        'display' => 'Nombre del Campo',
+        'content' => $sandControl->well->field->name
+    ],
+    [
+        'display' => 'Nombre del Pozo',
+        'content' => $sandControl->well->name
+    ],
+    [
+        'display' => 'Fecha de instalación del mecanismo de control de arena',
+        'content' => $sandControl->install_date
+    ],
+    [
+        'display' => 'Siglas del evento',
+        'content' => $sandControl->event
+    ],
+    [
+        'display' => 'Tipo de Completamiento según el empaquetamiento de grava',
+        'content' => $sandControl->completion_type
+    ],
+    [
+        'display' => 'Tipo de malla',
+        'content' => $sandControl->mesh_type
+    ],
+    [
+        'display' => 'Tamaño de la Grava (US Mesh)',
+        'content' => $sandControl->gravel_size
+    ],
+    [
+        'display' => 'Grado',
+        'content' => $sandControl->grade
+    ],
+    [
+        'display' => 'BHA (Número de Juntas)',
+        'content' => $sandControl->joints
+    ],
+    [
+        'display' => 'Diámetro Nominal (in)',
+        'content' => $sandControl->diameter
+    ],
+    [
+        'display' => 'Diámetro Interno',
+        'content' => $sandControl->internal_diameter
+    ],
+    [
+        'display' => 'Holgura (in)',
+        'content' => $sandControl->clearance
+    ],
+    [
+        'display' => 'Tope del mecanismo (ft)',
+        'content' => $sandControl->top
+    ],
+    [
+        'display' => 'Fondo del mecanismo',
+        'content' => $sandControl->bottom
+    ],
+    [
+        'display' => 'Longitud (ft)',
+        'content' => $sandControl->length
+    ],
+    [
+        'display' => 'Peso Nominal (lb/ft)',
+        'content' => $sandControl->weight
+    ],
+    [
+        'display' => 'Municipio',
+        'content' => $sandControl->well->town
+    ],
+    [
+        'display' => 'Número de ranuras por pie',
+        'content' => $sandControl->slots_per_ft
+    ],
+    [
+        'display' => 'Ancho de la ranura del Liner (in)',
+        'content' => $sandControl->slot_width
+    ],
+    [
+        'display' => 'Mesh',
+        'content' => $sandControl->mesh
+    ],
+    [
+        'display' => 'Slot Gauge de la malla (in)',
+        'content' => $sandControl->slot_gauge
+    ],
+];
+
+$well_name = ufirst($sandControl->well->name);
+
+?>
+
+<header>
+    <h2>Información general del Pozo {{ $well_name }}</h2>
+</header>
 
 @include('partial.messages')
+
 
 <p>A continuación se muestra la información relacionada con mecanismos de control de arena del pozo de interés</p>
 <table class="table-hover">
     <thead>
         <tr>
-            <th colspan="2">Pozo {{ ucfirst(strtolower($sandControl->well->name)) }}</th>
+            <th colspan="2">Pozo {{ $well_name }}</th>
         </tr>
     </thead>
     <tbody>
-        @if ( $sandControl->mechanism != null)
-        <tr>
-            <td>Mecanismo de control de arena</td>
-            <td>{{ $sandControl->mechanism }}</td>
-        </tr>
-        @endif
-        @if ( $sandControl->well->field->vicepresidency != null)
-        <tr>
-            <td>Vicepresidencia</td>
-            <td>{{ $sandControl->well->field->vicepresidency }}</td>
-        </tr>
-        @endif
-        @if ( $sandControl->well->field->name != null)
-        <tr>
-            <td>Nombre del Campo</td>
-            <td>{{ $sandControl->well->field->name }}</td>
-        </tr>
-        @endif
-        @if ( $sandControl->well->name != null)
-        <tr>
-            <td>Nombre del Pozo</td>
-            <td>{{ $sandControl->well->name }}</td>
-        </tr>
-        @endif
-        @if ( $sandControl->install_date != null)
-        <tr>
-            <td>Fecha de instalación del mecanismo de control de arena</td>
-            <td>{{ $sandControl->install_date }}</td>
-        </tr>
-        @endif
-        @if ( $sandControl->event != null)
-        <tr>
-            <td>Siglas del evento</td>
-            <td>{{ $sandControl->event }}</td>
-        </tr>
-        @endif
-        @if ( $sandControl->completion_type != null)
-        <tr>
-            <td>Tipo de Completamiento según el empaquetamiento de grava</td>
-            <td>{{ $sandControl->completion_type }}</td>
-        </tr>
-        @endif
-        @if ( $sandControl->mesh_type != null)
-        <tr>
-            <td>Tipo de malla</td>
-            <td>{{ $sandControl->mesh_type }}</td>
-        </tr>
-        @endif
-        @if ( $sandControl->gravel_size != null)
-        <tr>
-            <td>Tamaño de la Grava (US Mesh)</td>
-            <td>{{ $sandControl->gravel_size }}</td>
-        </tr>
-        @endif
-        @if ( $sandControl->grade != null)
-        <tr>
-            <td>Grado</td>
-            <td>{{ $sandControl->grade }}</td>
-        </tr>
-        @endif
-        @if ( $sandControl->joints != null)
-        <tr>
-            <td>BHA (Número de Juntas)</td>
-            <td>{{ $sandControl->joints }}</td>
-        </tr>
-        @endif
-        @if ( $sandControl->diameter != null)
-        <tr>
-            <td>Diámetro Nominal (in)</td>
-            <td>{{ $sandControl->diameter }}</td>
-        </tr>
-        @endif
-        @if ( $sandControl->internal_diameter != null)
-        <tr>
-            <td>Diámetro Interno</td>
-            <td>{{ $sandControl->internal_diameter }}</td>
-        </tr>
-        @endif
-        @if ( $sandControl->clearance != null)
-        <tr>
-            <td>Holgura (in)</td>
-            <td>{{ $sandControl->clearance }}</td>
-        </tr>
-        @endif
-        @if ( $sandControl->top != null)
-        <tr>
-            <td>Tope del mecanismo (ft)</td>
-            <td>{{ $sandControl->top }}</td>
-        </tr>
-        @endif
-        @if ( $sandControl->bottom != null)
-        <tr>
-            <td>Fondo del mecanismo</td>
-            <td>{{ $sandControl->bottom }}</td>
-        </tr>
-        @endif
-        @if ( $sandControl->length != null)
-        <tr>
-            <td>Longitud (ft)</td>
-            <td>{{ $sandControl->length }}</td>
-        </tr>
-        @endif
-        @if ( $sandControl->weight != null)
-        <tr>
-            <td>Peso Nominal (lb/ft)</td>
-            <td>{{ $sandControl->weight }}</td>
-        </tr>
-        @endif
-        @if ( $sandControl->well->town != null)
-        <tr>
-            <td>Municipio</td>
-            <td>{{ $sandControl->well->town }}</td>
-        </tr>
-        @endif
-        @if ( $sandControl->slots_per_ft != null)
-        <tr>
-            <td>Número de ranuras por pie</td>
-            <td>{{ $sandControl->slots_per_ft }}</td>
-        </tr>
-        @endif
-        @if ( $sandControl->slot_width != null)
-        <tr>
-            <td>Ancho de la ranura del Liner  (in)</td>
-            <td>{{ $sandControl->slot_width }}</td>
-        </tr>
-        @endif
-        @if ( $sandControl->mesh != null)
-        <tr>
-            <td>Mesh</td>
-            <td>{{ $sandControl->mesh }}</td>
-        </tr>
-        @endif
-        @if ( $sandControl->slot_gauge != null)
-        <tr>
-            <td>Slot Gauge de la malla (in)</td>
-            <td>{{ $sandControl->slot_gauge }}</td>
-        </tr>
-        @endif
-        {{--
-        @if ( $sandControl->ideal_size != null)
-        <tr>
-            <td>Tamaño de grano ideal para completar  con el pozo con el mecanismo de conntrol seleccionado (micrómetros)</td>
-            <td>{{ $sandControl->ideal_size }}</td>
-        </tr>
-        @endif
-        @if ( $field_avg_len != null)
-        <tr>
-            <td>Longitud Promedio del mecanismo en el Campo (ft)</td>
-            <td>{{ $field_avg_len }}</td>
-        </tr>
-        @endif --}}
+        @foreach ($elems as $elem)
+            @if ($elem['content'] != null)
+            <tr>
+                <td>{{ $elem['display'] }}</td>
+                <td>{{ $elem['content'] }}</td>
+            </tr>
+            @endif
+        @endforeach
     </tbody>
 </table>
 
 <div class="buttons">
-    <a href="{{ url('arenas/map/' . $sandControl->id) }}/edit" class="btn btn-primary">
+    <a href="/arenas/map/{{ $sandControl->id }}/edit">
         Editar
     </a>
 </div>

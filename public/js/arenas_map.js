@@ -13834,11 +13834,11 @@ exports.load = function (fn) {
         };
         var $container = $(exports.CONTAINER_SELECTOR);
         $container.empty();
-        $container.removeClass('loading');
 
         map = new google.maps.Map($container[0], options);
 
         if (fn) fn(google, map);
+        $container.removeClass('loading');
     });
 };
 

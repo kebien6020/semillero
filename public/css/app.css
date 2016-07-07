@@ -1327,7 +1327,7 @@ a.bg-danger:hover,
 a.bg-danger:focus {
   background-color: #e4b9b9; }
 
-.page-header {
+.page-header, main header {
   padding-bottom: 9px;
   margin: 40px 0 20px;
   border-bottom: 1px solid #eeeeee; }
@@ -6021,22 +6021,12 @@ form input[type="file"] {
       color: #9d9d9d;
       padding: 5px 15px 5px 25px; } }
 
+main header {
+  text-align: center; }
+
 .buttons {
   text-align: center;
   margin: 0.5rem auto 0 auto; }
-
-/*.header {
-    @include bg_theme_gradient();
-    color: white;
-    font-size: 14px;
-    padding: 8px;
-    font-weight: bold;
-    margin-bottom: 0;
-    text-align: center;
-
-}*/
-.page-header {
-  text-align: center; }
 
 #home {
   background: url(/images/bg.png) no-repeat center center fixed;
