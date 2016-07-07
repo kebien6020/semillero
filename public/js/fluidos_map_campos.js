@@ -13762,9 +13762,11 @@ exports.load = function (fn) {
             zoom: 6,
             mapTypeId: google.maps.MapTypeId.HYBRID
         };
-        var $container = $(exports.CONTAINER_SELECTOR)[0];
+        var $container = $(exports.CONTAINER_SELECTOR);
+        $container.empty();
+        $container.removeClass('loading');
 
-        map = new google.maps.Map($container, options);
+        map = new google.maps.Map($container[0], options);
 
         if (fn) fn(google, map);
     });

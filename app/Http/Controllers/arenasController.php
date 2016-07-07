@@ -29,15 +29,24 @@ class ArenasController extends Controller
     
     function mapPozos()
     {
+        return view('arenas.map_pozos');
+    }
+
+    // API route
+    function sandControls()
+    {
         $sandControls = SandControl::with('well.field.basin')->get();
+        return $sandControls->toJson();
+    }
+
+    // API route
+    function sandControlGroups()
+    {
         $groups = SandControl::all('group')
             ->unique('group')
             ->pluck('group')
             ->sort()->values();
-        return view('arenas.map_pozos', [
-            'sandControls' => $sandControls->toJson(),
-            'groups' => $groups->toJson(),
-        ]);
+        return $groups->toJson();
     }
 
     function mapDetail($id)

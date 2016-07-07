@@ -73,6 +73,10 @@ form {
 .buttons {
   text-align: center;
   margin: 0.5rem auto 0 auto;
+  a {
+    @extend .btn;
+    @extend .btn-primary;
+  }
 }
 
 /*.header {

@@ -12416,7 +12416,85 @@ require('jquery.flot.pie');
 
 window.$ = $;
 
-},{"bootstrap":1,"jquery":3,"jquery.flot.pie":6}],5:[function(require,module,exports){
+},{"bootstrap":1,"jquery":3,"jquery.flot.pie":7}],5:[function(require,module,exports){
+'use strict';
+
+var Map = require('./map.js');
+$ = require('jquery');
+
+var markers_data = {
+    title_key: 'well.name',
+    longitude_key: 'well.longitude',
+    latitude_key: 'well.latitude',
+    show: [{
+        display: 'Mecanismo de control de arena: ',
+        key: 'mechanism'
+    }, {
+        display: 'Fecha de instalación (mes/día/año): ',
+        key: 'install_date'
+    }, {
+        display: 'Campo: ',
+        key: 'well.field.name'
+    }, {
+        display: 'Siglas del evento: ',
+        key: 'event',
+        nullable: true
+    }],
+    actions: [{
+        display: 'Información del completamiento del pozo',
+        url: function url(model) {
+            return '/arenas/map/' + model.id;
+        }
+    }, {
+        display: 'Editar',
+        url: function url(model) {
+            return '/arenas/map/' + model.well.id + '/edit';
+        }
+    }],
+    color_mode: 'name',
+    color_pallete: ['red', 'blue', 'yellow', 'aqua'],
+    color_by: {
+        key: 'group'
+    }
+};
+
+function init() {
+    getData(setupMap);
+}
+
+function getData(callback) {
+    $.when($.getJSON('/api/arenas/sand_controls'), $.getJSON('/api/arenas/sand_control_groups')).done(function (response1, response2) {
+        if (response1 === undefined || response2 === undefined) {
+            fail();
+            return;
+        }
+        // response (1 and 2) have the form [ data, statusText, jqXHR ]
+        var sand_controls = response1[0],
+            groups = response2[0];
+
+        callback(sand_controls, groups);
+    }).fail(fail);
+
+    function fail() {
+        // TODO: Output error to screen
+        alert('Error cargando los datos del mapa desde el servidor');
+    }
+}
+
+function setupMap(sand_controls, groups) {
+    markers_data.data = sand_controls;
+    markers_data.color_by.values = groups;
+
+    console.log(markers_data);
+
+    Map.load(function (google, map) {
+        Map.setupMarkers(markers_data);
+    });
+}
+
+init();
+
+},{"./map.js":8,"jquery":3}],6:[function(require,module,exports){
 (function (global){
 
 ; require("jquery");
@@ -12902,7 +12980,7 @@ function floorInBase(n,base){return base*Math.floor(n/base);}})(jQuery);
 }).call(global, module, undefined, undefined);
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"jquery":3}],6:[function(require,module,exports){
+},{"jquery":3}],7:[function(require,module,exports){
 (function (global){
 
 ; require("/home/vagrant/Code/Semillero/resources/assets/js/flot/jquery.flot.js");
@@ -13728,7 +13806,7 @@ More detail and specific examples can be found in the included HTML file.
 }).call(global, module, undefined, undefined);
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"/home/vagrant/Code/Semillero/resources/assets/js/flot/jquery.flot.js":5}],7:[function(require,module,exports){
+},{"/home/vagrant/Code/Semillero/resources/assets/js/flot/jquery.flot.js":6}],8:[function(require,module,exports){
 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
@@ -14052,7 +14130,7 @@ function markerListener(infoWindow, marker, callback, model) {
 // Global export
 window.Map = module.exports;
 
-},{"./app.js":4,"./modules/array_unique.js":8,"google-maps":2,"jquery":3}],8:[function(require,module,exports){
+},{"./app.js":4,"./modules/array_unique.js":9,"google-maps":2,"jquery":3}],9:[function(require,module,exports){
 "use strict";
 
 module.exports = function (array) {
@@ -14066,6 +14144,6 @@ module.exports = function (array) {
     return a;
 };
 
-},{}]},{},[7]);
+},{}]},{},[5]);
 
-//# sourceMappingURL=map.js.map
+//# sourceMappingURL=arenas_map.js.map
