@@ -90,13 +90,13 @@
 
 @section('content')
 
-<div class="page-header">
+<header>
     @if ($edit)
     <h1>Sección de edición de los datos ingresados</h1>
     @else
     <h1>Ingreso de datos granulométricos para una muestra de pozo</h1>
     @endif
-</div>
+</header>
 
 @include('partial.messages')
 
@@ -160,7 +160,7 @@
         </tbody>
     </table>
     <div class="form-group text-center">
-        <input type="submit" name="submit" value="@if($edit) Actualizar @else Agregar @endif Datos" class="btn btn-success">
+        <input type="submit" name="submit" value="@if($edit) Actualizar @else Agregar @endif Datos">
     </div>
 </form>
 

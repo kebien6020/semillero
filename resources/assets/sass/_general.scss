@@ -4,21 +4,6 @@ body {
     padding-bottom: 0.5em;
 }
 
-form {
-    @extend .form-horizontal;
-    input, select {
-        @extend .form-control;
-    }
-    input[type="submit"] {
-        width: inherit;
-    }
-    input[type="file"] {
-        padding-top: 0;
-        padding-bottom: 0;
-        height: 3em;
-    }
-}
-
 // Master styles
 #navbar {
     @extend .navbar;
@@ -94,4 +79,16 @@ main {
 .error-panel {
     @extend .alert;
     @extend .alert-danger;
+}
+
+.success-panel, .error-panel {
+    button.dismiss {
+        @extend .close;
+    }
+}
+
+.list-group {
+    > a, > li {
+        @extend .list-group-item;
+    }
 }

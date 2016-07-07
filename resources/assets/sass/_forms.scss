@@ -1,0 +1,30 @@
+form {
+    @extend .form-horizontal;
+    input, select {
+        @extend .form-control;
+    }
+    input[type="submit"] {
+        width: inherit;
+    }
+    input[type="file"] {
+        padding-top: 0;
+        padding-bottom: 0;
+        height: 3em;
+    }
+    &.form-2-10 {
+        .form-group > :nth-child(1) {
+            @extend .col-sm-2;
+        }
+        .form-group > :nth-child(2) {
+            @extend .col-sm-10;
+        }
+    }
+    .submit-container {
+        @extend .fluid-container !optional;
+        @extend .text-center;
+        input[type="submit"] {
+            @extend .btn;
+            @extend .btn-success;
+        }
+    }
+}

@@ -27,7 +27,8 @@ elixir(function(mix) {
     'app.js',
     'fluidos_map_campos.js',
     'arenas_matrix_results.js',
-    'arenas_map.js'
+    'arenas_map.js',
+    'home.js'
   ].forEach(function(val){
     mix.browserify(val);
   });

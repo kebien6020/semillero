@@ -222,9 +222,12 @@ th {
     page-break-after: avoid; }
   .navbar, #navbar {
     display: none; }
-  .btn > .caret, .buttons a > .caret,
+  .btn > .caret, .buttons a > .caret, form .submit-container input[type="submit"] > .caret, .multi-list-group .item-container .item a > .caret, .multi-list-group .item-container .item button > .caret,
   .dropup > .btn > .caret, .buttons
-  .dropup > a > .caret {
+  .dropup > a > .caret, form .submit-container
+  .dropup > input[type="submit"] > .caret, .multi-list-group .item-container .item
+  .dropup > a > .caret, .multi-list-group .item-container .item
+  .dropup > button > .caret {
     border-top-color: #000 !important; }
   .label {
     border: 1px solid #000; }
@@ -1233,7 +1236,7 @@ mark,
 .text-right {
   text-align: right; }
 
-.text-center {
+.text-center, form .submit-container {
   text-align: center; }
 
 .text-justify {
@@ -1534,7 +1537,7 @@ pre {
   .row:after {
     clear: both; }
 
-.col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
+.col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, form.form-2-10 .form-group > :nth-child(1), .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, form.form-2-10 .form-group > :nth-child(2), .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
   position: relative;
   min-height: 1px;
   padding-left: 15px;
@@ -1697,11 +1700,11 @@ pre {
   margin-left: 100%; }
 
 @media (min-width: 768px) {
-  .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12 {
+  .col-sm-1, .col-sm-2, form.form-2-10 .form-group > :nth-child(1), .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, form.form-2-10 .form-group > :nth-child(2), .col-sm-11, .col-sm-12 {
     float: left; }
   .col-sm-1 {
     width: 8.3333333333%; }
-  .col-sm-2 {
+  .col-sm-2, form.form-2-10 .form-group > :nth-child(1) {
     width: 16.6666666667%; }
   .col-sm-3 {
     width: 25%; }
@@ -1717,7 +1720,7 @@ pre {
     width: 66.6666666667%; }
   .col-sm-9 {
     width: 75%; }
-  .col-sm-10 {
+  .col-sm-10, form.form-2-10 .form-group > :nth-child(2) {
     width: 83.3333333333%; }
   .col-sm-11 {
     width: 91.6666666667%; }
@@ -2375,13 +2378,16 @@ input[type="search"] {
     line-height: 34px; }
   input[type="date"].input-sm, .input-group-sm > input[type="date"].form-control, form .input-group-sm > input[type="date"],
   .input-group-sm > input[type="date"].input-group-addon,
-  .input-group-sm > .input-group-btn > input[type="date"].btn,
+  .input-group-sm > .input-group-btn > input[type="date"].btn, form .submit-container
+  .input-group-sm > .input-group-btn > input[type="date"][type="submit"],
   .input-group-sm input[type="date"],
   input[type="time"].input-sm,
   .input-group-sm > input[type="time"].form-control,
   form .input-group-sm > input[type="time"],
   .input-group-sm > input[type="time"].input-group-addon,
   .input-group-sm > .input-group-btn > input[type="time"].btn,
+  form .submit-container
+  .input-group-sm > .input-group-btn > input[type="time"][type="submit"],
   .input-group-sm
   input[type="time"],
   input[type="datetime-local"].input-sm,
@@ -2389,6 +2395,8 @@ input[type="search"] {
   form .input-group-sm > input[type="datetime-local"],
   .input-group-sm > input[type="datetime-local"].input-group-addon,
   .input-group-sm > .input-group-btn > input[type="datetime-local"].btn,
+  form .submit-container
+  .input-group-sm > .input-group-btn > input[type="datetime-local"][type="submit"],
   .input-group-sm
   input[type="datetime-local"],
   input[type="month"].input-sm,
@@ -2396,18 +2404,23 @@ input[type="search"] {
   form .input-group-sm > input[type="month"],
   .input-group-sm > input[type="month"].input-group-addon,
   .input-group-sm > .input-group-btn > input[type="month"].btn,
+  form .submit-container
+  .input-group-sm > .input-group-btn > input[type="month"][type="submit"],
   .input-group-sm
   input[type="month"] {
     line-height: 30px; }
   input[type="date"].input-lg, .input-group-lg > input[type="date"].form-control, form .input-group-lg > input[type="date"],
   .input-group-lg > input[type="date"].input-group-addon,
-  .input-group-lg > .input-group-btn > input[type="date"].btn,
+  .input-group-lg > .input-group-btn > input[type="date"].btn, form .submit-container
+  .input-group-lg > .input-group-btn > input[type="date"][type="submit"],
   .input-group-lg input[type="date"],
   input[type="time"].input-lg,
   .input-group-lg > input[type="time"].form-control,
   form .input-group-lg > input[type="time"],
   .input-group-lg > input[type="time"].input-group-addon,
   .input-group-lg > .input-group-btn > input[type="time"].btn,
+  form .submit-container
+  .input-group-lg > .input-group-btn > input[type="time"][type="submit"],
   .input-group-lg
   input[type="time"],
   input[type="datetime-local"].input-lg,
@@ -2415,6 +2428,8 @@ input[type="search"] {
   form .input-group-lg > input[type="datetime-local"],
   .input-group-lg > input[type="datetime-local"].input-group-addon,
   .input-group-lg > .input-group-btn > input[type="datetime-local"].btn,
+  form .submit-container
+  .input-group-lg > .input-group-btn > input[type="datetime-local"][type="submit"],
   .input-group-lg
   input[type="datetime-local"],
   input[type="month"].input-lg,
@@ -2422,6 +2437,8 @@ input[type="search"] {
   form .input-group-lg > input[type="month"],
   .input-group-lg > input[type="month"].input-group-addon,
   .input-group-lg > .input-group-btn > input[type="month"].btn,
+  form .submit-container
+  .input-group-lg > .input-group-btn > input[type="month"][type="submit"],
   .input-group-lg
   input[type="month"] {
     line-height: 46px; } }
@@ -2500,17 +2517,26 @@ fieldset[disabled]
   .form-control-static.input-lg, .input-group-lg > .form-control-static.form-control, form .input-group-lg > input.form-control-static, form .input-group-lg > select.form-control-static,
   .input-group-lg > .form-control-static.input-group-addon,
   .input-group-lg > .input-group-btn > .form-control-static.btn, .buttons
-  .input-group-lg > .input-group-btn > a.form-control-static, .form-control-static.input-sm, .input-group-sm > .form-control-static.form-control, form .input-group-sm > input.form-control-static, form .input-group-sm > select.form-control-static,
+  .input-group-lg > .input-group-btn > a.form-control-static, form .submit-container
+  .input-group-lg > .input-group-btn > input.form-control-static[type="submit"], .multi-list-group .item-container .item
+  .input-group-lg > .input-group-btn > a.form-control-static, .multi-list-group .item-container .item
+  .input-group-lg > .input-group-btn > button.form-control-static, .form-control-static.input-sm, .input-group-sm > .form-control-static.form-control, form .input-group-sm > input.form-control-static, form .input-group-sm > select.form-control-static,
   .input-group-sm > .form-control-static.input-group-addon,
   .input-group-sm > .input-group-btn > .form-control-static.btn, .buttons
-  .input-group-sm > .input-group-btn > a.form-control-static {
+  .input-group-sm > .input-group-btn > a.form-control-static, form .submit-container
+  .input-group-sm > .input-group-btn > input.form-control-static[type="submit"], .multi-list-group .item-container .item
+  .input-group-sm > .input-group-btn > a.form-control-static, .multi-list-group .item-container .item
+  .input-group-sm > .input-group-btn > button.form-control-static {
     padding-left: 0;
     padding-right: 0; }
 
 .input-sm, .input-group-sm > .form-control, form .input-group-sm > input, form .input-group-sm > select,
 .input-group-sm > .input-group-addon,
 .input-group-sm > .input-group-btn > .btn, .buttons
-.input-group-sm > .input-group-btn > a {
+.input-group-sm > .input-group-btn > a, form .submit-container
+.input-group-sm > .input-group-btn > input[type="submit"], .multi-list-group .item-container .item
+.input-group-sm > .input-group-btn > a, .multi-list-group .item-container .item
+.input-group-sm > .input-group-btn > button {
   height: 30px;
   padding: 5px 10px;
   font-size: 12px;
@@ -2560,7 +2586,10 @@ form .input-group-sm > select[multiple],
 .input-lg, .input-group-lg > .form-control, form .input-group-lg > input, form .input-group-lg > select,
 .input-group-lg > .input-group-addon,
 .input-group-lg > .input-group-btn > .btn, .buttons
-.input-group-lg > .input-group-btn > a {
+.input-group-lg > .input-group-btn > a, form .submit-container
+.input-group-lg > .input-group-btn > input[type="submit"], .multi-list-group .item-container .item
+.input-group-lg > .input-group-btn > a, .multi-list-group .item-container .item
+.input-group-lg > .input-group-btn > button {
   height: 46px;
   padding: 10px 16px;
   font-size: 18px;
@@ -2627,7 +2656,10 @@ form .input-group-lg > select[multiple],
 .input-lg + .form-control-feedback, .input-group-lg > .form-control + .form-control-feedback, form .input-group-lg > input + .form-control-feedback, form .input-group-lg > select + .form-control-feedback,
 .input-group-lg > .input-group-addon + .form-control-feedback,
 .input-group-lg > .input-group-btn > .btn + .form-control-feedback, .buttons
-.input-group-lg > .input-group-btn > a + .form-control-feedback,
+.input-group-lg > .input-group-btn > a + .form-control-feedback, form .submit-container
+.input-group-lg > .input-group-btn > input[type="submit"] + .form-control-feedback, .multi-list-group .item-container .item
+.input-group-lg > .input-group-btn > a + .form-control-feedback, .multi-list-group .item-container .item
+.input-group-lg > .input-group-btn > button + .form-control-feedback,
 .input-group-lg + .form-control-feedback,
 .form-group-lg .form-control + .form-control-feedback,
 .form-group-lg form input + .form-control-feedback, form
@@ -2641,7 +2673,10 @@ form .input-group-lg > select[multiple],
 .input-sm + .form-control-feedback, .input-group-sm > .form-control + .form-control-feedback, form .input-group-sm > input + .form-control-feedback, form .input-group-sm > select + .form-control-feedback,
 .input-group-sm > .input-group-addon + .form-control-feedback,
 .input-group-sm > .input-group-btn > .btn + .form-control-feedback, .buttons
-.input-group-sm > .input-group-btn > a + .form-control-feedback,
+.input-group-sm > .input-group-btn > a + .form-control-feedback, form .submit-container
+.input-group-sm > .input-group-btn > input[type="submit"] + .form-control-feedback, .multi-list-group .item-container .item
+.input-group-sm > .input-group-btn > a + .form-control-feedback, .multi-list-group .item-container .item
+.input-group-sm > .input-group-btn > button + .form-control-feedback,
 .input-group-sm + .form-control-feedback,
 .form-group-sm .form-control + .form-control-feedback,
 .form-group-sm form input + .form-control-feedback, form
@@ -2828,7 +2863,7 @@ form .input-group-lg > select[multiple],
     padding-top: 6px;
     font-size: 12px; } }
 
-.btn, .buttons a {
+.btn, .buttons a, form .submit-container input[type="submit"], .multi-list-group .item-container .item a, .multi-list-group .item-container .item button {
   display: inline-block;
   margin-bottom: 0;
   font-weight: normal;
@@ -2848,71 +2883,111 @@ form .input-group-lg > select[multiple],
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none; }
-  .btn:focus, .buttons a:focus, .btn.focus, .buttons a.focus, .btn:active:focus, .buttons a:active:focus, .btn:active.focus, .buttons a:active.focus, .btn.active:focus, .buttons a.active:focus, .btn.active.focus, .buttons a.active.focus {
+  .btn:focus, .buttons a:focus, form .submit-container input[type="submit"]:focus, .multi-list-group .item-container .item a:focus, .multi-list-group .item-container .item button:focus, .btn.focus, .buttons a.focus, form .submit-container input.focus[type="submit"], .multi-list-group .item-container .item a.focus, .multi-list-group .item-container .item button.focus, .btn:active:focus, .buttons a:active:focus, form .submit-container input[type="submit"]:active:focus, .multi-list-group .item-container .item a:active:focus, .multi-list-group .item-container .item button:active:focus, .btn:active.focus, .buttons a:active.focus, form .submit-container input[type="submit"]:active.focus, .multi-list-group .item-container .item a:active.focus, .multi-list-group .item-container .item button:active.focus, .btn.active:focus, .buttons a.active:focus, form .submit-container input.active[type="submit"]:focus, .multi-list-group .item-container .item a.active:focus, .multi-list-group .item-container .item button.active:focus, .btn.active.focus, .buttons a.active.focus, form .submit-container input.active.focus[type="submit"], .multi-list-group .item-container .item a.active.focus, .multi-list-group .item-container .item button.active.focus {
     outline: thin dotted;
     outline: 5px auto -webkit-focus-ring-color;
     outline-offset: -2px; }
-  .btn:hover, .buttons a:hover, .btn:focus, .buttons a:focus, .btn.focus, .buttons a.focus {
+  .btn:hover, .buttons a:hover, form .submit-container input[type="submit"]:hover, .multi-list-group .item-container .item a:hover, .multi-list-group .item-container .item button:hover, .btn:focus, .buttons a:focus, form .submit-container input[type="submit"]:focus, .multi-list-group .item-container .item a:focus, .multi-list-group .item-container .item button:focus, .btn.focus, .buttons a.focus, form .submit-container input.focus[type="submit"], .multi-list-group .item-container .item a.focus, .multi-list-group .item-container .item button.focus {
     color: #333;
     text-decoration: none; }
-  .btn:active, .buttons a:active, .btn.active, .buttons a.active {
+  .btn:active, .buttons a:active, form .submit-container input[type="submit"]:active, .multi-list-group .item-container .item a:active, .multi-list-group .item-container .item button:active, .btn.active, .buttons a.active, form .submit-container input.active[type="submit"], .multi-list-group .item-container .item a.active, .multi-list-group .item-container .item button.active {
     outline: 0;
     background-image: none;
     box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125); }
-  .btn.disabled, .buttons a.disabled, .btn[disabled], .buttons a[disabled],
+  .btn.disabled, .buttons a.disabled, form .submit-container input.disabled[type="submit"], .multi-list-group .item-container .item a.disabled, .multi-list-group .item-container .item button.disabled, .btn[disabled], .buttons a[disabled], form .submit-container input[disabled][type="submit"], .multi-list-group .item-container .item a[disabled], .multi-list-group .item-container .item button[disabled],
   fieldset[disabled] .btn,
   fieldset[disabled] .buttons a, .buttons
-  fieldset[disabled] a {
+  fieldset[disabled] a,
+  fieldset[disabled] form .submit-container input[type="submit"], form .submit-container
+  fieldset[disabled] input[type="submit"],
+  fieldset[disabled] .multi-list-group .item-container .item a, .multi-list-group .item-container .item
+  fieldset[disabled] a,
+  fieldset[disabled] .multi-list-group .item-container .item button, .multi-list-group .item-container .item
+  fieldset[disabled] button {
     cursor: not-allowed;
     opacity: 0.65;
     filter: alpha(opacity=65);
     box-shadow: none; }
 
-a.btn.disabled, .buttons a.disabled,
+a.btn.disabled, .buttons a.disabled, .multi-list-group .item-container .item a.disabled,
 fieldset[disabled] a.btn,
 fieldset[disabled] .buttons a, .buttons
+fieldset[disabled] a,
+fieldset[disabled] .multi-list-group .item-container .item a, .multi-list-group .item-container .item
 fieldset[disabled] a {
   pointer-events: none; }
 
-.btn-default {
+.btn-default, .multi-list-group .item-container .item a, .multi-list-group .item-container .item button {
   color: #333;
   background-color: #fff;
   border-color: #ccc; }
-  .btn-default:focus, .btn-default.focus {
+  .btn-default:focus, .multi-list-group .item-container .item a:focus, .multi-list-group .item-container .item button:focus, .btn-default.focus, .multi-list-group .item-container .item a.focus, .multi-list-group .item-container .item button.focus {
     color: #333;
     background-color: #e6e6e6;
     border-color: #8c8c8c; }
-  .btn-default:hover {
+  .btn-default:hover, .multi-list-group .item-container .item a:hover, .multi-list-group .item-container .item button:hover {
     color: #333;
     background-color: #e6e6e6;
     border-color: #adadad; }
-  .btn-default:active, .btn-default.active,
+  .btn-default:active, .multi-list-group .item-container .item a:active, .multi-list-group .item-container .item button:active, .btn-default.active, .multi-list-group .item-container .item a.active, .multi-list-group .item-container .item button.active,
   .open > .btn-default.dropdown-toggle, #navbar .navigation-collapse > ul > li
-  .open > a.btn-default {
+  .open > a.btn-default, #navbar .navigation-collapse > ul > li .multi-list-group .item-container .item
+  .open > a, .multi-list-group .item-container .item #navbar .navigation-collapse > ul > li
+  .open > a, .multi-list-group .item-container .item
+  .open > a.dropdown-toggle, .multi-list-group .item-container .item
+  .open > button.dropdown-toggle {
     color: #333;
     background-color: #e6e6e6;
     border-color: #adadad; }
-    .btn-default:active:hover, .btn-default:active:focus, .btn-default:active.focus, .btn-default.active:hover, .btn-default.active:focus, .btn-default.active.focus,
+    .btn-default:active:hover, .multi-list-group .item-container .item a:active:hover, .multi-list-group .item-container .item button:active:hover, .btn-default:active:focus, .multi-list-group .item-container .item a:active:focus, .multi-list-group .item-container .item button:active:focus, .btn-default:active.focus, .multi-list-group .item-container .item a:active.focus, .multi-list-group .item-container .item button:active.focus, .btn-default.active:hover, .multi-list-group .item-container .item a.active:hover, .multi-list-group .item-container .item button.active:hover, .btn-default.active:focus, .multi-list-group .item-container .item a.active:focus, .multi-list-group .item-container .item button.active:focus, .btn-default.active.focus, .multi-list-group .item-container .item a.active.focus, .multi-list-group .item-container .item button.active.focus,
     .open > .btn-default.dropdown-toggle:hover, #navbar .navigation-collapse > ul > li
-    .open > a.btn-default:hover,
+    .open > a.btn-default:hover, #navbar .navigation-collapse > ul > li .multi-list-group .item-container .item
+    .open > a:hover, .multi-list-group .item-container .item #navbar .navigation-collapse > ul > li
+    .open > a:hover, .multi-list-group .item-container .item
+    .open > a.dropdown-toggle:hover, .multi-list-group .item-container .item
+    .open > button.dropdown-toggle:hover,
     .open > .btn-default.dropdown-toggle:focus, #navbar .navigation-collapse > ul > li
-    .open > a.btn-default:focus,
+    .open > a.btn-default:focus, #navbar .navigation-collapse > ul > li .multi-list-group .item-container .item
+    .open > a:focus, .multi-list-group .item-container .item #navbar .navigation-collapse > ul > li
+    .open > a:focus, .multi-list-group .item-container .item
+    .open > a.dropdown-toggle:focus, .multi-list-group .item-container .item
+    .open > button.dropdown-toggle:focus,
     .open > .btn-default.dropdown-toggle.focus, #navbar .navigation-collapse > ul > li
-    .open > a.btn-default.focus {
+    .open > a.btn-default.focus, #navbar .navigation-collapse > ul > li .multi-list-group .item-container .item
+    .open > a.focus, .multi-list-group .item-container .item #navbar .navigation-collapse > ul > li
+    .open > a.focus, .multi-list-group .item-container .item
+    .open > a.dropdown-toggle.focus, .multi-list-group .item-container .item
+    .open > button.dropdown-toggle.focus {
       color: #333;
       background-color: #d4d4d4;
       border-color: #8c8c8c; }
-  .btn-default:active, .btn-default.active,
+  .btn-default:active, .multi-list-group .item-container .item a:active, .multi-list-group .item-container .item button:active, .btn-default.active, .multi-list-group .item-container .item a.active, .multi-list-group .item-container .item button.active,
   .open > .btn-default.dropdown-toggle, #navbar .navigation-collapse > ul > li
-  .open > a.btn-default {
+  .open > a.btn-default, #navbar .navigation-collapse > ul > li .multi-list-group .item-container .item
+  .open > a, .multi-list-group .item-container .item #navbar .navigation-collapse > ul > li
+  .open > a, .multi-list-group .item-container .item
+  .open > a.dropdown-toggle, .multi-list-group .item-container .item
+  .open > button.dropdown-toggle {
     background-image: none; }
-  .btn-default.disabled:hover, .btn-default.disabled:focus, .btn-default.disabled.focus, .btn-default[disabled]:hover, .btn-default[disabled]:focus, .btn-default[disabled].focus,
+  .btn-default.disabled:hover, .multi-list-group .item-container .item a.disabled:hover, .multi-list-group .item-container .item button.disabled:hover, .btn-default.disabled:focus, .multi-list-group .item-container .item a.disabled:focus, .multi-list-group .item-container .item button.disabled:focus, .btn-default.disabled.focus, .multi-list-group .item-container .item a.disabled.focus, .multi-list-group .item-container .item button.disabled.focus, .btn-default[disabled]:hover, .multi-list-group .item-container .item a[disabled]:hover, .multi-list-group .item-container .item button[disabled]:hover, .btn-default[disabled]:focus, .multi-list-group .item-container .item a[disabled]:focus, .multi-list-group .item-container .item button[disabled]:focus, .btn-default[disabled].focus, .multi-list-group .item-container .item a[disabled].focus, .multi-list-group .item-container .item button[disabled].focus,
   fieldset[disabled] .btn-default:hover,
+  fieldset[disabled] .multi-list-group .item-container .item a:hover, .multi-list-group .item-container .item
+  fieldset[disabled] a:hover,
+  fieldset[disabled] .multi-list-group .item-container .item button:hover, .multi-list-group .item-container .item
+  fieldset[disabled] button:hover,
   fieldset[disabled] .btn-default:focus,
-  fieldset[disabled] .btn-default.focus {
+  fieldset[disabled] .multi-list-group .item-container .item a:focus, .multi-list-group .item-container .item
+  fieldset[disabled] a:focus,
+  fieldset[disabled] .multi-list-group .item-container .item button:focus, .multi-list-group .item-container .item
+  fieldset[disabled] button:focus,
+  fieldset[disabled] .btn-default.focus,
+  fieldset[disabled] .multi-list-group .item-container .item a.focus, .multi-list-group .item-container .item
+  fieldset[disabled] a.focus,
+  fieldset[disabled] .multi-list-group .item-container .item button.focus, .multi-list-group .item-container .item
+  fieldset[disabled] button.focus {
     background-color: #fff;
     border-color: #ccc; }
-  .btn-default .badge {
+  .btn-default .badge, .multi-list-group .item-container .item a .badge, .multi-list-group .item-container .item button .badge {
     color: #fff;
     background-color: #333; }
 
@@ -2979,45 +3054,56 @@ fieldset[disabled] a {
     color: #337ab7;
     background-color: #fff; }
 
-.btn-success {
+.btn-success, form .submit-container input[type="submit"] {
   color: #fff;
   background-color: #5cb85c;
   border-color: #4cae4c; }
-  .btn-success:focus, .btn-success.focus {
+  .btn-success:focus, form .submit-container input[type="submit"]:focus, .btn-success.focus, form .submit-container input.focus[type="submit"] {
     color: #fff;
     background-color: #449d44;
     border-color: #255625; }
-  .btn-success:hover {
+  .btn-success:hover, form .submit-container input[type="submit"]:hover {
     color: #fff;
     background-color: #449d44;
     border-color: #398439; }
-  .btn-success:active, .btn-success.active,
+  .btn-success:active, form .submit-container input[type="submit"]:active, .btn-success.active, form .submit-container input.active[type="submit"],
   .open > .btn-success.dropdown-toggle, #navbar .navigation-collapse > ul > li
-  .open > a.btn-success {
+  .open > a.btn-success, form .submit-container
+  .open > input.dropdown-toggle[type="submit"] {
     color: #fff;
     background-color: #449d44;
     border-color: #398439; }
-    .btn-success:active:hover, .btn-success:active:focus, .btn-success:active.focus, .btn-success.active:hover, .btn-success.active:focus, .btn-success.active.focus,
+    .btn-success:active:hover, form .submit-container input[type="submit"]:active:hover, .btn-success:active:focus, form .submit-container input[type="submit"]:active:focus, .btn-success:active.focus, form .submit-container input[type="submit"]:active.focus, .btn-success.active:hover, form .submit-container input.active[type="submit"]:hover, .btn-success.active:focus, form .submit-container input.active[type="submit"]:focus, .btn-success.active.focus, form .submit-container input.active.focus[type="submit"],
     .open > .btn-success.dropdown-toggle:hover, #navbar .navigation-collapse > ul > li
-    .open > a.btn-success:hover,
+    .open > a.btn-success:hover, form .submit-container
+    .open > input.dropdown-toggle[type="submit"]:hover,
     .open > .btn-success.dropdown-toggle:focus, #navbar .navigation-collapse > ul > li
-    .open > a.btn-success:focus,
+    .open > a.btn-success:focus, form .submit-container
+    .open > input.dropdown-toggle[type="submit"]:focus,
     .open > .btn-success.dropdown-toggle.focus, #navbar .navigation-collapse > ul > li
-    .open > a.btn-success.focus {
+    .open > a.btn-success.focus, form .submit-container
+    .open > input.dropdown-toggle.focus[type="submit"] {
       color: #fff;
       background-color: #398439;
       border-color: #255625; }
-  .btn-success:active, .btn-success.active,
+  .btn-success:active, form .submit-container input[type="submit"]:active, .btn-success.active, form .submit-container input.active[type="submit"],
   .open > .btn-success.dropdown-toggle, #navbar .navigation-collapse > ul > li
-  .open > a.btn-success {
+  .open > a.btn-success, form .submit-container
+  .open > input.dropdown-toggle[type="submit"] {
     background-image: none; }
-  .btn-success.disabled:hover, .btn-success.disabled:focus, .btn-success.disabled.focus, .btn-success[disabled]:hover, .btn-success[disabled]:focus, .btn-success[disabled].focus,
+  .btn-success.disabled:hover, form .submit-container input.disabled[type="submit"]:hover, .btn-success.disabled:focus, form .submit-container input.disabled[type="submit"]:focus, .btn-success.disabled.focus, form .submit-container input.disabled.focus[type="submit"], .btn-success[disabled]:hover, form .submit-container input[disabled][type="submit"]:hover, .btn-success[disabled]:focus, form .submit-container input[disabled][type="submit"]:focus, .btn-success[disabled].focus, form .submit-container input[disabled].focus[type="submit"],
   fieldset[disabled] .btn-success:hover,
+  fieldset[disabled] form .submit-container input[type="submit"]:hover, form .submit-container
+  fieldset[disabled] input[type="submit"]:hover,
   fieldset[disabled] .btn-success:focus,
-  fieldset[disabled] .btn-success.focus {
+  fieldset[disabled] form .submit-container input[type="submit"]:focus, form .submit-container
+  fieldset[disabled] input[type="submit"]:focus,
+  fieldset[disabled] .btn-success.focus,
+  fieldset[disabled] form .submit-container input.focus[type="submit"], form .submit-container
+  fieldset[disabled] input.focus[type="submit"] {
     background-color: #5cb85c;
     border-color: #4cae4c; }
-  .btn-success .badge {
+  .btn-success .badge, form .submit-container input[type="submit"] .badge {
     color: #5cb85c;
     background-color: #fff; }
 
@@ -3167,19 +3253,19 @@ fieldset[disabled] a {
     color: #777777;
     text-decoration: none; }
 
-.btn-lg, .btn-group-lg > .btn, .buttons .btn-group-lg > a {
+.btn-lg, .btn-group-lg > .btn, .buttons .btn-group-lg > a, form .submit-container .btn-group-lg > input[type="submit"], .multi-list-group .item-container .item .btn-group-lg > a, .multi-list-group .item-container .item .btn-group-lg > button {
   padding: 10px 16px;
   font-size: 18px;
   line-height: 1.3333333;
   border-radius: 6px; }
 
-.btn-sm, .btn-group-sm > .btn, .buttons .btn-group-sm > a {
+.btn-sm, .btn-group-sm > .btn, .buttons .btn-group-sm > a, form .submit-container .btn-group-sm > input[type="submit"], .multi-list-group .item-container .item .btn-group-sm > a, .multi-list-group .item-container .item .btn-group-sm > button {
   padding: 5px 10px;
   font-size: 12px;
   line-height: 1.5;
   border-radius: 3px; }
 
-.btn-xs, .btn-group-xs > .btn, .buttons .btn-group-xs > a {
+.btn-xs, .btn-group-xs > .btn, .buttons .btn-group-xs > a, form .submit-container .btn-group-xs > input[type="submit"], .multi-list-group .item-container .item .btn-group-xs > a, .multi-list-group .item-container .item .btn-group-xs > button {
   padding: 1px 5px;
   font-size: 12px;
   line-height: 1.5;
@@ -3354,35 +3440,88 @@ tbody.collapse.in {
     left: 0;
     right: auto; } }
 
-.btn-group,
+.btn-group, .multi-list-group .item-container .item,
 .btn-group-vertical {
   position: relative;
   display: inline-block;
   vertical-align: middle; }
-  .btn-group > .btn, .buttons .btn-group > a,
+  .btn-group > .btn, .multi-list-group .item-container .item > .btn, .buttons .btn-group > a, .multi-list-group .item-container .buttons .item > a, form .submit-container .btn-group > input[type="submit"], .multi-list-group .item-container form .submit-container .item > input[type="submit"], form .submit-container .multi-list-group .item-container .item > input[type="submit"], .multi-list-group .item-container .item .btn-group > a, .multi-list-group .item-container .item > a, .multi-list-group .item-container .item .btn-group > button, .multi-list-group .item-container .item > button,
   .btn-group-vertical > .btn, .buttons
-  .btn-group-vertical > a {
+  .btn-group-vertical > a, form .submit-container
+  .btn-group-vertical > input[type="submit"], .multi-list-group .item-container .item
+  .btn-group-vertical > a, .multi-list-group .item-container .item
+  .btn-group-vertical > button {
     position: relative;
     float: left; }
-    .btn-group > .btn:hover, .buttons .btn-group > a:hover, .btn-group > .btn:focus, .buttons .btn-group > a:focus, .btn-group > .btn:active, .buttons .btn-group > a:active, .btn-group > .btn.active, .buttons .btn-group > a.active,
+    .btn-group > .btn:hover, .multi-list-group .item-container .item > .btn:hover, .buttons .btn-group > a:hover, .multi-list-group .item-container .buttons .item > a:hover, form .submit-container .btn-group > input[type="submit"]:hover, .multi-list-group .item-container form .submit-container .item > input[type="submit"]:hover, form .submit-container .multi-list-group .item-container .item > input[type="submit"]:hover, .multi-list-group .item-container .item .btn-group > a:hover, .multi-list-group .item-container .item > a:hover, .multi-list-group .item-container .item .btn-group > button:hover, .multi-list-group .item-container .item > button:hover, .btn-group > .btn:focus, .multi-list-group .item-container .item > .btn:focus, .buttons .btn-group > a:focus, .multi-list-group .item-container .buttons .item > a:focus, form .submit-container .btn-group > input[type="submit"]:focus, .multi-list-group .item-container form .submit-container .item > input[type="submit"]:focus, form .submit-container .multi-list-group .item-container .item > input[type="submit"]:focus, .multi-list-group .item-container .item .btn-group > a:focus, .multi-list-group .item-container .item > a:focus, .multi-list-group .item-container .item .btn-group > button:focus, .multi-list-group .item-container .item > button:focus, .btn-group > .btn:active, .multi-list-group .item-container .item > .btn:active, .buttons .btn-group > a:active, .multi-list-group .item-container .buttons .item > a:active, form .submit-container .btn-group > input[type="submit"]:active, .multi-list-group .item-container form .submit-container .item > input[type="submit"]:active, form .submit-container .multi-list-group .item-container .item > input[type="submit"]:active, .multi-list-group .item-container .item .btn-group > a:active, .multi-list-group .item-container .item > a:active, .multi-list-group .item-container .item .btn-group > button:active, .multi-list-group .item-container .item > button:active, .btn-group > .btn.active, .multi-list-group .item-container .item > .btn.active, .buttons .btn-group > a.active, .multi-list-group .item-container .buttons .item > a.active, form .submit-container .btn-group > input.active[type="submit"], .multi-list-group .item-container form .submit-container .item > input.active[type="submit"], form .submit-container .multi-list-group .item-container .item > input.active[type="submit"], .multi-list-group .item-container .item .btn-group > a.active, .multi-list-group .item-container .item > a.active, .multi-list-group .item-container .item .btn-group > button.active, .multi-list-group .item-container .item > button.active,
     .btn-group-vertical > .btn:hover, .buttons
-    .btn-group-vertical > a:hover,
+    .btn-group-vertical > a:hover, form .submit-container
+    .btn-group-vertical > input[type="submit"]:hover, .multi-list-group .item-container .item
+    .btn-group-vertical > a:hover, .multi-list-group .item-container .item
+    .btn-group-vertical > button:hover,
     .btn-group-vertical > .btn:focus, .buttons
-    .btn-group-vertical > a:focus,
+    .btn-group-vertical > a:focus, form .submit-container
+    .btn-group-vertical > input[type="submit"]:focus, .multi-list-group .item-container .item
+    .btn-group-vertical > a:focus, .multi-list-group .item-container .item
+    .btn-group-vertical > button:focus,
     .btn-group-vertical > .btn:active, .buttons
-    .btn-group-vertical > a:active,
+    .btn-group-vertical > a:active, form .submit-container
+    .btn-group-vertical > input[type="submit"]:active, .multi-list-group .item-container .item
+    .btn-group-vertical > a:active, .multi-list-group .item-container .item
+    .btn-group-vertical > button:active,
     .btn-group-vertical > .btn.active, .buttons
-    .btn-group-vertical > a.active {
+    .btn-group-vertical > a.active, form .submit-container
+    .btn-group-vertical > input.active[type="submit"], .multi-list-group .item-container .item
+    .btn-group-vertical > a.active, .multi-list-group .item-container .item
+    .btn-group-vertical > button.active {
       z-index: 2; }
 
-.btn-group .btn + .btn, .btn-group .buttons a + .btn, .buttons .btn-group a + .btn, .btn-group .buttons .btn + a, .buttons .btn-group .btn + a, .btn-group .buttons a + a, .buttons .btn-group a + a,
-.btn-group .btn + .btn-group,
+.btn-group .btn + .btn, .multi-list-group .item-container .item .btn + .btn, .btn-group .buttons a + .btn, .buttons .btn-group a + .btn, .multi-list-group .item-container .item .buttons a + .btn, .btn-group form .submit-container input[type="submit"] + .btn, form .submit-container .btn-group input[type="submit"] + .btn, .multi-list-group .item-container .item form .submit-container input[type="submit"] + .btn, form .submit-container .multi-list-group .item-container .item input[type="submit"] + .btn, .multi-list-group .item-container .item .btn-group a + .btn, .multi-list-group .item-container .item a + .btn, .multi-list-group .item-container .item .btn-group button + .btn, .multi-list-group .item-container .item button + .btn, .btn-group .buttons .btn + a, .buttons .btn-group .btn + a, .multi-list-group .item-container .item .buttons .btn + a, .btn-group .buttons a + a, .buttons .btn-group a + a, .btn-group form .submit-container .buttons input[type="submit"] + a, .buttons .btn-group form .submit-container input[type="submit"] + a, form .submit-container .btn-group .buttons input[type="submit"] + a, .buttons form .submit-container .btn-group input[type="submit"] + a, .multi-list-group .item-container .item form .submit-container .buttons input[type="submit"] + a, form .submit-container .multi-list-group .item-container .item .buttons input[type="submit"] + a, .multi-list-group .item-container .item .buttons button + a, .btn-group form .submit-container .btn + input[type="submit"], form .submit-container .btn-group .btn + input[type="submit"], .multi-list-group .item-container .item form .submit-container .btn + input[type="submit"], form .submit-container .multi-list-group .item-container .item .btn + input[type="submit"], .btn-group .buttons form .submit-container a + input[type="submit"], form .submit-container .btn-group .buttons a + input[type="submit"], .buttons .btn-group form .submit-container a + input[type="submit"], form .submit-container .buttons .btn-group a + input[type="submit"], form .submit-container .multi-list-group .item-container .item .buttons a + input[type="submit"], .btn-group form .submit-container input[type="submit"] + input[type="submit"], form .submit-container .btn-group input[type="submit"] + input[type="submit"], .multi-list-group .item-container .item form .submit-container input[type="submit"] + input[type="submit"], form .submit-container .multi-list-group .item-container .item input[type="submit"] + input[type="submit"], form .submit-container .multi-list-group .item-container .item .btn-group a + input[type="submit"], .multi-list-group .item-container .item form .submit-container a + input[type="submit"], form .submit-container .multi-list-group .item-container .item a + input[type="submit"], form .submit-container .multi-list-group .item-container .item .btn-group button + input[type="submit"], .multi-list-group .item-container .item form .submit-container button + input[type="submit"], form .submit-container .multi-list-group .item-container .item button + input[type="submit"], .multi-list-group .item-container .item .btn-group .btn + a, .multi-list-group .item-container .item .btn + a, .multi-list-group .item-container .item .buttons a + a, .multi-list-group .item-container .item form .submit-container .btn-group input[type="submit"] + a, .multi-list-group .item-container .item form .submit-container input[type="submit"] + a, form .submit-container .multi-list-group .item-container .item input[type="submit"] + a, .multi-list-group .item-container .item .btn-group a + a, .multi-list-group .item-container .item a + a, .multi-list-group .item-container .item .btn-group button + a, .multi-list-group .item-container .item button + a, .multi-list-group .item-container .item .btn-group .btn + button, .multi-list-group .item-container .item .btn + button, .multi-list-group .item-container .item .buttons a + button, .multi-list-group .item-container .item form .submit-container .btn-group input[type="submit"] + button, .multi-list-group .item-container .item form .submit-container input[type="submit"] + button, form .submit-container .multi-list-group .item-container .item input[type="submit"] + button, .multi-list-group .item-container .item .btn-group a + button, .multi-list-group .item-container .item a + button, .multi-list-group .item-container .item .btn-group button + button, .multi-list-group .item-container .item button + button,
+.btn-group .btn + .btn-group, .multi-list-group .item-container .item .btn + .btn-group,
 .btn-group .buttons a + .btn-group, .buttons
-.btn-group a + .btn-group,
-.btn-group .btn-group + .btn,
+.btn-group a + .btn-group, .multi-list-group .item-container .item .buttons a + .btn-group,
+.btn-group form .submit-container input[type="submit"] + .btn-group, form .submit-container
+.btn-group input[type="submit"] + .btn-group, .multi-list-group .item-container .item form .submit-container input[type="submit"] + .btn-group, form .submit-container .multi-list-group .item-container .item input[type="submit"] + .btn-group, .multi-list-group .item-container .item
+.btn-group a + .btn-group, .multi-list-group .item-container .item a + .btn-group, .multi-list-group .item-container .item
+.btn-group button + .btn-group, .multi-list-group .item-container .item button + .btn-group,
+.btn-group .multi-list-group .item-container .btn + .item, .multi-list-group .item-container
+.btn-group .btn + .item, .multi-list-group .item-container .item .btn + .item,
+.btn-group .buttons .multi-list-group .item-container a + .item, .multi-list-group .item-container
+.btn-group .buttons a + .item, .buttons
+.btn-group .multi-list-group .item-container a + .item, .multi-list-group .item-container .buttons
+.btn-group a + .item, .multi-list-group .item-container .item .buttons a + .item,
+.btn-group form .submit-container .multi-list-group .item-container input[type="submit"] + .item, .multi-list-group .item-container
+.btn-group form .submit-container input[type="submit"] + .item, form .submit-container
+.btn-group .multi-list-group .item-container input[type="submit"] + .item, .multi-list-group .item-container form .submit-container
+.btn-group input[type="submit"] + .item, .multi-list-group .item-container .item form .submit-container input[type="submit"] + .item, form .submit-container .multi-list-group .item-container .item input[type="submit"] + .item, .multi-list-group .item-container .item
+.btn-group a + .item, .multi-list-group .item-container .item a + .item, .multi-list-group .item-container .item
+.btn-group button + .item, .multi-list-group .item-container .item button + .item,
+.btn-group .btn-group + .btn, .multi-list-group .item-container .item .btn-group + .btn,
+.btn-group .multi-list-group .item-container .item + .btn, .multi-list-group .item-container
+.btn-group .item + .btn, .multi-list-group .item-container .item .item + .btn,
 .btn-group .buttons .btn-group + a, .buttons
-.btn-group .btn-group + a,
-.btn-group .btn-group + .btn-group {
+.btn-group .btn-group + a, .multi-list-group .item-container .item .buttons .btn-group + a,
+.btn-group .multi-list-group .item-container .buttons .item + a, .buttons
+.btn-group .multi-list-group .item-container .item + a, .multi-list-group .item-container
+.btn-group .buttons .item + a, .buttons .multi-list-group .item-container
+.btn-group .item + a, .multi-list-group .item-container .item .buttons .item + a,
+.btn-group form .submit-container .btn-group + input[type="submit"], form .submit-container
+.btn-group .btn-group + input[type="submit"], .multi-list-group .item-container .item form .submit-container .btn-group + input[type="submit"], form .submit-container .multi-list-group .item-container .item .btn-group + input[type="submit"],
+.btn-group .multi-list-group .item-container form .submit-container .item + input[type="submit"], form .submit-container
+.btn-group .multi-list-group .item-container .item + input[type="submit"], .multi-list-group .item-container
+.btn-group form .submit-container .item + input[type="submit"], form .submit-container .multi-list-group .item-container
+.btn-group .item + input[type="submit"], .multi-list-group .item-container .item form .submit-container .item + input[type="submit"], form .submit-container .multi-list-group .item-container .item .item + input[type="submit"], .multi-list-group .item-container .item
+.btn-group .btn-group + a, .multi-list-group .item-container .item .btn-group + a, .multi-list-group .item-container .item
+.btn-group .item + a, .multi-list-group .item-container .item .item + a, .multi-list-group .item-container .item
+.btn-group .btn-group + button, .multi-list-group .item-container .item .btn-group + button, .multi-list-group .item-container .item
+.btn-group .item + button, .multi-list-group .item-container .item .item + button,
+.btn-group .btn-group + .btn-group, .multi-list-group .item-container .item .btn-group + .btn-group,
+.btn-group .multi-list-group .item-container .item + .btn-group, .multi-list-group .item-container
+.btn-group .item + .btn-group, .multi-list-group .item-container .item .item + .btn-group,
+.btn-group .multi-list-group .item-container .btn-group + .item, .multi-list-group .item-container
+.btn-group .btn-group + .item, .multi-list-group .item-container .item .btn-group + .item,
+.btn-group .multi-list-group .item-container .item + .item, .multi-list-group .item-container
+.btn-group .item + .item, .multi-list-group .item-container .item .item + .item {
   margin-left: -1px; }
 
 .btn-toolbar {
@@ -3392,128 +3531,170 @@ tbody.collapse.in {
     display: table; }
   .btn-toolbar:after {
     clear: both; }
-  .btn-toolbar .btn, .btn-toolbar .buttons a, .buttons .btn-toolbar a,
+  .btn-toolbar .btn, .btn-toolbar .buttons a, .buttons .btn-toolbar a, .btn-toolbar form .submit-container input[type="submit"], form .submit-container .btn-toolbar input[type="submit"], .btn-toolbar .multi-list-group .item-container .item a, .multi-list-group .item-container .item .btn-toolbar a, .btn-toolbar .multi-list-group .item-container .item button, .multi-list-group .item-container .item .btn-toolbar button,
   .btn-toolbar .btn-group,
+  .btn-toolbar .multi-list-group .item-container .item, .multi-list-group .item-container
+  .btn-toolbar .item,
   .btn-toolbar .input-group {
     float: left; }
-  .btn-toolbar > .btn, .buttons .btn-toolbar > a,
-  .btn-toolbar > .btn-group,
+  .btn-toolbar > .btn, .buttons .btn-toolbar > a, form .submit-container .btn-toolbar > input[type="submit"], .multi-list-group .item-container .item .btn-toolbar > a, .multi-list-group .item-container .item .btn-toolbar > button,
+  .btn-toolbar > .btn-group, .multi-list-group .item-container
+  .btn-toolbar > .item,
   .btn-toolbar > .input-group {
     margin-left: 5px; }
 
-.btn-group > .btn:not(:first-child):not(:last-child):not(.dropdown-toggle):not(#navbar .navigation-collapse > ul > li a), .buttons .btn-group > a:not(:first-child):not(:last-child):not(.dropdown-toggle):not(#navbar .navigation-collapse > ul > li a) {
+.btn-group > .btn:not(:first-child):not(:last-child):not(.dropdown-toggle):not(#navbar .navigation-collapse > ul > li a), .multi-list-group .item-container .item > .btn:not(:first-child):not(:last-child):not(.dropdown-toggle):not(#navbar .navigation-collapse > ul > li a), .buttons .btn-group > a:not(:first-child):not(:last-child):not(.dropdown-toggle):not(#navbar .navigation-collapse > ul > li a), .multi-list-group .item-container .buttons .item > a:not(:first-child):not(:last-child):not(.dropdown-toggle):not(#navbar .navigation-collapse > ul > li a), form .submit-container .btn-group > input[type="submit"]:not(:first-child):not(:last-child):not(.dropdown-toggle):not(#navbar .navigation-collapse > ul > li a), .multi-list-group .item-container form .submit-container .item > input[type="submit"]:not(:first-child):not(:last-child):not(.dropdown-toggle):not(#navbar .navigation-collapse > ul > li a), form .submit-container .multi-list-group .item-container .item > input[type="submit"]:not(:first-child):not(:last-child):not(.dropdown-toggle):not(#navbar .navigation-collapse > ul > li a), .multi-list-group .item-container .item .btn-group > a:not(:first-child):not(:last-child):not(.dropdown-toggle):not(#navbar .navigation-collapse > ul > li a), .multi-list-group .item-container .item > a:not(:first-child):not(:last-child):not(.dropdown-toggle):not(#navbar .navigation-collapse > ul > li a), .multi-list-group .item-container .item .btn-group > button:not(:first-child):not(:last-child):not(.dropdown-toggle):not(#navbar .navigation-collapse > ul > li a), .multi-list-group .item-container .item > button:not(:first-child):not(:last-child):not(.dropdown-toggle):not(#navbar .navigation-collapse > ul > li a) {
   border-radius: 0; }
 
-.btn-group > .btn:first-child, .buttons .btn-group > a:first-child {
+.btn-group > .btn:first-child, .multi-list-group .item-container .item > .btn:first-child, .buttons .btn-group > a:first-child, .multi-list-group .item-container .buttons .item > a:first-child, form .submit-container .btn-group > input[type="submit"]:first-child, .multi-list-group .item-container form .submit-container .item > input[type="submit"]:first-child, form .submit-container .multi-list-group .item-container .item > input[type="submit"]:first-child, .multi-list-group .item-container .item .btn-group > a:first-child, .multi-list-group .item-container .item > a:first-child, .multi-list-group .item-container .item .btn-group > button:first-child, .multi-list-group .item-container .item > button:first-child {
   margin-left: 0; }
-  .btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle):not(#navbar .navigation-collapse > ul > li a), .buttons .btn-group > a:first-child:not(:last-child):not(.dropdown-toggle):not(#navbar .navigation-collapse > ul > li a) {
+  .btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle):not(#navbar .navigation-collapse > ul > li a), .multi-list-group .item-container .item > .btn:first-child:not(:last-child):not(.dropdown-toggle):not(#navbar .navigation-collapse > ul > li a), .buttons .btn-group > a:first-child:not(:last-child):not(.dropdown-toggle):not(#navbar .navigation-collapse > ul > li a), .multi-list-group .item-container .buttons .item > a:first-child:not(:last-child):not(.dropdown-toggle):not(#navbar .navigation-collapse > ul > li a), form .submit-container .btn-group > input[type="submit"]:first-child:not(:last-child):not(.dropdown-toggle):not(#navbar .navigation-collapse > ul > li a), .multi-list-group .item-container form .submit-container .item > input[type="submit"]:first-child:not(:last-child):not(.dropdown-toggle):not(#navbar .navigation-collapse > ul > li a), form .submit-container .multi-list-group .item-container .item > input[type="submit"]:first-child:not(:last-child):not(.dropdown-toggle):not(#navbar .navigation-collapse > ul > li a), .multi-list-group .item-container .item .btn-group > a:first-child:not(:last-child):not(.dropdown-toggle):not(#navbar .navigation-collapse > ul > li a), .multi-list-group .item-container .item > a:first-child:not(:last-child):not(.dropdown-toggle):not(#navbar .navigation-collapse > ul > li a), .multi-list-group .item-container .item .btn-group > button:first-child:not(:last-child):not(.dropdown-toggle):not(#navbar .navigation-collapse > ul > li a), .multi-list-group .item-container .item > button:first-child:not(:last-child):not(.dropdown-toggle):not(#navbar .navigation-collapse > ul > li a) {
     border-bottom-right-radius: 0;
     border-top-right-radius: 0; }
 
-.btn-group > .btn:last-child:not(:first-child), .buttons .btn-group > a:last-child:not(:first-child),
-.btn-group > .dropdown-toggle:not(:first-child), #navbar .navigation-collapse > ul > li
-.btn-group > a:not(:first-child) {
+.btn-group > .btn:last-child:not(:first-child), .multi-list-group .item-container .item > .btn:last-child:not(:first-child), .buttons .btn-group > a:last-child:not(:first-child), .multi-list-group .item-container .buttons .item > a:last-child:not(:first-child), form .submit-container .btn-group > input[type="submit"]:last-child:not(:first-child), .multi-list-group .item-container form .submit-container .item > input[type="submit"]:last-child:not(:first-child), form .submit-container .multi-list-group .item-container .item > input[type="submit"]:last-child:not(:first-child), .multi-list-group .item-container .item .btn-group > a:last-child:not(:first-child), .multi-list-group .item-container .item > a:last-child:not(:first-child), .multi-list-group .item-container .item .btn-group > button:last-child:not(:first-child), .multi-list-group .item-container .item > button:last-child:not(:first-child),
+.btn-group > .dropdown-toggle:not(:first-child), .multi-list-group .item-container .item > .dropdown-toggle:not(:first-child), #navbar .navigation-collapse > ul > li
+.btn-group > a:not(:first-child), .multi-list-group .item-container #navbar .navigation-collapse > ul > li .item > a:not(:first-child), #navbar .navigation-collapse > ul > li .multi-list-group .item-container .item > a:not(:first-child) {
   border-bottom-left-radius: 0;
   border-top-left-radius: 0; }
 
-.btn-group > .btn-group {
+.btn-group > .btn-group, .multi-list-group .item-container .item > .btn-group, .multi-list-group .item-container .btn-group > .item, .multi-list-group .item-container .item > .item {
   float: left; }
 
-.btn-group > .btn-group:not(:first-child):not(:last-child) > .btn, .buttons .btn-group > .btn-group:not(:first-child):not(:last-child) > a {
+.btn-group > .btn-group:not(:first-child):not(:last-child) > .btn, .multi-list-group .item-container .item > .btn-group:not(:first-child):not(:last-child) > .btn, .multi-list-group .item-container .btn-group > .item:not(:first-child):not(:last-child) > .btn, .multi-list-group .item-container .item > .item:not(:first-child):not(:last-child) > .btn, .buttons .btn-group > .btn-group:not(:first-child):not(:last-child) > a, .multi-list-group .item-container .buttons .item > .btn-group:not(:first-child):not(:last-child) > a, .multi-list-group .item-container .buttons .btn-group > .item:not(:first-child):not(:last-child) > a, .multi-list-group .item-container .buttons .item > .item:not(:first-child):not(:last-child) > a, form .submit-container .btn-group > .btn-group:not(:first-child):not(:last-child) > input[type="submit"], .multi-list-group .item-container form .submit-container .item > .btn-group:not(:first-child):not(:last-child) > input[type="submit"], form .submit-container .multi-list-group .item-container .item > .btn-group:not(:first-child):not(:last-child) > input[type="submit"], .multi-list-group .item-container form .submit-container .btn-group > .item:not(:first-child):not(:last-child) > input[type="submit"], form .submit-container .multi-list-group .item-container .btn-group > .item:not(:first-child):not(:last-child) > input[type="submit"], .multi-list-group .item-container form .submit-container .item > .item:not(:first-child):not(:last-child) > input[type="submit"], form .submit-container .multi-list-group .item-container .item > .item:not(:first-child):not(:last-child) > input[type="submit"], .multi-list-group .item-container .item .btn-group > .btn-group:not(:first-child):not(:last-child) > a, .multi-list-group .item-container .item > .btn-group:not(:first-child):not(:last-child) > a, .multi-list-group .item-container .btn-group > .item:not(:first-child):not(:last-child) > a, .multi-list-group .item-container .item > .item:not(:first-child):not(:last-child) > a, .multi-list-group .item-container .item .btn-group > .btn-group:not(:first-child):not(:last-child) > button, .multi-list-group .item-container .item > .btn-group:not(:first-child):not(:last-child) > button, .multi-list-group .item-container .btn-group > .item:not(:first-child):not(:last-child) > button, .multi-list-group .item-container .item > .item:not(:first-child):not(:last-child) > button {
   border-radius: 0; }
 
-.btn-group > .btn-group:first-child:not(:last-child) > .btn:last-child, .buttons .btn-group > .btn-group:first-child:not(:last-child) > a:last-child,
-.btn-group > .btn-group:first-child:not(:last-child) > .dropdown-toggle, #navbar .navigation-collapse > ul > li
-.btn-group > .btn-group:first-child:not(:last-child) > a {
+.btn-group > .btn-group:first-child:not(:last-child) > .btn:last-child, .multi-list-group .item-container .item > .btn-group:first-child:not(:last-child) > .btn:last-child, .multi-list-group .item-container .btn-group > .item:first-child:not(:last-child) > .btn:last-child, .multi-list-group .item-container .item > .item:first-child:not(:last-child) > .btn:last-child, .buttons .btn-group > .btn-group:first-child:not(:last-child) > a:last-child, .multi-list-group .item-container .buttons .item > .btn-group:first-child:not(:last-child) > a:last-child, .multi-list-group .item-container .buttons .btn-group > .item:first-child:not(:last-child) > a:last-child, .multi-list-group .item-container .buttons .item > .item:first-child:not(:last-child) > a:last-child, form .submit-container .btn-group > .btn-group:first-child:not(:last-child) > input[type="submit"]:last-child, .multi-list-group .item-container form .submit-container .item > .btn-group:first-child:not(:last-child) > input[type="submit"]:last-child, form .submit-container .multi-list-group .item-container .item > .btn-group:first-child:not(:last-child) > input[type="submit"]:last-child, .multi-list-group .item-container form .submit-container .btn-group > .item:first-child:not(:last-child) > input[type="submit"]:last-child, form .submit-container .multi-list-group .item-container .btn-group > .item:first-child:not(:last-child) > input[type="submit"]:last-child, .multi-list-group .item-container form .submit-container .item > .item:first-child:not(:last-child) > input[type="submit"]:last-child, form .submit-container .multi-list-group .item-container .item > .item:first-child:not(:last-child) > input[type="submit"]:last-child, .multi-list-group .item-container .item .btn-group > .btn-group:first-child:not(:last-child) > a:last-child, .multi-list-group .item-container .item > .btn-group:first-child:not(:last-child) > a:last-child, .multi-list-group .item-container .btn-group > .item:first-child:not(:last-child) > a:last-child, .multi-list-group .item-container .item > .item:first-child:not(:last-child) > a:last-child, .multi-list-group .item-container .item .btn-group > .btn-group:first-child:not(:last-child) > button:last-child, .multi-list-group .item-container .item > .btn-group:first-child:not(:last-child) > button:last-child, .multi-list-group .item-container .btn-group > .item:first-child:not(:last-child) > button:last-child, .multi-list-group .item-container .item > .item:first-child:not(:last-child) > button:last-child,
+.btn-group > .btn-group:first-child:not(:last-child) > .dropdown-toggle, .multi-list-group .item-container .item > .btn-group:first-child:not(:last-child) > .dropdown-toggle, .multi-list-group .item-container
+.btn-group > .item:first-child:not(:last-child) > .dropdown-toggle, .multi-list-group .item-container .item > .item:first-child:not(:last-child) > .dropdown-toggle, #navbar .navigation-collapse > ul > li
+.btn-group > .btn-group:first-child:not(:last-child) > a, .multi-list-group .item-container #navbar .navigation-collapse > ul > li .item > .btn-group:first-child:not(:last-child) > a, #navbar .navigation-collapse > ul > li .multi-list-group .item-container .item > .btn-group:first-child:not(:last-child) > a, .multi-list-group .item-container #navbar .navigation-collapse > ul > li
+.btn-group > .item:first-child:not(:last-child) > a, #navbar .navigation-collapse > ul > li .multi-list-group .item-container
+.btn-group > .item:first-child:not(:last-child) > a, .multi-list-group .item-container #navbar .navigation-collapse > ul > li .item > .item:first-child:not(:last-child) > a, #navbar .navigation-collapse > ul > li .multi-list-group .item-container .item > .item:first-child:not(:last-child) > a {
   border-bottom-right-radius: 0;
   border-top-right-radius: 0; }
 
-.btn-group > .btn-group:last-child:not(:first-child) > .btn:first-child, .buttons .btn-group > .btn-group:last-child:not(:first-child) > a:first-child {
+.btn-group > .btn-group:last-child:not(:first-child) > .btn:first-child, .multi-list-group .item-container .item > .btn-group:last-child:not(:first-child) > .btn:first-child, .multi-list-group .item-container .btn-group > .item:last-child:not(:first-child) > .btn:first-child, .multi-list-group .item-container .item > .item:last-child:not(:first-child) > .btn:first-child, .buttons .btn-group > .btn-group:last-child:not(:first-child) > a:first-child, .multi-list-group .item-container .buttons .item > .btn-group:last-child:not(:first-child) > a:first-child, .multi-list-group .item-container .buttons .btn-group > .item:last-child:not(:first-child) > a:first-child, .multi-list-group .item-container .buttons .item > .item:last-child:not(:first-child) > a:first-child, form .submit-container .btn-group > .btn-group:last-child:not(:first-child) > input[type="submit"]:first-child, .multi-list-group .item-container form .submit-container .item > .btn-group:last-child:not(:first-child) > input[type="submit"]:first-child, form .submit-container .multi-list-group .item-container .item > .btn-group:last-child:not(:first-child) > input[type="submit"]:first-child, .multi-list-group .item-container form .submit-container .btn-group > .item:last-child:not(:first-child) > input[type="submit"]:first-child, form .submit-container .multi-list-group .item-container .btn-group > .item:last-child:not(:first-child) > input[type="submit"]:first-child, .multi-list-group .item-container form .submit-container .item > .item:last-child:not(:first-child) > input[type="submit"]:first-child, form .submit-container .multi-list-group .item-container .item > .item:last-child:not(:first-child) > input[type="submit"]:first-child, .multi-list-group .item-container .item .btn-group > .btn-group:last-child:not(:first-child) > a:first-child, .multi-list-group .item-container .item > .btn-group:last-child:not(:first-child) > a:first-child, .multi-list-group .item-container .btn-group > .item:last-child:not(:first-child) > a:first-child, .multi-list-group .item-container .item > .item:last-child:not(:first-child) > a:first-child, .multi-list-group .item-container .item .btn-group > .btn-group:last-child:not(:first-child) > button:first-child, .multi-list-group .item-container .item > .btn-group:last-child:not(:first-child) > button:first-child, .multi-list-group .item-container .btn-group > .item:last-child:not(:first-child) > button:first-child, .multi-list-group .item-container .item > .item:last-child:not(:first-child) > button:first-child {
   border-bottom-left-radius: 0;
   border-top-left-radius: 0; }
 
-.btn-group .dropdown-toggle:active, .btn-group #navbar .navigation-collapse > ul > li a:active, #navbar .navigation-collapse > ul > li .btn-group a:active,
-.btn-group.open .dropdown-toggle,
+.btn-group .dropdown-toggle:active, .multi-list-group .item-container .item .dropdown-toggle:active, .btn-group #navbar .navigation-collapse > ul > li a:active, #navbar .navigation-collapse > ul > li .btn-group a:active, .multi-list-group .item-container .item #navbar .navigation-collapse > ul > li a:active, #navbar .navigation-collapse > ul > li .multi-list-group .item-container .item a:active,
+.btn-group.open .dropdown-toggle, .multi-list-group .item-container .open.item .dropdown-toggle,
 .btn-group.open #navbar .navigation-collapse > ul > li a, #navbar .navigation-collapse > ul > li
-.btn-group.open a {
+.btn-group.open a, .multi-list-group .item-container .open.item #navbar .navigation-collapse > ul > li a, #navbar .navigation-collapse > ul > li .multi-list-group .item-container .open.item a {
   outline: 0; }
 
-.btn-group > .btn + .dropdown-toggle, .buttons .btn-group > a + .dropdown-toggle, #navbar .navigation-collapse > ul > li .btn-group > .btn + a, .buttons #navbar .navigation-collapse > ul > li .btn-group > a + a, #navbar .navigation-collapse > ul > li .buttons .btn-group > a + a {
+.btn-group > .btn + .dropdown-toggle, .multi-list-group .item-container .item > .btn + .dropdown-toggle, .buttons .btn-group > a + .dropdown-toggle, .multi-list-group .item-container .buttons .item > a + .dropdown-toggle, form .submit-container .btn-group > input[type="submit"] + .dropdown-toggle, .multi-list-group .item-container form .submit-container .item > input[type="submit"] + .dropdown-toggle, form .submit-container .multi-list-group .item-container .item > input[type="submit"] + .dropdown-toggle, .multi-list-group .item-container .item .btn-group > a + .dropdown-toggle, .multi-list-group .item-container .item > a + .dropdown-toggle, .multi-list-group .item-container .item .btn-group > button + .dropdown-toggle, .multi-list-group .item-container .item > button + .dropdown-toggle, #navbar .navigation-collapse > ul > li .btn-group > .btn + a, .multi-list-group .item-container #navbar .navigation-collapse > ul > li .item > .btn + a, #navbar .navigation-collapse > ul > li .multi-list-group .item-container .item > .btn + a, .buttons #navbar .navigation-collapse > ul > li .btn-group > a + a, #navbar .navigation-collapse > ul > li .buttons .btn-group > a + a, #navbar .navigation-collapse > ul > li .multi-list-group .item-container .buttons .item > a + a, form .submit-container #navbar .navigation-collapse > ul > li .btn-group > input[type="submit"] + a, #navbar .navigation-collapse > ul > li form .submit-container .btn-group > input[type="submit"] + a, .multi-list-group .item-container form .submit-container #navbar .navigation-collapse > ul > li .item > input[type="submit"] + a, #navbar .navigation-collapse > ul > li .multi-list-group .item-container form .submit-container .item > input[type="submit"] + a, form .submit-container .multi-list-group .item-container #navbar .navigation-collapse > ul > li .item > input[type="submit"] + a, #navbar .navigation-collapse > ul > li form .submit-container .multi-list-group .item-container .item > input[type="submit"] + a, .multi-list-group .item-container .item #navbar .navigation-collapse > ul > li .btn-group > a + a, #navbar .navigation-collapse > ul > li .multi-list-group .item-container .item .btn-group > a + a, .multi-list-group .item-container #navbar .navigation-collapse > ul > li .item > a + a, #navbar .navigation-collapse > ul > li .multi-list-group .item-container .item > a + a, .multi-list-group .item-container .item #navbar .navigation-collapse > ul > li .btn-group > button + a, #navbar .navigation-collapse > ul > li .multi-list-group .item-container .item .btn-group > button + a, .multi-list-group .item-container #navbar .navigation-collapse > ul > li .item > button + a, #navbar .navigation-collapse > ul > li .multi-list-group .item-container .item > button + a {
   padding-left: 8px;
   padding-right: 8px; }
 
-.btn-group > .btn-lg + .dropdown-toggle, .btn-group-lg.btn-group > .btn + .dropdown-toggle, .buttons .btn-group-lg.btn-group > a + .dropdown-toggle, #navbar .navigation-collapse > ul > li .btn-group > .btn-lg + a, #navbar .navigation-collapse > ul > li .btn-group-lg.btn-group > .btn + a, .buttons #navbar .navigation-collapse > ul > li .btn-group-lg.btn-group > a + a, #navbar .navigation-collapse > ul > li .buttons .btn-group-lg.btn-group > a + a {
+.btn-group > .btn-lg + .dropdown-toggle, .multi-list-group .item-container .item > .btn-lg + .dropdown-toggle, .btn-group-lg.btn-group > .btn + .dropdown-toggle, .multi-list-group .item-container .btn-group-lg.item > .btn + .dropdown-toggle, .buttons .btn-group-lg.btn-group > a + .dropdown-toggle, .multi-list-group .item-container .buttons .btn-group-lg.item > a + .dropdown-toggle, .buttons .multi-list-group .item-container .btn-group-lg.item > a + .dropdown-toggle, form .submit-container .btn-group-lg.btn-group > input[type="submit"] + .dropdown-toggle, .multi-list-group .item-container form .submit-container .btn-group-lg.item > input[type="submit"] + .dropdown-toggle, form .submit-container .multi-list-group .item-container .btn-group-lg.item > input[type="submit"] + .dropdown-toggle, .multi-list-group .item-container .item .btn-group-lg.btn-group > a + .dropdown-toggle, .multi-list-group .item-container .item .btn-group-lg.item > a + .dropdown-toggle, .multi-list-group .item-container .item .btn-group-lg.btn-group > button + .dropdown-toggle, .multi-list-group .item-container .item .btn-group-lg.item > button + .dropdown-toggle, #navbar .navigation-collapse > ul > li .btn-group > .btn-lg + a, .multi-list-group .item-container #navbar .navigation-collapse > ul > li .item > .btn-lg + a, #navbar .navigation-collapse > ul > li .multi-list-group .item-container .item > .btn-lg + a, #navbar .navigation-collapse > ul > li .btn-group-lg.btn-group > .btn + a, .multi-list-group .item-container #navbar .navigation-collapse > ul > li .btn-group-lg.item > .btn + a, #navbar .navigation-collapse > ul > li .multi-list-group .item-container .btn-group-lg.item > .btn + a, .buttons #navbar .navigation-collapse > ul > li .btn-group-lg.btn-group > a + a, #navbar .navigation-collapse > ul > li .buttons .btn-group-lg.btn-group > a + a, .multi-list-group .item-container .buttons #navbar .navigation-collapse > ul > li .btn-group-lg.item > a + a, #navbar .navigation-collapse > ul > li .multi-list-group .item-container .buttons .btn-group-lg.item > a + a, .buttons .multi-list-group .item-container #navbar .navigation-collapse > ul > li .btn-group-lg.item > a + a, #navbar .navigation-collapse > ul > li .buttons .multi-list-group .item-container .btn-group-lg.item > a + a, form .submit-container #navbar .navigation-collapse > ul > li .btn-group-lg.btn-group > input[type="submit"] + a, #navbar .navigation-collapse > ul > li form .submit-container .btn-group-lg.btn-group > input[type="submit"] + a, .multi-list-group .item-container form .submit-container #navbar .navigation-collapse > ul > li .btn-group-lg.item > input[type="submit"] + a, #navbar .navigation-collapse > ul > li .multi-list-group .item-container form .submit-container .btn-group-lg.item > input[type="submit"] + a, form .submit-container .multi-list-group .item-container #navbar .navigation-collapse > ul > li .btn-group-lg.item > input[type="submit"] + a, #navbar .navigation-collapse > ul > li form .submit-container .multi-list-group .item-container .btn-group-lg.item > input[type="submit"] + a, .multi-list-group .item-container .item #navbar .navigation-collapse > ul > li .btn-group-lg.btn-group > a + a, #navbar .navigation-collapse > ul > li .multi-list-group .item-container .item .btn-group-lg.btn-group > a + a, .multi-list-group .item-container .item #navbar .navigation-collapse > ul > li .btn-group-lg.item > a + a, #navbar .navigation-collapse > ul > li .multi-list-group .item-container .item .btn-group-lg.item > a + a, .multi-list-group .item-container .item #navbar .navigation-collapse > ul > li .btn-group-lg.btn-group > button + a, #navbar .navigation-collapse > ul > li .multi-list-group .item-container .item .btn-group-lg.btn-group > button + a, .multi-list-group .item-container .item #navbar .navigation-collapse > ul > li .btn-group-lg.item > button + a, #navbar .navigation-collapse > ul > li .multi-list-group .item-container .item .btn-group-lg.item > button + a {
   padding-left: 12px;
   padding-right: 12px; }
 
-.btn-group.open .dropdown-toggle, .btn-group.open #navbar .navigation-collapse > ul > li a, #navbar .navigation-collapse > ul > li .btn-group.open a {
+.btn-group.open .dropdown-toggle, .multi-list-group .item-container .open.item .dropdown-toggle, .btn-group.open #navbar .navigation-collapse > ul > li a, #navbar .navigation-collapse > ul > li .btn-group.open a, .multi-list-group .item-container .open.item #navbar .navigation-collapse > ul > li a, #navbar .navigation-collapse > ul > li .multi-list-group .item-container .open.item a {
   box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125); }
-  .btn-group.open .dropdown-toggle.btn-link, .btn-group.open #navbar .navigation-collapse > ul > li a.btn-link, #navbar .navigation-collapse > ul > li .btn-group.open a.btn-link {
+  .btn-group.open .dropdown-toggle.btn-link, .multi-list-group .item-container .open.item .dropdown-toggle.btn-link, .btn-group.open #navbar .navigation-collapse > ul > li a.btn-link, #navbar .navigation-collapse > ul > li .btn-group.open a.btn-link, .multi-list-group .item-container .open.item #navbar .navigation-collapse > ul > li a.btn-link, #navbar .navigation-collapse > ul > li .multi-list-group .item-container .open.item a.btn-link {
     box-shadow: none; }
 
-.btn .caret, .buttons a .caret {
+.btn .caret, .buttons a .caret, form .submit-container input[type="submit"] .caret, .multi-list-group .item-container .item a .caret, .multi-list-group .item-container .item button .caret {
   margin-left: 0; }
 
-.btn-lg .caret, .btn-group-lg > .btn .caret, .buttons .btn-group-lg > a .caret {
+.btn-lg .caret, .btn-group-lg > .btn .caret, .buttons .btn-group-lg > a .caret, form .submit-container .btn-group-lg > input[type="submit"] .caret, .multi-list-group .item-container .item .btn-group-lg > a .caret, .multi-list-group .item-container .item .btn-group-lg > button .caret {
   border-width: 5px 5px 0;
   border-bottom-width: 0; }
 
-.dropup .btn-lg .caret, .dropup .btn-group-lg > .btn .caret, .dropup .buttons .btn-group-lg > a .caret, .buttons .dropup .btn-group-lg > a .caret {
+.dropup .btn-lg .caret, .dropup .btn-group-lg > .btn .caret, .dropup .buttons .btn-group-lg > a .caret, .buttons .dropup .btn-group-lg > a .caret, .dropup form .submit-container .btn-group-lg > input[type="submit"] .caret, form .submit-container .dropup .btn-group-lg > input[type="submit"] .caret, .dropup .multi-list-group .item-container .item .btn-group-lg > a .caret, .multi-list-group .item-container .item .dropup .btn-group-lg > a .caret, .dropup .multi-list-group .item-container .item .btn-group-lg > button .caret, .multi-list-group .item-container .item .dropup .btn-group-lg > button .caret {
   border-width: 0 5px 5px; }
 
-.btn-group-vertical > .btn, .buttons .btn-group-vertical > a,
-.btn-group-vertical > .btn-group,
-.btn-group-vertical > .btn-group > .btn, .buttons
-.btn-group-vertical > .btn-group > a {
+.btn-group-vertical > .btn, .buttons .btn-group-vertical > a, form .submit-container .btn-group-vertical > input[type="submit"], .multi-list-group .item-container .item .btn-group-vertical > a, .multi-list-group .item-container .item .btn-group-vertical > button,
+.btn-group-vertical > .btn-group, .multi-list-group .item-container
+.btn-group-vertical > .item,
+.btn-group-vertical > .btn-group > .btn, .multi-list-group .item-container
+.btn-group-vertical > .item > .btn, .buttons
+.btn-group-vertical > .btn-group > a, .multi-list-group .item-container .buttons
+.btn-group-vertical > .item > a, form .submit-container
+.btn-group-vertical > .btn-group > input[type="submit"], .multi-list-group .item-container form .submit-container
+.btn-group-vertical > .item > input[type="submit"], form .submit-container .multi-list-group .item-container
+.btn-group-vertical > .item > input[type="submit"], .multi-list-group .item-container .item
+.btn-group-vertical > .btn-group > a, .multi-list-group .item-container
+.btn-group-vertical > .item > a, .multi-list-group .item-container .item
+.btn-group-vertical > .btn-group > button, .multi-list-group .item-container
+.btn-group-vertical > .item > button {
   display: block;
   float: none;
   width: 100%;
   max-width: 100%; }
 
-.btn-group-vertical > .btn-group:before, .btn-group-vertical > .btn-group:after {
+.btn-group-vertical > .btn-group:before, .multi-list-group .item-container .btn-group-vertical > .item:before, .btn-group-vertical > .btn-group:after, .multi-list-group .item-container .btn-group-vertical > .item:after {
   content: " ";
   display: table; }
 
-.btn-group-vertical > .btn-group:after {
+.btn-group-vertical > .btn-group:after, .multi-list-group .item-container .btn-group-vertical > .item:after {
   clear: both; }
 
-.btn-group-vertical > .btn-group > .btn, .buttons .btn-group-vertical > .btn-group > a {
+.btn-group-vertical > .btn-group > .btn, .multi-list-group .item-container .btn-group-vertical > .item > .btn, .buttons .btn-group-vertical > .btn-group > a, .multi-list-group .item-container .buttons .btn-group-vertical > .item > a, form .submit-container .btn-group-vertical > .btn-group > input[type="submit"], .multi-list-group .item-container form .submit-container .btn-group-vertical > .item > input[type="submit"], form .submit-container .multi-list-group .item-container .btn-group-vertical > .item > input[type="submit"], .multi-list-group .item-container .item .btn-group-vertical > .btn-group > a, .multi-list-group .item-container .btn-group-vertical > .item > a, .multi-list-group .item-container .item .btn-group-vertical > .btn-group > button, .multi-list-group .item-container .btn-group-vertical > .item > button {
   float: none; }
 
-.btn-group-vertical > .btn + .btn, .buttons .btn-group-vertical > a + .btn, .buttons .btn-group-vertical > .btn + a, .buttons .btn-group-vertical > a + a,
+.btn-group-vertical > .btn + .btn, .buttons .btn-group-vertical > a + .btn, form .submit-container .btn-group-vertical > input[type="submit"] + .btn, .multi-list-group .item-container .item .btn-group-vertical > a + .btn, .multi-list-group .item-container .item .btn-group-vertical > button + .btn, .buttons .btn-group-vertical > .btn + a, .buttons .btn-group-vertical > a + a, form .submit-container .buttons .btn-group-vertical > input[type="submit"] + a, .buttons form .submit-container .btn-group-vertical > input[type="submit"] + a, .multi-list-group .item-container .item .buttons .btn-group-vertical > button + a, form .submit-container .btn-group-vertical > .btn + input[type="submit"], .buttons form .submit-container .btn-group-vertical > a + input[type="submit"], form .submit-container .buttons .btn-group-vertical > a + input[type="submit"], form .submit-container .btn-group-vertical > input[type="submit"] + input[type="submit"], .multi-list-group .item-container .item form .submit-container .btn-group-vertical > a + input[type="submit"], form .submit-container .multi-list-group .item-container .item .btn-group-vertical > a + input[type="submit"], .multi-list-group .item-container .item form .submit-container .btn-group-vertical > button + input[type="submit"], form .submit-container .multi-list-group .item-container .item .btn-group-vertical > button + input[type="submit"], .multi-list-group .item-container .item .btn-group-vertical > .btn + a, .multi-list-group .item-container .item .buttons .btn-group-vertical > a + a, form .submit-container .multi-list-group .item-container .item .btn-group-vertical > input[type="submit"] + a, .multi-list-group .item-container .item form .submit-container .btn-group-vertical > input[type="submit"] + a, .multi-list-group .item-container .item .btn-group-vertical > a + a, .multi-list-group .item-container .item .btn-group-vertical > button + a, .multi-list-group .item-container .item .btn-group-vertical > .btn + button, .multi-list-group .item-container .item .buttons .btn-group-vertical > a + button, form .submit-container .multi-list-group .item-container .item .btn-group-vertical > input[type="submit"] + button, .multi-list-group .item-container .item form .submit-container .btn-group-vertical > input[type="submit"] + button, .multi-list-group .item-container .item .btn-group-vertical > a + button, .multi-list-group .item-container .item .btn-group-vertical > button + button,
 .btn-group-vertical > .btn + .btn-group, .buttons
-.btn-group-vertical > a + .btn-group,
-.btn-group-vertical > .btn-group + .btn, .buttons
-.btn-group-vertical > .btn-group + a,
-.btn-group-vertical > .btn-group + .btn-group {
+.btn-group-vertical > a + .btn-group, form .submit-container
+.btn-group-vertical > input[type="submit"] + .btn-group, .multi-list-group .item-container .item
+.btn-group-vertical > a + .btn-group, .multi-list-group .item-container .item
+.btn-group-vertical > button + .btn-group, .multi-list-group .item-container
+.btn-group-vertical > .btn + .item, .buttons .multi-list-group .item-container
+.btn-group-vertical > a + .item, .multi-list-group .item-container .buttons
+.btn-group-vertical > a + .item, form .submit-container .multi-list-group .item-container
+.btn-group-vertical > input[type="submit"] + .item, .multi-list-group .item-container form .submit-container
+.btn-group-vertical > input[type="submit"] + .item, .multi-list-group .item-container .item
+.btn-group-vertical > a + .item, .multi-list-group .item-container .item
+.btn-group-vertical > button + .item,
+.btn-group-vertical > .btn-group + .btn, .multi-list-group .item-container
+.btn-group-vertical > .item + .btn, .buttons
+.btn-group-vertical > .btn-group + a, .multi-list-group .item-container .buttons
+.btn-group-vertical > .item + a, .buttons .multi-list-group .item-container
+.btn-group-vertical > .item + a, form .submit-container
+.btn-group-vertical > .btn-group + input[type="submit"], .multi-list-group .item-container form .submit-container
+.btn-group-vertical > .item + input[type="submit"], form .submit-container .multi-list-group .item-container
+.btn-group-vertical > .item + input[type="submit"], .multi-list-group .item-container .item
+.btn-group-vertical > .btn-group + a, .multi-list-group .item-container .item
+.btn-group-vertical > .item + a, .multi-list-group .item-container .item
+.btn-group-vertical > .btn-group + button, .multi-list-group .item-container .item
+.btn-group-vertical > .item + button,
+.btn-group-vertical > .btn-group + .btn-group, .multi-list-group .item-container
+.btn-group-vertical > .item + .btn-group, .multi-list-group .item-container
+.btn-group-vertical > .btn-group + .item, .multi-list-group .item-container
+.btn-group-vertical > .item + .item {
   margin-top: -1px;
   margin-left: 0; }
 
-.btn-group-vertical > .btn:not(:first-child):not(:last-child), .buttons .btn-group-vertical > a:not(:first-child):not(:last-child) {
+.btn-group-vertical > .btn:not(:first-child):not(:last-child), .buttons .btn-group-vertical > a:not(:first-child):not(:last-child), form .submit-container .btn-group-vertical > input[type="submit"]:not(:first-child):not(:last-child), .multi-list-group .item-container .item .btn-group-vertical > a:not(:first-child):not(:last-child), .multi-list-group .item-container .item .btn-group-vertical > button:not(:first-child):not(:last-child) {
   border-radius: 0; }
 
-.btn-group-vertical > .btn:first-child:not(:last-child), .buttons .btn-group-vertical > a:first-child:not(:last-child) {
+.btn-group-vertical > .btn:first-child:not(:last-child), .buttons .btn-group-vertical > a:first-child:not(:last-child), form .submit-container .btn-group-vertical > input[type="submit"]:first-child:not(:last-child), .multi-list-group .item-container .item .btn-group-vertical > a:first-child:not(:last-child), .multi-list-group .item-container .item .btn-group-vertical > button:first-child:not(:last-child) {
   border-top-right-radius: 4px;
   border-top-left-radius: 4px;
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0; }
 
-.btn-group-vertical > .btn:last-child:not(:first-child), .buttons .btn-group-vertical > a:last-child:not(:first-child) {
+.btn-group-vertical > .btn:last-child:not(:first-child), .buttons .btn-group-vertical > a:last-child:not(:first-child), form .submit-container .btn-group-vertical > input[type="submit"]:last-child:not(:first-child), .multi-list-group .item-container .item .btn-group-vertical > a:last-child:not(:first-child), .multi-list-group .item-container .item .btn-group-vertical > button:last-child:not(:first-child) {
   border-top-right-radius: 0;
   border-top-left-radius: 0;
   border-bottom-right-radius: 4px;
   border-bottom-left-radius: 4px; }
 
-.btn-group-vertical > .btn-group:not(:first-child):not(:last-child) > .btn, .buttons .btn-group-vertical > .btn-group:not(:first-child):not(:last-child) > a {
+.btn-group-vertical > .btn-group:not(:first-child):not(:last-child) > .btn, .multi-list-group .item-container .btn-group-vertical > .item:not(:first-child):not(:last-child) > .btn, .buttons .btn-group-vertical > .btn-group:not(:first-child):not(:last-child) > a, .multi-list-group .item-container .buttons .btn-group-vertical > .item:not(:first-child):not(:last-child) > a, form .submit-container .btn-group-vertical > .btn-group:not(:first-child):not(:last-child) > input[type="submit"], .multi-list-group .item-container form .submit-container .btn-group-vertical > .item:not(:first-child):not(:last-child) > input[type="submit"], form .submit-container .multi-list-group .item-container .btn-group-vertical > .item:not(:first-child):not(:last-child) > input[type="submit"], .multi-list-group .item-container .item .btn-group-vertical > .btn-group:not(:first-child):not(:last-child) > a, .multi-list-group .item-container .btn-group-vertical > .item:not(:first-child):not(:last-child) > a, .multi-list-group .item-container .item .btn-group-vertical > .btn-group:not(:first-child):not(:last-child) > button, .multi-list-group .item-container .btn-group-vertical > .item:not(:first-child):not(:last-child) > button {
   border-radius: 0; }
 
-.btn-group-vertical > .btn-group:first-child:not(:last-child) > .btn:last-child, .buttons .btn-group-vertical > .btn-group:first-child:not(:last-child) > a:last-child,
-.btn-group-vertical > .btn-group:first-child:not(:last-child) > .dropdown-toggle, #navbar .navigation-collapse > ul > li
-.btn-group-vertical > .btn-group:first-child:not(:last-child) > a {
+.btn-group-vertical > .btn-group:first-child:not(:last-child) > .btn:last-child, .multi-list-group .item-container .btn-group-vertical > .item:first-child:not(:last-child) > .btn:last-child, .buttons .btn-group-vertical > .btn-group:first-child:not(:last-child) > a:last-child, .multi-list-group .item-container .buttons .btn-group-vertical > .item:first-child:not(:last-child) > a:last-child, form .submit-container .btn-group-vertical > .btn-group:first-child:not(:last-child) > input[type="submit"]:last-child, .multi-list-group .item-container form .submit-container .btn-group-vertical > .item:first-child:not(:last-child) > input[type="submit"]:last-child, form .submit-container .multi-list-group .item-container .btn-group-vertical > .item:first-child:not(:last-child) > input[type="submit"]:last-child, .multi-list-group .item-container .item .btn-group-vertical > .btn-group:first-child:not(:last-child) > a:last-child, .multi-list-group .item-container .btn-group-vertical > .item:first-child:not(:last-child) > a:last-child, .multi-list-group .item-container .item .btn-group-vertical > .btn-group:first-child:not(:last-child) > button:last-child, .multi-list-group .item-container .btn-group-vertical > .item:first-child:not(:last-child) > button:last-child,
+.btn-group-vertical > .btn-group:first-child:not(:last-child) > .dropdown-toggle, .multi-list-group .item-container
+.btn-group-vertical > .item:first-child:not(:last-child) > .dropdown-toggle, #navbar .navigation-collapse > ul > li
+.btn-group-vertical > .btn-group:first-child:not(:last-child) > a, .multi-list-group .item-container #navbar .navigation-collapse > ul > li
+.btn-group-vertical > .item:first-child:not(:last-child) > a, #navbar .navigation-collapse > ul > li .multi-list-group .item-container
+.btn-group-vertical > .item:first-child:not(:last-child) > a {
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0; }
 
-.btn-group-vertical > .btn-group:last-child:not(:first-child) > .btn:first-child, .buttons .btn-group-vertical > .btn-group:last-child:not(:first-child) > a:first-child {
+.btn-group-vertical > .btn-group:last-child:not(:first-child) > .btn:first-child, .multi-list-group .item-container .btn-group-vertical > .item:last-child:not(:first-child) > .btn:first-child, .buttons .btn-group-vertical > .btn-group:last-child:not(:first-child) > a:first-child, .multi-list-group .item-container .buttons .btn-group-vertical > .item:last-child:not(:first-child) > a:first-child, form .submit-container .btn-group-vertical > .btn-group:last-child:not(:first-child) > input[type="submit"]:first-child, .multi-list-group .item-container form .submit-container .btn-group-vertical > .item:last-child:not(:first-child) > input[type="submit"]:first-child, form .submit-container .multi-list-group .item-container .btn-group-vertical > .item:last-child:not(:first-child) > input[type="submit"]:first-child, .multi-list-group .item-container .item .btn-group-vertical > .btn-group:last-child:not(:first-child) > a:first-child, .multi-list-group .item-container .btn-group-vertical > .item:last-child:not(:first-child) > a:first-child, .multi-list-group .item-container .item .btn-group-vertical > .btn-group:last-child:not(:first-child) > button:first-child, .multi-list-group .item-container .btn-group-vertical > .item:last-child:not(:first-child) > button:first-child {
   border-top-right-radius: 0;
   border-top-left-radius: 0; }
 
@@ -3522,23 +3703,45 @@ tbody.collapse.in {
   width: 100%;
   table-layout: fixed;
   border-collapse: separate; }
-  .btn-group-justified > .btn, .buttons .btn-group-justified > a,
-  .btn-group-justified > .btn-group {
+  .btn-group-justified > .btn, .buttons .btn-group-justified > a, form .submit-container .btn-group-justified > input[type="submit"], .multi-list-group .item-container .item .btn-group-justified > a, .multi-list-group .item-container .item .btn-group-justified > button,
+  .btn-group-justified > .btn-group, .multi-list-group .item-container
+  .btn-group-justified > .item {
     float: none;
     display: table-cell;
     width: 1%; }
-  .btn-group-justified > .btn-group .btn, .btn-group-justified > .btn-group .buttons a, .buttons .btn-group-justified > .btn-group a {
+  .btn-group-justified > .btn-group .btn, .multi-list-group .item-container .btn-group-justified > .item .btn, .btn-group-justified > .btn-group .buttons a, .buttons .btn-group-justified > .btn-group a, .btn-group-justified > .btn-group form .submit-container input[type="submit"], form .submit-container .btn-group-justified > .btn-group input[type="submit"], .multi-list-group .item-container .btn-group-justified > .item form .submit-container input[type="submit"], form .submit-container .multi-list-group .item-container .btn-group-justified > .item input[type="submit"], .btn-group-justified > .btn-group .multi-list-group .item-container .item a, .multi-list-group .item-container .item .btn-group-justified > .btn-group a, .multi-list-group .item-container .btn-group-justified > .item a, .btn-group-justified > .btn-group .multi-list-group .item-container .item button, .multi-list-group .item-container .item .btn-group-justified > .btn-group button, .multi-list-group .item-container .btn-group-justified > .item button {
     width: 100%; }
-  .btn-group-justified > .btn-group .dropdown-menu, .btn-group-justified > .btn-group #navbar .navigation-collapse > ul > li > ul, #navbar .btn-group-justified > .btn-group .navigation-collapse > ul > li > ul {
+  .btn-group-justified > .btn-group .dropdown-menu, .multi-list-group .item-container .btn-group-justified > .item .dropdown-menu, .btn-group-justified > .btn-group #navbar .navigation-collapse > ul > li > ul, #navbar .btn-group-justified > .btn-group .navigation-collapse > ul > li > ul, .multi-list-group .item-container .btn-group-justified > .item #navbar .navigation-collapse > ul > li > ul, #navbar .multi-list-group .item-container .btn-group-justified > .item .navigation-collapse > ul > li > ul {
     left: auto; }
 
-[data-toggle="buttons"] > .btn input[type="radio"], .buttons [data-toggle="buttons"] > a input[type="radio"],
+[data-toggle="buttons"] > .btn input[type="radio"], .buttons [data-toggle="buttons"] > a input[type="radio"], form .submit-container [data-toggle="buttons"] > input[type="submit"] input[type="radio"], .multi-list-group .item-container .item [data-toggle="buttons"] > a input[type="radio"], .multi-list-group .item-container .item [data-toggle="buttons"] > button input[type="radio"],
 [data-toggle="buttons"] > .btn input[type="checkbox"], .buttons
-[data-toggle="buttons"] > a input[type="checkbox"],
-[data-toggle="buttons"] > .btn-group > .btn input[type="radio"], .buttons
-[data-toggle="buttons"] > .btn-group > a input[type="radio"],
-[data-toggle="buttons"] > .btn-group > .btn input[type="checkbox"], .buttons
-[data-toggle="buttons"] > .btn-group > a input[type="checkbox"] {
+[data-toggle="buttons"] > a input[type="checkbox"], form .submit-container
+[data-toggle="buttons"] > input[type="submit"] input[type="checkbox"], .multi-list-group .item-container .item
+[data-toggle="buttons"] > a input[type="checkbox"], .multi-list-group .item-container .item
+[data-toggle="buttons"] > button input[type="checkbox"],
+[data-toggle="buttons"] > .btn-group > .btn input[type="radio"], .multi-list-group .item-container
+[data-toggle="buttons"] > .item > .btn input[type="radio"], .buttons
+[data-toggle="buttons"] > .btn-group > a input[type="radio"], .multi-list-group .item-container .buttons
+[data-toggle="buttons"] > .item > a input[type="radio"], form .submit-container
+[data-toggle="buttons"] > .btn-group > input[type="submit"] input[type="radio"], .multi-list-group .item-container form .submit-container
+[data-toggle="buttons"] > .item > input[type="submit"] input[type="radio"], form .submit-container .multi-list-group .item-container
+[data-toggle="buttons"] > .item > input[type="submit"] input[type="radio"], .multi-list-group .item-container .item
+[data-toggle="buttons"] > .btn-group > a input[type="radio"], .multi-list-group .item-container
+[data-toggle="buttons"] > .item > a input[type="radio"], .multi-list-group .item-container .item
+[data-toggle="buttons"] > .btn-group > button input[type="radio"], .multi-list-group .item-container
+[data-toggle="buttons"] > .item > button input[type="radio"],
+[data-toggle="buttons"] > .btn-group > .btn input[type="checkbox"], .multi-list-group .item-container
+[data-toggle="buttons"] > .item > .btn input[type="checkbox"], .buttons
+[data-toggle="buttons"] > .btn-group > a input[type="checkbox"], .multi-list-group .item-container .buttons
+[data-toggle="buttons"] > .item > a input[type="checkbox"], form .submit-container
+[data-toggle="buttons"] > .btn-group > input[type="submit"] input[type="checkbox"], .multi-list-group .item-container form .submit-container
+[data-toggle="buttons"] > .item > input[type="submit"] input[type="checkbox"], form .submit-container .multi-list-group .item-container
+[data-toggle="buttons"] > .item > input[type="submit"] input[type="checkbox"], .multi-list-group .item-container .item
+[data-toggle="buttons"] > .btn-group > a input[type="checkbox"], .multi-list-group .item-container
+[data-toggle="buttons"] > .item > a input[type="checkbox"], .multi-list-group .item-container .item
+[data-toggle="buttons"] > .btn-group > button input[type="checkbox"], .multi-list-group .item-container
+[data-toggle="buttons"] > .item > button input[type="checkbox"] {
   position: absolute;
   clip: rect(0, 0, 0, 0);
   pointer-events: none; }
@@ -3596,14 +3799,20 @@ tbody.collapse.in {
   .input-group-addon.input-sm, form .input-group-sm > input.input-group-addon, form .input-group-sm > select.input-group-addon,
   .input-group-sm > .input-group-addon,
   .input-group-sm > .input-group-btn > .input-group-addon.btn, .buttons
-  .input-group-sm > .input-group-btn > a.input-group-addon {
+  .input-group-sm > .input-group-btn > a.input-group-addon, form .submit-container
+  .input-group-sm > .input-group-btn > input.input-group-addon[type="submit"], .multi-list-group .item-container .item
+  .input-group-sm > .input-group-btn > a.input-group-addon, .multi-list-group .item-container .item
+  .input-group-sm > .input-group-btn > button.input-group-addon {
     padding: 5px 10px;
     font-size: 12px;
     border-radius: 3px; }
   .input-group-addon.input-lg, form .input-group-lg > input.input-group-addon, form .input-group-lg > select.input-group-addon,
   .input-group-lg > .input-group-addon,
   .input-group-lg > .input-group-btn > .input-group-addon.btn, .buttons
-  .input-group-lg > .input-group-btn > a.input-group-addon {
+  .input-group-lg > .input-group-btn > a.input-group-addon, form .submit-container
+  .input-group-lg > .input-group-btn > input.input-group-addon[type="submit"], .multi-list-group .item-container .item
+  .input-group-lg > .input-group-btn > a.input-group-addon, .multi-list-group .item-container .item
+  .input-group-lg > .input-group-btn > button.input-group-addon {
     padding: 10px 16px;
     font-size: 18px;
     border-radius: 6px; }
@@ -3614,15 +3823,39 @@ tbody.collapse.in {
 .input-group .form-control:first-child, .input-group form input:first-child, form .input-group input:first-child, .input-group form select:first-child, form .input-group select:first-child,
 .input-group-addon:first-child,
 .input-group-btn:first-child > .btn, .buttons
-.input-group-btn:first-child > a,
-.input-group-btn:first-child > .btn-group > .btn, .buttons
-.input-group-btn:first-child > .btn-group > a,
+.input-group-btn:first-child > a, form .submit-container
+.input-group-btn:first-child > input[type="submit"], .multi-list-group .item-container .item
+.input-group-btn:first-child > a, .multi-list-group .item-container .item
+.input-group-btn:first-child > button,
+.input-group-btn:first-child > .btn-group > .btn, .multi-list-group .item-container
+.input-group-btn:first-child > .item > .btn, .buttons
+.input-group-btn:first-child > .btn-group > a, .multi-list-group .item-container .buttons
+.input-group-btn:first-child > .item > a, form .submit-container
+.input-group-btn:first-child > .btn-group > input[type="submit"], .multi-list-group .item-container form .submit-container
+.input-group-btn:first-child > .item > input[type="submit"], form .submit-container .multi-list-group .item-container
+.input-group-btn:first-child > .item > input[type="submit"], .multi-list-group .item-container .item
+.input-group-btn:first-child > .btn-group > a, .multi-list-group .item-container
+.input-group-btn:first-child > .item > a, .multi-list-group .item-container .item
+.input-group-btn:first-child > .btn-group > button, .multi-list-group .item-container
+.input-group-btn:first-child > .item > button,
 .input-group-btn:first-child > .dropdown-toggle, #navbar .navigation-collapse > ul > li
 .input-group-btn:first-child > a,
 .input-group-btn:last-child > .btn:not(:last-child):not(.dropdown-toggle):not(#navbar .navigation-collapse > ul > li a), .buttons
-.input-group-btn:last-child > a:not(:last-child):not(.dropdown-toggle):not(#navbar .navigation-collapse > ul > li a),
-.input-group-btn:last-child > .btn-group:not(:last-child) > .btn, .buttons
-.input-group-btn:last-child > .btn-group:not(:last-child) > a {
+.input-group-btn:last-child > a:not(:last-child):not(.dropdown-toggle):not(#navbar .navigation-collapse > ul > li a), form .submit-container
+.input-group-btn:last-child > input[type="submit"]:not(:last-child):not(.dropdown-toggle):not(#navbar .navigation-collapse > ul > li a), .multi-list-group .item-container .item
+.input-group-btn:last-child > a:not(:last-child):not(.dropdown-toggle):not(#navbar .navigation-collapse > ul > li a), .multi-list-group .item-container .item
+.input-group-btn:last-child > button:not(:last-child):not(.dropdown-toggle):not(#navbar .navigation-collapse > ul > li a),
+.input-group-btn:last-child > .btn-group:not(:last-child) > .btn, .multi-list-group .item-container
+.input-group-btn:last-child > .item:not(:last-child) > .btn, .buttons
+.input-group-btn:last-child > .btn-group:not(:last-child) > a, .multi-list-group .item-container .buttons
+.input-group-btn:last-child > .item:not(:last-child) > a, form .submit-container
+.input-group-btn:last-child > .btn-group:not(:last-child) > input[type="submit"], .multi-list-group .item-container form .submit-container
+.input-group-btn:last-child > .item:not(:last-child) > input[type="submit"], form .submit-container .multi-list-group .item-container
+.input-group-btn:last-child > .item:not(:last-child) > input[type="submit"], .multi-list-group .item-container .item
+.input-group-btn:last-child > .btn-group:not(:last-child) > a, .multi-list-group .item-container
+.input-group-btn:last-child > .item:not(:last-child) > a, .multi-list-group .item-container .item
+.input-group-btn:last-child > .btn-group:not(:last-child) > button, .multi-list-group .item-container
+.input-group-btn:last-child > .item:not(:last-child) > button {
   border-bottom-right-radius: 0;
   border-top-right-radius: 0; }
 
@@ -3632,15 +3865,39 @@ tbody.collapse.in {
 .input-group .form-control:last-child, .input-group form input:last-child, form .input-group input:last-child, .input-group form select:last-child, form .input-group select:last-child,
 .input-group-addon:last-child,
 .input-group-btn:last-child > .btn, .buttons
-.input-group-btn:last-child > a,
-.input-group-btn:last-child > .btn-group > .btn, .buttons
-.input-group-btn:last-child > .btn-group > a,
+.input-group-btn:last-child > a, form .submit-container
+.input-group-btn:last-child > input[type="submit"], .multi-list-group .item-container .item
+.input-group-btn:last-child > a, .multi-list-group .item-container .item
+.input-group-btn:last-child > button,
+.input-group-btn:last-child > .btn-group > .btn, .multi-list-group .item-container
+.input-group-btn:last-child > .item > .btn, .buttons
+.input-group-btn:last-child > .btn-group > a, .multi-list-group .item-container .buttons
+.input-group-btn:last-child > .item > a, form .submit-container
+.input-group-btn:last-child > .btn-group > input[type="submit"], .multi-list-group .item-container form .submit-container
+.input-group-btn:last-child > .item > input[type="submit"], form .submit-container .multi-list-group .item-container
+.input-group-btn:last-child > .item > input[type="submit"], .multi-list-group .item-container .item
+.input-group-btn:last-child > .btn-group > a, .multi-list-group .item-container
+.input-group-btn:last-child > .item > a, .multi-list-group .item-container .item
+.input-group-btn:last-child > .btn-group > button, .multi-list-group .item-container
+.input-group-btn:last-child > .item > button,
 .input-group-btn:last-child > .dropdown-toggle, #navbar .navigation-collapse > ul > li
 .input-group-btn:last-child > a,
 .input-group-btn:first-child > .btn:not(:first-child), .buttons
-.input-group-btn:first-child > a:not(:first-child),
-.input-group-btn:first-child > .btn-group:not(:first-child) > .btn, .buttons
-.input-group-btn:first-child > .btn-group:not(:first-child) > a {
+.input-group-btn:first-child > a:not(:first-child), form .submit-container
+.input-group-btn:first-child > input[type="submit"]:not(:first-child), .multi-list-group .item-container .item
+.input-group-btn:first-child > a:not(:first-child), .multi-list-group .item-container .item
+.input-group-btn:first-child > button:not(:first-child),
+.input-group-btn:first-child > .btn-group:not(:first-child) > .btn, .multi-list-group .item-container
+.input-group-btn:first-child > .item:not(:first-child) > .btn, .buttons
+.input-group-btn:first-child > .btn-group:not(:first-child) > a, .multi-list-group .item-container .buttons
+.input-group-btn:first-child > .item:not(:first-child) > a, form .submit-container
+.input-group-btn:first-child > .btn-group:not(:first-child) > input[type="submit"], .multi-list-group .item-container form .submit-container
+.input-group-btn:first-child > .item:not(:first-child) > input[type="submit"], form .submit-container .multi-list-group .item-container
+.input-group-btn:first-child > .item:not(:first-child) > input[type="submit"], .multi-list-group .item-container .item
+.input-group-btn:first-child > .btn-group:not(:first-child) > a, .multi-list-group .item-container
+.input-group-btn:first-child > .item:not(:first-child) > a, .multi-list-group .item-container .item
+.input-group-btn:first-child > .btn-group:not(:first-child) > button, .multi-list-group .item-container
+.input-group-btn:first-child > .item:not(:first-child) > button {
   border-bottom-left-radius: 0;
   border-top-left-radius: 0; }
 
@@ -3651,17 +3908,19 @@ tbody.collapse.in {
   position: relative;
   font-size: 0;
   white-space: nowrap; }
-  .input-group-btn > .btn, .buttons .input-group-btn > a {
+  .input-group-btn > .btn, .buttons .input-group-btn > a, form .submit-container .input-group-btn > input[type="submit"], .multi-list-group .item-container .item .input-group-btn > a, .multi-list-group .item-container .item .input-group-btn > button {
     position: relative; }
-    .input-group-btn > .btn + .btn, .buttons .input-group-btn > a + .btn, .buttons .input-group-btn > .btn + a, .buttons .input-group-btn > a + a {
+    .input-group-btn > .btn + .btn, .buttons .input-group-btn > a + .btn, form .submit-container .input-group-btn > input[type="submit"] + .btn, .multi-list-group .item-container .item .input-group-btn > a + .btn, .multi-list-group .item-container .item .input-group-btn > button + .btn, .buttons .input-group-btn > .btn + a, .buttons .input-group-btn > a + a, form .submit-container .buttons .input-group-btn > input[type="submit"] + a, .buttons form .submit-container .input-group-btn > input[type="submit"] + a, .multi-list-group .item-container .item .buttons .input-group-btn > button + a, form .submit-container .input-group-btn > .btn + input[type="submit"], .buttons form .submit-container .input-group-btn > a + input[type="submit"], form .submit-container .buttons .input-group-btn > a + input[type="submit"], form .submit-container .input-group-btn > input[type="submit"] + input[type="submit"], .multi-list-group .item-container .item form .submit-container .input-group-btn > a + input[type="submit"], form .submit-container .multi-list-group .item-container .item .input-group-btn > a + input[type="submit"], .multi-list-group .item-container .item form .submit-container .input-group-btn > button + input[type="submit"], form .submit-container .multi-list-group .item-container .item .input-group-btn > button + input[type="submit"], .multi-list-group .item-container .item .input-group-btn > .btn + a, .multi-list-group .item-container .item .buttons .input-group-btn > a + a, form .submit-container .multi-list-group .item-container .item .input-group-btn > input[type="submit"] + a, .multi-list-group .item-container .item form .submit-container .input-group-btn > input[type="submit"] + a, .multi-list-group .item-container .item .input-group-btn > a + a, .multi-list-group .item-container .item .input-group-btn > button + a, .multi-list-group .item-container .item .input-group-btn > .btn + button, .multi-list-group .item-container .item .buttons .input-group-btn > a + button, form .submit-container .multi-list-group .item-container .item .input-group-btn > input[type="submit"] + button, .multi-list-group .item-container .item form .submit-container .input-group-btn > input[type="submit"] + button, .multi-list-group .item-container .item .input-group-btn > a + button, .multi-list-group .item-container .item .input-group-btn > button + button {
       margin-left: -1px; }
-    .input-group-btn > .btn:hover, .buttons .input-group-btn > a:hover, .input-group-btn > .btn:focus, .buttons .input-group-btn > a:focus, .input-group-btn > .btn:active, .buttons .input-group-btn > a:active {
+    .input-group-btn > .btn:hover, .buttons .input-group-btn > a:hover, form .submit-container .input-group-btn > input[type="submit"]:hover, .multi-list-group .item-container .item .input-group-btn > a:hover, .multi-list-group .item-container .item .input-group-btn > button:hover, .input-group-btn > .btn:focus, .buttons .input-group-btn > a:focus, form .submit-container .input-group-btn > input[type="submit"]:focus, .multi-list-group .item-container .item .input-group-btn > a:focus, .multi-list-group .item-container .item .input-group-btn > button:focus, .input-group-btn > .btn:active, .buttons .input-group-btn > a:active, form .submit-container .input-group-btn > input[type="submit"]:active, .multi-list-group .item-container .item .input-group-btn > a:active, .multi-list-group .item-container .item .input-group-btn > button:active {
       z-index: 2; }
-  .input-group-btn:first-child > .btn, .buttons .input-group-btn:first-child > a,
-  .input-group-btn:first-child > .btn-group {
+  .input-group-btn:first-child > .btn, .buttons .input-group-btn:first-child > a, form .submit-container .input-group-btn:first-child > input[type="submit"], .multi-list-group .item-container .item .input-group-btn:first-child > a, .multi-list-group .item-container .item .input-group-btn:first-child > button,
+  .input-group-btn:first-child > .btn-group, .multi-list-group .item-container
+  .input-group-btn:first-child > .item {
     margin-right: -1px; }
-  .input-group-btn:last-child > .btn, .buttons .input-group-btn:last-child > a,
-  .input-group-btn:last-child > .btn-group {
+  .input-group-btn:last-child > .btn, .buttons .input-group-btn:last-child > a, form .submit-container .input-group-btn:last-child > input[type="submit"], .multi-list-group .item-container .item .input-group-btn:last-child > a, .multi-list-group .item-container .item .input-group-btn:last-child > button,
+  .input-group-btn:last-child > .btn-group, .multi-list-group .item-container
+  .input-group-btn:last-child > .item {
     z-index: 2;
     margin-left: -1px; }
 
@@ -4059,10 +4318,10 @@ tbody.collapse.in {
 .navbar-btn {
   margin-top: 8px;
   margin-bottom: 8px; }
-  .navbar-btn.btn-sm, .btn-group-sm > .navbar-btn.btn, .buttons .btn-group-sm > a.navbar-btn {
+  .navbar-btn.btn-sm, .btn-group-sm > .navbar-btn.btn, .buttons .btn-group-sm > a.navbar-btn, form .submit-container .btn-group-sm > input.navbar-btn[type="submit"], .multi-list-group .item-container .item .btn-group-sm > a.navbar-btn, .multi-list-group .item-container .item .btn-group-sm > button.navbar-btn {
     margin-top: 10px;
     margin-bottom: 10px; }
-  .navbar-btn.btn-xs, .btn-group-xs > .navbar-btn.btn, .buttons .btn-group-xs > a.navbar-btn {
+  .navbar-btn.btn-xs, .btn-group-xs > .navbar-btn.btn, .buttons .btn-group-xs > a.navbar-btn, form .submit-container .btn-group-xs > input.navbar-btn[type="submit"], .multi-list-group .item-container .item .btn-group-xs > a.navbar-btn, .multi-list-group .item-container .item .btn-group-xs > button.navbar-btn {
     margin-top: 14px;
     margin-bottom: 14px; }
 
@@ -4357,7 +4616,7 @@ tbody.collapse.in {
   border-radius: .25em; }
   .label:empty {
     display: none; }
-  .btn .label, .buttons a .label {
+  .btn .label, .buttons a .label, form .submit-container input[type="submit"] .label, .multi-list-group .item-container .item a .label, .multi-list-group .item-container .item button .label {
     position: relative;
     top: -1px; }
 
@@ -4411,21 +4670,24 @@ a.label:hover, a.label:focus {
   border-radius: 10px; }
   .badge:empty {
     display: none; }
-  .btn .badge, .buttons a .badge {
+  .btn .badge, .buttons a .badge, form .submit-container input[type="submit"] .badge, .multi-list-group .item-container .item a .badge, .multi-list-group .item-container .item button .badge {
     position: relative;
     top: -1px; }
-  .btn-xs .badge, .btn-group-xs > .btn .badge, .buttons .btn-group-xs > a .badge,
+  .btn-xs .badge, .btn-group-xs > .btn .badge, .buttons .btn-group-xs > a .badge, form .submit-container .btn-group-xs > input[type="submit"] .badge, .multi-list-group .item-container .item .btn-group-xs > a .badge, .multi-list-group .item-container .item .btn-group-xs > button .badge,
   .btn-group-xs > .btn .badge, .buttons
-  .btn-group-xs > a .badge {
+  .btn-group-xs > a .badge, form .submit-container
+  .btn-group-xs > input[type="submit"] .badge, .multi-list-group .item-container .item
+  .btn-group-xs > a .badge, .multi-list-group .item-container .item
+  .btn-group-xs > button .badge {
     top: 0;
     padding: 1px 5px; }
-  .list-group-item.active > .badge,
+  .list-group-item.active > .badge, .list-group > a.active > .badge, .multi-list-group > a.active > .badge, .list-group > li.active > .badge, .multi-list-group > li.active > .badge, .multi-list-group .active.item-container > .badge,
   .nav-pills > .active > a > .badge {
     color: #337ab7;
     background-color: #fff; }
-  .list-group-item > .badge {
+  .list-group-item > .badge, .list-group > a > .badge, .multi-list-group > a > .badge, .list-group > li > .badge, .multi-list-group > li > .badge, .multi-list-group .item-container > .badge {
     float: right; }
-  .list-group-item > .badge + .badge {
+  .list-group-item > .badge + .badge, .list-group > a > .badge + .badge, .multi-list-group > a > .badge + .badge, .list-group > li > .badge + .badge, .multi-list-group > li > .badge + .badge, .multi-list-group .item-container > .badge + .badge {
     margin-right: 5px; }
   .nav-pills > li > a > .badge {
     margin-left: 3px; }
@@ -4515,8 +4777,12 @@ a.thumbnail.active {
 .alert-dismissable,
 .alert-dismissible {
   padding-right: 35px; }
-  .alert-dismissable .close,
-  .alert-dismissible .close {
+  .alert-dismissable .close, .alert-dismissable .success-panel button.dismiss, .success-panel .alert-dismissable button.dismiss, .alert-dismissable .error-panel button.dismiss, .error-panel .alert-dismissable button.dismiss,
+  .alert-dismissible .close,
+  .alert-dismissible .success-panel button.dismiss, .success-panel
+  .alert-dismissible button.dismiss,
+  .alert-dismissible .error-panel button.dismiss, .error-panel
+  .alert-dismissible button.dismiss {
     position: relative;
     top: -2px;
     right: -21px;
@@ -4659,65 +4925,68 @@ a.thumbnail.active {
   padding-left: 0;
   list-style: none; }
 
-.list-group {
+.list-group, .multi-list-group {
   margin-bottom: 20px;
   padding-left: 0; }
 
-.list-group-item {
+.list-group-item, .list-group > a, .multi-list-group > a, .list-group > li, .multi-list-group > li, .multi-list-group .item-container {
   position: relative;
   display: block;
   padding: 10px 15px;
   margin-bottom: -1px;
   background-color: #fff;
   border: 1px solid #ddd; }
-  .list-group-item:first-child {
+  .list-group-item:first-child, .list-group > a:first-child, .multi-list-group > a:first-child, .list-group > li:first-child, .multi-list-group > li:first-child, .multi-list-group .item-container:first-child {
     border-top-right-radius: 4px;
     border-top-left-radius: 4px; }
-  .list-group-item:last-child {
+  .list-group-item:last-child, .list-group > a:last-child, .multi-list-group > a:last-child, .list-group > li:last-child, .multi-list-group > li:last-child, .multi-list-group .item-container:last-child {
     margin-bottom: 0;
     border-bottom-right-radius: 4px;
     border-bottom-left-radius: 4px; }
 
-a.list-group-item,
-button.list-group-item {
+a.list-group-item, .list-group > a, .multi-list-group > a, .multi-list-group a.item-container,
+button.list-group-item,
+.multi-list-group button.item-container {
   color: #555; }
-  a.list-group-item .list-group-item-heading,
-  button.list-group-item .list-group-item-heading {
+  a.list-group-item .list-group-item-heading, .list-group > a .list-group-item-heading, .multi-list-group > a .list-group-item-heading, .multi-list-group a.item-container .list-group-item-heading,
+  button.list-group-item .list-group-item-heading, .multi-list-group button.item-container .list-group-item-heading {
     color: #333; }
-  a.list-group-item:hover, a.list-group-item:focus,
+  a.list-group-item:hover, .list-group > a:hover, .multi-list-group > a:hover, .multi-list-group a.item-container:hover, a.list-group-item:focus, .list-group > a:focus, .multi-list-group > a:focus, .multi-list-group a.item-container:focus,
   button.list-group-item:hover,
-  button.list-group-item:focus {
+  .multi-list-group button.item-container:hover,
+  button.list-group-item:focus,
+  .multi-list-group button.item-container:focus {
     text-decoration: none;
     color: #555;
     background-color: #f5f5f5; }
 
-button.list-group-item {
+button.list-group-item, .multi-list-group button.item-container {
   width: 100%;
   text-align: left; }
 
-.list-group-item.disabled, .list-group-item.disabled:hover, .list-group-item.disabled:focus {
+.list-group-item.disabled, .list-group > a.disabled, .multi-list-group > a.disabled, .list-group > li.disabled, .multi-list-group > li.disabled, .multi-list-group .disabled.item-container, .list-group-item.disabled:hover, .list-group > a.disabled:hover, .multi-list-group > a.disabled:hover, .list-group > li.disabled:hover, .multi-list-group > li.disabled:hover, .multi-list-group .disabled.item-container:hover, .list-group-item.disabled:focus, .list-group > a.disabled:focus, .multi-list-group > a.disabled:focus, .list-group > li.disabled:focus, .multi-list-group > li.disabled:focus, .multi-list-group .disabled.item-container:focus {
   background-color: #eeeeee;
   color: #777777;
   cursor: not-allowed; }
-  .list-group-item.disabled .list-group-item-heading, .list-group-item.disabled:hover .list-group-item-heading, .list-group-item.disabled:focus .list-group-item-heading {
+  .list-group-item.disabled .list-group-item-heading, .list-group > a.disabled .list-group-item-heading, .multi-list-group > a.disabled .list-group-item-heading, .list-group > li.disabled .list-group-item-heading, .multi-list-group > li.disabled .list-group-item-heading, .multi-list-group .disabled.item-container .list-group-item-heading, .list-group-item.disabled:hover .list-group-item-heading, .list-group > a.disabled:hover .list-group-item-heading, .multi-list-group > a.disabled:hover .list-group-item-heading, .list-group > li.disabled:hover .list-group-item-heading, .multi-list-group > li.disabled:hover .list-group-item-heading, .multi-list-group .disabled.item-container:hover .list-group-item-heading, .list-group-item.disabled:focus .list-group-item-heading, .list-group > a.disabled:focus .list-group-item-heading, .multi-list-group > a.disabled:focus .list-group-item-heading, .list-group > li.disabled:focus .list-group-item-heading, .multi-list-group > li.disabled:focus .list-group-item-heading, .multi-list-group .disabled.item-container:focus .list-group-item-heading {
     color: inherit; }
-  .list-group-item.disabled .list-group-item-text, .list-group-item.disabled:hover .list-group-item-text, .list-group-item.disabled:focus .list-group-item-text {
+  .list-group-item.disabled .list-group-item-text, .list-group > a.disabled .list-group-item-text, .multi-list-group > a.disabled .list-group-item-text, .list-group > li.disabled .list-group-item-text, .multi-list-group > li.disabled .list-group-item-text, .multi-list-group .disabled.item-container .list-group-item-text, .list-group-item.disabled:hover .list-group-item-text, .list-group > a.disabled:hover .list-group-item-text, .multi-list-group > a.disabled:hover .list-group-item-text, .list-group > li.disabled:hover .list-group-item-text, .multi-list-group > li.disabled:hover .list-group-item-text, .multi-list-group .disabled.item-container:hover .list-group-item-text, .list-group-item.disabled:focus .list-group-item-text, .list-group > a.disabled:focus .list-group-item-text, .multi-list-group > a.disabled:focus .list-group-item-text, .list-group > li.disabled:focus .list-group-item-text, .multi-list-group > li.disabled:focus .list-group-item-text, .multi-list-group .disabled.item-container:focus .list-group-item-text {
     color: #777777; }
 
-.list-group-item.active, .list-group-item.active:hover, .list-group-item.active:focus {
+.list-group-item.active, .list-group > a.active, .multi-list-group > a.active, .list-group > li.active, .multi-list-group > li.active, .multi-list-group .active.item-container, .list-group-item.active:hover, .list-group > a.active:hover, .multi-list-group > a.active:hover, .list-group > li.active:hover, .multi-list-group > li.active:hover, .multi-list-group .active.item-container:hover, .list-group-item.active:focus, .list-group > a.active:focus, .multi-list-group > a.active:focus, .list-group > li.active:focus, .multi-list-group > li.active:focus, .multi-list-group .active.item-container:focus {
   z-index: 2;
   color: #fff;
   background-color: #337ab7;
   border-color: #337ab7; }
-  .list-group-item.active .list-group-item-heading,
-  .list-group-item.active .list-group-item-heading > small,
-  .list-group-item.active .list-group-item-heading > .small, .list-group-item.active:hover .list-group-item-heading,
-  .list-group-item.active:hover .list-group-item-heading > small,
-  .list-group-item.active:hover .list-group-item-heading > .small, .list-group-item.active:focus .list-group-item-heading,
-  .list-group-item.active:focus .list-group-item-heading > small,
-  .list-group-item.active:focus .list-group-item-heading > .small {
+  .list-group-item.active .list-group-item-heading, .list-group > a.active .list-group-item-heading, .multi-list-group > a.active .list-group-item-heading, .list-group > li.active .list-group-item-heading, .multi-list-group > li.active .list-group-item-heading, .multi-list-group .active.item-container .list-group-item-heading,
+  .list-group-item.active .list-group-item-heading > small, .list-group > a.active .list-group-item-heading > small, .multi-list-group > a.active .list-group-item-heading > small, .list-group > li.active .list-group-item-heading > small, .multi-list-group > li.active .list-group-item-heading > small, .multi-list-group .active.item-container .list-group-item-heading > small,
+  .list-group-item.active .list-group-item-heading > .small, .list-group > a.active .list-group-item-heading > .small, .multi-list-group > a.active .list-group-item-heading > .small, .list-group > li.active .list-group-item-heading > .small, .multi-list-group > li.active .list-group-item-heading > .small, .multi-list-group .active.item-container .list-group-item-heading > .small, .list-group-item.active:hover .list-group-item-heading, .list-group > a.active:hover .list-group-item-heading, .multi-list-group > a.active:hover .list-group-item-heading, .list-group > li.active:hover .list-group-item-heading, .multi-list-group > li.active:hover .list-group-item-heading, .multi-list-group .active.item-container:hover .list-group-item-heading,
+  .list-group-item.active:hover .list-group-item-heading > small, .list-group > a.active:hover .list-group-item-heading > small, .multi-list-group > a.active:hover .list-group-item-heading > small, .list-group > li.active:hover .list-group-item-heading > small, .multi-list-group > li.active:hover .list-group-item-heading > small, .multi-list-group .active.item-container:hover .list-group-item-heading > small,
+  .list-group-item.active:hover .list-group-item-heading > .small, .list-group > a.active:hover .list-group-item-heading > .small, .multi-list-group > a.active:hover .list-group-item-heading > .small, .list-group > li.active:hover .list-group-item-heading > .small, .multi-list-group > li.active:hover .list-group-item-heading > .small, .multi-list-group .active.item-container:hover .list-group-item-heading > .small, .list-group-item.active:focus .list-group-item-heading, .list-group > a.active:focus .list-group-item-heading, .multi-list-group > a.active:focus .list-group-item-heading, .list-group > li.active:focus .list-group-item-heading, .multi-list-group > li.active:focus .list-group-item-heading, .multi-list-group .active.item-container:focus .list-group-item-heading,
+  .list-group-item.active:focus .list-group-item-heading > small, .list-group > a.active:focus .list-group-item-heading > small, .multi-list-group > a.active:focus .list-group-item-heading > small, .list-group > li.active:focus .list-group-item-heading > small, .multi-list-group > li.active:focus .list-group-item-heading > small, .multi-list-group .active.item-container:focus .list-group-item-heading > small,
+  .list-group-item.active:focus .list-group-item-heading > .small, .list-group > a.active:focus .list-group-item-heading > .small, .multi-list-group > a.active:focus .list-group-item-heading > .small, .list-group > li.active:focus .list-group-item-heading > .small, .multi-list-group > li.active:focus .list-group-item-heading > .small, .multi-list-group .active.item-container:focus .list-group-item-heading > .small {
     color: inherit; }
-  .list-group-item.active .list-group-item-text, .list-group-item.active:hover .list-group-item-text, .list-group-item.active:focus .list-group-item-text {
+  .list-group-item.active .list-group-item-text, .list-group > a.active .list-group-item-text, .multi-list-group > a.active .list-group-item-text, .list-group > li.active .list-group-item-text, .multi-list-group > li.active .list-group-item-text, .multi-list-group .active.item-container .list-group-item-text, .list-group-item.active:hover .list-group-item-text, .list-group > a.active:hover .list-group-item-text, .multi-list-group > a.active:hover .list-group-item-text, .list-group > li.active:hover .list-group-item-text, .multi-list-group > li.active:hover .list-group-item-text, .multi-list-group .active.item-container:hover .list-group-item-text, .list-group-item.active:focus .list-group-item-text, .list-group > a.active:focus .list-group-item-text, .multi-list-group > a.active:focus .list-group-item-text, .list-group > li.active:focus .list-group-item-text, .multi-list-group > li.active:focus .list-group-item-text, .multi-list-group .active.item-container:focus .list-group-item-text {
     color: #c7ddef; }
 
 .list-group-item-success {
@@ -4862,32 +5131,66 @@ button.list-group-item-danger {
   border-bottom-right-radius: 3px;
   border-bottom-left-radius: 3px; }
 
-.panel > .list-group,
-.panel > .panel-collapse > .list-group {
+.panel > .list-group, .panel > .multi-list-group,
+.panel > .panel-collapse > .list-group,
+.panel > .panel-collapse > .multi-list-group {
   margin-bottom: 0; }
-  .panel > .list-group .list-group-item,
-  .panel > .panel-collapse > .list-group .list-group-item {
+  .panel > .list-group .list-group-item, .panel > .multi-list-group .list-group-item, .panel > .list-group > a, .panel > .multi-list-group .list-group > a, .panel > .list-group .multi-list-group > a, .panel > .multi-list-group > a, .panel > .list-group > li, .panel > .multi-list-group .list-group > li, .panel > .list-group .multi-list-group > li, .panel > .multi-list-group > li, .panel > .list-group .multi-list-group .item-container, .multi-list-group .panel > .list-group .item-container, .panel > .multi-list-group .item-container,
+  .panel > .panel-collapse > .list-group .list-group-item,
+  .panel > .panel-collapse > .multi-list-group .list-group-item,
+  .panel > .panel-collapse > .list-group > a,
+  .panel > .panel-collapse > .multi-list-group .list-group > a,
+  .panel > .panel-collapse > .list-group .multi-list-group > a,
+  .panel > .panel-collapse > .multi-list-group > a,
+  .panel > .panel-collapse > .list-group > li,
+  .panel > .panel-collapse > .multi-list-group .list-group > li,
+  .panel > .panel-collapse > .list-group .multi-list-group > li,
+  .panel > .panel-collapse > .multi-list-group > li,
+  .panel > .panel-collapse > .list-group .multi-list-group .item-container, .multi-list-group
+  .panel > .panel-collapse > .list-group .item-container, .panel > .panel-collapse > .multi-list-group .item-container {
     border-width: 1px 0;
     border-radius: 0; }
-  .panel > .list-group:first-child .list-group-item:first-child,
-  .panel > .panel-collapse > .list-group:first-child .list-group-item:first-child {
+  .panel > .list-group:first-child .list-group-item:first-child, .panel > .multi-list-group:first-child .list-group-item:first-child, .panel > .list-group:first-child .list-group > a:first-child, .panel > .multi-list-group:first-child .list-group > a:first-child, .panel > .list-group:first-child .multi-list-group > a:first-child, .panel > .multi-list-group:first-child .multi-list-group > a:first-child, .panel > .list-group:first-child .list-group > li:first-child, .panel > .multi-list-group:first-child .list-group > li:first-child, .panel > .list-group:first-child .multi-list-group > li:first-child, .panel > .multi-list-group:first-child .multi-list-group > li:first-child, .panel > .list-group:first-child .multi-list-group .item-container:first-child, .multi-list-group .panel > .list-group:first-child .item-container:first-child, .panel > .multi-list-group:first-child .item-container:first-child,
+  .panel > .panel-collapse > .list-group:first-child .list-group-item:first-child,
+  .panel > .panel-collapse > .multi-list-group:first-child .list-group-item:first-child,
+  .panel > .panel-collapse > .list-group:first-child .list-group > a:first-child,
+  .panel > .panel-collapse > .multi-list-group:first-child .list-group > a:first-child,
+  .panel > .panel-collapse > .list-group:first-child .multi-list-group > a:first-child,
+  .panel > .panel-collapse > .multi-list-group:first-child .multi-list-group > a:first-child,
+  .panel > .panel-collapse > .list-group:first-child .list-group > li:first-child,
+  .panel > .panel-collapse > .multi-list-group:first-child .list-group > li:first-child,
+  .panel > .panel-collapse > .list-group:first-child .multi-list-group > li:first-child,
+  .panel > .panel-collapse > .multi-list-group:first-child .multi-list-group > li:first-child,
+  .panel > .panel-collapse > .list-group:first-child .multi-list-group .item-container:first-child, .multi-list-group
+  .panel > .panel-collapse > .list-group:first-child .item-container:first-child, .panel > .panel-collapse > .multi-list-group:first-child .item-container:first-child {
     border-top: 0;
     border-top-right-radius: 3px;
     border-top-left-radius: 3px; }
-  .panel > .list-group:last-child .list-group-item:last-child,
-  .panel > .panel-collapse > .list-group:last-child .list-group-item:last-child {
+  .panel > .list-group:last-child .list-group-item:last-child, .panel > .multi-list-group:last-child .list-group-item:last-child, .panel > .list-group:last-child .list-group > a:last-child, .panel > .multi-list-group:last-child .list-group > a:last-child, .panel > .list-group:last-child .multi-list-group > a:last-child, .panel > .multi-list-group:last-child .multi-list-group > a:last-child, .panel > .list-group:last-child .list-group > li:last-child, .panel > .multi-list-group:last-child .list-group > li:last-child, .panel > .list-group:last-child .multi-list-group > li:last-child, .panel > .multi-list-group:last-child .multi-list-group > li:last-child, .panel > .list-group:last-child .multi-list-group .item-container:last-child, .multi-list-group .panel > .list-group:last-child .item-container:last-child, .panel > .multi-list-group:last-child .item-container:last-child,
+  .panel > .panel-collapse > .list-group:last-child .list-group-item:last-child,
+  .panel > .panel-collapse > .multi-list-group:last-child .list-group-item:last-child,
+  .panel > .panel-collapse > .list-group:last-child .list-group > a:last-child,
+  .panel > .panel-collapse > .multi-list-group:last-child .list-group > a:last-child,
+  .panel > .panel-collapse > .list-group:last-child .multi-list-group > a:last-child,
+  .panel > .panel-collapse > .multi-list-group:last-child .multi-list-group > a:last-child,
+  .panel > .panel-collapse > .list-group:last-child .list-group > li:last-child,
+  .panel > .panel-collapse > .multi-list-group:last-child .list-group > li:last-child,
+  .panel > .panel-collapse > .list-group:last-child .multi-list-group > li:last-child,
+  .panel > .panel-collapse > .multi-list-group:last-child .multi-list-group > li:last-child,
+  .panel > .panel-collapse > .list-group:last-child .multi-list-group .item-container:last-child, .multi-list-group
+  .panel > .panel-collapse > .list-group:last-child .item-container:last-child, .panel > .panel-collapse > .multi-list-group:last-child .item-container:last-child {
     border-bottom: 0;
     border-bottom-right-radius: 3px;
     border-bottom-left-radius: 3px; }
 
-.panel > .panel-heading + .panel-collapse > .list-group .list-group-item:first-child {
+.panel > .panel-heading + .panel-collapse > .list-group .list-group-item:first-child, .panel > .panel-heading + .panel-collapse > .multi-list-group .list-group-item:first-child, .panel > .panel-heading + .panel-collapse > .list-group > a:first-child, .panel > .panel-heading + .panel-collapse > .multi-list-group .list-group > a:first-child, .panel > .panel-heading + .panel-collapse > .list-group .multi-list-group > a:first-child, .panel > .panel-heading + .panel-collapse > .multi-list-group > a:first-child, .panel > .panel-heading + .panel-collapse > .list-group > li:first-child, .panel > .panel-heading + .panel-collapse > .multi-list-group .list-group > li:first-child, .panel > .panel-heading + .panel-collapse > .list-group .multi-list-group > li:first-child, .panel > .panel-heading + .panel-collapse > .multi-list-group > li:first-child, .panel > .panel-heading + .panel-collapse > .list-group .multi-list-group .item-container:first-child, .multi-list-group .panel > .panel-heading + .panel-collapse > .list-group .item-container:first-child, .panel > .panel-heading + .panel-collapse > .multi-list-group .item-container:first-child {
   border-top-right-radius: 0;
   border-top-left-radius: 0; }
 
-.panel-heading + .list-group .list-group-item:first-child {
+.panel-heading + .list-group .list-group-item:first-child, .panel-heading + .multi-list-group .list-group-item:first-child, .panel-heading + .list-group > a:first-child, .panel-heading + .multi-list-group .list-group > a:first-child, .panel-heading + .list-group .multi-list-group > a:first-child, .panel-heading + .multi-list-group > a:first-child, .panel-heading + .list-group > li:first-child, .panel-heading + .multi-list-group .list-group > li:first-child, .panel-heading + .list-group .multi-list-group > li:first-child, .panel-heading + .multi-list-group > li:first-child, .panel-heading + .list-group .multi-list-group .item-container:first-child, .multi-list-group .panel-heading + .list-group .item-container:first-child, .panel-heading + .multi-list-group .item-container:first-child {
   border-top-width: 0; }
 
-.list-group + .panel-footer {
+.list-group + .panel-footer, .multi-list-group + .panel-footer {
   border-top-width: 0; }
 
 .panel > .table, .panel > table,
@@ -5109,7 +5412,8 @@ button.list-group-item-danger {
   .panel-group .panel-heading {
     border-bottom: 0; }
     .panel-group .panel-heading + .panel-collapse > .panel-body,
-    .panel-group .panel-heading + .panel-collapse > .list-group {
+    .panel-group .panel-heading + .panel-collapse > .list-group,
+    .panel-group .panel-heading + .panel-collapse > .multi-list-group {
       border-top: 1px solid #ddd; }
   .panel-group .panel-footer {
     border-top: 0; }
@@ -5245,7 +5549,7 @@ button.list-group-item-danger {
   padding: 9px;
   border-radius: 3px; }
 
-.close {
+.close, .success-panel button.dismiss, .error-panel button.dismiss {
   float: right;
   font-size: 21px;
   font-weight: bold;
@@ -5254,14 +5558,14 @@ button.list-group-item-danger {
   text-shadow: 0 1px 0 #fff;
   opacity: 0.2;
   filter: alpha(opacity=20); }
-  .close:hover, .close:focus {
+  .close:hover, .success-panel button.dismiss:hover, .error-panel button.dismiss:hover, .close:focus, .success-panel button.dismiss:focus, .error-panel button.dismiss:focus {
     color: #000;
     text-decoration: none;
     cursor: pointer;
     opacity: 0.5;
     filter: alpha(opacity=50); }
 
-button.close {
+button.close, .success-panel button.dismiss, .error-panel button.dismiss {
   padding: 0;
   cursor: pointer;
   background: transparent;
@@ -5331,7 +5635,7 @@ button.close {
   .modal-header:after {
     clear: both; }
 
-.modal-header .close {
+.modal-header .close, .modal-header .success-panel button.dismiss, .success-panel .modal-header button.dismiss, .modal-header .error-panel button.dismiss, .error-panel .modal-header button.dismiss {
   margin-top: -2px; }
 
 .modal-title {
@@ -5351,10 +5655,10 @@ button.close {
     display: table; }
   .modal-footer:after {
     clear: both; }
-  .modal-footer .btn + .btn, .modal-footer .buttons a + .btn, .buttons .modal-footer a + .btn, .modal-footer .buttons .btn + a, .buttons .modal-footer .btn + a, .modal-footer .buttons a + a, .buttons .modal-footer a + a {
+  .modal-footer .btn + .btn, .modal-footer .buttons a + .btn, .buttons .modal-footer a + .btn, .modal-footer form .submit-container input[type="submit"] + .btn, form .submit-container .modal-footer input[type="submit"] + .btn, .modal-footer .multi-list-group .item-container .item a + .btn, .multi-list-group .item-container .item .modal-footer a + .btn, .modal-footer .multi-list-group .item-container .item button + .btn, .multi-list-group .item-container .item .modal-footer button + .btn, .modal-footer .buttons .btn + a, .buttons .modal-footer .btn + a, .modal-footer .buttons a + a, .buttons .modal-footer a + a, .modal-footer form .submit-container .buttons input[type="submit"] + a, .buttons .modal-footer form .submit-container input[type="submit"] + a, form .submit-container .modal-footer .buttons input[type="submit"] + a, .buttons form .submit-container .modal-footer input[type="submit"] + a, .modal-footer .multi-list-group .item-container .item .buttons a + a, .modal-footer .multi-list-group .item-container .item .buttons button + a, .multi-list-group .item-container .item .modal-footer .buttons button + a, .modal-footer form .submit-container .btn + input[type="submit"], form .submit-container .modal-footer .btn + input[type="submit"], .modal-footer .buttons form .submit-container a + input[type="submit"], form .submit-container .modal-footer .buttons a + input[type="submit"], .buttons .modal-footer form .submit-container a + input[type="submit"], form .submit-container .buttons .modal-footer a + input[type="submit"], .modal-footer form .submit-container input[type="submit"] + input[type="submit"], form .submit-container .modal-footer input[type="submit"] + input[type="submit"], .modal-footer .multi-list-group .item-container .item form .submit-container a + input[type="submit"], form .submit-container .modal-footer .multi-list-group .item-container .item a + input[type="submit"], .multi-list-group .item-container .item .modal-footer form .submit-container a + input[type="submit"], form .submit-container .multi-list-group .item-container .item .modal-footer a + input[type="submit"], .modal-footer .multi-list-group .item-container .item form .submit-container button + input[type="submit"], form .submit-container .modal-footer .multi-list-group .item-container .item button + input[type="submit"], .multi-list-group .item-container .item .modal-footer form .submit-container button + input[type="submit"], form .submit-container .multi-list-group .item-container .item .modal-footer button + input[type="submit"], .modal-footer .multi-list-group .item-container .item .btn + a, .multi-list-group .item-container .item .modal-footer .btn + a, .multi-list-group .item-container .item .modal-footer .buttons a + a, .modal-footer form .submit-container .multi-list-group .item-container .item input[type="submit"] + a, .multi-list-group .item-container .item .modal-footer form .submit-container input[type="submit"] + a, form .submit-container .modal-footer .multi-list-group .item-container .item input[type="submit"] + a, .multi-list-group .item-container .item form .submit-container .modal-footer input[type="submit"] + a, .modal-footer .multi-list-group .item-container .item a + a, .multi-list-group .item-container .item .modal-footer a + a, .modal-footer .multi-list-group .item-container .item button + a, .multi-list-group .item-container .item .modal-footer button + a, .modal-footer .multi-list-group .item-container .item .btn + button, .multi-list-group .item-container .item .modal-footer .btn + button, .multi-list-group .item-container .item .modal-footer .buttons a + button, .modal-footer form .submit-container .multi-list-group .item-container .item input[type="submit"] + button, .multi-list-group .item-container .item .modal-footer form .submit-container input[type="submit"] + button, form .submit-container .modal-footer .multi-list-group .item-container .item input[type="submit"] + button, .multi-list-group .item-container .item form .submit-container .modal-footer input[type="submit"] + button, .modal-footer .multi-list-group .item-container .item a + button, .multi-list-group .item-container .item .modal-footer a + button, .modal-footer .multi-list-group .item-container .item button + button, .multi-list-group .item-container .item .modal-footer button + button {
     margin-left: 5px;
     margin-bottom: 0; }
-  .modal-footer .btn-group .btn + .btn, .modal-footer .btn-group .buttons a + .btn, .buttons .modal-footer .btn-group a + .btn, .modal-footer .btn-group .buttons .btn + a, .buttons .modal-footer .btn-group .btn + a, .modal-footer .btn-group .buttons a + a, .buttons .modal-footer .btn-group a + a {
+  .modal-footer .btn-group .btn + .btn, .modal-footer .multi-list-group .item-container .item .btn + .btn, .multi-list-group .item-container .modal-footer .item .btn + .btn, .modal-footer .btn-group .buttons a + .btn, .buttons .modal-footer .btn-group a + .btn, .modal-footer .multi-list-group .item-container .item .buttons a + .btn, .multi-list-group .item-container .modal-footer .item .buttons a + .btn, .modal-footer .btn-group form .submit-container input[type="submit"] + .btn, form .submit-container .modal-footer .btn-group input[type="submit"] + .btn, .modal-footer .multi-list-group .item-container .item form .submit-container input[type="submit"] + .btn, form .submit-container .modal-footer .multi-list-group .item-container .item input[type="submit"] + .btn, .multi-list-group .item-container .modal-footer .item form .submit-container input[type="submit"] + .btn, form .submit-container .multi-list-group .item-container .modal-footer .item input[type="submit"] + .btn, .multi-list-group .item-container .item .modal-footer .btn-group a + .btn, .modal-footer .multi-list-group .item-container .item a + .btn, .multi-list-group .item-container .modal-footer .item a + .btn, .multi-list-group .item-container .item .modal-footer .btn-group button + .btn, .modal-footer .multi-list-group .item-container .item button + .btn, .multi-list-group .item-container .modal-footer .item button + .btn, .modal-footer .btn-group .buttons .btn + a, .buttons .modal-footer .btn-group .btn + a, .modal-footer .multi-list-group .item-container .item .buttons .btn + a, .multi-list-group .item-container .modal-footer .item .buttons .btn + a, .modal-footer .btn-group .buttons a + a, .buttons .modal-footer .btn-group a + a, .modal-footer .btn-group form .submit-container .buttons input[type="submit"] + a, .buttons .modal-footer .btn-group form .submit-container input[type="submit"] + a, form .submit-container .modal-footer .btn-group .buttons input[type="submit"] + a, .buttons form .submit-container .modal-footer .btn-group input[type="submit"] + a, .modal-footer .multi-list-group .item-container .item form .submit-container .buttons input[type="submit"] + a, form .submit-container .modal-footer .multi-list-group .item-container .item .buttons input[type="submit"] + a, .multi-list-group .item-container .modal-footer .item form .submit-container .buttons input[type="submit"] + a, form .submit-container .multi-list-group .item-container .modal-footer .item .buttons input[type="submit"] + a, .multi-list-group .item-container .item .modal-footer .btn-group .buttons button + a, .modal-footer .multi-list-group .item-container .item .buttons button + a, .multi-list-group .item-container .modal-footer .item .buttons button + a, .modal-footer .btn-group form .submit-container .btn + input[type="submit"], form .submit-container .modal-footer .btn-group .btn + input[type="submit"], .modal-footer .multi-list-group .item-container .item form .submit-container .btn + input[type="submit"], form .submit-container .modal-footer .multi-list-group .item-container .item .btn + input[type="submit"], .multi-list-group .item-container .modal-footer .item form .submit-container .btn + input[type="submit"], form .submit-container .multi-list-group .item-container .modal-footer .item .btn + input[type="submit"], .modal-footer .btn-group .buttons form .submit-container a + input[type="submit"], form .submit-container .modal-footer .btn-group .buttons a + input[type="submit"], .buttons .modal-footer .btn-group form .submit-container a + input[type="submit"], form .submit-container .buttons .modal-footer .btn-group a + input[type="submit"], form .submit-container .modal-footer .multi-list-group .item-container .item .buttons a + input[type="submit"], form .submit-container .multi-list-group .item-container .modal-footer .item .buttons a + input[type="submit"], .modal-footer .btn-group form .submit-container input[type="submit"] + input[type="submit"], form .submit-container .modal-footer .btn-group input[type="submit"] + input[type="submit"], .modal-footer .multi-list-group .item-container .item form .submit-container input[type="submit"] + input[type="submit"], form .submit-container .modal-footer .multi-list-group .item-container .item input[type="submit"] + input[type="submit"], .multi-list-group .item-container .modal-footer .item form .submit-container input[type="submit"] + input[type="submit"], form .submit-container .multi-list-group .item-container .modal-footer .item input[type="submit"] + input[type="submit"], .multi-list-group .item-container .item .modal-footer .btn-group form .submit-container a + input[type="submit"], form .submit-container .multi-list-group .item-container .item .modal-footer .btn-group a + input[type="submit"], .modal-footer .multi-list-group .item-container .item form .submit-container a + input[type="submit"], form .submit-container .modal-footer .multi-list-group .item-container .item a + input[type="submit"], .multi-list-group .item-container .modal-footer .item form .submit-container a + input[type="submit"], form .submit-container .multi-list-group .item-container .modal-footer .item a + input[type="submit"], .multi-list-group .item-container .item .modal-footer .btn-group form .submit-container button + input[type="submit"], form .submit-container .multi-list-group .item-container .item .modal-footer .btn-group button + input[type="submit"], .modal-footer .multi-list-group .item-container .item form .submit-container button + input[type="submit"], form .submit-container .modal-footer .multi-list-group .item-container .item button + input[type="submit"], .multi-list-group .item-container .modal-footer .item form .submit-container button + input[type="submit"], form .submit-container .multi-list-group .item-container .modal-footer .item button + input[type="submit"], .multi-list-group .item-container .item .modal-footer .btn-group .btn + a, .modal-footer .multi-list-group .item-container .item .btn + a, .multi-list-group .item-container .modal-footer .item .btn + a, .multi-list-group .item-container .item .modal-footer .btn-group .buttons a + a, .modal-footer .multi-list-group .item-container .item .buttons a + a, .multi-list-group .item-container .modal-footer .item .buttons a + a, .modal-footer .btn-group form .submit-container .multi-list-group .item-container .item input[type="submit"] + a, .multi-list-group .item-container .item .modal-footer .btn-group form .submit-container input[type="submit"] + a, .multi-list-group .item-container .item form .submit-container .modal-footer .btn-group input[type="submit"] + a, .modal-footer .multi-list-group .item-container .item form .submit-container input[type="submit"] + a, form .submit-container .modal-footer .multi-list-group .item-container .item input[type="submit"] + a, .multi-list-group .item-container .modal-footer .item form .submit-container input[type="submit"] + a, form .submit-container .multi-list-group .item-container .modal-footer .item input[type="submit"] + a, .multi-list-group .item-container .item .modal-footer .btn-group a + a, .modal-footer .multi-list-group .item-container .item a + a, .multi-list-group .item-container .modal-footer .item a + a, .multi-list-group .item-container .item .modal-footer .btn-group button + a, .modal-footer .multi-list-group .item-container .item button + a, .multi-list-group .item-container .modal-footer .item button + a, .multi-list-group .item-container .item .modal-footer .btn-group .btn + button, .modal-footer .multi-list-group .item-container .item .btn + button, .multi-list-group .item-container .modal-footer .item .btn + button, .multi-list-group .item-container .item .modal-footer .btn-group .buttons a + button, .modal-footer .multi-list-group .item-container .item .buttons a + button, .multi-list-group .item-container .modal-footer .item .buttons a + button, .modal-footer .btn-group form .submit-container .multi-list-group .item-container .item input[type="submit"] + button, .multi-list-group .item-container .item .modal-footer .btn-group form .submit-container input[type="submit"] + button, .multi-list-group .item-container .item form .submit-container .modal-footer .btn-group input[type="submit"] + button, .modal-footer .multi-list-group .item-container .item form .submit-container input[type="submit"] + button, form .submit-container .modal-footer .multi-list-group .item-container .item input[type="submit"] + button, .multi-list-group .item-container .modal-footer .item form .submit-container input[type="submit"] + button, form .submit-container .multi-list-group .item-container .modal-footer .item input[type="submit"] + button, .multi-list-group .item-container .item .modal-footer .btn-group a + button, .modal-footer .multi-list-group .item-container .item a + button, .multi-list-group .item-container .modal-footer .item a + button, .multi-list-group .item-container .item .modal-footer .btn-group button + button, .modal-footer .multi-list-group .item-container .item button + button, .multi-list-group .item-container .modal-footer .item button + button {
     margin-left: -1px; }
   .modal-footer .btn-block + .btn-block {
     margin-left: 0; }
@@ -5758,7 +6062,7 @@ button.close {
   color: #fff;
   text-align: center;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6); }
-  .carousel-caption .btn, .carousel-caption .buttons a, .buttons .carousel-caption a {
+  .carousel-caption .btn, .carousel-caption .buttons a, .buttons .carousel-caption a, .carousel-caption form .submit-container input[type="submit"], form .submit-container .carousel-caption input[type="submit"], .carousel-caption .multi-list-group .item-container .item a, .multi-list-group .item-container .item .carousel-caption a, .carousel-caption .multi-list-group .item-container .item button, .multi-list-group .item-container .item .carousel-caption button {
     text-shadow: none; }
 
 @media screen and (min-width: 768px) {
@@ -6000,14 +6304,6 @@ body {
   font-family: 'Open Sans';
   padding-bottom: 0.5em; }
 
-form input[type="submit"] {
-  width: inherit; }
-
-form input[type="file"] {
-  padding-top: 0;
-  padding-bottom: 0;
-  height: 3em; }
-
 @media (max-width: 767px) {
   #navbar .navigation-collapse > ul > li.open > ul {
     position: static;
@@ -6027,6 +6323,101 @@ main header {
 .buttons {
   text-align: center;
   margin: 0.5rem auto 0 auto; }
+
+form input[type="submit"] {
+  width: inherit; }
+
+form input[type="file"] {
+  padding-top: 0;
+  padding-bottom: 0;
+  height: 3em; }
+
+table {
+  margin: auto; }
+  table th {
+    background-color: #23490E;
+    background-image: linear-gradient(to bottom, #23490E 0%, #3A6637 100%);
+    color: white;
+    text-align: center; }
+  table td {
+    text-align: center; }
+
+/* Absolute Center Spinner */
+.loading {
+  position: fixed;
+  z-index: 999;
+  height: 2em;
+  width: 2em;
+  overflow: show;
+  margin: auto !important;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0; }
+
+/* Transparent Overlay */
+.loading:before {
+  content: '';
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3); }
+
+/* :not(:required) hides these rules from IE9 and below */
+.loading:not(:required) {
+  /* hide "loading..." text */
+  font: 0/0 a;
+  color: transparent;
+  text-shadow: none;
+  background-color: transparent;
+  border: 0; }
+
+.loading:not(:required):after {
+  content: '';
+  display: block;
+  font-size: 10px;
+  width: 1em;
+  height: 1em;
+  margin-top: -0.5em;
+  animation: spinner 1500ms infinite linear;
+  border-radius: 0.5em;
+  box-shadow: rgba(0, 0, 0, 0.75) 1.5em 0 0 0, rgba(0, 0, 0, 0.75) 1.1em 1.1em 0 0, rgba(0, 0, 0, 0.75) 0 1.5em 0 0, rgba(0, 0, 0, 0.75) -1.1em 1.1em 0 0, rgba(0, 0, 0, 0.75) -1.5em 0 0 0, rgba(0, 0, 0, 0.75) -1.1em -1.1em 0 0, rgba(0, 0, 0, 0.75) 0 -1.5em 0 0, rgba(0, 0, 0, 0.75) 1.1em -1.1em 0 0; }
+
+/* Animation */
+
+@keyframes spinner {
+  0% {
+    transform: rotate(0deg); }
+  100% {
+    transform: rotate(360deg); } }
+
+.multi-list-group .item-container {
+  padding: 0;
+  border: 0; }
+  .multi-list-group .item-container .item {
+    width: 100%;
+    height: 100%; }
+    .multi-list-group .item-container .item a, .multi-list-group .item-container .item button {
+      width: calc(100% - 100px - 100px);
+      height: 100%;
+      text-align: left;
+      border-radius: 0; }
+      .multi-list-group .item-container .item a.icon, .multi-list-group .item-container .item button.icon {
+        width: 100px;
+        text-align: center; }
+    .multi-list-group .item-container .item .minus-button, .multi-list-group .item-container .item .minus-button:hover, .multi-list-group .item-container .item .minus-button:focus, .multi-list-group .item-container .item .minus-button:active {
+      color: darkred; }
+  .multi-list-group .item-container:first-child :first-child {
+    border-top-left-radius: 4px; }
+  .multi-list-group .item-container:first-child :last-child {
+    border-top-right-radius: 4px; }
+  .multi-list-group .item-container:last-child :first-child {
+    border-bottom-left-radius: 4px; }
+  .multi-list-group .item-container:last-child :last-child {
+    border-bottom-right-radius: 4px; }
 
 #home {
   background: url(/images/bg.png) no-repeat center center fixed;
@@ -6128,66 +6519,50 @@ h1.title {
         margin: auto;
         text-align: center; }
 
-table {
-  margin: auto; }
-  table th {
-    background-color: #23490E;
-    background-image: linear-gradient(to bottom, #23490E 0%, #3A6637 100%);
-    color: white;
-    text-align: center; }
-  table td {
-    text-align: center; }
+.row-well td {
+  margin-left: -15px;
+  margin-right: -15px;
+  display: table-cell;
+  padding: 0px;
+  width: 100%; }
+  .row-well td:before, .row-well td:after {
+    content: " ";
+    display: table; }
+  .row-well td:after {
+    clear: both; }
+  .row-well td > div {
+    position: relative;
+    float: left;
+    width: 100%;
+    min-height: 1px;
+    padding-left: 15px;
+    padding-right: 15px;
+    position: relative;
+    min-height: 1px;
+    padding-left: 15px;
+    padding-right: 15px;
+    position: relative;
+    min-height: 1px;
+    padding-left: 15px;
+    padding-right: 15px; }
+    @media (min-width: 992px) {
+      .row-well td > div {
+        float: left;
+        width: 50%; } }
+    @media (min-width: 1200px) {
+      .row-well td > div {
+        float: left;
+        width: 33.3333333333%; } }
+    .row-well td > div a {
+      display: block;
+      width: 100%;
+      height: 100%;
+      padding: 4px;
+      text-align: center; }
+      .row-well td > div a:hover {
+        background-color: #f5f5f5; }
 
-/* Absolute Center Spinner */
-.loading {
-  position: fixed;
-  z-index: 999;
-  height: 2em;
-  width: 2em;
-  overflow: show;
-  margin: auto !important;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0; }
-
-/* Transparent Overlay */
-.loading:before {
-  content: '';
-  display: block;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.3); }
-
-/* :not(:required) hides these rules from IE9 and below */
-.loading:not(:required) {
-  /* hide "loading..." text */
-  font: 0/0 a;
-  color: transparent;
-  text-shadow: none;
-  background-color: transparent;
-  border: 0; }
-
-.loading:not(:required):after {
-  content: '';
-  display: block;
-  font-size: 10px;
-  width: 1em;
-  height: 1em;
-  margin-top: -0.5em;
-  animation: spinner 1500ms infinite linear;
-  border-radius: 0.5em;
-  box-shadow: rgba(0, 0, 0, 0.75) 1.5em 0 0 0, rgba(0, 0, 0, 0.75) 1.1em 1.1em 0 0, rgba(0, 0, 0, 0.75) 0 1.5em 0 0, rgba(0, 0, 0, 0.75) -1.1em 1.1em 0 0, rgba(0, 0, 0, 0.75) -1.5em 0 0 0, rgba(0, 0, 0, 0.75) -1.1em -1.1em 0 0, rgba(0, 0, 0, 0.75) 0 -1.5em 0 0, rgba(0, 0, 0, 0.75) 1.1em -1.1em 0 0; }
-
-/* Animation */
-
-@keyframes spinner {
-  0% {
-    transform: rotate(0deg); }
-  100% {
-    transform: rotate(360deg); } }
+.row-well:hover {
+  background-color: inherit !important; }
 
 /*# sourceMappingURL=app.css.map */

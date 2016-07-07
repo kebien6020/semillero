@@ -61,14 +61,17 @@ class ArenasController extends Controller
     {
         $well = Well::find($id);
         $allSandControls = SandControl::all();
-        $generate_select = function($name, $selected, $class) use ($allSandControls){
+        $generate_select = function($name, $selected, $class = null) use ($allSandControls){
             $options = $allSandControls
                 ->pluck($name)
                 ->unique()
                 ->values()
                 ->sort()
                 ->toArray();
-            $res = '<select name="' . $name . '" class="' . $class . '"">';
+            $res = '<select name="' . $name;
+            if ($class !== null)
+                $res .= '" class="' . $class;
+            $res .= '"">';
             foreach ($options as $option) {
                 if ($option == null) $option = '-';
                 $res .= '<option value="' . $option . '"';

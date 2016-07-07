@@ -12416,6 +12416,9 @@ require('jquery.flot.pie');
 
 window.$ = $;
 
+$('.success-panel, .error-panel').addClass('alert fade in');
+$().alert();
+
 },{"bootstrap":1,"jquery":3,"jquery.flot.pie":7}],5:[function(require,module,exports){
 'use strict';
 

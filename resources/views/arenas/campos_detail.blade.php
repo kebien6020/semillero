@@ -4,87 +4,125 @@
 
 @section('content')
 
-<div class="page-header">
-    <h1>Mecanismo de Control de Arena Sugerido <small>Campo {{ $summary->field->name }}</small></h1>
-</div>
+<?php
+
+$elems = [
+    [
+        'display' => 'Profundidad Promedio del Intervalo de Interes [ft]',
+        'name' => 'interval_avg_len'
+    ],
+    [
+        'display' => 'Coeficiente de uniformidad (U)',
+        'name' => 'uniformity'
+    ],
+    [
+        'display' => 'Tamaño de Grano Promedio [Micras]',
+        'name' => 'avg_grain_size'
+    ],
+    [
+        'display' => 'Rango Tamaño de Grano [Micras]',
+        'name' => 'grain_size_range'
+    ],
+    [
+        'display' => 'Tipo de Arena',
+        'name' => 'type'
+    ],
+    [
+        'display' => 'Característica de la arena',
+        'name' => 'uniformity_txt'
+    ]
+];
+
+$installed = [
+    [
+        'display' => 'Mecanismo Usado',
+        'name' => 'installed_mechanism'
+    ],
+    [
+        'display' => 'Ancho de la ranura (in)',
+        'name' => 'installed_groove_size'
+    ],
+    [
+        'display' => 'Tamaño de grano promedio de grava (in)',
+        'name' => 'installed_grain_size'
+    ],
+    [
+        'display' => 'Tamaño Grava US. Mesh',
+        'name' => 'installed_us_mesh'
+    ]
+];
+
+$recommended = [
+    [
+        'display' => 'Mecanismo Recomendado',
+        'name' => 'recommended_mechanism'
+    ],
+    [
+        'display' => 'Tamaño Grava US. Mesh',
+        'name' => 'recommended_us_mesh'
+    ],
+];
+
+use Illuminate\Support\HtmlString;
+function print_table_pairs($elems, $model)
+{
+    $res = '';
+    foreach ($elems as $elem)
+    {
+        $elem = (object)$elem;
+        $val = $model->{$elem->name};
+        if ($val !== null)
+        {
+            $display = e($elem->display);
+            $val = e($val);
+
+            $res .= "
+            <tr>
+                <td>{$display}</td>
+                <td>{$val}</td>
+            </tr>";
+        }
+    }
+    return new HtmlString($res);
+}
+
+$field = ufirst($summary->field->name);
+
+?>
+
+<header>
+    <h1>Mecanismo de Control de Arena Sugerido <small>Campo {{ $field }}</small></h1>
+</header>
 
 @include('partial.messages')
 
 <table class="table-hover">
     <thead>
         <tr>
-            <th colspan="2">Características granulométricas de la arena productora en el Campo {{ $summary->field->name }}</th>
+            <th colspan="2">Características granulométricas de la arena productora en el Campo {{ $field }}</th>
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td>Profundidad Promedio del Intervalo de Interes [ft]</td>
-            <td>{{ $summary->interval_avg_len }}</td>
-        </tr>
-        <tr>
-            <td>Coeficiente de uniformidad (U)</td>
-            <td>{{ $summary->uniformity }}</td>
-        </tr>
-        <tr>
-            <td>Tamaño de Grano Promedio [Micras]</td>
-            <td>{{ $summary->avg_grain_size }}</td>
-        </tr>
-        <tr>
-            <td>Rango Tamaño de Grano [Micras]</td>
-            <td>{{ $summary->grain_size_range }}</td>
-        </tr>
-        <tr>
-            <td>Tipo de Arena</td>
-            <td>{{ $summary->type }}</td>
-        </tr>
-        <tr>
-            <td>Característica de la arena</td>
-            <td>{{ $summary->uniformity_txt }}</td>
-        </tr>
+        {{-- General content --}}
+        
+        {{ print_table_pairs($elems, $summary) }}
 
-
+        {{-- Installed --}}
         <tr>
             <th colspan="2"><strong>Tipo de Control de Arena Instalado</strong></th>
         </tr>
-        <tr>
-            <td>Mecanismo Usado</td>
-            <td>{{ $summary->installed_mechanism }}</td>
-        </tr>
-        @if($summary->installed_groove_size != null)
-        <tr>
-            <td>Ancho de la ranura (in)</td>
-            <td>{{ $summary->installed_groove_size}}</td>
-        </tr>
-        @endif
-        @if($summary->installed_grain_size != null)
-        <tr>
-            <td>Tamaño de grano promedio de grava (in)</td>
-            <td>{{ $summary->installed_grain_size }}</td>
-        </tr>
-        @endif
-        @if($summary->installed_us_mesh != null)
-        <tr>
-            <td>Tamaño Grava US. Mesh</td>
-            <td>{{ $summary->installed_us_mesh }}</td>
-        </tr>
-        @endif
+        
+        {{ print_table_pairs($installed, $summary) }}
+
+        {{-- Recommended --}}
         @foreach ($summary->sandControlRecommendations as $i => $recommendation)
             <tr>
                 <th colspan="2"><strong>Tipo de Control de Arena Recomendado @if ($i>0) {{ $i+1 }} @endif</strong></th>
             </tr>
-            @if($recommendation->recommended_mechanism != null)
-            <tr>
-                <td>Mecanismo Recomendado</td>
-                <td>{{ $recommendation->recommended_mechanism }}</td>
-            </tr>
-            @endif
-            @if($recommendation->recommended_us_mesh != null)
-            <tr>
-                <td>Tamaño Grava US. Mesh</td>
-                <td>{{ $recommendation->recommended_us_mesh }}</td>
-            </tr>
-            @endif
+            {{ print_table_pairs($recommended, $recommendation) }}
         @endforeach
+
+        {{-- Remarks --}}
         @if($summary->remarks != null)
             <tr>
                 <th colspan="2">Observaciones</th>
@@ -93,14 +131,16 @@
                 <td colspan="2">{{ $summary->remarks }}</td>
             </tr>
         @endif
+
+        {{-- Wells of Field --}}
         @if (!$wells->isEmpty())
             <tr>
-                <th colspan="2">Pozos del campo {{ $summary->field->name }} con control de arena</th>
+                <th colspan="2">Pozos del campo {{ $field }} con control de arena</th>
             </tr>
-            <tr class="row-well"><td class="row" colspan="2">
+            <tr class="row-well"><td colspan="2">
             @foreach ($wells as $well)
-                    <div class="col-xs-12 col-md-6 col-lg-4">
-                        <a href="{{ url('arenas/map/' . $well->sandControls->first()->id) }}">
+                    <div>
+                        <a href="/arenas/map/{{ $well->sandControls->first()->id }}">
                             {{ $well->name }}
                         </a>
                     </div>

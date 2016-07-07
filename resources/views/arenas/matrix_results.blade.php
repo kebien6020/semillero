@@ -10,11 +10,11 @@
 
 @section('content')
 
-<div class="page-header">
+<header>
     <h2>Selección y Configuración de Mecanismos de Control de Arena</h2>
     <h3>{{ $table_name }}</h3>
     <h2><small>Análisis granulométrico</small></h2>
-</div>
+</header>
 
 @include('partial.messages')
 
