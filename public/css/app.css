@@ -6300,6 +6300,30 @@ button.close, .success-panel button.dismiss, .error-panel button.dismiss {
   .hidden-print {
     display: none !important; } }
 
+body {
+  font-family: 'Open Sans';
+  padding-bottom: 0.5em; }
+
+@media (max-width: 767px) {
+  #navbar .navigation-collapse > ul > li.open > ul {
+    position: static;
+    float: none;
+    width: auto;
+    margin-top: 0;
+    background-color: transparent;
+    border: 0;
+    box-shadow: none; }
+    #navbar .navigation-collapse > ul > li.open > ul a {
+      color: #9d9d9d;
+      padding: 5px 15px 5px 25px; } }
+
+main header {
+  text-align: center; }
+
+.buttons {
+  text-align: center;
+  margin: 0.5rem auto 0 auto; }
+
 /* Absolute Center Spinner */
 .loading {
   position: fixed;
@@ -6352,40 +6376,6 @@ button.close, .success-panel button.dismiss, .error-panel button.dismiss {
   100% {
     transform: rotate(360deg); } }
 
-body {
-  font-family: 'Open Sans';
-  padding-bottom: 0.5em; }
-
-@media (max-width: 767px) {
-  #navbar .navigation-collapse > ul > li.open > ul {
-    position: static;
-    float: none;
-    width: auto;
-    margin-top: 0;
-    background-color: transparent;
-    border: 0;
-    box-shadow: none; }
-    #navbar .navigation-collapse > ul > li.open > ul a {
-      color: #9d9d9d;
-      padding: 5px 15px 5px 25px; } }
-
-main header {
-  text-align: center; }
-
-.buttons {
-  text-align: center;
-  margin: 0.5rem auto 0 auto; }
-
-.header {
-  background-color: #23490E;
-  background-image: linear-gradient(to bottom, #23490E 0%, #3A6637 100%);
-  color: white;
-  font-size: 14px;
-  margin-bottom: 0;
-  text-align: center;
-  font-weight: 700;
-  line-height: 2.5em; }
-
 form input[type="submit"] {
   width: inherit; }
 
@@ -6393,6 +6383,16 @@ form input[type="file"] {
   padding-top: 0;
   padding-bottom: 0;
   height: 3em; }
+
+table {
+  margin: auto; }
+  table th {
+    background-color: #23490E;
+    background-image: linear-gradient(to bottom, #23490E 0%, #3A6637 100%);
+    color: white;
+    text-align: center; }
+  table td {
+    text-align: center; }
 
 .map-content {
   min-height: calc(100vh - 50px - 3px);
@@ -6525,16 +6525,6 @@ form input[type="file"] {
   .plot .xaxisLabel {
     bottom: 0.3em;
     left: 50%; }
-
-table {
-  margin: auto; }
-  table th {
-    background-color: #23490E;
-    background-image: linear-gradient(to bottom, #23490E 0%, #3A6637 100%);
-    color: white;
-    text-align: center; }
-  table td {
-    text-align: center; }
 
 #home {
   background: url(/images/bg.png) no-repeat center center fixed;

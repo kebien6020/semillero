@@ -1,12 +1,16 @@
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 
-@import 'general';
-@import 'forms';
-@import 'table';
-@import 'utils';
-@import 'multi_list_group';
+@import 'base/colors';
+@import 'base/general';
+@import 'base/utils';
 
-@import 'home';
-@import 'map';
-@import 'map_fullscreen_overlay';
-@import 'arenas_campos_detail';
+@import 'component/forms';
+@import 'component/table';
+@import 'component/map';
+@import 'component/map_fullscreen_overlay';
+@import 'component/multi_list_group';
+@import 'component/plot';
+
+@import 'view/home';
+@import 'view/arenas_campos_detail';
+@import 'view/arenas_matrix_results';
