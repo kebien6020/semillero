@@ -125,13 +125,15 @@ class ArenasController extends Controller
     function matrixResults($id)
     {
 
-        $tabla = SampleGroup::find($id);
+        $sample_group = SampleGroup::find($id);
 
-        if ($tabla->samples->isEmpty())
+        if ($sample_group->samples->isEmpty())
             return redirect('/arenas/matrix')
                 ->with('error', 'La tabla está vacia');
+
+        $average = 0;
         try {
-            $stats = $tabla->stats();
+            $average = $sample_group->getAverage();
         } catch (ErrorException $e) {
             return redirect('/arenas/matrix')
                 ->with('error',
@@ -139,18 +141,17 @@ class ArenasController extends Controller
                     . ' (Error: ' . $e->getMessage() . ').');
         }
 
-        $average = $stats['average'];
-        $plot_data = $stats['plot_data'];
-
-        $x10 = interpolate_y(10, $plot_data);
-        $x60 = interpolate_y(60, $plot_data);
-        $x90 = interpolate_y(90, $plot_data);
-        $x50 = interpolate_y(50, $plot_data);
-        $x30 = interpolate_y(30, $plot_data);
-
         // Results
 
         $results = (object)[];
+
+        $plot_data = $sample_group->getPlotData();
+
+        $x10 = $results->x10 = $plot_data->x10;
+        $x60 = $results->x60 = $plot_data->x60;
+        $x90 = $results->x90 = $plot_data->x90;
+        $x50 = $results->x50 = $plot_data->x50;
+        $x30 = $results->x30 = $plot_data->x30;
         
         $results->average = $average;
         $results->grain_type = '';
@@ -160,12 +161,6 @@ class ArenasController extends Controller
         else if ($average <= 1000) $results->grain_type = 'Arena gruesa';
         else if ($average <= 2000) $results->grain_type = 'Arena muy gruesa';
         else $results->grain_type = 'Ningun rango';
-        
-        $results->x10 = $x10;
-        $results->x60 = $x60;
-        $results->x90 = $x90;
-        $results->x50 = $x50;
-        $results->x30 = $x30;
         
         if ($x10 == 0)
             return redirect('/arenas/matrix')->with('error', 'No hay suficientes datos para mostrar resultados');
@@ -244,16 +239,18 @@ class ArenasController extends Controller
 
 
         return view('arenas.matrix_results', [
-            'samples' => $tabla->samples()->orderBy('grain_size')->get(),
-            'plot_data' => json_encode($plot_data),
-            'x10' => $x10,
-            'x60' => $x60,
-            'x90' => $x90,
-            'x50' => $x50,
-            'x30' => $x30,
+            'sampleGroupId' => $id,
+            'samples' => $sample_group->samples()->orderBy('grain_size')->get(),
             'results' => $results,
-            'table_name' => $tabla->name,
+            'table_name' => $sample_group->name,
         ]);
+    }
+
+    // API function
+    function getMatrixPlot($id)
+    {
+        $sample_group = SampleGroup::find($id);
+        return collect($sample_group->getPlotData())->toJson();
     }
 
     function matrixNew()
@@ -334,7 +331,7 @@ class ArenasController extends Controller
 
     function matrixCreate(Request $request)
     {
-        $parsed = static::parseEditOrNew($request);
+        $parsed = self::parseEditOrNew($request);
 
         if($parsed->empty)
             return $parsed->redirect;
@@ -342,7 +339,7 @@ class ArenasController extends Controller
         // Create and save models
         $sample_group = SampleGroup::create(['name' => $parsed->name]);
 
-        return static::saveParsedTableAndRedirect(
+        return self::saveParsedTableAndRedirect(
             $parsed->table,
             $sample_group,
             $parsed->out_of_range_flag);
@@ -366,7 +363,7 @@ class ArenasController extends Controller
     {
         $sample_group = SampleGroup::findOrFail($id);
 
-        $parsed = static::parseEditOrNew($request);
+        $parsed = self::parseEditOrNew($request);
         if ($parsed->empty)
             return $parsed->redirect;
 
@@ -376,13 +373,10 @@ class ArenasController extends Controller
         $sample_group->name = $parsed->name;
         $sample_group->save();
 
-        return static::saveParsedTableAndRedirect(
+        return self::saveParsedTableAndRedirect(
             $parsed->table,
             $sample_group,
             $parsed->out_of_range_flag);
-
-
-
     }
 
     function matrixDelete($id)
@@ -428,42 +422,6 @@ class ArenasController extends Controller
  * Utility functions
  ****************************
  */
-
-// Get values for interpolation
-function valuesAround($value, $arr)
-{
-    // We can't interpolate with less than 2 points
-    if (count($arr) <= 1) return null;
-    // When the value is too small, interpolate with the first 2 points
-    else if ($value < $arr[0][1])
-        return [$arr[0],$arr[1]];
-    // When it's too big, interpolate with the last 2 points. This shouldn't happen
-    else if ($value > $arr[count($arr)-1][1])
-        return [$arr[count($arr)-2], $arr[count(arr)-1]];
-    $i = 0;
-    do {
-        $point1 = $arr[$i];
-        $point2 = $arr[$i+1];
-
-        $i++;
-    } while (!($point1[1] <= $value and $point2[1] > $value));
-    return [$point1, $point2];
-}
-
-function interpolate_y_between($value, $points)
-{
-    $x1 = $points[0][0];
-    $x2 = $points[1][0];
-    $y1 = $points[0][1];
-    $y2 = $points[1][1];
-    if ($y1 == $y2) return $y1;
-    return pow(10,(log10($x2) - log10($x1))/($y2 - $y1)*($value - $y1) + log10($x1));
-}
-
-function interpolate_y($value, $arr)
-{
-    return interpolate_y_between($value, valuesAround($value,$arr));
-}
 
 function unflatten($array,$prefix = '')
 {

@@ -6300,48 +6300,6 @@ button.close, .success-panel button.dismiss, .error-panel button.dismiss {
   .hidden-print {
     display: none !important; } }
 
-body {
-  font-family: 'Open Sans';
-  padding-bottom: 0.5em; }
-
-@media (max-width: 767px) {
-  #navbar .navigation-collapse > ul > li.open > ul {
-    position: static;
-    float: none;
-    width: auto;
-    margin-top: 0;
-    background-color: transparent;
-    border: 0;
-    box-shadow: none; }
-    #navbar .navigation-collapse > ul > li.open > ul a {
-      color: #9d9d9d;
-      padding: 5px 15px 5px 25px; } }
-
-main header {
-  text-align: center; }
-
-.buttons {
-  text-align: center;
-  margin: 0.5rem auto 0 auto; }
-
-form input[type="submit"] {
-  width: inherit; }
-
-form input[type="file"] {
-  padding-top: 0;
-  padding-bottom: 0;
-  height: 3em; }
-
-table {
-  margin: auto; }
-  table th {
-    background-color: #23490E;
-    background-image: linear-gradient(to bottom, #23490E 0%, #3A6637 100%);
-    color: white;
-    text-align: center; }
-  table td {
-    text-align: center; }
-
 /* Absolute Center Spinner */
 .loading {
   position: fixed;
@@ -6394,48 +6352,47 @@ table {
   100% {
     transform: rotate(360deg); } }
 
-.multi-list-group .item-container {
-  padding: 0;
-  border: 0; }
-  .multi-list-group .item-container .item {
-    width: 100%;
-    height: 100%; }
-    .multi-list-group .item-container .item a, .multi-list-group .item-container .item button {
-      width: calc(100% - 100px - 100px);
-      height: 100%;
-      text-align: left;
-      border-radius: 0; }
-      .multi-list-group .item-container .item a.icon, .multi-list-group .item-container .item button.icon {
-        width: 100px;
-        text-align: center; }
-    .multi-list-group .item-container .item .minus-button, .multi-list-group .item-container .item .minus-button:hover, .multi-list-group .item-container .item .minus-button:focus, .multi-list-group .item-container .item .minus-button:active {
-      color: darkred; }
-  .multi-list-group .item-container:first-child :first-child {
-    border-top-left-radius: 4px; }
-  .multi-list-group .item-container:first-child :last-child {
-    border-top-right-radius: 4px; }
-  .multi-list-group .item-container:last-child :first-child {
-    border-bottom-left-radius: 4px; }
-  .multi-list-group .item-container:last-child :last-child {
-    border-bottom-right-radius: 4px; }
+body {
+  font-family: 'Open Sans';
+  padding-bottom: 0.5em; }
 
-#home {
-  background: url(/images/bg.png) no-repeat center center fixed;
-  background-size: cover;
-  padding-top: 50px;
-  min-height: 100vh; }
+@media (max-width: 767px) {
+  #navbar .navigation-collapse > ul > li.open > ul {
+    position: static;
+    float: none;
+    width: auto;
+    margin-top: 0;
+    background-color: transparent;
+    border: 0;
+    box-shadow: none; }
+    #navbar .navigation-collapse > ul > li.open > ul a {
+      color: #9d9d9d;
+      padding: 5px 15px 5px 25px; } }
 
-.white-section {
-  background: rgba(255, 255, 255, 0.3);
-  width: 100%;
-  float: none;
-  box-shadow: none; }
+main header {
+  text-align: center; }
 
-h1.title {
-  font-size: 56pt; }
-  @media screen and (max-width: 800px) {
-    h1.title {
-      font-size: 32pt; } }
+.buttons {
+  text-align: center;
+  margin: 0.5rem auto 0 auto; }
+
+.header {
+  background-color: #23490E;
+  background-image: linear-gradient(to bottom, #23490E 0%, #3A6637 100%);
+  color: white;
+  font-size: 14px;
+  margin-bottom: 0;
+  text-align: center;
+  font-weight: 700;
+  line-height: 2.5em; }
+
+form input[type="submit"] {
+  width: inherit; }
+
+form input[type="file"] {
+  padding-top: 0;
+  padding-bottom: 0;
+  height: 3em; }
 
 .map-content {
   min-height: calc(100vh - 50px - 3px);
@@ -6519,6 +6476,84 @@ h1.title {
         margin: auto;
         text-align: center; }
 
+.multi-list-group .item-container {
+  padding: 0;
+  border: 0; }
+  .multi-list-group .item-container .item {
+    width: 100%;
+    height: 100%; }
+    .multi-list-group .item-container .item a, .multi-list-group .item-container .item button {
+      width: calc(100% - 100px - 100px);
+      height: 100%;
+      text-align: left;
+      border-radius: 0; }
+      .multi-list-group .item-container .item a.icon, .multi-list-group .item-container .item button.icon {
+        width: 100px;
+        text-align: center; }
+    .multi-list-group .item-container .item .minus-button, .multi-list-group .item-container .item .minus-button:hover, .multi-list-group .item-container .item .minus-button:focus, .multi-list-group .item-container .item .minus-button:active {
+      color: darkred; }
+  .multi-list-group .item-container:first-child :first-child {
+    border-top-left-radius: 4px; }
+  .multi-list-group .item-container:first-child :last-child {
+    border-top-right-radius: 4px; }
+  .multi-list-group .item-container:last-child :first-child {
+    border-bottom-left-radius: 4px; }
+  .multi-list-group .item-container:last-child :last-child {
+    border-bottom-right-radius: 4px; }
+
+.plot {
+  width: 100%;
+  height: 50rem;
+  padding: 10px 2em 0 0;
+  margin-top: 0;
+  margin-bottom: 1em;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid #ddd;
+  background: #fff;
+  background: linear-gradient(#f6f6f6 0, #fff 50px);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15); }
+  .plot .axisLabel {
+    position: absolute;
+    text-align: center;
+    font-size: 12px; }
+  .plot .yaxisLabel {
+    transform: rotate(-90deg);
+    transform-origin: 0 0;
+    top: 50%;
+    left: 0.3em; }
+  .plot .xaxisLabel {
+    bottom: 0.3em;
+    left: 50%; }
+
+table {
+  margin: auto; }
+  table th {
+    background-color: #23490E;
+    background-image: linear-gradient(to bottom, #23490E 0%, #3A6637 100%);
+    color: white;
+    text-align: center; }
+  table td {
+    text-align: center; }
+
+#home {
+  background: url(/images/bg.png) no-repeat center center fixed;
+  background-size: cover;
+  padding-top: 50px;
+  min-height: 100vh; }
+
+.white-section {
+  background: rgba(255, 255, 255, 0.3);
+  width: 100%;
+  float: none;
+  box-shadow: none; }
+
+h1.title {
+  font-size: 56pt; }
+  @media screen and (max-width: 800px) {
+    h1.title {
+      font-size: 32pt; } }
+
 .row-well td {
   margin-left: -15px;
   margin-right: -15px;
@@ -6564,5 +6599,8 @@ h1.title {
 
 .row-well:hover {
   background-color: inherit !important; }
+
+#config_mec tbody tr:last-child td {
+  font-weight: bold; }
 
 /*# sourceMappingURL=app.css.map */

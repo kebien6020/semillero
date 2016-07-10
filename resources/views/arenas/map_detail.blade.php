@@ -105,7 +105,7 @@ $well_name = ufirst($sandControl->well->name);
 ?>
 
 <header>
-    <h2>Información general del Pozo {{ $well_name }}</h2>
+    <h1>Información general del Pozo {{ $well_name }}</h1>
 </header>
 
 @include('partial.messages')

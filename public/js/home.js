@@ -12195,7 +12195,14 @@ require('jquery.flot.pie');
 
 window.$ = $;
 
+$('.success-panel, .error-panel').addClass('alert fade in');
+$().alert();
+
 },{"bootstrap":1,"jquery":2,"jquery.flot.pie":6}],4:[function(require,module,exports){
+(function (global){
+
+; require("jquery");
+; var __browserify_shim_require__=require;(function browserifyShim(module, define, require) {
 "use strict";
 
 /*! Backstretch - v2.0.4 - 2013-06-19
@@ -12271,7 +12278,10 @@ window.$ = $;
       k = !!k && k[1];l = !((-1 < m.indexOf("iPhone") || -1 < m.indexOf("iPad") || -1 < m.indexOf("iPod")) && e && 534 > e || d.operamini && "[object OperaMini]" === {}.toString.call(d.operamini) || n && 7458 > t || -1 < f.indexOf("Android") && e && 533 > e || h && 6 > h || "palmGetResource" in d && e && 534 > e || -1 < f.indexOf("MeeGo") && -1 < f.indexOf("NokiaBrowser/8.5.0") || k && 6 >= k);
 })(jQuery, window);
 
-},{}],5:[function(require,module,exports){
+}).call(global, module, undefined, undefined);
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"jquery":2}],5:[function(require,module,exports){
 (function (global){
 
 ; require("jquery");

@@ -12422,6 +12422,8 @@ $().alert();
 },{"bootstrap":1,"jquery":3,"jquery.flot.pie":7}],5:[function(require,module,exports){
 'use strict';
 
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
 var Map = require('./map.js');
 $ = require('jquery');
 
@@ -12462,37 +12464,35 @@ var markers_data = {
 };
 
 function init() {
-    getData(setupMap);
+    getData().then(setupMap, handleAjaxError);
 }
 
-function getData(callback) {
-    $.when($.getJSON('/api/arenas/sand_controls'), $.getJSON('/api/arenas/sand_control_groups')).done(function (response1, response2) {
-        if (response1 === undefined || response2 === undefined) {
-            fail();
-            return;
-        }
-        // response (1 and 2) have the form [ data, statusText, jqXHR ]
-        var sand_controls = response1[0],
-            groups = response2[0];
-
-        callback(sand_controls, groups);
-    }).fail(fail);
-
-    function fail() {
-        // TODO: Output error to screen
-        alert('Error cargando los datos del mapa desde el servidor');
-    }
+function getData() {
+    var promise = $.when($.getJSON('/api/arenas/sand_controls'), $.getJSON('/api/arenas/sand_control_groups'));
+    return promise;
 }
 
-function setupMap(sand_controls, groups) {
+// ES6 Destructuring arrays.
+// Here we are getting the first element of each param
+function setupMap(_ref, _ref2) {
+    var _ref4 = _slicedToArray(_ref, 1);
+
+    var sand_controls = _ref4[0];
+
+    var _ref3 = _slicedToArray(_ref2, 1);
+
+    var groups = _ref3[0];
+
     markers_data.data = sand_controls;
     markers_data.color_by.values = groups;
 
-    console.log(markers_data);
-
-    Map.load(function (google, map) {
+    Map.load(function () {
         Map.setupMarkers(markers_data);
     });
+}
+
+function handleAjaxError() {
+    alert('Error cargando los datos del mapa desde el servidor');
 }
 
 init();

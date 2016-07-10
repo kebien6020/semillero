@@ -46,6 +46,8 @@ Route::post('/arenas/matrix', 'ArenasController@matrixCreate');
 Route::get('/arenas/matrix/{id}/edit', 'ArenasController@matrixEdit');
 Route::put('/arenas/matrix/{id}', 'ArenasController@matrixUpdate');
 Route::delete('/arenas/matrix/{id}', 'ArenasController@matrixDelete');
+
+Route::get('/api/arenas/get_matrix_plot/{id}', 'ArenasController@getMatrixPlot');
 // fields
 Route::get('/arenas/campos', 'ArenasController@camposSelect');
 Route::get('/arenas/campos/{id}', 'ArenasController@camposDetail');

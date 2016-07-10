@@ -2,15 +2,6 @@
 
 @section('title', 'Control de Arena')
 
-@section('head')
-
-<style type="text/css" media="screen">
-    
-
-</style>
-
-@endsection
-
 @section('content')
 
 <header>

@@ -1,7 +1,7 @@
-let Map = require('./map.js')
-    $   = require('jquery');
+const Map = require('./map.js')
+      $   = require('jquery');
 
-var markers_data = {
+let markers_data = {
     title_key: 'well.name',
     longitude_key: 'well.longitude',
     latitude_key: 'well.latitude',
@@ -27,15 +27,11 @@ var markers_data = {
     actions: [
         {
             display: 'Información del completamiento del pozo',
-            url: function(model){
-                return '/arenas/map/' + model.id;
-            }
+            url: model => `/arenas/map/${model.id}`
         },
         {
             display: 'Editar',
-            url: function(model){
-                return '/arenas/map/' + model.well.id + '/edit';
-            }
+            url: model => `/arenas/map/${model.well.id}/edit`
         }
     ],
     color_mode: 'name',
@@ -46,41 +42,32 @@ var markers_data = {
 }
 
 function init() {
-    getData(setupMap);
+    getData()
+        .then(setupMap, handleAjaxError);
 }
 
-function getData(callback) {
-    $.when(
+function getData() {
+    const promise = $.when(
         $.getJSON('/api/arenas/sand_controls'),
         $.getJSON('/api/arenas/sand_control_groups')
-    ).done((response1, response2)=>{
-        if (response1 === undefined || response2 === undefined){
-            fail();
-            return;
-        }
-        // response (1 and 2) have the form [ data, statusText, jqXHR ]
-        let sand_controls = response1[0],
-            groups = response2[0];
-
-        callback(sand_controls, groups);
-     })
-     .fail(fail);
-
-    function fail(){
-        // TODO: Output error to screen
-        alert('Error cargando los datos del mapa desde el servidor');
-    }
+    );
+    return promise;
 }
 
-function setupMap(sand_controls, groups){
+// ES6 Destructuring arrays.
+// Here we are getting the first element of each param
+function setupMap([sand_controls], [groups]){
     markers_data.data = sand_controls;
     markers_data.color_by.values = groups;
 
-    console.log(markers_data);
-
-    Map.load(function(google, map) {
+    Map.load(() => {
         Map.setupMarkers(markers_data);
     });
+}
+
+function handleAjaxError(){
+    alert('Error cargando los datos del mapa desde el servidor');
+
 }
 
 init();

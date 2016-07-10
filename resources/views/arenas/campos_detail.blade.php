@@ -63,29 +63,6 @@ $recommended = [
     ],
 ];
 
-use Illuminate\Support\HtmlString;
-function print_table_pairs($elems, $model)
-{
-    $res = '';
-    foreach ($elems as $elem)
-    {
-        $elem = (object)$elem;
-        $val = $model->{$elem->name};
-        if ($val !== null)
-        {
-            $display = e($elem->display);
-            $val = e($val);
-
-            $res .= "
-            <tr>
-                <td>{$display}</td>
-                <td>{$val}</td>
-            </tr>";
-        }
-    }
-    return new HtmlString($res);
-}
-
 $field = ufirst($summary->field->name);
 
 ?>
@@ -105,21 +82,21 @@ $field = ufirst($summary->field->name);
     <tbody>
         {{-- General content --}}
         
-        {{ print_table_pairs($elems, $summary) }}
+        {{ render_rows($elems, $summary) }}
 
         {{-- Installed --}}
         <tr>
             <th colspan="2"><strong>Tipo de Control de Arena Instalado</strong></th>
         </tr>
         
-        {{ print_table_pairs($installed, $summary) }}
+        {{ render_rows($installed, $summary) }}
 
         {{-- Recommended --}}
         @foreach ($summary->sandControlRecommendations as $i => $recommendation)
             <tr>
                 <th colspan="2"><strong>Tipo de Control de Arena Recomendado @if ($i>0) {{ $i+1 }} @endif</strong></th>
             </tr>
-            {{ print_table_pairs($recommended, $recommendation) }}
+            {{ render_rows($recommended, $recommendation) }}
         @endforeach
 
         {{-- Remarks --}}
