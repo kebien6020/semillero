@@ -23,13 +23,14 @@ elixir(function(mix) {
 
   // Javascript
   [
-    'map.js',
     'app.js',
-    'fluidos_map_campos.js',
+    'home.js',
+    'map.js',
     'arenas_map.js',
     'arenas_matrix_results.js',
     'arenas_matrix_edit.js',
-    'home.js'
+    'fluidos_map_pozos.js',
+    'fluidos_map_campos.js'
   ].forEach(function(val){
     mix.browserify(val);
   });

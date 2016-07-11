@@ -12419,94 +12419,7 @@ window.$ = $;
 $('.success-panel, .error-panel').addClass('alert fade in');
 $().alert();
 
-},{"bootstrap":1,"jquery":3,"jquery.flot.pie":7}],5:[function(require,module,exports){
-'use strict';
-
-var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
-
-require('./app.js');
-
-var _map = require('./map.js');
-
-var _map2 = _interopRequireDefault(_map);
-
-var _jquery = require('jquery');
-
-var _jquery2 = _interopRequireDefault(_jquery);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var markers_data = {
-    title_key: 'well.name',
-    longitude_key: 'well.longitude',
-    latitude_key: 'well.latitude',
-    show: [{
-        display: 'Mecanismo de control de arena: ',
-        key: 'mechanism'
-    }, {
-        display: 'Fecha de instalación (mes/día/año): ',
-        key: 'install_date'
-    }, {
-        display: 'Campo: ',
-        key: 'well.field.name'
-    }, {
-        display: 'Siglas del evento: ',
-        key: 'event',
-        nullable: true
-    }],
-    actions: [{
-        display: 'Información del completamiento del pozo',
-        url: function url(model) {
-            return '/arenas/map/' + model.id;
-        }
-    }, {
-        display: 'Editar',
-        url: function url(model) {
-            return '/arenas/map/' + model.well.id + '/edit';
-        }
-    }],
-    color_mode: 'name',
-    color_pallete: ['red', 'blue', 'yellow', 'aqua'],
-    color_by: {
-        key: 'group'
-    }
-};
-
-function init() {
-    getData().then(setupMap, handleAjaxError);
-}
-
-function getData() {
-    var promise = _jquery2.default.when(_jquery2.default.getJSON('/api/arenas/sand_controls'), _jquery2.default.getJSON('/api/arenas/sand_control_groups'));
-    return promise;
-}
-
-// ES6 Destructuring arrays.
-// Here we are getting the first element of each param
-function setupMap(_ref, _ref2) {
-    var _ref4 = _slicedToArray(_ref, 1);
-
-    var sand_controls = _ref4[0];
-
-    var _ref3 = _slicedToArray(_ref2, 1);
-
-    var groups = _ref3[0];
-
-    markers_data.data = sand_controls;
-    markers_data.color_by.values = groups;
-
-    _map2.default.load(function () {
-        _map2.default.setupMarkers(markers_data);
-    });
-}
-
-function handleAjaxError() {
-    alert('Error cargando los datos del mapa desde el servidor');
-}
-
-init();
-
-},{"./app.js":4,"./map.js":8,"jquery":3}],6:[function(require,module,exports){
+},{"bootstrap":1,"jquery":3,"jquery.flot.pie":6}],5:[function(require,module,exports){
 (function (global){
 
 ; require("jquery");
@@ -12992,7 +12905,7 @@ function floorInBase(n,base){return base*Math.floor(n/base);}})(jQuery);
 }).call(global, module, undefined, undefined);
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"jquery":3}],7:[function(require,module,exports){
+},{"jquery":3}],6:[function(require,module,exports){
 (function (global){
 
 ; require("/home/vagrant/Code/Semillero/resources/assets/js/flot/jquery.flot.js");
@@ -13818,7 +13731,83 @@ More detail and specific examples can be found in the included HTML file.
 }).call(global, module, undefined, undefined);
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"/home/vagrant/Code/Semillero/resources/assets/js/flot/jquery.flot.js":6}],8:[function(require,module,exports){
+},{"/home/vagrant/Code/Semillero/resources/assets/js/flot/jquery.flot.js":5}],7:[function(require,module,exports){
+'use strict';
+
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
+require('./app.js');
+
+var _map = require('./map.js');
+
+var _map2 = _interopRequireDefault(_map);
+
+var _jquery = require('jquery');
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var markers_data = {
+    title_key: 'well.name',
+    longitude_key: 'well.longitude',
+    latitude_key: 'well.latitude',
+    show: [{
+        display: 'Fluido de completamiento: ',
+        key: 'fluid.name'
+    }, {
+        display: 'Densidad del fluido: ',
+        key: 'density',
+        nullable: true
+    }, {
+        display: 'Campo: ',
+        key: 'well.field.name'
+    }, {
+        display: 'Siglas del evento: ',
+        key: 'event',
+        nullable: true
+    }],
+    color_mode: 'color',
+    color_by: {
+        key: 'fluid.color'
+    }
+};
+
+function init() {
+    getData().then(setupMap, handleAjaxError);
+}
+
+function getData() {
+    var promise = _jquery2.default.when(_jquery2.default.getJSON('/api/fluidos/fluid_occurrences'), _jquery2.default.getJSON('/api/fluidos/fluids'));
+    return promise;
+}
+
+// ES6 Destructuring arrays.
+// Here we are getting the first element of each param
+function setupMap(_ref, _ref2) {
+    var _ref4 = _slicedToArray(_ref, 1);
+
+    var fluid_occurrences = _ref4[0];
+
+    var _ref3 = _slicedToArray(_ref2, 1);
+
+    var fluids = _ref3[0];
+
+    markers_data.data = fluid_occurrences;
+    markers_data.color_by.values = fluids;
+
+    _map2.default.load(function () {
+        _map2.default.setupMarkers(markers_data);
+    });
+}
+
+function handleAjaxError() {
+    alert('Error cargando los datos del mapa desde el servidor');
+}
+
+init();
+
+},{"./app.js":4,"./map.js":8,"jquery":3}],8:[function(require,module,exports){
 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
@@ -14156,6 +14145,6 @@ module.exports = function (array) {
     return a;
 };
 
-},{}]},{},[5]);
+},{}]},{},[7]);
 
-//# sourceMappingURL=arenas_map.js.map
+//# sourceMappingURL=fluidos_map_pozos.js.map

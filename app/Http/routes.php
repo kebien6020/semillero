@@ -27,6 +27,8 @@ Route::get('/fluidos/map/campos/{id}', 'fluidosController@campoDetail');
 Route::get('/fluidos/map/pozos', 'fluidosController@mapPozos');
 
 Route::get('/api/fluidos/density_dist/{field_id}/{fluid_id}', 'fluidosController@densityDist');
+Route::get('/api/fluidos/fluid_occurrences', 'fluidosController@fluidOccurrences');
+Route::get('/api/fluidos/fluids', 'fluidosController@fluids');
 
 // Arenas
 

@@ -57,15 +57,24 @@ class FluidosController extends Controller
 
     function mapPozos()
     {
-        $occurrences = FluidOccurrence::with('well.field.basin', 'fluid')->get();
-        $fluids = Fluid::all(['name', 'color']);
-        return view('fluidos.map_pozos',[
-            'occurrences' => $occurrences->toJson(),
-            'fluids' => $fluids->toJson(),
-        ]);
+        return view('fluidos.map_pozos');
     }
 
-    private function occurrencesInRange($min, $max, $field_id, $fluid_id)
+    // API function
+    function fluidOccurrences()
+    {
+        return FluidOccurrence::with('well.field.basin', 'fluid')
+            ->get()
+            ->toJson();
+    }
+
+    // API function
+    function fluids()
+    {
+        return Fluid::all(['name', 'color'])->toJson();
+    }
+
+    private static function occurrencesInRange($min, $max, $field_id, $fluid_id)
     {
         return FluidOccurrence::with('well.field')
             ->join('wells', 'wells.id', '=', 'fluid_occurrences.well_id')
@@ -84,7 +93,7 @@ class FluidosController extends Controller
         $ranges = DensityRange::where('fluid_id', '=', $fluid_id)->get();
         $res = [];
         foreach ($ranges as $range) {
-            $occurrences = $this->occurrencesInRange(
+            $occurrences = self::occurrencesInRange(
                 $range->min, $range->max,
                 $field_id, $fluid_id);
             if ($occurrences < 1) continue;

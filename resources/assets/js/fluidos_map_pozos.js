@@ -8,12 +8,13 @@ let markers_data = {
     latitude_key: 'well.latitude',
     show: [
         {
-            display: 'Mecanismo de control de arena: ',
-            key: 'mechanism'
+            display: 'Fluido de completamiento: ',
+            key: 'fluid.name'
         },
         {
-            display: 'Fecha de instalación (mes/día/año): ',
-            key: 'install_date'
+            display: 'Densidad del fluido: ',
+            key: 'density',
+            nullable: true
         },
         {
             display: 'Campo: ',
@@ -25,20 +26,9 @@ let markers_data = {
             nullable: true
         }
     ],
-    actions: [
-        {
-            display: 'Información del completamiento del pozo',
-            url: model => `/arenas/map/${model.id}`
-        },
-        {
-            display: 'Editar',
-            url: model => `/arenas/map/${model.well.id}/edit`
-        }
-    ],
-    color_mode: 'name',
-    color_pallete: ['red', 'blue', 'yellow', 'aqua'],
+    color_mode: 'color',
     color_by: {
-        key: 'group'
+        key: 'fluid.color'
     }
 }
 
@@ -49,17 +39,17 @@ function init() {
 
 function getData() {
     const promise = $.when(
-        $.getJSON('/api/arenas/sand_controls'),
-        $.getJSON('/api/arenas/sand_control_groups')
+        $.getJSON('/api/fluidos/fluid_occurrences'),
+        $.getJSON('/api/fluidos/fluids')
     );
     return promise;
 }
 
 // ES6 Destructuring arrays.
 // Here we are getting the first element of each param
-function setupMap([sand_controls], [groups]){
-    markers_data.data = sand_controls;
-    markers_data.color_by.values = groups;
+function setupMap([fluid_occurrences], [fluids]){
+    markers_data.data = fluid_occurrences;
+    markers_data.color_by.values = fluids;
 
     Map.load(() => {
         Map.setupMarkers(markers_data);
