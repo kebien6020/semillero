@@ -56,7 +56,7 @@ body {
 // Shared styles
 body {
     > main, > main  > .container {
-        > header {
+        > header, header.title {
             @extend .page-header;
             text-align: center;
         }

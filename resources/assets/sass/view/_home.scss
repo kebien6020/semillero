@@ -1,8 +1,15 @@
-#home {
+.home{
+
+body {
+    overflow: hidden;
+}
+
+main {
     background: url(/images/bg.png) no-repeat center center fixed;
     background-size: cover;
     padding-top: 50px;
     min-height: 100vh;
+    overflow: none;
 
 }
 
@@ -12,12 +19,28 @@
     width: 100%;
     float: none;
     box-shadow: none;
+    h1.responsive-title {
+        font-size: 56pt;
+
+        @media screen and (max-width: 800px) {
+            font-size: 32pt;
+        }
+    }
+    .button-group-container {
+        @extend .container;
+        > div {
+            @extend .btn-group;
+            @extend .btn-group-lg;
+            button {
+                @extend .btn;
+                @extend .btn-primary;
+                @extend .dropdown-toggle;
+            }
+            ul.open {
+                display: block;
+            }
+        }
+    }
 }
 
-h1.title {
-    font-size: 56pt;
-
-    @media screen and (max-width: 800px) {
-        font-size: 32pt;
-    }
 }
