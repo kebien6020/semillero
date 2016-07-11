@@ -29,8 +29,13 @@ class Field extends Model
         $fluid_ids = $fluidOccurrences->unique('fluid_id')->pluck('fluid_id');
         $res = [];
         foreach ($fluid_ids as $fluid_id) {
-            $res[Fluid::find($fluid_id)->name] = 
-                $fluidOccurrences->where('fluid_id', $fluid_id)->count();
+            $fluid = Fluid::find($fluid_id);
+            $res[] = [
+                'id' => $fluid->id,
+                'name' => $fluid->name,
+                'color' => $fluid->color,
+                'occurrences' => $fluidOccurrences->where('fluid_id', $fluid_id)->count(),
+            ];
         }
         return $res;
     }

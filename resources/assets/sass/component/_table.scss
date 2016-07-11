@@ -1,0 +1,13 @@
+table {
+    @extend .table;
+    @extend .table-bordered;
+    margin: auto;
+    th {
+        @include bg_theme_gradient();
+        color: white;
+        text-align: center;
+    }
+    td {
+        text-align: center;
+    }
+}

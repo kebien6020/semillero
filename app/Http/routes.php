@@ -19,15 +19,26 @@ Route::get('/sla/map', 'slaController@mapPozos');
 Route::get('/sla/test/map', 'slaController@testMap');
 Route::post('/sla/test/map/add_data_submit', 'slaController@testMapAddDataSubmit');
 
+// fluidos
 Route::get('/fluidos/map/campos', 'fluidosController@mapCampos');
 Route::get('/fluidos/map/campos/{id}', 'fluidosController@campoDetail');
 Route::get('/fluidos/map/pozos', 'fluidosController@mapPozos');
+
+Route::get('/api/fluidos/density_dist/{field_id}/{fluid_id}', 'fluidosController@densityDist');
+Route::get('/api/fluidos/fluid_occurrences', 'fluidosController@fluidOccurrences');
+Route::get('/api/fluidos/fluids', 'fluidosController@fluids');
+Route::get('/api/fluidos/fields', 'fluidosController@fields');
+
+// Arenas
 
 // map
 Route::get('/arenas/map', 'ArenasController@mapPozos');
 Route::get('/arenas/map/{id}', 'ArenasController@mapDetail');
 Route::get('/arenas/map/{id}/edit', 'ArenasController@mapEdit');
 Route::put('/arenas/map/{id}', 'ArenasController@mapUpdate');
+
+Route::get('/api/arenas/sand_controls', 'ArenasController@sandControls');
+Route::get('/api/arenas/sand_control_groups', 'ArenasController@sandControlGroups');
 // matrix
 Route::get('/arenas/matrix','ArenasController@matrixSelect');
 Route::get('/arenas/matrix/{id}', 'ArenasController@matrixResults');
@@ -36,6 +47,9 @@ Route::post('/arenas/matrix', 'ArenasController@matrixCreate');
 Route::get('/arenas/matrix/{id}/edit', 'ArenasController@matrixEdit');
 Route::put('/arenas/matrix/{id}', 'ArenasController@matrixUpdate');
 Route::delete('/arenas/matrix/{id}', 'ArenasController@matrixDelete');
+
+Route::get('/api/arenas/get_matrix_plot/{id}', 'ArenasController@getMatrixPlot');
+Route::get('/api/arenas/sample_group/{id}', 'ArenasController@sampleGroup');
 // fields
 Route::get('/arenas/campos', 'ArenasController@camposSelect');
 Route::get('/arenas/campos/{id}', 'ArenasController@camposDetail');

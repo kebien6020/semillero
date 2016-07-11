@@ -1,0 +1,45 @@
+$space-above-map: 3px;
+$navbar-height: 50px;
+$base-top-margin: 20px;
+.map-content {
+    min-height: calc(100vh - #{$navbar-height} - #{$space-above-map});
+    padding-bottom: + $base-top-margin + 3px;
+    display: flex;
+    flex-direction: column;
+
+}
+
+#map {
+    margin-top: - $base-top-margin + $space-above-map;
+    flex: 1;
+}
+
+#legend {
+    position:absolute;
+    top:55px;
+    right:0;
+    width:20%;
+    background-color:white;
+    font-size:8pt;
+    padding:5px;
+    z-index:2;
+    border-bottom-left-radius: 4px;
+    p {
+        padding: 0;
+        margin: 0;
+    }
+}
+
+.marker-title {
+    text-align: center;
+}
+
+.marker-field {
+    .marker-field-name {
+        font-weight: bold;
+    }
+}
+
+.marker-actions {
+    text-align: center;
+}

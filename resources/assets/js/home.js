@@ -1,6 +1,5 @@
-require('./app.js');
+import './app.js';
+import $ from 'jquery';
+import 'jquery.backstretch';
 
-let $ = require('jquery');
-require('jquery.backstretch');
-
-$.backstretch('images/bg.png');
+$.backstretch("images/bg.png");

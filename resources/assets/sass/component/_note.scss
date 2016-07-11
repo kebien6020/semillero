@@ -1,0 +1,15 @@
+.note {
+    @extend .panel;
+    @extend .panel-info;
+
+    header {
+        @extend .panel-heading;
+        h3 {
+            @extend .panel-title;
+        }
+    }
+
+    main {
+        @extend .panel-body;
+    }
+}

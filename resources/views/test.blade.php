@@ -8,6 +8,7 @@
     <link href="{{ url('css/map.css') }}" rel="stylesheet" type="text/css">
 </head>
 <body>
+    @include('partial.messages')
     <div id="map"></div>
     <div id="legend"></div>
 

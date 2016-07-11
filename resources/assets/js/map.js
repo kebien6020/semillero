@@ -3,6 +3,7 @@ require('./app.js');
 let gapi       = require('google-maps'),
     $          = require('jquery'),
     arr_unique = require('./modules/array_unique.js');
+                 require('./app.js');
 
 gapi.KEY = 'AIzaSyA4T9LZ5gwZIHTA550ip33BbLvO9ob1Ji8';
 
@@ -20,12 +21,14 @@ exports.load = function(fn){
             zoom: 6,
             mapTypeId: google.maps.MapTypeId.HYBRID,
         };
-        let $container = $(exports.CONTAINER_SELECTOR)[0];
+        let $container = $(exports.CONTAINER_SELECTOR);
+        $container.empty();
 
-        map = new google.maps.Map($container, options);
+        map = new google.maps.Map($container[0], options);
         
         if (fn)
             fn(google, map);
+        $container.removeClass('loading');
     });
 
 };
@@ -50,38 +53,50 @@ exports.setupMarkers = function(data) {
     let latitude_key = data.latitude_key || 'latitude';
     let base_url = data.base_url || '';
     let color_mode = data.color_mode || 'name';
-
-    let color_pallete = default_color_pallete;
-    if (color_mode === 'name' && data.color_pallete)
-        color_pallete = arr_unique(
-            data.color_pallete.concat(default_color_pallete));
     let color_key = null;
+    let color_pallete = default_color_pallete;
     let color_values = null;
-    if (typeof data.color_by === 'object'){
-        color_key = data.color_by.key;
-        color_values = data.color_by.values;
-    } else if (typeof data.color_by === 'string') {
-        color_key = data.color_by;
-        color_values = arr_unique(data.data.map(function(model){
-            return modelGet(model, color_key);
-        }));
-    } else {
-        throw 'Must specify valid color_by';
-    }
-
     let color_table = {};
-    if (color_mode === 'name') {
-        for (let i = 0; i < color_values.length; ++i) {
-            let color_value = color_values[i];
-            if (i-1 > color_pallete.length) {
-                color_table[color_value] = 'gray';
-                continue;
-            }
-            color_table[color_value] = color_pallete[i];
-        }
+    let callback = data.on_open_marker || function(){};
+
+
+    if (color_mode !== 'name' && color_mode !== 'color') {
+        color_mode = 'none';
     }
 
-    setupLegend(color_table, color_mode, base_url);
+    if (color_mode !== 'none') {
+        if (color_mode === 'name' && data.color_pallete)
+            color_pallete = arr_unique(
+                data.color_pallete.concat(default_color_pallete));
+        if (typeof data.color_by === 'object'){
+            color_key = data.color_by.key;
+            color_values = data.color_by.values;
+        } else if (typeof data.color_by === 'string') {
+            color_key = data.color_by;
+            color_values = arr_unique(data.data.map(function(model){
+                return modelGet(model, color_key);
+            }));
+        } else {
+            throw 'Must specify valid color_by';
+        }
+
+        if (color_mode === 'name') {
+            for (let i = 0; i < color_values.length; ++i) {
+                let color_value = color_values[i];
+                if (i-1 > color_pallete.length) {
+                    color_table[color_value] = 'gray';
+                    continue;
+                }
+                color_table[color_value] = color_pallete[i];
+            }
+        } else {
+            for (let color_value of color_values) {
+                color_table[color_value.name] = color_value.color;
+            }
+        }
+
+        setupLegend(color_table, color_mode, base_url);
+    }
 
     for (let model of data.data) {
         let content = '';
@@ -94,9 +109,13 @@ exports.setupMarkers = function(data) {
         let info_window = new google.maps.InfoWindow({content});
         info_windows.push(info_window);
         
-        let color = modelGet(model, color_key);
+        let color = '';
+        if (color_mode !== 'none')
+            color = modelGet(model, color_key);
         if (color_mode === 'name')
             color = color_table[color];
+        else if (color_mode === 'none')
+            color = 'red';
         let color_url = getColorUrl(color, color_mode, base_url);
 
         let marker_options = {
@@ -110,14 +129,12 @@ exports.setupMarkers = function(data) {
 
         let marker = new google.maps.Marker(marker_options);
 
-        marker.addListener('click', markerListener(info_window, marker));
+        marker.addListener('click', markerListener(info_window, marker, callback, model));
 
     }
 }
 
 function setupLegend(color_table, mode, base_url) {
-    if (mode !== 'name') return;    // TODO: implement legend for mode === 'color'
-
     let $legend = $(exports.LEGEND_SELECTOR);
     for (let key in color_table) {
         let value = color_table[key];
@@ -190,12 +207,13 @@ function getColorUrl(color, mode, base_url) {
     }
 }
 
-function markerListener(infoWindow, marker){
+function markerListener(infoWindow, marker, callback, model){
     return function(){
         for (var info of info_windows){
             info.close();
         }
         infoWindow.open(map, marker);
+        callback(infoWindow, model);
     }
 }
 

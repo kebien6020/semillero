@@ -2,39 +2,41 @@
 
 @section('title','Página de Inicio')
 
-@section('head')
-    <link rel="stylesheet" type="text/css" href="{{ url('css/home.css') }}">
-@endsection
+@section('view-class', 'home')
 
-@section('script', 'home')
+@section('content')
 
-@section('raw-content')
-    
-<div class="jumbotron" style="background:rgba(255,255,255,0.3);">
-    <div class="container">
-        <div class="page-header text-center">
-            <h1 class="title">Módulo Integral de Completamiento de Pozos</h1>
-        </div>
-        <div class="btn-group btn-group-lg">
-            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+<div class="white-section">
+    <header class="title">
+        <h1 class="responsive-title">Módulo Integral de Completamiento de Pozos</h1>
+    </header>
+    <div class="button-group-container">
+        <div>
+            <button type="button" data-toggle="dropdown">
                 Aplicativo de selección de Mecanismos de Control de Arena
                 <span class="caret"></span>
             </button>
-            <ul class="dropdown-menu">
-                <li><a href="{{ url('arenas/map') }}">Mapa de la instalación de mecanismos de control de arena</a></li>
-                <li><a href="{{ url('arenas/campos') }}">Matriz de selección preliminar de mecanismos de control de arena en los campos operados por Ecopetrol S.A.</a></li>
-                <li><a href="{{ url('arenas/matrix') }}">Herramienta de selección de mecanismos de control de arena a partir de datos granulométricos</a></li>
+            <ul class="dropdown-menu collapse">
+                <li>
+                    <a href="/arenas/map">Mapa de la instalación de mecanismos de control de arena</a>
+                </li>
+                <li>
+                    <a href="/arenas/campos">Matriz de selección preliminar de mecanismos de control de arena en los campos operados por Ecopetrol S.A.</a>
+                </li>
+                <li>
+                    <a href="/arenas/matrix">Herramienta de selección de mecanismos de control de arena a partir de datos granulométricos</a>
+                </li>
             </ul>
         </div>
 
-        <div class="btn-group btn-group-lg">
-            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+        <div>
+            <button type="button" data-toggle="dropdown">
                 Fluidos de Completamiento
                 <span class="caret"></span>
             </button>
-            <ul class="dropdown-menu">
-                <li><a href="{{ url('fluidos/map/pozos') }}">Mapa por Pozos</a></li>
-                <li><a href="{{ url('fluidos/map/campos') }}">Matriz por Campos</a></li>
+            <ul class="dropdown-menu collapse">
+                <li><a href="/fluidos/map/pozos">Mapa por Pozos</a></li>
+                <li><a href="/fluidos/map/campos">Matriz por Campos</a></li>
             </ul>
         </div>
     </div>
@@ -42,3 +44,5 @@
 
 
 @endsection
+
+@section('script', 'home')

@@ -4,6 +4,8 @@
 
 @section('content')
 
+@include('partial.messages')
+
 <table>
     <thead>
         <tr>

@@ -1,0 +1,32 @@
+.arenas-matrix-edit {
+    #the_form {
+        .title {
+            @extend .container-fluid;
+            margin-bottom: 0.5em;
+            label { @extend .col-xs-2; }
+            input { @extend .col-xs-10; }
+        }
+        table input[type="text"] {
+            text-align: center;
+        }
+        .button-row td > div{
+            @extend .btn-group;
+            width: 50%;
+            margin-left: auto;
+            margin-right: auto;
+            .plus-button {
+                width: 50%;
+            }
+            .minus-button {
+                width: 50%;
+            }
+            .plus-button, .minus-button {
+                @extend .btn;
+                @extend .btn-default;
+            }
+        }
+        .submit-container {
+            margin-top: 0.5em;
+        }
+    }
+}

@@ -6,32 +6,44 @@
     "node-sass": "^3.7.0"
   },
   "dependencies": {
-    "laravel-elixir": "^5.0.0",
     "bootstrap-sass": "^3.0.0",
+    "browserify-shim": "^3.8.12",
+    "google-maps": "~3.2.1",
     "jquery": "^2.0",
-    "google-maps": "~3.2.1"
+    "laravel-elixir": "^5.0.0",
+    "node-sass": "^3.8.0"
   },
   "browserify": {
-    "transform": [ "browserify-shim" ]
+    "transform": [
+      "browserify-shim"
+    ]
   },
   "browser": {
     "jquery.flot": "./resources/assets/js/flot/jquery.flot.js",
     "jquery.flot.pie": "./resources/assets/js/flot/jquery.flot.pie.js",
     "bootstrap": "./node_modules/bootstrap-sass/assets/javascripts/bootstrap.js",
-    "jquery.backstretch": "./resources/assets/js/vendor/jquery-backstretch/jquery.backstretch.js"
+    "jquery.backstretch": "./resources/assets/js/backstretch/jquery.backstretch.min.js"
   },
   "browserify-shim": {
     "jquery.flot": {
-      "depends": ["jquery"]
+      "depends": [
+        "jquery"
+      ]
     },
     "jquery.flot.pie": {
-      "depends": ["jquery.flot"]
+      "depends": [
+        "jquery.flot"
+      ]
     },
     "bootstrap": {
-      "depends": ["jquery:jQuery"]
+      "depends": [
+        "jquery:jQuery"
+      ]
     },
     "jquery.backstretch": {
-      "depends": ["jquery"]
+      "depends": [
+        "jquery"
+      ]
     }
   }
 }

@@ -10,6 +10,7 @@ use App\Http\Requests;
 use App\Field;
 use App\Fluid;
 use App\FluidOccurrence;
+use App\DensityRange;
 
 use DB;
 
@@ -22,6 +23,12 @@ class FluidosController extends Controller
     }
     
     function mapCampos()
+    {
+        return view('fluidos.map_campos');
+    }
+
+    //API function
+    function fields()
     {
         $fields = Field::whereNotNull('longitude', 'and')->whereNotNull('latitude')->get();
         $fields->load('wells.fluidOccurrence');
@@ -45,7 +52,7 @@ class FluidosController extends Controller
             ];
         }
         $fieldsWithDistribution = collect($fieldsWithDistribution);
-        return view('fluidos.map_campos', ['fields' => $fieldsWithDistribution->toJson()]);
+        return $fieldsWithDistribution->toJson();
     }
 
     function campoDetail($id)
@@ -61,11 +68,52 @@ class FluidosController extends Controller
 
     function mapPozos()
     {
-        $occurrences = FluidOccurrence::with('well.field.basin', 'fluid')->get();
-        $fluids = Fluid::all();
-        return view('fluidos.map_pozos',[
-            'occurrences' => $occurrences->toJson(),
-            'fluids' => $fluids->sortBy('name')->values()->toJson(),
-        ]);
+        return view('fluidos.map_pozos');
+    }
+
+    // API function
+    function fluidOccurrences()
+    {
+        return FluidOccurrence::with('well.field.basin', 'fluid')
+            ->get()
+            ->toJson();
+    }
+
+    // API function
+    function fluids()
+    {
+        return Fluid::all(['name', 'color'])->toJson();
+    }
+
+    private static function occurrencesInRange($min, $max, $field_id, $fluid_id)
+    {
+        return FluidOccurrence::with('well.field')
+            ->join('wells', 'wells.id', '=', 'fluid_occurrences.well_id')
+            ->join('fields', 'fields.id', '=', 'wells.field_id')
+            ->where('fluid_id', '=', $fluid_id)
+            ->where('fields.id', '=', $field_id)
+            ->where('density', '>=', $min)
+            ->where('density', '<', $max)
+            ->count();
+    }
+
+    // API function
+    function densityDist($field_id, $fluid_id)
+    {
+        $field = Field::findOrFail($field_id);
+        $ranges = DensityRange::where('fluid_id', '=', $fluid_id)->get();
+        $res = [];
+        foreach ($ranges as $range) {
+            $occurrences = self::occurrencesInRange(
+                $range->min, $range->max,
+                $field_id, $fluid_id);
+            if ($occurrences < 1) continue;
+            $res[] = (object)[
+                'range' => $range->min . '-' . $range->max,
+                'occurrences' => $occurrences
+            ];
+        }
+
+        return ['ranges' => $res, 'field_name' => $field->name];
     }
 }

@@ -1,46 +1,19 @@
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 
-@import 'fancy-button';
-@import 'table';
-@import 'icons';
-//@import 'colors';
+@import 'base/colors';
+@import 'base/general';
+@import 'base/utils';
 
-body {
-    font-family: 'Open Sans';
-    padding-bottom: 0.5em;
-}
+@import 'component/forms';
+@import 'component/note';
+@import 'component/map';
+@import 'component/map_fullscreen_overlay';
+@import 'component/multi_list_group';
+@import 'component/plot';
+@import 'component/table';
 
-form {
-    @extend .form-horizontal;
-    input, select {
-        @extend .form-control;
-    }
-    input[type="submit"] {
-        width: inherit;
-    }
-    input[type="file"] {
-        padding-top: 0;
-        padding-bottom: 0;
-        height: 3em;
-    }
-}
-
-.buttons {
-  text-align: center;
-  margin: 0.5rem auto 0 auto;
-}
-
-.header {
-    @include bg_theme_gradient();
-    color: white;
-    font-size: 14px;
-    padding: 8px;
-    font-weight: bold;
-    margin-bottom: 0;
-    text-align: center;
-
-}
-
-.page-header {
-    text-align: center;
-}
+@import 'view/home';
+@import 'view/arenas_campos_detail';
+@import 'view/arenas_matrix_results';
+@import 'view/arenas_matrix_edit';
+@import 'view/fluidos_map_campos';

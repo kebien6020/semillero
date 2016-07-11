@@ -1,0 +1,42 @@
+.multi-list-group {
+    @extend .list-group;
+    .item-container {
+        @extend .list-group-item;
+        padding: 0;
+        border: 0;
+        .item {
+            @extend .btn-group;
+            width: 100%;
+            height: 100%;
+            a, button {
+                @extend .btn;
+                @extend .btn-default;
+                width: calc(100% - 100px - 100px);
+                height: 100%;
+                text-align: left;
+                &.icon {
+                    width: 100px;
+                    text-align: center;
+                }
+
+                border-radius: 0;
+            }
+        }
+        &:first-child {
+            :first-child {
+                border-top-left-radius: 4px;
+            }
+            :last-child {
+                border-top-right-radius: 4px;
+            }
+        }
+        &:last-child {
+            :first-child {
+                border-bottom-left-radius: 4px;
+            }
+            :last-child {
+                border-bottom-right-radius: 4px;
+            }
+        }
+    }
+}
