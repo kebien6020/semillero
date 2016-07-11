@@ -4,9 +4,9 @@
 
 @section('content')
 
-<div class="page-header">
+<header>
     <h1>Carga de Tabla de Datos <small>{{ $project->display_name }}</small></h1>
-</div>
+</header>
 
 @include('partial.messages')
 
@@ -23,21 +23,20 @@
 </p>
 <ul>
     @foreach($columns as $column)
-    <li>{{  $column['display_name']  }}</li>
+    <li>{{ $column['display_name'] }}</li>
     @endforeach
 </ul>
 
-<form class="form-horizontal"
-    action="{{ url($project->name . '/table_upload/' . $table_name) }}"
-    method="post"
+<form action="{{ $project->name }}/table_upload/{{ $table_name }}"
+    method="POST"
     enctype="multipart/form-data">
     {{ csrf_field() }}
     <div class="form-group">
         <label for="the_file">Archivo de Excel: </label>
         <input type="file" name="the_file">
     </div>
-    <div class="buttons">
-        <input class="btn btn-success" type="submit" name="submit" value="Cargar Tabla">
+    <div class="submit-container">
+        <input type="submit" name="submit" value="Cargar Tabla">
     </div>
 </form>
 

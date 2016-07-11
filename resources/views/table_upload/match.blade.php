@@ -8,15 +8,16 @@
 
 <p>Por favor seleccione para cada columna necesaria la columna
     del archivo que contiene la información requerida</p>
-<form class="form-horizontal"
-    action="{{ url($project->name . '/table_upload/' . $table_name) }}"
-    method="post">
+
+<form class="form-3-9"
+    action="{{ $project->name }}/table_upload/{{ $table_name }}"
+    method="POST">
     {{ method_field('PUT') }}
     {{ csrf_field() }}
     @foreach ($columns as $i => $column)
         <div class="form-group">
-            <label class="col-sm-3" for="{{ $column['name'] }}">{{  $column['display_name']  }}</label>
-            <select class="col-sm-9" name="columns[{{ $column['name'] }}]" autocomplete="off">
+            <label for="{{ $column['name'] }}">{{  $column['display_name']  }}</label>
+            <select name="columns[{{ $column['name'] }}]" autocomplete="off">
                 @foreach ($uploaded_columns->toArray() as $j => $ucolumn)
 
                 <option value="{{ $ucolumn }}" 
@@ -28,8 +29,8 @@
             </select>
         </div>
     @endforeach
-    <div class="buttons">
-        <input class="btn btn-success" type="submit" name="submit" value="Cargar">
+    <div class="submit-container">
+        <input type="submit" name="submit" value="Cargar">
     </div>
 </form>
 

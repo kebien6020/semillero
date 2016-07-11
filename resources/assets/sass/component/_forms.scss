@@ -19,6 +19,14 @@ form {
             @extend .col-sm-10;
         }
     }
+    &.form-3-9 {
+        .form-group > :nth-child(1) {
+            @extend .col-sm-3;
+        }
+        .form-group > :nth-child(2) {
+            @extend .col-sm-9;
+        }
+    }
     .submit-container {
         @extend .fluid-container !optional;
         @extend .text-center;
