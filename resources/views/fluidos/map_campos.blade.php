@@ -10,7 +10,7 @@
 
 <div class="map-content">
 
-    <div id="map"></div>
+    <div id="map" class="loading"></div>
     <div class="buttons">
         <a href="/fluidos/table_upload/fluidos_rangos">
             Importar Datos
