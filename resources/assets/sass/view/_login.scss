@@ -1,13 +1,12 @@
-@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap/variables";
-@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap/mixins";
+.login{
 
-@import "mixins";
-
-html, body, main {
-    height: 100%;
+body {
+    overflow: hidden;
 }
 
-main { @include container-fixed();
+main {
+    @include container-fixed();
+    height: 100vh;
     .login-container {
         @include make-row();
         position: relative;
@@ -92,8 +91,8 @@ main { @include container-fixed();
                 text-align: right;
                 margin-top: 25px;
                 input[type="submit"] {
-                    @include btn();
-                    @include btn-success();
+                    @extend .btn;
+                    @extend .btn-success;
                     padding: 0 18px;
                     height: 29px;
                     font-size: 12px;
@@ -119,4 +118,11 @@ main { @include container-fixed();
             }
         }
     }
+}
+
+.icon-logout {
+    @extend .glyphicon;
+    @extend .glyphicon-log-out;
+}
+
 }
