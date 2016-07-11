@@ -350,12 +350,10 @@ class ArenasController extends Controller
     function matrixEdit($id)
     {
         $sample_group = SampleGroup::findOrFail($id);
-        $samples = $sample_group->samples;
 
         return view('arenas.matrix_edit', [
             'edit' => true,
-            'sample_group' => $sample_group,
-            'samples' => $samples,
+            'sample_group' => $sample_group
         ]);
     }
 
