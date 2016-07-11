@@ -21,10 +21,6 @@
 
                 border-radius: 0;
             }
-            .minus-button {
-                &, &:hover, &:focus, &:active{ color: darkred; }
-            }
-
         }
         &:first-child {
             :first-child {

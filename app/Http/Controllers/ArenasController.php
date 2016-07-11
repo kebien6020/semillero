@@ -359,6 +359,12 @@ class ArenasController extends Controller
         ]);
     }
 
+    // API function
+    function sampleGroup($id)
+    {
+        return SampleGroup::findOrFail($id)->load('samples')->toJson();
+    }
+
     function matrixUpdate(Request $request, $id)
     {
         $sample_group = SampleGroup::findOrFail($id);

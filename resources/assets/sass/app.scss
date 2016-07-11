@@ -5,12 +5,14 @@
 @import 'base/utils';
 
 @import 'component/forms';
-@import 'component/table';
+@import 'component/note';
 @import 'component/map';
 @import 'component/map_fullscreen_overlay';
 @import 'component/multi_list_group';
 @import 'component/plot';
+@import 'component/table';
 
 @import 'view/home';
 @import 'view/arenas_campos_detail';
 @import 'view/arenas_matrix_results';
+@import 'view/arenas_matrix_edit';
