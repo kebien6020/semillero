@@ -68,7 +68,6 @@ function setupMap([sand_controls], [groups]){
 
 function handleAjaxError(){
     alert('Error cargando los datos del mapa desde el servidor');
-
 }
 
 init();

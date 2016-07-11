@@ -19,6 +19,12 @@ class FluidosController extends Controller
 {
     function mapCampos()
     {
+        return view('fluidos.map_campos');
+    }
+
+    //API function
+    function fields()
+    {
         $fields = Field::whereNotNull('longitude', 'and')->whereNotNull('latitude')->get();
         $fields->load('wells.fluidOccurrence');
         foreach ($fields as $i => $field) {
@@ -41,7 +47,7 @@ class FluidosController extends Controller
             ];
         }
         $fieldsWithDistribution = collect($fieldsWithDistribution);
-        return view('fluidos.map_campos', ['fields' => $fieldsWithDistribution->toJson()]);
+        return $fieldsWithDistribution->toJson();
     }
 
     function campoDetail($id)

@@ -6982,4 +6982,10 @@ h1.title {
 .arenas-matrix-edit #the_form .submit-container {
   margin-top: 0.5em; }
 
+.fluidos-map-campos .plot-label {
+  font-size: 8pt;
+  text-align: center;
+  padding: 2px;
+  color: white; }
+
 /*# sourceMappingURL=app.css.map */

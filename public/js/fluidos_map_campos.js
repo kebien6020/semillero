@@ -13735,9 +13735,229 @@ More detail and specific examples can be found in the included HTML file.
 'use strict';
 
 require('./app.js');
-var Map = require('./map.js'),
-    $ = require('jquery');
-window.jQuery = window.$ = $;
+
+var _map = require('./map.js');
+
+var _map2 = _interopRequireDefault(_map);
+
+var _jquery = require('jquery');
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var plot_options = {
+    series: {
+        pie: {
+            show: true,
+            radius: 1,
+            label: {
+                radius: 3 / 4,
+                show: true,
+                background: {
+                    opacity: 0.5,
+                    color: "#000"
+                },
+                formatter: labelFormatter
+            }
+        }
+    },
+    legend: { show: false },
+    grid: {
+        hoverable: true,
+        clickable: true
+    }
+};
+
+function labelFormatter(label, series) {
+    var val = series.data[0][1];
+    var pct = Math.round(series.percent);
+    return '\n    <div class="plot-label">\n        <label>' + label + '</label>\n        <div>' + val + ' (' + pct + '%)</div>\n    </div>';
+}
+
+var markers_data = {
+    title_key: 'name',
+    longitude_key: 'longitude',
+    latitude_key: 'latitude',
+    color_mode: 'none',
+    on_open_marker: setupMarker
+};
+
+// Global DOM Elements
+var $overlay = void 0,
+    $leftPlot = void 0,
+    $rightPlot = void 0,
+    $overlayTitle = void 0;
+
+function init() {
+    cacheDOM();
+    bindHandlers();
+    getMapData().then(setupMap, handleMapError);
+}
+
+function cacheDOM() {
+    $overlay = (0, _jquery2.default)('#fullscreen-overlay');
+    $leftPlot = $overlay.find('#left-plot');
+    $rightPlot = $overlay.find('#right-plot');
+    $overlayTitle = $overlay.find('#overlay-title');
+}
+
+function bindHandlers() {
+    $overlay.click(fadeOverlay);
+}
+
+function fadeOverlay(event) {
+    if (this === event.target) {
+        (0, _jquery2.default)(this).fadeOut();
+        $leftPlot.unbind('plotclick');
+    }
+}
+
+function getMapData() {
+    return _jquery2.default.getJSON('/api/fluidos/fields');
+}
+
+function setupMap(fields) {
+    markers_data.data = fields;
+
+    _map2.default.load(function () {
+        _map2.default.setupMarkers(markers_data);
+    });
+}
+
+function handleMapError() {
+    alert('Error cargando los datos del mapa desde el servidor');
+}
+
+// Note: setupMarker and setupMarkers *are* different.
+// See markers_data.on_open_marker
+function setupMarker(infoWindow, field) {
+    // Infowindow
+    var plotId = 'plot_' + field.id;
+    if ((0, _jquery2.default)('#' + plotId).length > 0) return;
+
+    var plotHtml = '\n        <div style="width:250px; height:250px;" id="' + plotId + '">\n        </div>';
+
+    var content = infoWindow.getContent();
+    content += plotHtml;
+    infoWindow.setContent(content);
+
+    var dist = field.distribution;
+    var data = [];
+    var _iteratorNormalCompletion = true;
+    var _didIteratorError = false;
+    var _iteratorError = undefined;
+
+    try {
+        for (var _iterator = dist[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+            var fluid = _step.value;
+
+            data.push({
+                label: fluid.name,
+                data: fluid.occurrences,
+                color: fluid.color,
+                fluid_id: fluid.id
+            });
+        }
+    } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+    } finally {
+        try {
+            if (!_iteratorNormalCompletion && _iterator.return) {
+                _iterator.return();
+            }
+        } finally {
+            if (_didIteratorError) {
+                throw _iteratorError;
+            }
+        }
+    }
+
+    var $plot = (0, _jquery2.default)('#' + plotId);
+    _jquery2.default.plot($plot, data, plot_options);
+
+    // Listen to plotclick
+    $plot.bind('plotclick', function (event, pos, obj) {
+        markerPlotClick(event, obj, field.id, data);
+    });
+}
+
+function markerPlotClick(event, obj, field_id, data) {
+    var fluid_id = obj.series.fluid_id;
+    // Overlay
+    $overlayTitle.html('&nbsp;');
+    $overlay.fadeIn();
+
+    // Left plot contents
+    _jquery2.default.plot($leftPlot, data, plot_options);
+
+    // Right plot contents
+    setupRightPlot(field_id, fluid_id);
+
+    // Listen to plotclick
+    $leftPlot.bind('plotclick', function (event, pos, obj) {
+        leftPlotClick(event, obj, field_id);
+    });
+}
+
+function leftPlotClick(event, obj, field_id) {
+    var fluid_id = obj.series.fluid_id;
+    setupRightPlot(field_id, fluid_id);
+}
+
+function setupRightPlot(field_id, fluid_id) {
+    $rightPlot.empty();
+    getRightPlot(field_id, fluid_id).then(renderRightPlot, handlePlotError);
+}
+
+function getRightPlot(field_id, fluid_id) {
+    return _jquery2.default.getJSON('/api/fluidos/density_dist/' + field_id + '/' + fluid_id);
+}
+
+function renderRightPlot(data) {
+    if (data.ranges.length < 1) {
+        $rightPlot.html('<p class="error">No hay informacion</p>');
+    } else {
+        var plot_data = [];
+        var _iteratorNormalCompletion2 = true;
+        var _didIteratorError2 = false;
+        var _iteratorError2 = undefined;
+
+        try {
+            for (var _iterator2 = data.ranges[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+                var range = _step2.value;
+
+                plot_data.push({
+                    label: range.range,
+                    data: range.occurrences
+                });
+            }
+        } catch (err) {
+            _didIteratorError2 = true;
+            _iteratorError2 = err;
+        } finally {
+            try {
+                if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                    _iterator2.return();
+                }
+            } finally {
+                if (_didIteratorError2) {
+                    throw _iteratorError2;
+                }
+            }
+        }
+
+        _jquery2.default.plot($rightPlot, plot_data, plot_options);
+    }
+    $overlayTitle.html('Campo ' + data.field_name);
+}
+
+function handlePlotError() {
+    $rightPlot.html('<p class="error">Error comunicandose al servidor</p>');
+}
+
+init();
 
 },{"./app.js":4,"./map.js":8,"jquery":3}],8:[function(require,module,exports){
 'use strict';
