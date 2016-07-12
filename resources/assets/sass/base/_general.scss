@@ -1,6 +1,9 @@
+$base-font-size: 16px;
+
 // Basic Elements Tweaks
 body {
     font-family: 'Open Sans';
+    font-size: $base-font-size;
     padding-bottom: 0.5em;
 }
 

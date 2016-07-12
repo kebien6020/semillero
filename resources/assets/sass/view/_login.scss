@@ -13,10 +13,11 @@ main {
         top: 50%;
         transform: translateY(-50%);
         .login {
-            @include make-xs-column-offset(2);
-            @include make-xs-column(8);
-            @include make-sm-column-offset(4);
-            @include make-sm-column(4);
+            @include make-xs-column(12);
+            @include make-sm-column-offset(2);
+            @include make-sm-column(8);
+            @include make-md-column-offset(4);
+            @include make-md-column(4);
             background: white;
             padding: 20px 20px 20px;
             border-radius: 3px;

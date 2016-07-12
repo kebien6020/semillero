@@ -7216,6 +7216,7 @@ button.close, .success-panel button.dismiss, .error-panel button.dismiss {
 
 body {
   font-family: 'Open Sans';
+  font-size: 16px;
   padding-bottom: 0.5em; }
 
 @media (max-width: 767px) {
@@ -7431,13 +7432,18 @@ form input[type="file"] {
     bottom: 0.3em;
     left: 50%; }
 
+.table-header, table th {
+  background-color: #23490E;
+  background-image: linear-gradient(to bottom, #23490E 0%, #3A6637 100%);
+  color: white;
+  text-align: center;
+  line-height: 2.5em;
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 0; }
+
 table {
   margin: auto; }
-  table th {
-    background-color: #23490E;
-    background-image: linear-gradient(to bottom, #23490E 0%, #3A6637 100%);
-    color: white;
-    text-align: center; }
   table td {
     text-align: center; }
 
@@ -7489,10 +7495,13 @@ table {
     .login main .login-container:after {
       clear: both; }
     .login main .login-container .login {
-      margin-left: 16.6666666667%;
       position: relative;
       float: left;
-      width: 66.6666666667%;
+      width: 100%;
+      min-height: 1px;
+      padding-left: 15px;
+      padding-right: 15px;
+      position: relative;
       min-height: 1px;
       padding-left: 15px;
       padding-right: 15px;
@@ -7506,8 +7515,15 @@ table {
       box-shadow: 0 0 200px rgba(255, 255, 255, 0.5), 0 1px 2px rgba(0, 0, 0, 0.3); }
       @media (min-width: 768px) {
         .login main .login-container .login {
-          margin-left: 33.3333333333%; } }
+          margin-left: 16.6666666667%; } }
       @media (min-width: 768px) {
+        .login main .login-container .login {
+          float: left;
+          width: 66.6666666667%; } }
+      @media (min-width: 992px) {
+        .login main .login-container .login {
+          margin-left: 33.3333333333%; } }
+      @media (min-width: 992px) {
         .login main .login-container .login {
           float: left;
           width: 33.3333333333%; } }

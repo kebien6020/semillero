@@ -106,7 +106,7 @@ $suggested = [
 </table>
 
 {{-- Plot --}}
-<h2 class="header">Curva de distribución granulométrica de la muestra de interés</h2>
+<h2 class="table-header">Curva de distribución granulométrica de la muestra de interés</h2>
 <div class="plot" data-sample-group-id="{{ $sampleGroupId }}">{{-- Placeholder for the plot --}}</div>
 
 {{-- Results --}}

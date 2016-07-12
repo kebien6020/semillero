@@ -1,11 +1,20 @@
+// Make available for use outside tables
+.table-header {
+    @include bg_theme_gradient();
+    color: white;
+    text-align: center;
+    line-height: 2.5em;
+    font-size: $base-font-size;
+    font-weight: bold;
+    margin-bottom: 0;
+}
+
 table {
     @extend .table;
     @extend .table-bordered;
     margin: auto;
     th {
-        @include bg_theme_gradient();
-        color: white;
-        text-align: center;
+        @extend .table-header;
     }
     td {
         text-align: center;
