@@ -50,11 +50,6 @@ class ValueOutOfRangeException extends Exception {
 
 class UploadController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     public function form($project, $table_name)
     {
         $valid = $this->_validate($project, $table_name);
@@ -198,6 +193,8 @@ class UploadController extends Controller
     private $tables;
     function __construct()
     {
+        $this->middleware('auth');
+        
         $this->tables = [
             'fluidos_pozos' => [
                 'project' => 'fluidos',
@@ -253,7 +250,6 @@ class UploadController extends Controller
                         'model' => FluidOccurrence::class,
                         'prev' => 'fluidOccurrence',
                         'action' => 'none',
-                        'column' => 'date',
                         'fields' => [
                             'event' => 'event',
                             'date' => 'start_date',
