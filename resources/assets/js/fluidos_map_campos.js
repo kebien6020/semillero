@@ -47,7 +47,8 @@ const markers_data = {
 let $overlay,
     $leftPlot,
     $rightPlot,
-    $overlayTitle;
+    $fieldName,
+    $fluidName;
 
 function init() {
     cacheDOM();
@@ -60,7 +61,8 @@ function cacheDOM() {
     $overlay = $('#fullscreen-overlay');
     $leftPlot = $overlay.find('#left-plot');
     $rightPlot = $overlay.find('#right-plot');
-    $overlayTitle = $overlay.find('#overlay-title');
+    $fieldName = $overlay.find('#field-name');
+    $fluidName = $overlay.find('#fluid-name');
 }
 
 function bindHandlers() {
@@ -126,8 +128,10 @@ function setupMarker(infoWindow, field) {
 
 function markerPlotClick(event, obj, field_id, data) {
     const fluid_id = obj.series.fluid_id;
+    // Reset fluid and field names in the dom before fadeIn
+    $fieldName.html('');
+    $fluidName.html('');
     // Overlay
-    $overlayTitle.html('&nbsp;');
     $overlay.fadeIn();
 
     // Left plot contents
@@ -163,14 +167,17 @@ function renderRightPlot(data) {
     } else {
         let plot_data = [];
         for (const range of data.ranges) {
+            let {min, max} = range.range;
             plot_data.push({
-                label: range.range,
+                label: `${min} PPG - ${max} PPG`,
                 data: range.occurrences
             });
         }
         $.plot($rightPlot, plot_data, plot_options);
     }
-    $overlayTitle.html('Campo ' + data.field_name);
+    $fieldName.html(data.field_name);
+    $fluidName.html(data.fluid_name);
+
 }
 
 function handlePlotError() {

@@ -102,18 +102,44 @@ class FluidosController extends Controller
     {
         $field = Field::findOrFail($field_id);
         $ranges = DensityRange::where('fluid_id', '=', $fluid_id)->get();
+        $fluid = Fluid::findOrFail($fluid_id);
+
+        // Find max density fluid occurrence in the field
+        $field->load('wells.fluidOccurrence');
+        $maxDensityInField = ['value' => -INF, 'well' => ''];
+        $minDensityInField = ['value' => INF, 'well' => ''];
+
+        foreach ($field->wells as $well) {
+            if (is_null($well->fluidOccurrence)) continue;
+            if (is_null($well->fluidOccurrence->density)) continue;
+            $occ = $well->fluidOccurrence;
+            if ($occ->density > $maxDensityInField['value']) {
+                $maxDensityInField['value'] = $occ->density;
+                $maxDensityInField['well'] = $well->name;
+            } else if ($occ->density < $minDensityInField) {
+                $minDensityInField['value'] = $occ->density;
+                $minDensityInField['well'] = $well->name;
+            }
+        }
+
         $res = [];
         foreach ($ranges as $range) {
             $occurrences = self::occurrencesInRange(
                 $range->min, $range->max,
                 $field_id, $fluid_id);
             if ($occurrences < 1) continue;
-            $res[] = (object)[
-                'range' => $range->min . '-' . $range->max,
+            $res[] = [
+                'range' => ['min' => $range->min, 'max' => $range->max],
                 'occurrences' => $occurrences
             ];
         }
 
-        return ['ranges' => $res, 'field_name' => $field->name];
+        return [
+            'ranges' => $res,
+            'field_name' => $field->name,
+            'fluid_name' => $fluid->name,
+            'max' => $maxDensityInField,
+            'min' => $minDensityInField,
+        ];
     }
 }

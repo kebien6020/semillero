@@ -13787,7 +13787,8 @@ var markers_data = {
 var $overlay = void 0,
     $leftPlot = void 0,
     $rightPlot = void 0,
-    $overlayTitle = void 0;
+    $fieldName = void 0,
+    $fluidName = void 0;
 
 function init() {
     cacheDOM();
@@ -13799,7 +13800,8 @@ function cacheDOM() {
     $overlay = (0, _jquery2.default)('#fullscreen-overlay');
     $leftPlot = $overlay.find('#left-plot');
     $rightPlot = $overlay.find('#right-plot');
-    $overlayTitle = $overlay.find('#overlay-title');
+    $fieldName = $overlay.find('#field-name');
+    $fluidName = $overlay.find('#fluid-name');
 }
 
 function bindHandlers() {
@@ -13885,8 +13887,10 @@ function setupMarker(infoWindow, field) {
 
 function markerPlotClick(event, obj, field_id, data) {
     var fluid_id = obj.series.fluid_id;
+    // Reset fluid and field names in the dom before fadeIn
+    $fieldName.html('');
+    $fluidName.html('');
     // Overlay
-    $overlayTitle.html('&nbsp;');
     $overlay.fadeIn();
 
     // Left plot contents
@@ -13927,9 +13931,12 @@ function renderRightPlot(data) {
         try {
             for (var _iterator2 = data.ranges[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
                 var range = _step2.value;
+                var _range$range = range.range;
+                var min = _range$range.min;
+                var max = _range$range.max;
 
                 plot_data.push({
-                    label: range.range,
+                    label: min + ' PPG - ' + max + ' PPG',
                     data: range.occurrences
                 });
             }
@@ -13950,7 +13957,8 @@ function renderRightPlot(data) {
 
         _jquery2.default.plot($rightPlot, plot_data, plot_options);
     }
-    $overlayTitle.html('Campo ' + data.field_name);
+    $fieldName.html(data.field_name);
+    $fluidName.html(data.fluid_name);
 }
 
 function handlePlotError() {

@@ -43,7 +43,7 @@ $elems = [
         'content' => $sandControl->gravel_size
     ],
     [
-        'display' => 'Grado',
+        'display' => 'Grado del revestimiento',
         'content' => $sandControl->grade
     ],
     [
@@ -51,11 +51,11 @@ $elems = [
         'content' => $sandControl->joints
     ],
     [
-        'display' => 'Diámetro Nominal (in)',
+        'display' => 'Diámetro Nominal del revestimiento (in)',
         'content' => $sandControl->diameter
     ],
     [
-        'display' => 'Diámetro Interno',
+        'display' => 'Diámetro Interno del revestimiento (in)',
         'content' => $sandControl->internal_diameter
     ],
     [
