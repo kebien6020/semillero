@@ -24,12 +24,15 @@
                 <div class="left-container">
                     <h4>Distribución de fluidos</h4>
                     <div id="left-plot"></div>
+                    <p>Total de eventos: <span id="total-events"></span></p>
+                    <p>Densidad minima en el campo: <span id="min-dens-fi"></span></p>
+                    <p>Densidad máxima en el campo: <span id="max-dens-fi"></span></p>
                 </div>
                 <div class="right-container">
                     <h4>Distribución de densidades para el fluido: <span id="fluid-name"></span></h4>
                     <div id="right-plot"></div>
-                    <p>Densidad minima: <span id="min-dens"></span></p>
-                    <p>Densidad máxima: <span id="max-dens"></span></p>
+                    <p>Densidad minima: <span id="min-dens-fl"></span></p>
+                    <p>Densidad máxima: <span id="max-dens-fl"></span></p>
                 </div>
             </div>
         </div>

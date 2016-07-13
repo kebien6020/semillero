@@ -11,6 +11,7 @@ use App\Field;
 use App\Fluid;
 use App\FluidOccurrence;
 use App\DensityRange;
+use App\Well;
 
 use DB;
 
@@ -97,30 +98,67 @@ class FluidosController extends Controller
             ->count();
     }
 
+    private static function occurrencesNoDensity($field_id, $fluid_id)
+    {
+        return FluidOccurrence::with('well.field')
+            ->join('wells', 'wells.id', '=', 'fluid_occurrences.well_id')
+            ->join('fields', 'fields.id', '=', 'wells.field_id')
+            ->where('fluid_id', '=', $fluid_id)
+            ->where('fields.id', '=', $field_id)
+            ->whereNull('density')
+            ->count();
+    }
+
+
+    // Find max density fluid occurrence in the field
+    // Null fluid_id means all fluids
+    private static function densityBounds($field_id, $fluid_id)
+    {
+        $wellsOfField = Field::findOrFail($field_id)->wells;
+        $wellsOfField = $wellsOfField
+            ->load('fluidOccurrence.fluid')
+            ->filter(function($well) use ($fluid_id) {
+                if (is_null($well->fluidOccurrence)) return false;
+                if (is_null($well->fluidOccurrence->density)) return false;
+                if (is_null($fluid_id)) return true;
+                return $well->fluidOccurrence->fluid->id === intval($fluid_id);
+            });
+
+        $max = ['value' => -INF, 'well' => ''];
+        $min = ['value' => INF, 'well' => ''];
+
+        foreach ($wellsOfField as $well) {
+            $occ = $well->fluidOccurrence;
+            if ($occ->density > $max['value']) {
+                $max['value'] = $occ->density;
+                $max['well'] = $well->name;
+            }
+
+            if ($occ->density < $min['value']) {
+                $min['value'] = $occ->density;
+                $min['well'] = $well->name;
+            }
+        }
+
+        $invalidMaxMin = is_infinite($max['value'])
+                         || is_infinite($min['value']);
+
+        if ($invalidMaxMin)
+            $max = $min = null;
+
+        return (object)[
+            'min' => $min,
+            'max' => $max,
+        ];
+    }
+
     // API function
     function densityDist($field_id, $fluid_id)
     {
-        $field = Field::findOrFail($field_id);
         $ranges = DensityRange::where('fluid_id', '=', $fluid_id)->get();
         $fluid = Fluid::findOrFail($fluid_id);
 
-        // Find max density fluid occurrence in the field
-        $field->load('wells.fluidOccurrence');
-        $maxDensityInField = ['value' => -INF, 'well' => ''];
-        $minDensityInField = ['value' => INF, 'well' => ''];
-
-        foreach ($field->wells as $well) {
-            if (is_null($well->fluidOccurrence)) continue;
-            if (is_null($well->fluidOccurrence->density)) continue;
-            $occ = $well->fluidOccurrence;
-            if ($occ->density > $maxDensityInField['value']) {
-                $maxDensityInField['value'] = $occ->density;
-                $maxDensityInField['well'] = $well->name;
-            } else if ($occ->density < $minDensityInField) {
-                $minDensityInField['value'] = $occ->density;
-                $minDensityInField['well'] = $well->name;
-            }
-        }
+        $bounds = self::densityBounds($field_id, $fluid_id);
 
         $res = [];
         foreach ($ranges as $range) {
@@ -134,12 +172,31 @@ class FluidosController extends Controller
             ];
         }
 
+        // Not reported density
+        $occNoDensity = self::occurrencesNoDensity($field_id, $fluid_id);
+        $rangeInfo = DensityRange::where('fluid_id', '=', $fluid_id)
+            ->count();
+        if ($occNoDensity > 0 && $rangeInfo > 0)
+            $res[] = ['range' => null, 'occurrences' => $occNoDensity];
+
         return [
             'ranges' => $res,
-            'field_name' => $field->name,
             'fluid_name' => $fluid->name,
-            'max' => $maxDensityInField,
-            'min' => $minDensityInField,
+            'min' => $bounds->min,
+            'max' => $bounds->max,
+        ];
+    }
+
+    //API function
+    function fieldInfo($id) {
+        $field = Field::findOrFail($id);
+        $well_count = $field->wells()->has('fluidOccurrence')->count();
+        $bounds = self::densityBounds($id, null);
+        return [
+            'name' => $field->name,
+            'min' => $bounds->min,
+            'max' => $bounds->max,
+            'well_count' => $well_count,
         ];
     }
 }

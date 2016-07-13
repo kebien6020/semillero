@@ -13788,7 +13788,12 @@ var $overlay = void 0,
     $leftPlot = void 0,
     $rightPlot = void 0,
     $fieldName = void 0,
-    $fluidName = void 0;
+    $fluidName = void 0,
+    $minDensFl = void 0,
+    $maxDensFl = void 0,
+    $minDensFi = void 0,
+    $maxDensFi = void 0,
+    $wellCount = void 0;
 
 function init() {
     cacheDOM();
@@ -13802,6 +13807,11 @@ function cacheDOM() {
     $rightPlot = $overlay.find('#right-plot');
     $fieldName = $overlay.find('#field-name');
     $fluidName = $overlay.find('#fluid-name');
+    $minDensFl = $overlay.find('#min-dens-fl');
+    $maxDensFl = $overlay.find('#max-dens-fl');
+    $minDensFi = $overlay.find('#min-dens-fi');
+    $maxDensFi = $overlay.find('#max-dens-fi');
+    $wellCount = $overlay.find('#total-events');
 }
 
 function bindHandlers() {
@@ -13887,11 +13897,14 @@ function setupMarker(infoWindow, field) {
 
 function markerPlotClick(event, obj, field_id, data) {
     var fluid_id = obj.series.fluid_id;
-    // Reset fluid and field names in the dom before fadeIn
-    $fieldName.html('');
-    $fluidName.html('');
     // Overlay
     $overlay.fadeIn();
+
+    // Empty DOM elements
+    emptyAll();
+
+    // Field info
+    getFieldInfo(field_id).then(setupFieldInfo, handleFieldInfoError);
 
     // Left plot contents
     _jquery2.default.plot($leftPlot, data, plot_options);
@@ -13910,8 +13923,44 @@ function leftPlotClick(event, obj, field_id) {
     setupRightPlot(field_id, fluid_id);
 }
 
-function setupRightPlot(field_id, fluid_id) {
+// Empty sections wich are going to be filled by the request
+function emptyRightPlot() {
     $rightPlot.empty();
+    $fluidName.empty();
+    $minDensFl.empty();
+    $maxDensFl.empty();
+}
+
+function emptyAll() {
+    $fieldName.empty();
+    $wellCount.empty();
+    $minDensFi.empty();
+    $maxDensFi.empty();
+    emptyRightPlot();
+}
+
+function getFieldInfo(field_id) {
+    return _jquery2.default.getJSON('/api/fluidos/field_info/' + field_id);
+}
+
+function setupFieldInfo(_ref) {
+    var name = _ref.name;
+    var min = _ref.min;
+    var max = _ref.max;
+    var well_count = _ref.well_count;
+
+    $fieldName.html(name);
+    renderDens($minDensFi, min);
+    renderDens($maxDensFi, max);
+    $wellCount.html(well_count);
+}
+
+function handleFieldInfoError() {
+    alert('Error obteniendo estadisticas del campo');
+}
+
+function setupRightPlot(field_id, fluid_id) {
+    emptyRightPlot();
     getRightPlot(field_id, fluid_id).then(renderRightPlot, handlePlotError);
 }
 
@@ -13921,7 +13970,7 @@ function getRightPlot(field_id, fluid_id) {
 
 function renderRightPlot(data) {
     if (data.ranges.length < 1) {
-        $rightPlot.html('<p class="error">No hay informacion</p>');
+        $rightPlot.html('<p class="error">No se han definido rangos</p>');
     } else {
         var plot_data = [];
         var _iteratorNormalCompletion2 = true;
@@ -13931,12 +13980,21 @@ function renderRightPlot(data) {
         try {
             for (var _iterator2 = data.ranges[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
                 var range = _step2.value;
-                var _range$range = range.range;
-                var min = _range$range.min;
-                var max = _range$range.max;
 
+                var label = void 0;
+                if (range.range === null) {
+                    label = 'No reporta densidad';
+                } else {
+                    // ES6 Object destructuring
+                    var _range$range = range.range;
+                    var _min = _range$range.min;
+                    var _max = _range$range.max;
+                    // ES6 Template literal
+
+                    label = _min + ' PPG - ' + _max + ' PPG';
+                }
                 plot_data.push({
-                    label: min + ' PPG - ' + max + ' PPG',
+                    label: label,
                     data: range.occurrences
                 });
             }
@@ -13957,8 +14015,19 @@ function renderRightPlot(data) {
 
         _jquery2.default.plot($rightPlot, plot_data, plot_options);
     }
-    $fieldName.html(data.field_name);
     $fluidName.html(data.fluid_name);
+
+    // ES6 Object destructuring
+    var min = data.min;
+    var max = data.max;
+
+
+    renderDens($minDensFl, min);
+    renderDens($maxDensFl, max);
+}
+
+function renderDens(elem, model) {
+    if (model !== null) elem.html(model.value + ' (pozo ' + model.well + ')');else elem.html('No hay información');
 }
 
 function handlePlotError() {

@@ -289,7 +289,6 @@ class UploadController extends Controller
                         'model' => DensityRange::class,
                         'prev' => 'densityRanges',
                         'action' => 'none',
-                        'column' => 'min',
                         'fields' => [
                             'min' => 'min',
                             'max' => 'max',
@@ -560,12 +559,19 @@ class UploadController extends Controller
             }
             if (array_key_exists('column', $info))
             {
-                $column_name = $info['fields'][$info['column']];
-                if(gettype($column_name) == 'array')
-                    $column_name = $column_name[0];
+                $columns = explode(',', $info['column']);
+                $values = [];
+                foreach($columns as $column)
+                {
+                    $column_name = $info['fields'][$column];
+                    if(gettype($column_name) == 'array')
+                        $column_name = $column_name[$i][0];
+                    $values[] = [$column_name => $fields[$column_name]];
+                }
+
                 $model = call_user_func(
                     [$info['model'], 'firstOrNew'],
-                    [$column_name => $fields[$column_name]]
+                    [$values]
                 );
                 static::addToCreated($created, $model, $model->exists);
             }

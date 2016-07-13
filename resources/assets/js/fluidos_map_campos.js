@@ -48,7 +48,12 @@ let $overlay,
     $leftPlot,
     $rightPlot,
     $fieldName,
-    $fluidName;
+    $fluidName,
+    $minDensFl,
+    $maxDensFl,
+    $minDensFi,
+    $maxDensFi,
+    $wellCount;
 
 function init() {
     cacheDOM();
@@ -63,6 +68,11 @@ function cacheDOM() {
     $rightPlot = $overlay.find('#right-plot');
     $fieldName = $overlay.find('#field-name');
     $fluidName = $overlay.find('#fluid-name');
+    $minDensFl = $overlay.find('#min-dens-fl');
+    $maxDensFl = $overlay.find('#max-dens-fl');
+    $minDensFi = $overlay.find('#min-dens-fi');
+    $maxDensFi = $overlay.find('#max-dens-fi');
+    $wellCount = $overlay.find('#total-events');
 }
 
 function bindHandlers() {
@@ -128,11 +138,15 @@ function setupMarker(infoWindow, field) {
 
 function markerPlotClick(event, obj, field_id, data) {
     const fluid_id = obj.series.fluid_id;
-    // Reset fluid and field names in the dom before fadeIn
-    $fieldName.html('');
-    $fluidName.html('');
     // Overlay
     $overlay.fadeIn();
+
+    // Empty DOM elements
+    emptyAll();
+
+    // Field info
+    getFieldInfo(field_id)
+        .then(setupFieldInfo, handleFieldInfoError);
 
     // Left plot contents
     $.plot($leftPlot, data, plot_options);
@@ -151,8 +165,41 @@ function leftPlotClick(event, obj, field_id) {
     setupRightPlot(field_id, fluid_id);
 }
 
-function setupRightPlot(field_id, fluid_id) {
+// Empty sections wich are going to be filled by the request
+function emptyRightPlot()
+{
     $rightPlot.empty();
+    $fluidName.empty();
+    $minDensFl.empty();
+    $maxDensFl.empty();
+}
+
+function emptyAll()
+{
+    $fieldName.empty();
+    $wellCount.empty();
+    $minDensFi.empty();
+    $maxDensFi.empty();
+    emptyRightPlot();
+}
+
+function getFieldInfo(field_id) {
+    return $.getJSON(`/api/fluidos/field_info/${field_id}`);
+}
+
+function setupFieldInfo({name, min, max, well_count}) {
+    $fieldName.html(name);
+    renderDens($minDensFi, min);
+    renderDens($maxDensFi, max);
+    $wellCount.html(well_count);
+}
+
+function handleFieldInfoError() {
+    alert('Error obteniendo estadisticas del campo');
+}
+
+function setupRightPlot(field_id, fluid_id) {
+    emptyRightPlot();
     getRightPlot(field_id, fluid_id)
         .then(renderRightPlot, handlePlotError);
 }
@@ -163,21 +210,40 @@ function getRightPlot(field_id, fluid_id) {
 
 function renderRightPlot(data) {
     if (data.ranges.length < 1){
-        $rightPlot.html('<p class="error">No hay informacion</p>');
+        $rightPlot.html('<p class="error">No se han definido rangos</p>');
     } else {
         let plot_data = [];
         for (const range of data.ranges) {
-            let {min, max} = range.range;
+            let label;
+            if (range.range === null){
+                label = 'No reporta densidad';
+            } else {
+                // ES6 Object destructuring
+                let {min, max} = range.range;
+                // ES6 Template literal
+                label = `${min} PPG - ${max} PPG`;
+            }
             plot_data.push({
-                label: `${min} PPG - ${max} PPG`,
+                label,
                 data: range.occurrences
             });
         }
         $.plot($rightPlot, plot_data, plot_options);
     }
-    $fieldName.html(data.field_name);
     $fluidName.html(data.fluid_name);
 
+    // ES6 Object destructuring
+    let {min, max} = data;
+
+    renderDens($minDensFl, min);
+    renderDens($maxDensFl, max);
+}
+
+function renderDens(elem, model) {
+    if(model !== null)
+        elem.html(`${model.value} (pozo ${model.well})`);
+    else
+        elem.html('No hay información');
 }
 
 function handlePlotError() {
