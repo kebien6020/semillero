@@ -1,7 +1,7 @@
 .fluidos-matrix {
 
 form {
-    section {
+    section.cond {
         @include make-row;
     }
     .conditions {
@@ -10,6 +10,13 @@ form {
 
     .recommendations {
         @include make-sm-column(4);
+        border: 1px darkgreen solid;
+        border-radius: 5px;
+        padding: {
+            top: 1.5em;
+            bottom: 1.5em;
+        }
+        h2 { margin-top: 0px; }
     }
 }
 

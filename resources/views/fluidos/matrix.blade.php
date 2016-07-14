@@ -12,7 +12,7 @@
 {{-- @{{expr}} is ignored by blade and compiled to {{expr}} (without the @) --}}
 
 <header>
-    <h1>Matriz de selección de fluidos de completamiento</h1>
+    <h1>Matriz de identificación de fluidos de completamiento</h1>
 </header>
 
 @include('partial.messages')
@@ -39,15 +39,15 @@
             <div class="form-group">
                 <label for="gas">Tipo de pozo: </label>
                 <select id="gas" ng-model="gas">
-                    <option value="0" selected>Productor de petroleo</option>
+                    <option value="0" selected>Productor de petróleo</option>
                     <option value="1">Productor de gas</option>
                 </select>
             </div>
             <div class="result">
-                <p>Densidad: @{{ density() }}</p>
+                <p>Densidad calculada: @{{ density() }}</p>
             </div>
         </section>
-        <section ng-controller="ConditionController">
+        <section class="cond" ng-controller="ConditionController">
             <div class="conditions">
                 <h2>Características del agua de formación</h2>
                 <div class="form-group" ng-repeat="cond in conditions" ng-show="cond.show">
@@ -74,6 +74,14 @@
                             <span>Montmorrillonita</span>
                         </label>
                     </div>
+                </div>
+                <div class="note" ng-show="showShales">
+                    <header>
+                        Nota
+                    </header>
+                    <main>
+                        En caso de presentarse Kaolinita o Clorita referirse a ...
+                    </main>
                 </div>
             </div>
             <div class="recommendations">

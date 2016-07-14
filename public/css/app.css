@@ -7734,13 +7734,13 @@ table {
   padding: 2px;
   color: white; }
 
-.fluidos-matrix form section {
+.fluidos-matrix form section.cond {
   margin-left: -15px;
   margin-right: -15px; }
-  .fluidos-matrix form section:before, .fluidos-matrix form section:after {
+  .fluidos-matrix form section.cond:before, .fluidos-matrix form section.cond:after {
     content: " ";
     display: table; }
-  .fluidos-matrix form section:after {
+  .fluidos-matrix form section.cond:after {
     clear: both; }
 
 .fluidos-matrix form .conditions {
@@ -7757,10 +7757,16 @@ table {
   position: relative;
   min-height: 1px;
   padding-left: 15px;
-  padding-right: 15px; }
+  padding-right: 15px;
+  border: 1px darkgreen solid;
+  border-radius: 5px;
+  padding-top: 1.5em;
+  padding-bottom: 1.5em; }
   @media (min-width: 768px) {
     .fluidos-matrix form .recommendations {
       float: left;
       width: 33.3333333333%; } }
+  .fluidos-matrix form .recommendations h2 {
+    margin-top: 0px; }
 
 /*# sourceMappingURL=app.css.map */

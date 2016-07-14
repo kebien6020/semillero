@@ -45,6 +45,8 @@ function calcDensity(tvd, bhp, bht, gas) {
 
 function getFactors(ppg) {
     for (let elem of factorTable) {
+        if (ppg < 8.4)
+            break;
         if (elem.cond(ppg)) return elem.factors;
     }
 

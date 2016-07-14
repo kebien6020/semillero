@@ -45181,39 +45181,39 @@ var conditions = [{
 
 var fluids = [{
     name: 'kcl',
-    display: 'KCl',
+    display: 'KCl (Cloruro de Potasio)',
     max: 9.7
 }, {
     name: 'nacl',
-    display: 'NaCl',
+    display: 'NaCl (Cloruro de Sodio)',
     max: 10
 }, {
     name: 'nacooh',
-    display: 'NaCOOH',
+    display: 'NaCOOH (Formiato de Sodio)',
     max: 11.1
 }, {
     name: 'cacl2',
-    display: 'CaCl<sub>2</sub>',
+    display: 'CaCl<sub>2</sub> (Cloruro de Calcio)',
     max: 11.6
 }, {
     name: 'nabr',
-    display: 'NaBr',
+    display: 'NaBr (Bromuro de Sodio)',
     max: 12.7
 }, {
     name: 'kcooh',
-    display: 'KCOOH',
+    display: 'KCOOH (Formiato de Potasio)',
     max: 13.1
 }, {
     name: 'cabr2',
-    display: 'CaBr<sub>2</sub>',
+    display: 'CaBr<sub>2</sub> (Bromuro de Calcio)',
     max: 15.1
 }, {
     name: 'cscooh',
-    display: 'CsCOOH',
+    display: 'CsCOOH (Formiato de Cesio)',
     max: 19.2
 }, {
     name: 'znbr2',
-    display: 'ZnBr<sub>2</sub>',
+    display: 'ZnBr<sub>2</sub> (Bromuro de Zinc)',
     max: 20.5
 }];
 
@@ -45289,6 +45289,7 @@ function getFactors(ppg) {
         for (var _iterator = factorTable[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
             var elem = _step.value;
 
+            if (ppg < 8.4) break;
             if (elem.cond(ppg)) return elem.factors;
         }
 

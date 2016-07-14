@@ -44,9 +44,10 @@ class FluidosController extends Controller
         $fields = $fields->values();
         $fieldsWithDistribution = [];
         foreach ($fields as $field) {
+            $well_count = $field->wells()->has('fluidOccurrence')->count();
             $fieldsWithDistribution[] = (object)[
                 'id' => $field->id,
-                'name' => $field->name,
+                'name' => "{$field->name} ({$well_count})",
                 'longitude' => $field->longitude,
                 'latitude' => $field->latitude,
                 'distribution' => $field->fluidDistribution(),
