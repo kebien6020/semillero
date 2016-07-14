@@ -6,6 +6,7 @@
     "node-sass": "^3.7.0"
   },
   "dependencies": {
+    "angular": "^1.5.7",
     "bootstrap-sass": "^3.0.0",
     "browserify-shim": "^3.8.12",
     "google-maps": "~3.2.1",

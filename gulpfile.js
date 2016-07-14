@@ -30,7 +30,8 @@ elixir(function(mix) {
     'arenas_matrix_results.js',
     'arenas_matrix_edit.js',
     'fluidos_map_pozos.js',
-    'fluidos_map_campos.js'
+    'fluidos_map_campos.js',
+    'fluidos_matrix.js'
   ].forEach(function(val){
     mix.browserify(val);
   });

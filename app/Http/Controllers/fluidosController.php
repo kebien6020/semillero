@@ -188,7 +188,8 @@ class FluidosController extends Controller
     }
 
     //API function
-    function fieldInfo($id) {
+    function fieldInfo($id)
+    {
         $field = Field::findOrFail($id);
         $well_count = $field->wells()->has('fluidOccurrence')->count();
         $bounds = self::densityBounds($id, null);
@@ -198,5 +199,10 @@ class FluidosController extends Controller
             'max' => $bounds->max,
             'well_count' => $well_count,
         ];
+    }
+
+    function matrix()
+    {
+        return view('fluidos.matrix');
     }
 }

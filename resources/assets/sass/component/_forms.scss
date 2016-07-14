@@ -3,6 +3,22 @@ form {
     input, select {
         @extend .form-control;
     }
+    &.form-2-10 {
+        .form-group > label {
+            @include make-sm-column(2);
+        }
+        .form-group {
+            > input, > select { @include make-sm-column(10); }
+        }
+    }
+    &.form-3-9 {
+        .form-group > label {
+            @include make-sm-column(3);
+        }
+        .form-group {
+            > input, > select { @include make-sm-column(9); }
+        }
+    }
     input[type="submit"] {
         width: inherit;
     }
@@ -11,25 +27,18 @@ form {
         padding-bottom: 0;
         height: 3em;
     }
-    &.form-2-10 {
-        .form-group > :nth-child(1) {
-            @extend .col-sm-2;
-        }
-        .form-group > :nth-child(2) {
-            @extend .col-sm-10;
-        }
+    input[type="checkbox"] {
+        width: inherit;
+        height: inherit;
+        display: inline;
     }
-    &.form-3-9 {
-        .form-group > :nth-child(1) {
-            @extend .col-sm-3;
-        }
-        .form-group > :nth-child(2) {
-            @extend .col-sm-9;
-        }
+    .checkbox-container {
+        padding-left: $grid-gutter-width / 2;
+        padding-right: $grid-gutter-width / 2;
     }
     .submit-container {
         @extend .fluid-container !optional;
-        @extend .text-center;
+        text-align: center;
         input[type="submit"] {
             @extend .btn;
             @extend .btn-success;

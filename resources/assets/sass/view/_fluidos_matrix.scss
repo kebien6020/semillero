@@ -1,0 +1,18 @@
+.fluidos-matrix {
+
+form {
+    section {
+        @include make-row;
+    }
+    .conditions {
+        @include make-sm-column(8);
+    }
+
+    .recommendations {
+        @include make-sm-column(4);
+    }
+}
+
+
+
+}

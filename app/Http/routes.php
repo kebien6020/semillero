@@ -20,6 +20,7 @@ Route::get('/sla/test/map', 'slaController@testMap');
 Route::post('/sla/test/map/add_data_submit', 'slaController@testMapAddDataSubmit');
 
 // fluidos
+// maps
 Route::get('/fluidos/map/campos', 'fluidosController@mapCampos');
 Route::get('/fluidos/map/campos/{id}', 'fluidosController@campoDetail');
 Route::get('/fluidos/map/pozos', 'fluidosController@mapPozos');
@@ -29,6 +30,9 @@ Route::get('/api/fluidos/fluid_occurrences', 'fluidosController@fluidOccurrences
 Route::get('/api/fluidos/fluids', 'fluidosController@fluids');
 Route::get('/api/fluidos/fields', 'fluidosController@fields');
 Route::get('/api/fluidos/field_info/{id}', 'fluidosController@fieldInfo');
+
+//matrix
+Route::get('/fluidos/matrix', 'fluidosController@matrix');
 
 // Arenas
 

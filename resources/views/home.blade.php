@@ -17,15 +17,7 @@
                 <span class="caret"></span>
             </button>
             <ul class="dropdown-menu collapse">
-                <li>
-                    <a href="/arenas/map">Mapa de la instalación de mecanismos de control de arena</a>
-                </li>
-                <li>
-                    <a href="/arenas/campos">Matriz de selección preliminar de mecanismos de control de arena en los campos operados por Ecopetrol S.A.</a>
-                </li>
-                <li>
-                    <a href="/arenas/matrix">Herramienta de selección de mecanismos de control de arena a partir de datos granulométricos</a>
-                </li>
+                @include('partial.arenas_links')
             </ul>
         </div>
 
@@ -35,8 +27,7 @@
                 <span class="caret"></span>
             </button>
             <ul class="dropdown-menu collapse">
-                <li><a href="/fluidos/map/pozos">Mapa por Pozos</a></li>
-                <li><a href="/fluidos/map/campos">Matriz por Campos</a></li>
+                @include('partial.fluidos_links')
             </ul>
         </div>
     </div>
