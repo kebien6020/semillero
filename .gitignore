@@ -3,7 +3,9 @@
 /public/storage
 Homestead.yaml
 Homestead.json
-.env*
+.env
 .gitattributes
 /bash
 *Thumbs.db
+deploy.bat
+flightplan.js
