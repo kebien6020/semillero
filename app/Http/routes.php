@@ -58,7 +58,11 @@ Route::get('/api/arenas/sample_group/{id}', 'ArenasController@sampleGroup');
 // fields
 Route::get('/arenas/campos', 'ArenasController@camposSelect');
 Route::get('/arenas/campos/{id}', 'ArenasController@camposDetail');
+// demo
+Route::get('/arenas/demo', 'ArenasController@demo');
 
+
+// Upload
 Route::get('/{project}/table_upload/{table_name}', 'UploadController@form');
 Route::post('/{project}/table_upload/{table_name}', 'UploadController@match');
 Route::put('/{project}/table_upload/{table_name}', 'UploadController@put');

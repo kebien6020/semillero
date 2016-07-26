@@ -7,3 +7,6 @@
 <li>
     <a href="/arenas/matrix">Herramienta de selección de mecanismos de control de arena a partir de datos granulométricos</a>
 </li>
+<li>
+    <a href="/arenas/demo">Video explicativo</a>
+</li>

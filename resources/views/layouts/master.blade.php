@@ -10,7 +10,7 @@
       <span class="bar"></span>
       <span class="bar"></span>
     </button>
-    <a href="/">MICP</a>
+    <a href="/">MGCP</a>
   </header>
 
   {{-- Start collapsed (on mobile) --}}
@@ -38,6 +38,18 @@
         
         <ul role="menu">
           @include('partial.fluidos_links')
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#"
+           data-toggle="dropdown"
+           role="button"
+           aria-expanded="false">
+           Sistemas de Levantamiento Artificial<span class="caret"></span>
+        </a>
+        
+        <ul role="menu">
+          @include('partial.sla_links')
         </ul>
       </li>
     </ul>

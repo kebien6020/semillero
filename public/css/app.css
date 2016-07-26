@@ -7728,6 +7728,10 @@ table {
 .arenas-matrix-edit #the_form .submit-container {
   margin-top: 0.5em; }
 
+.arenas-demo #main-video {
+  height: 50rem;
+  width: 100%; }
+
 .fluidos-map-campos .plot-label {
   font-size: 8pt;
   text-align: center;

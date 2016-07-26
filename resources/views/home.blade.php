@@ -8,7 +8,7 @@
 
 <div class="white-section">
     <header class="title">
-        <h1 class="responsive-title">Módulo Integral de Completamiento de Pozos</h1>
+        <h1 class="responsive-title">Manual General de Completamiento de Pozos</h1>
     </header>
     <div class="button-group-container">
         <div>
@@ -28,6 +28,15 @@
             </button>
             <ul class="dropdown-menu collapse">
                 @include('partial.fluidos_links')
+            </ul>
+        </div>
+        <div>
+            <button type="button" data-toggle="dropdown">
+                Sistemas de Levantamiento Artificial
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu collapse">
+                @include('partial.sla_links')
             </ul>
         </div>
     </div>
