@@ -48,7 +48,7 @@
             </div>
         </section>
         <section class="cond" ng-controller="ConditionController">
-            <div class="conditions">
+            <div class="conditions" ng-show="showAll">
                 <h2>Características del agua de formación</h2>
                 <div class="form-group" ng-repeat="cond in conditions" ng-show="cond.show">
                     <div class="checkbox-container">
@@ -84,7 +84,7 @@
                     </main>
                 </div>
             </div>
-            <div class="recommendations">
+            <div class="recommendations" ng-show="showAll">
                 <h2>Recomendaciones</h2>
                 <ul>
                     <li ng-repeat="recommendation in recommendations" ng-bind-html="recommendation.display">

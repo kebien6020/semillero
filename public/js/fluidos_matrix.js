@@ -45045,6 +45045,7 @@ _app2.default.controller('ConditionController', ['$scope', '$sce', '$rootScope',
     $scope.ilita = false;
     $scope.mont = false;
     $scope.showShales = false;
+    $scope.showAll = false;
 
     // Bind event handlers
     //   Update on densityChanged
@@ -45061,6 +45062,7 @@ function update(density, $scope) {
         });
         $scope.recommendations = [];
         $scope.showShales = false;
+        $scope.showAll = false;
         return;
     }
     $scope.showShales = true;
@@ -45230,6 +45232,12 @@ var _app2 = _interopRequireDefault(_app);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 _app2.default.controller('DensityController', ['$scope', '$rootScope', function ($scope, $rootScope) {
     $scope.tvd = '';
     $scope.bhp = '';
@@ -45244,7 +45252,7 @@ _app2.default.controller('DensityController', ['$scope', '$rootScope', function 
 
         var error = null;
         if (tvd === '' && bhp === '' && bht === '') error = '';else if (tvd === '' || bhp === '' || bht === '') error = 'Datos insuficientes';
-        if (error != null) {
+        if (error !== null) {
             $rootScope.$broadcast('densityChanged', null);
             return error;
         }
@@ -45258,7 +45266,12 @@ _app2.default.controller('DensityController', ['$scope', '$rootScope', function 
             return dens.toFixed(2);
         } catch (ex) {
             $rootScope.$broadcast('densityChanged', null);
-            return 'No es posible calcular densidad.';
+            var display_msg = 'No es posible calcular densidad.';
+            if (ex instanceof RangeError && ex.ppg) {
+                var val = ex.ppg.toFixed(2);
+                display_msg += ' No se tienen valores de coeficiente\n                                 de expansion térmica y coeficiente\n                                 de compresibilidad. Se intentaron calcular\n                                 para densidad = ' + val + '.';
+            }
+            return display_msg;
         }
     };
 }]);
@@ -45309,13 +45322,27 @@ function getFactors(ppg) {
         }
     }
 
-    throw {
-        msg: 'Can\'t calculate thermal expansion factor. ppg=' + ppg,
-        ppg: ppg
-    };
+    throw new PpgRangeError('Can\'t calculate thermal expansion factor. ppg=' + ppg, ppg);
 }
 
+var PpgRangeError = function (_RangeError) {
+    _inherits(PpgRangeError, _RangeError);
+
+    function PpgRangeError(msg, ppg) {
+        _classCallCheck(this, PpgRangeError);
+
+        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(PpgRangeError).call(this, msg));
+
+        _this.ppg = ppg;
+        return _this;
+    }
+
+    return PpgRangeError;
+}(RangeError);
+
 // cond must be checked in order
+
+
 var factorTable = [{
     cond: function cond(ppg) {
         return ppg >= 8.4 && ppg <= 9.0;

@@ -19,6 +19,7 @@ matrixApp.controller('ConditionController', ['$scope', '$sce', '$rootScope', fun
     $scope.ilita = false;
     $scope.mont = false;
     $scope.showShales = false;
+    $scope.showAll = false;
 
     // Bind event handlers
     //   Update on densityChanged
@@ -34,6 +35,7 @@ function update(density, $scope) {
         $scope.conditions.forEach(cond => {cond.show = false;});
         $scope.recommendations = [];
         $scope.showShales = false;
+        $scope.showAll = false;
         return;
     }
     $scope.showShales = true;

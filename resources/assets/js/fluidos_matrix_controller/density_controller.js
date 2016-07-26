@@ -12,7 +12,7 @@ matrixApp.controller('DensityController', ['$scope', '$rootScope', function($sco
         let error = null;
         if (tvd === '' && bhp === '' && bht === '') error = '';
         else if (tvd === '' || bhp === '' || bht === '') error = 'Datos insuficientes';
-        if (error != null) {
+        if (error !== null) {
             $rootScope.$broadcast('densityChanged', null);
             return error;
         }
@@ -26,7 +26,15 @@ matrixApp.controller('DensityController', ['$scope', '$rootScope', function($sco
             return dens.toFixed(2);
         } catch (ex) {
             $rootScope.$broadcast('densityChanged', null);
-            return 'No es posible calcular densidad.';
+            let display_msg = 'No es posible calcular densidad.';
+            if (ex instanceof RangeError && ex.ppg) {
+                let val = ex.ppg.toFixed(2);
+                display_msg += ` No se tienen valores de coeficiente
+                                 de expansion térmica y coeficiente
+                                 de compresibilidad. Se intentaron calcular
+                                 para densidad = ${val}.`;
+            }
+            return display_msg;
         }
     };
 }]);
@@ -51,10 +59,16 @@ function getFactors(ppg) {
     }
 
     // Not a single elem of table matched the cond
-    throw {
-        msg: `Can't calculate thermal expansion factor. ppg=${ppg}`,
-        ppg
-    };
+    throw new PpgRangeError(
+        `Can't calculate thermal expansion factor. ppg=${ppg}`,
+        ppg);
+}
+
+class PpgRangeError extends RangeError {
+    constructor(msg, ppg) {
+        super(msg);
+        this.ppg = ppg;
+    }
 }
 
 // cond must be checked in order
