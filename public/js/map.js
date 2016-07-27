@@ -13986,6 +13986,7 @@ function modelGet(model, key) {
             var subkey = _step5.value;
 
             res = res[subkey];
+            if (Array.isArray(res)) res = res[0];
         }
     } catch (err) {
         _didIteratorError5 = true;

@@ -31,7 +31,8 @@ elixir(function(mix) {
     'arenas_matrix_edit.js',
     'fluidos_map_pozos.js',
     'fluidos_map_campos.js',
-    'fluidos_matrix.js'
+    'fluidos_matrix.js',
+    'als_map_pozos.js'
   ].forEach(function(val){
     mix.browserify(val);
   });

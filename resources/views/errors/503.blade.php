@@ -39,6 +39,7 @@
     </head>
     <body>
         <div class="container">
+            @include('partial.messages')
             <div class="content">
                 <div class="title">Be right back.</div>
             </div>

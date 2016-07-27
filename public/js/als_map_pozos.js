@@ -12410,6 +12410,92 @@ return jQuery;
 },{}],4:[function(require,module,exports){
 'use strict';
 
+require('./app');
+
+var _map = require('./map');
+
+var _map2 = _interopRequireDefault(_map);
+
+var _jquery = require('jquery');
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var markers_data = {
+    title_key: 'name',
+    longitude_key: 'longitude',
+    latitude_key: 'latitude',
+    color_mode: 'name',
+    color_pallete: ['red', 'blue', 'yellow', 'aqua'],
+    color_by: 'als_occurrences.als',
+    on_open_marker: setupMarker
+};
+
+function setupMarker(infowindow, well) {
+    var html = '<div class="als-occurrences">';
+    var _iteratorNormalCompletion = true;
+    var _didIteratorError = false;
+    var _iteratorError = undefined;
+
+    try {
+        for (var _iterator = well.als_occurrences[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+            var als_occurrence = _step.value;
+
+            html += '<hr>\n                 \n                 <strong>Sistema de levantamiento:</strong>\n                 ' + als_occurrence.als + '<br>\n\n                 <strong>Fecha de instalación:</strong>\n                 ' + als_occurrence.start_date + '<br>\n\n                 <strong>Siglas del evento:</strong>\n                 ' + als_occurrence.event + '<br>';
+            if (als_occurrence.reason) {
+                html += '<strong>Causa de la intervención:</strong>\n                     ' + als_occurrence.reason + '<br>';
+            }
+            if (als_occurrence.main_goal) {
+                html += '<strong>Objetivo principal:</strong>\n                     ' + als_occurrence.main_goal + '<br>';
+            }
+        }
+    } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+    } finally {
+        try {
+            if (!_iteratorNormalCompletion && _iterator.return) {
+                _iterator.return();
+            }
+        } finally {
+            if (_didIteratorError) {
+                throw _iteratorError;
+            }
+        }
+    }
+
+    html += '</div>';
+
+    var prevContent = infowindow.getContent();
+    infowindow.setContent(prevContent + html);
+}
+
+function init() {
+    getData().then(setupMap, handleAjaxError);
+}
+
+function getData() {
+    return _jquery2.default.getJSON('/api/sla/wells');
+}
+
+function setupMap(als_occurrences) {
+    markers_data.data = als_occurrences;
+
+    _map2.default.load(function () {
+        _map2.default.setupMarkers(markers_data);
+    });
+}
+
+function handleAjaxError() {
+    alert('Error cargando los datos del mapa desde el servidor');
+}
+
+init();
+
+},{"./app":5,"./map":8,"jquery":3}],5:[function(require,module,exports){
+'use strict';
+
 var $ = require('jquery');
 require('bootstrap');
 require('jquery.flot.pie');
@@ -12419,7 +12505,7 @@ window.$ = $;
 $('.success-panel, .error-panel').addClass('alert fade in');
 $().alert();
 
-},{"bootstrap":1,"jquery":3,"jquery.flot.pie":6}],5:[function(require,module,exports){
+},{"bootstrap":1,"jquery":3,"jquery.flot.pie":7}],6:[function(require,module,exports){
 (function (global){
 
 ; require("jquery");
@@ -12905,7 +12991,7 @@ function floorInBase(n,base){return base*Math.floor(n/base);}})(jQuery);
 }).call(global, module, undefined, undefined);
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"jquery":3}],6:[function(require,module,exports){
+},{"jquery":3}],7:[function(require,module,exports){
 (function (global){
 
 ; require("/home/vagrant/Code/Semillero/resources/assets/js/flot/jquery.flot.js");
@@ -13731,312 +13817,7 @@ More detail and specific examples can be found in the included HTML file.
 }).call(global, module, undefined, undefined);
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"/home/vagrant/Code/Semillero/resources/assets/js/flot/jquery.flot.js":5}],7:[function(require,module,exports){
-'use strict';
-
-require('./app.js');
-
-var _map = require('./map.js');
-
-var _map2 = _interopRequireDefault(_map);
-
-var _jquery = require('jquery');
-
-var _jquery2 = _interopRequireDefault(_jquery);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var plot_options = {
-    series: {
-        pie: {
-            show: true,
-            radius: 1,
-            label: {
-                radius: 3 / 4,
-                show: true,
-                background: {
-                    opacity: 0.5,
-                    color: "#000"
-                },
-                formatter: labelFormatter
-            }
-        }
-    },
-    legend: { show: false },
-    grid: {
-        hoverable: true,
-        clickable: true
-    }
-};
-
-function labelFormatter(label, series) {
-    var val = series.data[0][1];
-    var pct = Math.round(series.percent);
-    return '\n    <div class="plot-label">\n        <label>' + label + '</label>\n        <div>' + val + ' (' + pct + '%)</div>\n    </div>';
-}
-
-var markers_data = {
-    title_key: 'name',
-    longitude_key: 'longitude',
-    latitude_key: 'latitude',
-    color_mode: 'none',
-    on_open_marker: setupMarker
-};
-
-// Global DOM Elements
-var $overlay = void 0,
-    $leftPlot = void 0,
-    $rightPlot = void 0,
-    $fieldName = void 0,
-    $fluidName = void 0,
-    $minDensFl = void 0,
-    $maxDensFl = void 0,
-    $minDensFi = void 0,
-    $maxDensFi = void 0,
-    $wellCount = void 0;
-
-function init() {
-    cacheDOM();
-    bindHandlers();
-    getMapData().then(setupMap, handleMapError);
-}
-
-function cacheDOM() {
-    $overlay = (0, _jquery2.default)('#fullscreen-overlay');
-    $leftPlot = $overlay.find('#left-plot');
-    $rightPlot = $overlay.find('#right-plot');
-    $fieldName = $overlay.find('#field-name');
-    $fluidName = $overlay.find('#fluid-name');
-    $minDensFl = $overlay.find('#min-dens-fl');
-    $maxDensFl = $overlay.find('#max-dens-fl');
-    $minDensFi = $overlay.find('#min-dens-fi');
-    $maxDensFi = $overlay.find('#max-dens-fi');
-    $wellCount = $overlay.find('#total-events');
-}
-
-function bindHandlers() {
-    $overlay.click(fadeOverlay);
-}
-
-function fadeOverlay(event) {
-    if (this === event.target) {
-        (0, _jquery2.default)(this).fadeOut();
-        $leftPlot.unbind('plotclick');
-    }
-}
-
-function getMapData() {
-    return _jquery2.default.getJSON('/api/fluidos/fields');
-}
-
-function setupMap(fields) {
-    markers_data.data = fields;
-
-    _map2.default.load(function () {
-        _map2.default.setupMarkers(markers_data);
-    });
-}
-
-function handleMapError() {
-    alert('Error cargando los datos del mapa desde el servidor');
-}
-
-// Note: setupMarker and setupMarkers *are* different.
-// See markers_data.on_open_marker
-function setupMarker(infoWindow, field) {
-    // Infowindow
-    var plotId = 'plot_' + field.id;
-    if ((0, _jquery2.default)('#' + plotId).length > 0) return;
-
-    var plotHtml = '\n        <div style="width:250px; height:250px;" id="' + plotId + '">\n        </div>';
-
-    var content = infoWindow.getContent();
-    content += plotHtml;
-    infoWindow.setContent(content);
-
-    var dist = field.distribution;
-    var data = [];
-    var _iteratorNormalCompletion = true;
-    var _didIteratorError = false;
-    var _iteratorError = undefined;
-
-    try {
-        for (var _iterator = dist[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-            var fluid = _step.value;
-
-            data.push({
-                label: fluid.name,
-                data: fluid.occurrences,
-                color: fluid.color,
-                fluid_id: fluid.id
-            });
-        }
-    } catch (err) {
-        _didIteratorError = true;
-        _iteratorError = err;
-    } finally {
-        try {
-            if (!_iteratorNormalCompletion && _iterator.return) {
-                _iterator.return();
-            }
-        } finally {
-            if (_didIteratorError) {
-                throw _iteratorError;
-            }
-        }
-    }
-
-    var $plot = (0, _jquery2.default)('#' + plotId);
-    _jquery2.default.plot($plot, data, plot_options);
-
-    // Listen to plotclick
-    $plot.bind('plotclick', function (event, pos, obj) {
-        markerPlotClick(event, obj, field.id, data);
-    });
-}
-
-function markerPlotClick(event, obj, field_id, data) {
-    var fluid_id = obj.series.fluid_id;
-    // Overlay
-    $overlay.fadeIn();
-
-    // Empty DOM elements
-    emptyAll();
-
-    // Field info
-    getFieldInfo(field_id).then(setupFieldInfo, handleFieldInfoError);
-
-    // Left plot contents
-    _jquery2.default.plot($leftPlot, data, plot_options);
-
-    // Right plot contents
-    setupRightPlot(field_id, fluid_id);
-
-    // Listen to plotclick
-    $leftPlot.bind('plotclick', function (event, pos, obj) {
-        leftPlotClick(event, obj, field_id);
-    });
-}
-
-function leftPlotClick(event, obj, field_id) {
-    var fluid_id = obj.series.fluid_id;
-    setupRightPlot(field_id, fluid_id);
-}
-
-// Empty sections wich are going to be filled by the request
-function emptyRightPlot() {
-    $rightPlot.empty();
-    $fluidName.empty();
-    $minDensFl.empty();
-    $maxDensFl.empty();
-}
-
-function emptyAll() {
-    $fieldName.empty();
-    $wellCount.empty();
-    $minDensFi.empty();
-    $maxDensFi.empty();
-    emptyRightPlot();
-}
-
-function getFieldInfo(field_id) {
-    return _jquery2.default.getJSON('/api/fluidos/field_info/' + field_id);
-}
-
-function setupFieldInfo(_ref) {
-    var name = _ref.name;
-    var min = _ref.min;
-    var max = _ref.max;
-    var well_count = _ref.well_count;
-
-    $fieldName.html(name);
-    renderDens($minDensFi, min);
-    renderDens($maxDensFi, max);
-    $wellCount.html(well_count);
-}
-
-function handleFieldInfoError() {
-    alert('Error obteniendo estadisticas del campo');
-}
-
-function setupRightPlot(field_id, fluid_id) {
-    emptyRightPlot();
-    getRightPlot(field_id, fluid_id).then(renderRightPlot, handlePlotError);
-}
-
-function getRightPlot(field_id, fluid_id) {
-    return _jquery2.default.getJSON('/api/fluidos/density_dist/' + field_id + '/' + fluid_id);
-}
-
-function renderRightPlot(data) {
-    if (data.ranges.length < 1) {
-        $rightPlot.html('<p class="error">No se han definido rangos</p>');
-    } else {
-        var plot_data = [];
-        var _iteratorNormalCompletion2 = true;
-        var _didIteratorError2 = false;
-        var _iteratorError2 = undefined;
-
-        try {
-            for (var _iterator2 = data.ranges[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-                var range = _step2.value;
-
-                var label = void 0;
-                if (range.range === null) {
-                    label = 'No reporta densidad';
-                } else {
-                    // ES6 Object destructuring
-                    var _range$range = range.range;
-                    var _min = _range$range.min;
-                    var _max = _range$range.max;
-                    // ES6 Template literal
-
-                    label = _min + ' PPG - ' + _max + ' PPG';
-                }
-                plot_data.push({
-                    label: label,
-                    data: range.occurrences
-                });
-            }
-        } catch (err) {
-            _didIteratorError2 = true;
-            _iteratorError2 = err;
-        } finally {
-            try {
-                if (!_iteratorNormalCompletion2 && _iterator2.return) {
-                    _iterator2.return();
-                }
-            } finally {
-                if (_didIteratorError2) {
-                    throw _iteratorError2;
-                }
-            }
-        }
-
-        _jquery2.default.plot($rightPlot, plot_data, plot_options);
-    }
-    $fluidName.html(data.fluid_name);
-
-    // ES6 Object destructuring
-    var min = data.min;
-    var max = data.max;
-
-
-    renderDens($minDensFl, min);
-    renderDens($maxDensFl, max);
-}
-
-function renderDens(elem, model) {
-    if (model !== null) elem.html(model.value + ' (pozo ' + model.well + ')');else elem.html('No hay información');
-}
-
-function handlePlotError() {
-    $rightPlot.html('<p class="error">Error comunicandose al servidor</p>');
-}
-
-init();
-
-},{"./app.js":4,"./map.js":8,"jquery":3}],8:[function(require,module,exports){
+},{"/home/vagrant/Code/Semillero/resources/assets/js/flot/jquery.flot.js":6}],8:[function(require,module,exports){
 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
@@ -14363,7 +14144,7 @@ function markerListener(infoWindow, marker, callback, model) {
 // Global export
 window.Map = module.exports;
 
-},{"./app.js":4,"./modules/array_unique.js":9,"google-maps":2,"jquery":3}],9:[function(require,module,exports){
+},{"./app.js":5,"./modules/array_unique.js":9,"google-maps":2,"jquery":3}],9:[function(require,module,exports){
 "use strict";
 
 module.exports = function (array) {
@@ -14377,6 +14158,6 @@ module.exports = function (array) {
     return a;
 };
 
-},{}]},{},[7]);
+},{}]},{},[4]);
 
-//# sourceMappingURL=fluidos_map_campos.js.map
+//# sourceMappingURL=als_map_pozos.js.map

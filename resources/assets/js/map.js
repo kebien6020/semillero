@@ -182,11 +182,15 @@ function showActions(model, actions) {
 
 function modelGet(model, key) {
     let res = model;
-    for (let subkey of key.split('.'))
+    for (let subkey of key.split('.')) {
         res = res[subkey];
+        if (Array.isArray(res))
+            res = res[0];
+    }
 
     if (res === undefined)
         throw 'key: ' + key + ' not found in model ' + JSON.stringify(model, null, 2);
+
 
     return res;
 }

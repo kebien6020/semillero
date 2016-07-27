@@ -7,8 +7,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Http\Request;
 use Illuminate\Support\HtmlString;
 
+use App;
+
 use App\Http\Requests;
 
+use App\AlsOccurrence;
 use App\Basin;
 use App\DensityRange;
 use App\Field;
@@ -21,6 +24,8 @@ use App\SandControlSummary;
 use App\SandControlRecommendation;
 use App\Well;
 
+use App\Exceptions\ValueOutOfRangeException;
+
 use Carbon\Carbon;
 use Excel;
 use Storage;
@@ -28,56 +33,40 @@ use Validator;
 
 use Exception;
 
-class ValueOutOfRangeException extends Exception {
-    function __construct($val, $name, $min, $max) {
-        parent::__construct("Value for " . $name . " out of range: " . $val);
-
-        $this->value = $val;
-        $this->under = (bool)($val < $min);
-        $this->min = $min;
-        $this->max = $max;
-    }
-
-    public function __toString() {
-        return __CLASS__ . ": [{$this->code}]: {$this->message}\n";
-    }
-
-    public $value;
-    public $under;
-    public $min;
-    public $max;
-}
-
 class UploadController extends Controller
 {
     public function form($project, $table_name)
     {
-        $valid = $this->_validate($project, $table_name);
-        if (!$valid)
+        $valid = $this->validateUrl($project, $table_name);
+        if (!$valid) {
             App::abort(404);
-
+        }
         return view('table_upload.form', [
             'table_name' => $table_name,
             'columns' => $this->tables[$table_name]['columns'],
-            'project' => $this->_get_proj($project),
+            'project' => $this->getProj($project),
         ]);
     }
 
     public function match(Request $request, $project, $table_name)
     {
-        $valid = $this->_validate($project, $table_name);
-        if (!$valid)
+        $valid = $this->validateUrl($project, $table_name);
+        if (!$valid) {
             App::abort(404);
+        }
 
-        if ($request->has('the_file'))
+        if ($request->has('the_file')) {
             return back()->with('error', 'Formulario incompleto.');
+        }
 
         $file = $request->file('the_file');
-        if (empty($file))
+        if (empty($file)) {
             return back()->with('error', 'No se especifico un archivo.');
+        }
         Storage::put(
             $file->getFilename(),
-            file_get_contents($file->getRealPath()));
+            file_get_contents($file->getRealPath())
+        );
         
         $filename = storage_path('app') . '/' . $file->getFilename();
         
@@ -85,14 +74,12 @@ class UploadController extends Controller
         $sheet = null;
         $file_empty = $excel->get()->isEmpty();
         $sheet_empty = false;
-        if (!$file_empty)
-        {
+        if (!$file_empty) {
             $sheet = $excel->get()->first();
             $sheet_empty = $sheet->isEmpty();
         }
 
-        if ($sheet_empty)
-        {
+        if ($sheet_empty) {
             Storage::delete($file->getFilename());
             return back()->with('error', 'No se pudo leer hoja de cálculo.');
         }
@@ -105,7 +92,7 @@ class UploadController extends Controller
         return view('table_upload.match', [
             'uploaded_columns' => $columns,
             'columns' => $this->tables[$table_name]['columns'],
-            'project' => $this->_get_proj($project),
+            'project' => $this->getProj($project),
             'table_name' => $table_name,
         ]);
     }
@@ -113,14 +100,14 @@ class UploadController extends Controller
     public function put(Request $request, $project, $table_name)
     {
         set_time_limit(300);
-        $valid = $this->_validate($project, $table_name);
-        if (!$valid)
+        $valid = $this->validateUrl($project, $table_name);
+        if (!$valid) {
             App::abort(404);
+        }
 
         $filename = storage_path('app') . '/' . $request->session()->get('file');
         if (! $request->session()->has('file') or
-            ! Storage::exists($request->session()->get('file')))
-        {
+            ! Storage::exists($request->session()->get('file'))) {
             // File already deleted, there was a previus succesfull upload
             return redirect($this->tables[$table_name]['redirect_to']);
         }
@@ -134,7 +121,7 @@ class UploadController extends Controller
             $created = $this->parseTable($sheet, $table_name, $request->input('columns'));
         } catch (ValueOutOfRangeException $e) {
             $msg = 'Error: ';
-            if ($e->under){
+            if ($e->under) {
                 $msg .= 'El valor es menor a ' . $e->min . ' micras';
             } else {
                 $msg .= 'El valor es mayor a ' . $e->max . ' micras';
@@ -153,18 +140,20 @@ class UploadController extends Controller
 
 
         $message = "Datos cargados exitosamente.";
-        if(!empty($created)){
+        if (!empty($created)) {
             foreach ($created as $model => $item) {
-                if ($item['new'] > 0)
+                if ($item['new'] > 0) {
                     $message .= '\n'
                         . str_plural('Creado', $item['new']) . ' '
                         . $item['new'] . ' '
                         . str_plural($model, $item['new']);
-                if ($item['updated'] > 0)
+                }
+                if ($item['updated'] > 0) {
                     $message .= '\n'
                         . str_plural('Actualizado', $item['updated']) . ' '
                         . $item['updated'] . ' '
                         . str_plural($model, $item['updated']);
+                }
             }
         }
         $message = str_replace('\n', '<br>', $message);
@@ -172,7 +161,7 @@ class UploadController extends Controller
             ->with('success', $message);
     }
 
-    private function _get_proj($project)
+    private function getProj($project)
     {
         $projects = config('globals.projects');
         return (object)[
@@ -181,7 +170,7 @@ class UploadController extends Controller
         ];
     }
 
-    private function _validate($project, $table_name)
+    private function validateUrl($project, $table_name)
     {
         $projects = config('globals.projects');
         $valid = in_array($project, array_keys($projects), true);
@@ -191,7 +180,8 @@ class UploadController extends Controller
     }
 
     private $tables;
-    function __construct()
+
+    public function __construct()
     {
         $this->middleware('auth');
         
@@ -470,12 +460,74 @@ class UploadController extends Controller
                         'action' => 'none',
                         /*'column' => 'grain_size',*/
                         'fields' => [
-                            'grain_size' => ['grain_size', function($val){
-                                if($val < 62 or $val > 2000)
+                            'grain_size' => ['grain_size', function ($val) {
+                                if ($val < 62 or $val > 2000) {
                                     throw new ValueOutOfRangeException($val, 'grain_size', 62, 2000);
+                                }
                                 return $val;
                             }],
                             'frequency' => 'frequency',
+                        ],
+                    ],
+                ],
+            ],
+            'sla_ocurrencias' => [
+                'project' => 'sla',
+                'redirect_to' => '/sla/map/pozos',
+                'columns' => [
+                    ['name' => 'start_date', 'display_name' => 'Fecha de Inicio'],
+                    ['name' => 'end_date', 'display_name' => 'Fecha de Finalización'],
+                    ['name' => 'als', 'display_name' => 'Sistema de Levantamiento'],
+                    ['name' => 'event', 'display_name' => 'Siglas del Evento'],
+                    ['name' => 'reason', 'display_name' => 'Causa de la intervención'],
+                    ['name' => 'main_goal', 'display_name' => 'Objetivo Principal'],
+                    ['name' => 'well', 'display_name' => 'Nombre Común del Pozo'],
+                    ['name' => 'town', 'display_name' => 'Municipio'],
+                    ['name' => 'longitude', 'display_name' => 'Longitud'],
+                    ['name' => 'latitude', 'display_name' => 'Latitud'],
+                    ['name' => 'field', 'display_name' => 'Campo'],
+                    ['name' => 'vicepresidency', 'display_name' => 'Vicepresidencia'],
+                    ['name' => 'field_longitude', 'display_name' => 'Longitud del Campo'],
+                    ['name' => 'field_latitude', 'display_name' => 'Latitud del Campo'],
+                    ['name' => 'basin', 'display_name' => 'Cuenca'],
+                ],
+                'hierarchy' => [
+                    [
+                        'model' => Basin::class,
+                        'action' => 'groupBy',
+                        'column' => 'basin',
+                        'fields' => ['basin' => 'name'],
+                    ],
+                    [
+                        'model' => Field::class,
+                        'prev' => 'fields',
+                        'action' => 'groupBy',
+                        'column' => 'field',
+                        'fields' => ['field' => 'name', 'vicepresidency' => 'vicepresidency'],
+                    ],
+                    [
+                        'model' => Well::class,
+                        'prev' => 'wells',
+                        'action' => 'groupBy',
+                        'column' => 'well',
+                        'fields' => [
+                            'well' => 'name',
+                            'town' => 'town',
+                            'longitude' => 'longitude',
+                            'latitude' => 'latitude',
+                        ],
+                    ],
+                    [
+                        'model' => AlsOccurrence::class,
+                        'prev' => 'alsOccurrences',
+                        'action' => 'none',
+                        'fields' => [
+                            'start_date' => 'start_date',
+                            'end_date' => 'end_date',
+                            'als' => 'als',
+                            'event' => 'event',
+                            'reason' => 'reason',
+                            'main_goal' => 'main_goal',
                         ],
                     ],
                 ],
@@ -487,15 +539,14 @@ class UploadController extends Controller
     {
         // Convert headings to internal representation
         $parsed = [];
-        foreach ($table as $i => $row)
-        {
+        foreach ($table as $i => $row) {
             $parsed[$i] = [];
-            foreach ($convert_col as $column => $excel_column)
-            {
+            foreach ($convert_col as $column => $excel_column) {
                 $cell = $row[$excel_column];
                 $cell = trim($cell);
-                if ($cell == 'N/A' or $cell == '-' or $cell == '')
+                if ($cell == 'N/A' or $cell == '-' or $cell == '') {
                     $cell = null;
+                }
                 $parsed[$i][$column] = $cell;
             }
         }
@@ -503,16 +554,18 @@ class UploadController extends Controller
 
         if ($table_name == 'arenas_muestras') {
             $first_invalid = null;
-            $valid = $parsed->reduce(function($acc, $sample) use (&$first_invalid){
-                $res = $acc 
+            $valid = $parsed->reduce(function ($acc, $sample) use (&$first_invalid) {
+                $res = $acc
                     && $sample['grain_size'] >= 62
                     && $sample['grain_size'] <= 2000;
-                if (!$res && $first_invalid == null)
+                if (!$res && $first_invalid == null) {
                     $first_invalid = $sample['grain_size'];
+                }
                 return $res;
             }, true);
-            if (!$valid)
+            if (!$valid) {
                 throw new ValueOutOfRangeException($first_invalid, 'grain_size', 62, 2000);
+            }
         }
 
         // Apply actions defined in $tables
@@ -522,50 +575,46 @@ class UploadController extends Controller
     private function applyHierarchy($collection, $hierarchy, $level = 0, $parentModel = null, $created = [])
     {
         $info = $hierarchy[$level];
-        if (gettype($collection) == 'array')
+        if (gettype($collection) == 'array') {
             $collection = collect($collection);
+        }
         $grouped = false;
         $last_level = $level >= count($hierarchy)-1;
 
         // groupBy if neccesary
-        if ($info['action'] != 'none')
-        {
+        if ($info['action'] != 'none') {
             $collection = call_user_func(
                 [$collection, $info['action']],
                 $info['column']
             );
             $grouped = true;
         }
-        foreach ($collection as $key => $item)
-        {
+        foreach ($collection as $key => $item) {
             $sub_collection = $item;
-            if ($grouped)
+            if ($grouped) {
                 $item = $item->first();
+            }
             $fields = [];
-            foreach ($info['fields'] as $column => $name)
-            {
-                if (gettype($name) == 'array')
-                {
+            foreach ($info['fields'] as $column => $name) {
+                if (gettype($name) == 'array') {
                     $func = $name[1];
                     $name = $name[0];
                 }
                 $fields[$name] = $item[$column];
                 // Apply custom callbacks for column specific processing
-                if(isset($func))
-                {
+                if (isset($func)) {
                     $fields[$name] = $func($fields[$name]);
                 }
                 unset($func);
             }
-            if (array_key_exists('column', $info))
-            {
+            if (array_key_exists('column', $info)) {
                 $columns = explode(',', $info['column']);
                 $values = [];
-                foreach($columns as $column)
-                {
+                foreach ($columns as $column) {
                     $column_name = $info['fields'][$column];
-                    if(gettype($column_name) == 'array')
+                    if (gettype($column_name) == 'array') {
                         $column_name = $column_name[$i][0];
+                    }
                     $values[] = [$column_name => $fields[$column_name]];
                 }
 
@@ -574,29 +623,22 @@ class UploadController extends Controller
                     [$values]
                 );
                 static::addToCreated($created, $model, $model->exists);
-            }
-            else
-            {
+            } else {
                 $model = new $info['model'];
                 static::addToCreated($created, $model);
             }
             
             $model->fill($fields);
 
-            if ($parentModel == null)
-            {
+            if ($parentModel == null) {
                 $model->save();
-            }
-            else
-            {
+            } else {
                 $relation = call_user_func(
                     [$parentModel, $info['prev']]
                 );
-                if ($relation instanceof HasOneOrMany){
+                if ($relation instanceof HasOneOrMany) {
                     $relation->save($model);
-                }
-                else
-                {
+                } else {
                     $model->save();
                     $key = $relation->getForeignKey();
                     $parentModel->setAttribute($key, $model->id);
@@ -604,8 +646,7 @@ class UploadController extends Controller
                 }
             }
 
-            if (!$last_level)
-            {
+            if (!$last_level) {
                 $child = ($grouped) ? $sub_collection : $collection;
                 $created = $this->applyHierarchy($child, $hierarchy, $level + 1, $model, $created);
             }
@@ -616,11 +657,14 @@ class UploadController extends Controller
     private static function addToCreated(&$created, $model, $updated = false)
     {
         $class = (new \ReflectionClass($model))->getShortName();
-        if (!array_key_exists($class, $created))
+        if (!array_key_exists($class, $created)) {
             $created[$class] = ['new' => 0, 'updated' => 0];
+        }
 
-        if ($updated) ++$created[$class]['updated'];
-        else ++$created[$class]['new'];
-        
+        if ($updated) {
+            ++$created[$class]['updated'];
+        } else {
+            ++$created[$class]['new'];
+        }
     }
 }

@@ -25,7 +25,7 @@ class Well extends Model
         return $this->hasOne('App\FluidOccurrence');
     }
 
-    public function alsOccurrence()
+    public function alsOccurrences()
     {
         return $this->hasMany(AlsOccurrence::class);
     }

@@ -15,9 +15,13 @@ use Illuminate\Http\Request;
 
 Route::get('/', 'HomeController@home');
 
-Route::get('/sla/map', 'slaController@mapPozos');
-Route::get('/sla/test/map', 'slaController@testMap');
-Route::post('/sla/test/map/add_data_submit', 'slaController@testMapAddDataSubmit');
+// als
+
+Route::get('/sla/map/pozos', 'AlsController@mapPozos');
+
+Route::get('/api/sla/wells', 'AlsController@wells');
+//Route::get('/sla/test/map', 'slaController@testMap');
+//Route::post('/sla/test/map/add_data_submit', 'slaController@testMapAddDataSubmit');
 
 // fluidos
 // maps
@@ -45,7 +49,7 @@ Route::put('/arenas/map/{id}', 'ArenasController@mapUpdate');
 Route::get('/api/arenas/sand_controls', 'ArenasController@sandControls');
 Route::get('/api/arenas/sand_control_groups', 'ArenasController@sandControlGroups');
 // matrix
-Route::get('/arenas/matrix','ArenasController@matrixSelect');
+Route::get('/arenas/matrix', 'ArenasController@matrixSelect');
 Route::get('/arenas/matrix/{id}', 'ArenasController@matrixResults');
 Route::get('/arenas/matrix_new', 'ArenasController@matrixNew');
 Route::post('/arenas/matrix', 'ArenasController@matrixCreate');
@@ -68,7 +72,7 @@ Route::post('/{project}/table_upload/{table_name}', 'UploadController@match');
 Route::put('/{project}/table_upload/{table_name}', 'UploadController@put');
 
 // Test
-Route::get('/test', function(){
+Route::get('/test', function () {
     dd(Auth::user());
     return view('test');
 });
