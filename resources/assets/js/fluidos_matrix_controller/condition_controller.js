@@ -39,6 +39,7 @@ function update(density, $scope) {
         return;
     }
     $scope.showShales = true;
+    $scope.showAll = true;
     let validFluids = fluids.filter(fluid => density < fluid.max);
     updateConditions(density, $scope, validFluids);
     updateRecommendations($scope, validFluids);

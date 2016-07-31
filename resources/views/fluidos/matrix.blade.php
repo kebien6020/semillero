@@ -17,7 +17,12 @@
 
 @include('partial.messages')
 
-<p>Explicación de la matriz de selección.</p>
+<p>
+Esta herramienta permite identificar los fluidos de completamiento adecuados  para un pozo a partir de datos de presión de yacimiento, temperatura de yacimiento, TVD (True Vertical Depth),identificación de pozo de gas o pozo de petróleo, clasificación de agua de formación según la presencia de iones (Análisis Fisicoquímico) y la presencia de arcillas. Esta herramienta permite identificar los fluidos de completamiento que controlen el pozo mediante la densidad adecuada, que sean  compatibles con el agua de formación teniendo en cuenta la teoría del ion común y que controlen  las arcillas presentes en la formación basados en la teoría de intercambio catiónico.
+</p>
+<p>
+A continuación se deben ingresar los datos necesarios para calcular la densidad requerida, y se debe seleccionar el tipo de agua de formación que presenta el pozo (predominancia en iones) y finalmente el tipo de arcilla presente, una vez seleccionados estos datos la herramienta recomendara unos fluidos de completamiento. Recordar que para evitar la formación de emulsiones se deben seguir las recomendaciones expuestas en el documento que soporta el desarrollo de esta herramienta.
+</p>
 
 <section ng-app="matrixApp">
     
@@ -25,15 +30,15 @@
         <section ng-controller="DensityController">
             <h2>Calculo de Densidad</h2>
             <div class="form-group">
-                <label for="tvd">TVD: </label>
+                <label for="tvd">TVD (ft): </label>
                 <input id="tvd" type="text" ng-model="tvd">
             </div>
             <div class="form-group">
-                <label for="bhp">BHP: </label>
+                <label for="bhp">BHP (PSI): </label>
                 <input id="bhp" type="text" ng-model="bhp">
             </div>
             <div class="form-group">
-                <label for="bht">BHT: </label>
+                <label for="bht">BHT (°F): </label>
                 <input id="bht" type="text" ng-model="bht">
             </div>
             <div class="form-group">
@@ -80,7 +85,7 @@
                         Nota
                     </header>
                     <main>
-                        En caso de presentarse Kaolinita o Clorita referirse a ...
+                        En caso de presencia de Ilita y Clorita se deben seguir las recomendaciones expuestas en el documento que soporta el desarrollo de esta herramienta para evitar incompatibilidades con este tipo de minerales de arcillas.
                     </main>
                 </div>
             </div>

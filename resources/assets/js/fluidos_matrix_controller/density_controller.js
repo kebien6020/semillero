@@ -23,7 +23,7 @@ matrixApp.controller('DensityController', ['$scope', '$rootScope', function($sco
         try {
             let dens = calcDensity(tvd, bhp, bht, gas);
             $rootScope.$broadcast('densityChanged', Number(dens));
-            return dens.toFixed(2);
+            return `${dens.toFixed(2)} ppg`;
         } catch (ex) {
             $rootScope.$broadcast('densityChanged', null);
             let display_msg = 'No es posible calcular densidad.';
@@ -32,7 +32,7 @@ matrixApp.controller('DensityController', ['$scope', '$rootScope', function($sco
                 display_msg += ` No se tienen valores de coeficiente
                                  de expansion térmica y coeficiente
                                  de compresibilidad. Se intentaron calcular
-                                 para densidad = ${val}.`;
+                                 para densidad = ${val} ppg.`;
             }
             return display_msg;
         }

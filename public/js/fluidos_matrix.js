@@ -45066,6 +45066,7 @@ function update(density, $scope) {
         return;
     }
     $scope.showShales = true;
+    $scope.showAll = true;
     var validFluids = fluids.filter(function (fluid) {
         return density < fluid.max;
     });
@@ -45263,13 +45264,13 @@ _app2.default.controller('DensityController', ['$scope', '$rootScope', function 
         try {
             var dens = calcDensity(tvd, bhp, bht, gas);
             $rootScope.$broadcast('densityChanged', Number(dens));
-            return dens.toFixed(2);
+            return dens.toFixed(2) + ' ppg';
         } catch (ex) {
             $rootScope.$broadcast('densityChanged', null);
             var display_msg = 'No es posible calcular densidad.';
             if (ex instanceof RangeError && ex.ppg) {
                 var val = ex.ppg.toFixed(2);
-                display_msg += ' No se tienen valores de coeficiente\n                                 de expansion térmica y coeficiente\n                                 de compresibilidad. Se intentaron calcular\n                                 para densidad = ' + val + '.';
+                display_msg += ' No se tienen valores de coeficiente\n                                 de expansion térmica y coeficiente\n                                 de compresibilidad. Se intentaron calcular\n                                 para densidad = ' + val + ' ppg.';
             }
             return display_msg;
         }
