@@ -24,4 +24,9 @@ class AlsController extends Controller
             ->get()
             ->load('field.basin');
     }
+
+    public function mapCampos()
+    {
+        return view('als.map_campos');
+    }
 }
