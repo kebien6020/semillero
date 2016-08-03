@@ -7,7 +7,7 @@ let markers_data = {
     longitude_key: 'longitude',
     latitude_key: 'latitude',
     color_mode: 'name',
-    color_pallete: ['red', 'blue', 'yellow', 'aqua'],
+    color_pallete: ['purple', 'green', 'blue', 'gray', 'red', 'orange', 'aqua', 'pink'],
     color_by: 'als_occurrences.als',
     on_open_marker: setupMarker
 }

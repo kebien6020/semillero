@@ -21,6 +21,8 @@ class AlsController extends Controller
     {
         return Well::has('alsOccurrences')
             ->with('alsOccurrences')
+            ->whereNotNull('longitude')
+            ->whereNotNull('latitude')
             ->get()
             ->load('field.basin');
     }
