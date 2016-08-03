@@ -53,11 +53,18 @@
         </ul>
       </li>
     </ul>
-    <!-- TODO: About...
-    <ul class="nav navbar-nav navbar-right">
-      <li><a href="#">Acerca de...</a></li>
+    <ul class="right">
+      <li class="dropdown">
+        <a href="#"
+           data-toggle="dropdown"
+           role="button"
+           aria-expanded="false">
+           {{ auth()->user()? auth()->user()->name : 'Invitado' }}<span class="caret"></a>
+        <ul role="menu">
+          @include('partial.account_links')
+        </ul>
+      </li>
     </ul>
-    -->
   </div>
 </nav>
 

@@ -52,6 +52,12 @@ body {
                     }
                 }
             }
+            &.right {
+                @extend .navbar-right;
+                > li > ul {
+                        @extend .dropdown-menu-right;
+                }
+            }
         }
     }
 }
@@ -77,6 +83,11 @@ body {
 
 .minus-button {
     &, &:hover, &:focus, &:active{ color: darkred !important; }
+}
+
+.delete-button {
+    @extend .btn;
+    @extend .btn-danger;
 }
 
 .success-panel {

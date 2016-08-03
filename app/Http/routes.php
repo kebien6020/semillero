@@ -80,4 +80,11 @@ Route::get('/test', function () {
 
 Route::auth();
 
-Route::get('/profile', 'HomeController@profile');
+Route::get('/dashboard', 'HomeController@dashboard');
+
+// Admin
+Route::delete('/admin/delete_sla', 'AdminController@deleteSla');
+Route::delete('/admin/delete_arenas_pozos', 'AdminController@deleteArenasSandControls');
+Route::delete('/admin/delete_arenas_campos', 'AdminController@deleteArenasSandControlsSummaries');
+Route::delete('/admin/delete_fluidos_pozos', 'AdminController@deleteFluidosFluidOccurrences');
+Route::delete('/admin/delete_fluidos_rangos', 'AdminController@deleteFluidosDensityRanges');
