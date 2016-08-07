@@ -18,7 +18,7 @@ Route::get('/', 'HomeController@home');
 // als
 
 Route::get('/sla/map/pozos', 'AlsController@mapPozos');
-Route::get('/sla/map/campos', 'AlsController@mapCampos');
+//Route::get('/sla/map/campos', 'AlsController@mapCampos');
 
 Route::get('/api/sla/wells', 'AlsController@wells');
 //Route::get('/sla/test/map', 'slaController@testMap');

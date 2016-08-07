@@ -185,7 +185,7 @@ function modelGet(model, key) {
     for (let subkey of key.split('.')) {
         res = res[subkey];
         if (Array.isArray(res))
-            res = res[0];
+            res = res[res.length - 1];
     }
 
     if (res === undefined)

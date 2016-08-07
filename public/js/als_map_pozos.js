@@ -12427,13 +12427,16 @@ var markers_data = {
     longitude_key: 'longitude',
     latitude_key: 'latitude',
     color_mode: 'name',
-    color_pallete: ['purple', 'green', 'blue', 'gray', 'red', 'orange', 'aqua', 'pink'],
-    color_by: 'als_occurrences.als',
+    color_pallete: ['blue', 'red', 'green', 'purple', 'orange', 'aqua', 'pink', 'gray'],
+    color_by: {
+        key: 'als_occurrences.als',
+        values: ['BES', 'BCP', 'BM', 'FN', 'BH', 'BN', 'CMB', 'No Reporta']
+    },
     on_open_marker: setupMarker
 };
 
 function setupMarker(infowindow, well) {
-    var html = '<div class="als-occurrences">';
+    var html = '<h2 class="marker-title">' + well.name + '</h2>\n                <div class="als-occurrences">';
     var _iteratorNormalCompletion = true;
     var _didIteratorError = false;
     var _iteratorError = undefined;
@@ -12467,8 +12470,7 @@ function setupMarker(infowindow, well) {
 
     html += '</div>';
 
-    var prevContent = infowindow.getContent();
-    infowindow.setContent(prevContent + html);
+    infowindow.setContent(html);
 }
 
 function init() {
@@ -14072,7 +14074,7 @@ function modelGet(model, key) {
             var subkey = _step5.value;
 
             res = res[subkey];
-            if (Array.isArray(res)) res = res[0];
+            if (Array.isArray(res)) res = res[res.length - 1];
         }
     } catch (err) {
         _didIteratorError5 = true;

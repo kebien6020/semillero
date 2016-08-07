@@ -7,13 +7,17 @@ let markers_data = {
     longitude_key: 'longitude',
     latitude_key: 'latitude',
     color_mode: 'name',
-    color_pallete: ['purple', 'green', 'blue', 'gray', 'red', 'orange', 'aqua', 'pink'],
-    color_by: 'als_occurrences.als',
+    color_pallete: ['blue', 'red', 'green', 'purple', 'orange', 'aqua', 'pink', 'gray'],
+    color_by: {
+        key: 'als_occurrences.als',
+        values: ['BES', 'BCP', 'BM', 'FN', 'BH', 'BN', 'CMB', 'No Reporta']
+    },
     on_open_marker: setupMarker
 }
 
 function setupMarker(infowindow, well) {
-    let html = '<div class="als-occurrences">'
+    let html = `<h2 class="marker-title">${well.name}</h2>
+                <div class="als-occurrences">`
     for (let als_occurrence of well.als_occurrences) {
         html += `<hr>
                  
@@ -36,8 +40,7 @@ function setupMarker(infowindow, well) {
     }
     html += '</div>'
 
-    const prevContent = infowindow.getContent()
-    infowindow.setContent(prevContent + html)
+    infowindow.setContent(html)
 }
 
 function init() {
