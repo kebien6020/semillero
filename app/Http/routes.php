@@ -97,3 +97,4 @@ Route::delete('/admin/delete_arenas_pozos', 'AdminController@deleteArenasSandCon
 Route::delete('/admin/delete_arenas_campos', 'AdminController@deleteArenasSandControlsSummaries');
 Route::delete('/admin/delete_fluidos_pozos', 'AdminController@deleteFluidosFluidOccurrences');
 Route::delete('/admin/delete_fluidos_rangos', 'AdminController@deleteFluidosDensityRanges');
+Route::delete('/admin/delete_conectividad_pozos', 'AdminController@deleteConectividadConnectivityOccurrences');

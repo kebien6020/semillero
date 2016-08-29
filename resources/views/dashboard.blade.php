@@ -54,6 +54,12 @@
                 'Eliminar: Fluidos de Completamiento - Rangos de densidades'
                ) }}
         </p>
+        <p>
+            {{ makeDeleteButton(
+                '/admin/delete_conectividad_pozos',
+                'Eliminar: Conectividad - Datos por pozos'
+               ) }}
+        </p>
     </div>
 </div>
 

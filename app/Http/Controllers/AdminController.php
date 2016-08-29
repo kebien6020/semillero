@@ -62,4 +62,12 @@ class AdminController extends Controller
             'Rangos de densidades asociadas a un fluido'
         );
     }
+
+    public function deleteConectividadConnectivityOccurrences()
+    {
+        return static::deleteModel(
+            ConnectivityOccurrence::query(),
+            'Ocurrencias de Conectividad'
+        );
+    }
 }
