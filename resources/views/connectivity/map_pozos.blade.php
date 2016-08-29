@@ -12,7 +12,7 @@
     <div id="legend"></div>
     <div id="map" class="loading">Cargando...</div>
     <div class="buttons">
-        <a href="/sla/table_upload/sla_ocurrencias">
+        <a href="/conectividad/table_upload/conectividad_ocurrencias">
             Importar Datos
         </a>
     </div>
