@@ -39,6 +39,15 @@
                 @include('partial.sla_links')
             </ul>
         </div>
+        <div>
+            <button type="button" data-toggle="dropdown">
+                Conectividad
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu collapse">
+                @include('partial.conectividad_links')
+            </ul>
+        </div>
     </div>
 </div>
 

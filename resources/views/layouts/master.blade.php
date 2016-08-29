@@ -52,6 +52,18 @@
           @include('partial.sla_links')
         </ul>
       </li>
+      <li class="dropdown">
+        <a href="#"
+           data-toggle="dropdown"
+           role="button"
+           aria-expanded="false">
+           Conectividad<span class="caret"></span>
+        </a>
+        
+        <ul role="menu">
+          @include('partial.conectividad_links')
+        </ul>
+      </li>
     </ul>
     <ul class="right">
       <li class="dropdown">
