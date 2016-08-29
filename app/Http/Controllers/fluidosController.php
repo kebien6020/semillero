@@ -31,7 +31,7 @@ class FluidosController extends Controller
     //API function
     function fields()
     {
-        $fields = Field::whereNotNull('longitude', 'and')->whereNotNull('latitude')->get();
+        $fields = Field::whereNotNull('longitude')->whereNotNull('latitude')->get();
         $fields->load('wells.fluidOccurrence');
         foreach ($fields as $i => $field) {
             foreach ($field->wells as $j => $well) {
@@ -55,17 +55,6 @@ class FluidosController extends Controller
         }
         $fieldsWithDistribution = collect($fieldsWithDistribution);
         return $fieldsWithDistribution->toJson();
-    }
-
-    function campoDetail($id)
-    {
-        $res = DB::table('fluid_occurrences')
-            ->join('fluids', 'fluids.id', '=', 'fluid_occurrences.fluid_id')
-            ->join('wells', 'wells.id', '=', 'fluid_occurrences.well_id')
-            ->join('fields', 'fields.id', '=', 'wells.field_id')->get();
-        dd($res);
-
-        return view('fluidos.campo_detail', ['campo'=>$campo->name, 'fluidos' => $fluidos]);
     }
 
     function mapPozos()

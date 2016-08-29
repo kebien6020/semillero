@@ -15,6 +15,16 @@ use Illuminate\Http\Request;
 
 Route::get('/', 'HomeController@home');
 
+// Conectividad
+
+Route::group(['middleware' => 'auth', 'prefix' => 'conectividad'], function () {
+
+    Route::get('/map/pozos', 'ConnectivityController@mapPozos');
+
+    //api routes
+    Route::get('/api/wells', 'ConnectivityController@wells');
+});
+
 // als
 
 Route::get('/sla/map/pozos', 'AlsController@mapPozos');
@@ -27,7 +37,6 @@ Route::get('/api/sla/wells', 'AlsController@wells');
 // fluidos
 // maps
 Route::get('/fluidos/map/campos', 'fluidosController@mapCampos');
-Route::get('/fluidos/map/campos/{id}', 'fluidosController@campoDetail');
 Route::get('/fluidos/map/pozos', 'fluidosController@mapPozos');
 
 Route::get('/api/fluidos/density_dist/{field_id}/{fluid_id}', 'fluidosController@densityDist');

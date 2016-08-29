@@ -12419,7 +12419,88 @@ window.$ = $;
 $('.success-panel, .error-panel').addClass('alert fade in');
 $().alert();
 
-},{"bootstrap":1,"jquery":3,"jquery.flot.pie":6}],5:[function(require,module,exports){
+},{"bootstrap":1,"jquery":3,"jquery.flot.pie":7}],5:[function(require,module,exports){
+'use strict';
+
+require('./app');
+
+var _map = require('./map');
+
+var _map2 = _interopRequireDefault(_map);
+
+var _jquery = require('jquery');
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var markers_data = {
+    title_key: 'name',
+    longitude_key: 'longitude',
+    latitude_key: 'latitude',
+    color_mode: 'name',
+    color_by: {
+        key: 'connectivity_occurrences.method',
+        values: ['ABRASIJET', 'CASING GUN', 'EXPANDABLE', 'HIGH SHOT', 'PERFORATE', 'SCALL GUN', 'SLICK GUN', 'TBG CONVEY', 'TCP', 'TRHUTUBING', 'WIRELINE', 'OTHERS', 'No Reporta']
+    },
+    on_open_marker: setupMarker
+};
+
+function setupMarker(infowindow, well) {
+    var html = '<h2 class="marker-title">' + well.name + '</h2>\n                <div class="connectivity-occurrences">';
+    var _iteratorNormalCompletion = true;
+    var _didIteratorError = false;
+    var _iteratorError = undefined;
+
+    try {
+        for (var _iterator = well.connectivity_occurrences[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+            var connectivity_occurrence = _step.value;
+
+            html += '<hr>\n                 \n                 <strong>Método de cañoneo:</strong>\n                 ' + connectivity_occurrence.method + '<br>\n\n                 <strong>Fecha de inicio:</strong>\n                 ' + connectivity_occurrence.start_date + '<br>\n\n                 <strong>Fecha de finalización:</strong>\n                 ' + connectivity_occurrence.end_date + '<br>';
+        }
+    } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+    } finally {
+        try {
+            if (!_iteratorNormalCompletion && _iterator.return) {
+                _iterator.return();
+            }
+        } finally {
+            if (_didIteratorError) {
+                throw _iteratorError;
+            }
+        }
+    }
+
+    html += '</div>';
+
+    infowindow.setContent(html);
+}
+
+function init() {
+    getData().then(setupMap, handleAjaxError);
+}
+
+function getData() {
+    return _jquery2.default.getJSON('/conectividad/api/wells');
+}
+
+function setupMap(wells) {
+    markers_data.data = wells;
+
+    _map2.default.load(function () {
+        _map2.default.setupMarkers(markers_data);
+    });
+}
+
+function handleAjaxError() {
+    alert('Error cargando los datos del mapa desde el servidor');
+}
+
+init();
+
+},{"./app":4,"./map":8,"jquery":3}],6:[function(require,module,exports){
 (function (global){
 
 ; require("jquery");
@@ -12905,7 +12986,7 @@ function floorInBase(n,base){return base*Math.floor(n/base);}})(jQuery);
 }).call(global, module, undefined, undefined);
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"jquery":3}],6:[function(require,module,exports){
+},{"jquery":3}],7:[function(require,module,exports){
 (function (global){
 
 ; require("/home/vagrant/Code/Semillero/resources/assets/js/flot/jquery.flot.js");
@@ -13731,7 +13812,7 @@ More detail and specific examples can be found in the included HTML file.
 }).call(global, module, undefined, undefined);
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"/home/vagrant/Code/Semillero/resources/assets/js/flot/jquery.flot.js":5}],7:[function(require,module,exports){
+},{"/home/vagrant/Code/Semillero/resources/assets/js/flot/jquery.flot.js":6}],8:[function(require,module,exports){
 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
@@ -14058,7 +14139,7 @@ function markerListener(infoWindow, marker, callback, model) {
 // Global export
 window.Map = module.exports;
 
-},{"./app.js":4,"./modules/array_unique.js":8,"google-maps":2,"jquery":3}],8:[function(require,module,exports){
+},{"./app.js":4,"./modules/array_unique.js":9,"google-maps":2,"jquery":3}],9:[function(require,module,exports){
 "use strict";
 
 module.exports = function (array) {
@@ -14072,6 +14153,6 @@ module.exports = function (array) {
     return a;
 };
 
-},{}]},{},[7]);
+},{}]},{},[5]);
 
-//# sourceMappingURL=map.js.map
+//# sourceMappingURL=connectivity_map_pozos.js.map

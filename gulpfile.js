@@ -32,7 +32,8 @@ elixir(function(mix) {
     'fluidos_map_pozos.js',
     'fluidos_map_campos.js',
     'fluidos_matrix.js',
-    'als_map_pozos.js'
+    'als_map_pozos.js',
+    'connectivity_map_pozos.js'
   ].forEach(function(val){
     mix.browserify(val);
   });

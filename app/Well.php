@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 use App\AlsOccurrence;
+use App\ConnectivityOccurrence;
 
 class Well extends Model
 {
@@ -28,5 +29,10 @@ class Well extends Model
     public function alsOccurrences()
     {
         return $this->hasMany(AlsOccurrence::class);
+    }
+
+    public function connectivityOccurrences()
+    {
+        return $this->hasMany(ConnectivityOccurrence::class);
     }
 }

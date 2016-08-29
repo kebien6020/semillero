@@ -13,6 +13,7 @@ use App\Http\Requests;
 
 use App\AlsOccurrence;
 use App\Basin;
+use App\ConnectivityOccurrence;
 use App\DensityRange;
 use App\Field;
 use App\Fluid;
@@ -528,6 +529,61 @@ class UploadController extends Controller
                             'event' => 'event',
                             'reason' => 'reason',
                             'main_goal' => 'main_goal',
+                        ],
+                    ],
+                ],
+            ],
+            'conectividad_ocurrencias' => [
+                'project' => 'conectividad',
+                'redirect_to' => '/conectividad/map/pozos',
+                'columns' => [
+                    ['name' => 'start_date', 'display_name' => 'Fecha de Inicio'],
+                    ['name' => 'end_date', 'display_name' => 'Fecha de Finalización'],
+                    ['name' => 'method', 'display_name' => 'Método de Cañoneo'],
+                    ['name' => 'well', 'display_name' => 'Nombre Común del Pozo'],
+                    ['name' => 'town', 'display_name' => 'Municipio'],
+                    ['name' => 'longitude', 'display_name' => 'Longitud'],
+                    ['name' => 'latitude', 'display_name' => 'Latitud'],
+                    ['name' => 'field', 'display_name' => 'Campo'],
+                    ['name' => 'vicepresidency', 'display_name' => 'Vicepresidencia'],
+                    ['name' => 'field_longitude', 'display_name' => 'Longitud del Campo'],
+                    ['name' => 'field_latitude', 'display_name' => 'Latitud del Campo'],
+                    ['name' => 'basin', 'display_name' => 'Cuenca'],
+                ],
+                'hierarchy' => [
+                    [
+                        'model' => Basin::class,
+                        'action' => 'groupBy',
+                        'column' => 'basin',
+                        'fields' => ['basin' => 'name'],
+                    ],
+                    [
+                        'model' => Field::class,
+                        'prev' => 'fields',
+                        'action' => 'groupBy',
+                        'column' => 'field',
+                        'fields' => ['field' => 'name', 'vicepresidency' => 'vicepresidency'],
+                    ],
+                    [
+                        'model' => Well::class,
+                        'prev' => 'wells',
+                        'action' => 'groupBy',
+                        'column' => 'well',
+                        'fields' => [
+                            'well' => 'name',
+                            'town' => 'town',
+                            'longitude' => 'longitude',
+                            'latitude' => 'latitude',
+                        ],
+                    ],
+                    [
+                        'model' => ConnectivityOccurrence::class,
+                        'prev' => 'connectivityOccurrences',
+                        'action' => 'none',
+                        'fields' => [
+                            'start_date' => 'start_date',
+                            'end_date' => 'end_date',
+                            'method' => 'method',
                         ],
                     ],
                 ],

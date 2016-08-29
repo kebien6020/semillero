@@ -44,8 +44,11 @@ let default_color_pallete = [
     'pink',
     'purple',
     'yellow',
+    'black',
+    'dark-green',
+    'dark-blue',
+    'dark-purple',
     'gray',
-    'black'
 ];
 
 exports.setupMarkers = function(data) {
@@ -83,7 +86,7 @@ exports.setupMarkers = function(data) {
         if (color_mode === 'name') {
             for (let i = 0; i < color_values.length; ++i) {
                 let color_value = color_values[i];
-                if (i-1 > color_pallete.length) {
+                if (i+1 > color_pallete.length) {
                     color_table[color_value] = 'gray';
                     continue;
                 }

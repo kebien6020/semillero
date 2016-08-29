@@ -85,7 +85,7 @@ A continuación se deben ingresar los datos necesarios para calcular la densidad
                         Nota
                     </header>
                     <main>
-                        En caso de presencia de Ilita y Clorita se deben seguir las recomendaciones expuestas en el documento que soporta el desarrollo de esta herramienta para evitar incompatibilidades con este tipo de minerales de arcillas.
+                        En caso de presencia de Caolinita y Clorita se deben seguir las recomendaciones expuestas en el documento que soporta el desarrollo de esta herramienta para evitar incompatibilidades con este tipo de minerales de arcillas.
                     </main>
                 </div>
             </div>

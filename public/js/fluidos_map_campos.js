@@ -14075,7 +14075,7 @@ exports.load = function (fn) {
 };
 
 var info_windows = [];
-var default_color_pallete = ['red', 'aqua', 'blue', 'brown', 'green', 'orange', 'pink', 'purple', 'yellow', 'gray', 'black'];
+var default_color_pallete = ['red', 'aqua', 'blue', 'brown', 'green', 'orange', 'pink', 'purple', 'yellow', 'black', 'dark-green', 'dark-blue', 'dark-purple', 'gray'];
 
 exports.setupMarkers = function (data) {
     var longitude_key = data.longitude_key || 'longitude';
@@ -14109,7 +14109,7 @@ exports.setupMarkers = function (data) {
         if (color_mode === 'name') {
             for (var i = 0; i < color_values.length; ++i) {
                 var color_value = color_values[i];
-                if (i - 1 > color_pallete.length) {
+                if (i + 1 > color_pallete.length) {
                     color_table[color_value] = 'gray';
                     continue;
                 }
