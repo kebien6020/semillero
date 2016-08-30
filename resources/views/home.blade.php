@@ -48,6 +48,15 @@
                 @include('partial.conectividad_links')
             </ul>
         </div>
+        <div>
+            <button type="button" data-toggle="dropdown">
+                Completamientos Múltiples
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu collapse">
+                @include('partial.multiples_links')
+            </ul>
+        </div>
     </div>
 </div>
 

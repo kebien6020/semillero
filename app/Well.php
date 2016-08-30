@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 use App\AlsOccurrence;
 use App\ConnectivityOccurrence;
+use App\MultipleOccurrence;
 
 class Well extends Model
 {
@@ -34,5 +35,10 @@ class Well extends Model
     public function connectivityOccurrences()
     {
         return $this->hasMany(ConnectivityOccurrence::class);
+    }
+
+    public function multipleOccurrences()
+    {
+        return $this->hasMany(MultipleOccurrence::class);
     }
 }

@@ -15,6 +15,17 @@ use Illuminate\Http\Request;
 
 Route::get('/', 'HomeController@home');
 
+// Completamientos multiples
+
+Route::group(['prefix' => 'multiples', 'middleware' => 'auth'], function () {
+
+    Route::get('/map/pozos', 'MultipleController@mapPozos');
+
+    // API routes
+    Route::get('/api/wells', 'MultipleController@wells');
+    Route::get('/api/completions', 'MultipleController@completions');
+});
+
 // Conectividad
 
 Route::group(['middleware' => 'auth', 'prefix' => 'conectividad'], function () {

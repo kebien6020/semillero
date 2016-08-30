@@ -6,7 +6,8 @@ return [
         'sla' => 'Sistemas de Levantamiento Artificial',
         'arenas' => 'Mecanismos de control de arenas',
         'fluidos' => 'Fluidos de Completamiento',
-        'conectividad' => 'Conectividad'
+        'conectividad' => 'Conectividad',
+        'multiples' => 'Completamientos Múltiples'
     ],
 
 ];

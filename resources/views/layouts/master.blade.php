@@ -21,7 +21,7 @@
            data-toggle="dropdown"
            role="button"
            aria-expanded="false">
-           Aplicativo de selección de Mecanismos de Control de Arena<span class="caret"></span>
+           Control de Arena<span class="caret"></span>
         </a>
         
         <ul role="menu">
@@ -62,6 +62,18 @@
         
         <ul role="menu">
           @include('partial.conectividad_links')
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#"
+           data-toggle="dropdown"
+           role="button"
+           aria-expanded="false">
+           Completamientos Múltiples<span class="caret"></span>
+        </a>
+        
+        <ul role="menu">
+          @include('partial.multiples_links')
         </ul>
       </li>
     </ul>
