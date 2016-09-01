@@ -11,6 +11,7 @@ use App\SandControl;
 use App\SandControlSummary;
 use App\FluidOccurrence;
 use App\DensityRange;
+use App\MultipleOccurrence;
 
 class AdminController extends Controller
 {
@@ -68,6 +69,14 @@ class AdminController extends Controller
         return static::deleteModel(
             ConnectivityOccurrence::query(),
             'Ocurrencias de Conectividad'
+        );
+    }
+
+    public function deleteMultiplesMultipleOccurrences()
+    {
+        return static::deleteModel(
+            MultipleOccurrence::query(),
+            'Ocurrencias de Completamientos Múltiples'
         );
     }
 }

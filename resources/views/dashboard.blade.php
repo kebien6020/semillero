@@ -60,6 +60,12 @@
                 'Eliminar: Conectividad - Datos por pozos'
                ) }}
         </p>
+        <p>
+            {{ makeDeleteButton(
+                '/admin/delete_multiples_pozos',
+                'Eliminar: Completamientos múltiples - Datos por pozos'
+                ) }}
+        </p>
     </div>
 </div>
 
