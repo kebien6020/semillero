@@ -57,6 +57,11 @@
                 @include('partial.multiples_links')
             </ul>
         </div>
+        <div>
+            <a href="/dashboard">
+                Administrar Información
+            </a>
+        </div>
     </div>
 </div>
 

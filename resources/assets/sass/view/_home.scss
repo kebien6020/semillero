@@ -29,7 +29,7 @@ main {
         > div {
             @extend .btn-group;
             @extend .btn-group-lg;
-            button {
+            button, > a {
                 @extend .btn;
                 @extend .btn-primary;
                 @extend .dropdown-toggle;
