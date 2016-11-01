@@ -38,12 +38,13 @@ Route::group(['middleware' => 'auth', 'prefix' => 'conectividad'], function () {
 
 // als
 
-Route::get('/sla/map/pozos', 'AlsController@mapPozos');
-//Route::get('/sla/map/campos', 'AlsController@mapCampos');
-
-Route::get('/api/sla/wells', 'AlsController@wells');
-//Route::get('/sla/test/map', 'slaController@testMap');
-//Route::post('/sla/test/map/add_data_submit', 'slaController@testMapAddDataSubmit');
+Route::group(['middleware' => 'auth', 'prefix' => 'sla'], function () {
+    Route::get('/map/pozos', 'AlsController@mapPozos');
+    // Route::get('/map/campos', 'AlsController@mapCampos');
+    Route::get('/api/wells', 'AlsController@wells');
+    //Route::get('/test/map', 'slaController@testMap');
+    //Route::post('/test/map/add_data_submit', 'slaController@testMapAddDataSubmit');
+});
 
 // fluidos
 // maps

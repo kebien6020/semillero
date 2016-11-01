@@ -12445,7 +12445,7 @@ function setupMarker(infowindow, well) {
         for (var _iterator = well.als_occurrences[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
             var als_occurrence = _step.value;
 
-            html += '<hr>\n                 \n                 <strong>Sistema de levantamiento:</strong>\n                 ' + als_occurrence.als + '<br>\n\n                 <strong>Fecha de instalación:</strong>\n                 ' + als_occurrence.start_date + '<br>\n\n                 <strong>Siglas del evento:</strong>\n                 ' + als_occurrence.event + '<br>';
+            html += '<hr>\n\n                 <strong>Sistema de levantamiento:</strong>\n                 ' + als_occurrence.als + '<br>\n\n                 <strong>Fecha de instalación:</strong>\n                 ' + als_occurrence.start_date + '<br>\n\n                 <strong>Siglas del evento:</strong>\n                 ' + als_occurrence.event + '<br>';
             if (als_occurrence.reason) {
                 html += '<strong>Causa de la intervención:</strong>\n                     ' + als_occurrence.reason + '<br>';
             }
@@ -12478,7 +12478,7 @@ function init() {
 }
 
 function getData() {
-    return _jquery2.default.getJSON('/api/sla/wells');
+    return _jquery2.default.getJSON('/sla/api/wells');
 }
 
 function setupMap(als_occurrences) {
@@ -13893,7 +13893,7 @@ exports.setupMarkers = function (data) {
             for (var i = 0; i < color_values.length; ++i) {
                 var color_value = color_values[i];
                 if (i + 1 > color_pallete.length) {
-                    color_table[color_value] = 'red';
+                    color_table[color_value] = 'gray';
                     continue;
                 }
                 color_table[color_value] = color_pallete[i];

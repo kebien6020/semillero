@@ -14110,7 +14110,7 @@ exports.setupMarkers = function (data) {
             for (var i = 0; i < color_values.length; ++i) {
                 var color_value = color_values[i];
                 if (i + 1 > color_pallete.length) {
-                    color_table[color_value] = 'red';
+                    color_table[color_value] = 'gray';
                     continue;
                 }
                 color_table[color_value] = color_pallete[i];

@@ -20,7 +20,7 @@ function setupMarker(infowindow, well) {
                 <div class="als-occurrences">`
     for (let als_occurrence of well.als_occurrences) {
         html += `<hr>
-                 
+
                  <strong>Sistema de levantamiento:</strong>
                  ${als_occurrence.als}<br>
 
@@ -35,7 +35,7 @@ function setupMarker(infowindow, well) {
         }
         if (als_occurrence.main_goal) {
             html += `<strong>Objetivo principal:</strong>
-                     ${als_occurrence.main_goal}<br>`   
+                     ${als_occurrence.main_goal}<br>`
         }
     }
     html += '</div>'
@@ -49,7 +49,7 @@ function init() {
 }
 
 function getData() {
-    return $.getJSON('/api/sla/wells')
+    return $.getJSON('/sla/api/wells')
 }
 
 
