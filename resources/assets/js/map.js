@@ -25,7 +25,7 @@ exports.load = function(fn){
         $container.empty();
 
         map = new google.maps.Map($container[0], options);
-        
+
         if (fn)
             fn(google, map);
         $container.removeClass('loading');
@@ -111,7 +111,7 @@ exports.setupMarkers = function(data) {
             content += showActions(model, data.actions);
         let info_window = new google.maps.InfoWindow({content});
         info_windows.push(info_window);
-        
+
         let color = '';
         if (color_mode !== 'none')
             color = modelGet(model, color_key);

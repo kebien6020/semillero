@@ -94,8 +94,12 @@ Route::put('/{project}/table_upload/{table_name}', 'UploadController@put');
 
 // Test
 Route::get('/test', function () {
-    dd(Auth::user());
-    return view('test');
+    return view('test2');
+});
+Route::get('/test/api/fields', function () {
+    $f = App\Field::with('wells')->where('basin_id', '=', 8)->get();
+    $f->load('basin');
+    return $f;
 });
 
 Route::auth();

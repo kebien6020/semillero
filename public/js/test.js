@@ -14072,6 +14072,67 @@ module.exports = function (array) {
     return a;
 };
 
-},{}]},{},[7]);
+},{}],9:[function(require,module,exports){
+'use strict';
 
-//# sourceMappingURL=map.js.map
+require('./app');
+
+var _map = require('./map');
+
+var _map2 = _interopRequireDefault(_map);
+
+var _jquery = require('jquery');
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var markers_data = {
+    title_key: 'name',
+    longitude_key: 'longitude',
+    latitude_key: 'latitude',
+    color_mode: 'name',
+    color_by: 'name',
+    show: [{
+        display: 'Cuenca: ',
+        key: 'basin.name'
+    }, {
+        display: 'Longitud: ',
+        key: 'longitude'
+    }, {
+        display: 'Latitud: ',
+        key: 'latitude'
+    }]
+};
+
+function init() {
+    getFields().then(setupMap, function () {
+        return alert('error 1');
+    });
+}
+
+function getFields() {
+    return _jquery2.default.getJSON('/test/api/fields');
+}
+
+function setupMap(fields) {
+    fields.map(function (field) {
+        if (field.latitude == null || field.longitude == null) {
+            field.latitude = field.wells[0].latitude;
+            field.longitude = field.wells[0].longitude;
+        }
+        return field;
+    });
+
+    markers_data.data = fields;
+
+    _map2.default.load(function () {
+        _map2.default.setupMarkers(markers_data);
+    });
+}
+
+init();
+
+},{"./app":4,"./map":7,"jquery":3}]},{},[9]);
+
+//# sourceMappingURL=test.js.map

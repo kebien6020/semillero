@@ -26,6 +26,7 @@ elixir(function(mix) {
     'app.js',
     'home.js',
     'map.js',
+    'test.js',
     'arenas_map.js',
     'arenas_matrix_results.js',
     'arenas_matrix_edit.js',
