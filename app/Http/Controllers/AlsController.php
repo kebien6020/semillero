@@ -20,11 +20,12 @@ class AlsController extends Controller
     public function wells()
     {
         return Well::has('alsOccurrences')
-            ->with('alsOccurrences')
             ->whereNotNull('longitude')
             ->whereNotNull('latitude')
             ->get()
-            ->sortBy('start_date')
+            ->load(['alsOccurrences' => function ($query) {
+                $query->orderBy('start_date', 'asc');
+            }])
             ->load('field.basin');
     }
 
