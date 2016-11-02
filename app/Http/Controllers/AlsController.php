@@ -24,6 +24,7 @@ class AlsController extends Controller
             ->whereNotNull('longitude')
             ->whereNotNull('latitude')
             ->get()
+            ->sortBy('start_date')
             ->load('field.basin');
     }
 
