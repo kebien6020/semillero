@@ -40,8 +40,16 @@ Route::group(['middleware' => 'auth', 'prefix' => 'conectividad'], function () {
 
 Route::group(['middleware' => 'auth', 'prefix' => 'sla'], function () {
     Route::get('/map/pozos', 'AlsController@mapPozos');
-    // Route::get('/map/campos', 'AlsController@mapCampos');
     Route::get('/api/wells', 'AlsController@wells');
+
+    Route::get('/matrix', 'AlsController@matrix');
+    Route::get('/matrix/config', 'AlsController@matrixConfig');
+    Route::get('/matrix/value_func', 'AlsController@matrixValueFunc');
+    Route::get('/matrix/weights', 'AlsController@matrixWeights');
+    Route::get('/matrix/params/new', 'AlsController@matrixParamCreate');
+    Route::get('/matrix/params/{id}', 'AlsController@matrixParamEdit');
+
+    // Route::get('/map/campos', 'AlsController@mapCampos');
     //Route::get('/test/map', 'slaController@testMap');
     //Route::post('/test/map/add_data_submit', 'slaController@testMapAddDataSubmit');
 });
