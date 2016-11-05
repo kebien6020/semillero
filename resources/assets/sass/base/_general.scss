@@ -84,6 +84,11 @@ body {
   }
 }
 
+.plus-button, .minus-button {
+    @extend .btn;
+    @extend .btn-default;
+}
+
 .minus-button {
     &, &:hover, &:focus, &:active{ color: darkred !important; }
 }

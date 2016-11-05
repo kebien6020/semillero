@@ -20,10 +20,6 @@
             .minus-button {
                 width: 50%;
             }
-            .plus-button, .minus-button {
-                @extend .btn;
-                @extend .btn-default;
-            }
         }
         .submit-container {
             margin-top: 0.5em;
