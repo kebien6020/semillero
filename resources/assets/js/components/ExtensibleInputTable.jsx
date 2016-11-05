@@ -41,6 +41,7 @@ export default class ExtensibleInputTable extends React.Component {
                         <input type="text"
                             name={`${i}-${j}`}
                             value={value}
+                            required="required"
                             onChange={(event) => this.handleChange(event, i, j)}
                         />
                     </td>
@@ -77,5 +78,6 @@ export default class ExtensibleInputTable extends React.Component {
 
 ExtensibleInputTable.propTypes = {
     titles: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
-    content: React.PropTypes.arrayOf(React.PropTypes.arrayOf(React.PropTypes.string))
+    content: React.PropTypes.arrayOf(React.PropTypes.arrayOf(React.PropTypes.string)),
+    system: React.PropTypes.string.isRequired
 }

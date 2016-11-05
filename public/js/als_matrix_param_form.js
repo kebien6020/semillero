@@ -25769,6 +25769,7 @@ var ExtensibleInputTable = function (_React$Component) {
                             _react2.default.createElement('input', { type: 'text',
                                 name: i + '-' + j,
                                 value: value,
+                                required: 'required',
                                 onChange: function onChange(event) {
                                     return _this2.handleChange(event, i, j);
                                 }
@@ -25835,7 +25836,8 @@ exports.default = ExtensibleInputTable;
 
 ExtensibleInputTable.propTypes = {
     titles: _react2.default.PropTypes.arrayOf(_react2.default.PropTypes.string).isRequired,
-    content: _react2.default.PropTypes.arrayOf(_react2.default.PropTypes.arrayOf(_react2.default.PropTypes.string))
+    content: _react2.default.PropTypes.arrayOf(_react2.default.PropTypes.arrayOf(_react2.default.PropTypes.string)),
+    system: _react2.default.PropTypes.string.isRequired
 };
 
 },{"immutable":26,"react":172}]},{},[173]);
