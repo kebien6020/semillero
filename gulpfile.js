@@ -1,4 +1,4 @@
-var elixir = require('laravel-elixir');
+var elixir = require('laravel-elixir')
 
 /*
  |--------------------------------------------------------------------------
@@ -11,32 +11,33 @@ var elixir = require('laravel-elixir');
  |
  */
 
-elixir.config.js.browserify.watchify.options.poll = true;
+elixir.config.js.browserify.watchify.options.poll = true
 
 elixir(function(mix) {
   // Sass
-  mix.sass('app.scss');
+    mix.sass('app.scss')
 
   // Copy assets
-  mix.copy('resources/assets/images','public/images')
+    mix.copy('resources/assets/images', 'public/images')
      .copy('node_modules/bootstrap-sass/assets/fonts/', 'public/fonts');
 
   // Javascript
-  [
-    'app.js',
-    'home.js',
-    'map.js',
-    'test.js',
-    'arenas_map.js',
-    'arenas_matrix_results.js',
-    'arenas_matrix_edit.js',
-    'fluidos_map_pozos.js',
-    'fluidos_map_campos.js',
-    'fluidos_matrix.js',
-    'als_map_pozos.js',
-    'connectivity_map_pozos.js',
-    'multiple_map_pozos.js'
-  ].forEach(function(val){
-    mix.browserify(val);
-  });
-});
+    [
+        'app.js',
+        'home.js',
+        'map.js',
+        'test.js',
+        'arenas_map.js',
+        'arenas_matrix_results.js',
+        'arenas_matrix_edit.js',
+        'fluidos_map_pozos.js',
+        'fluidos_map_campos.js',
+        'fluidos_matrix.js',
+        'als_map_pozos.js',
+        'als_matrix_param_form.js',
+        'connectivity_map_pozos.js',
+        'multiple_map_pozos.js'
+    ].forEach(function(val){
+        mix.browserify(val)
+    })
+})

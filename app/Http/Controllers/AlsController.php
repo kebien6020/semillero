@@ -79,7 +79,13 @@ AlsController::$testParams = [
    (object)[
        'id' => 1,
        'name' => 'Viscosidad',
-       'weight' => 3
+       'weight' => 3,
+       'valueFunctions' => collect([
+           [
+               'system' => 'BM',
+               'data' => [['10','100'], ['50','30']]
+           ]
+       ])
    ],
    (object)[
        'id' => 2,

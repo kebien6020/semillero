@@ -1,5 +1,7 @@
 @extends ('layouts.container')
 
+@section ('script', 'als_matrix_param_form')
+
 @section ('content')
 
 <?php
@@ -33,7 +35,8 @@
             @endif
             >
         </div>
-        <div class="value-function-editor">Cargando editor de funciones valor...</div>
+        <div id="value-functions-initial-data" style="display: none;">{{ $param->valueFunctions->toJson() }}</div>
+        <div id="value-function-editor">Cargando editor de funciones valor...</div>
         <div class="submit-container">
             <input type="submit" value="Agregar parametro">
         </div>
