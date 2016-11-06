@@ -6,8 +6,10 @@ const DEFAULT_SIZE = 3
 export default class ExtensibleInputTable extends React.Component {
     constructor(props) {
         super(props)
+        const defaultContent =
+            Array(DEFAULT_SIZE).fill(Array(props.titles.length).fill(''))
         const content =
-            props.content || Array(DEFAULT_SIZE).fill(Array(props.titles.length).fill(''))
+            (props.content && props.content.length !== 0) ? props.content : defaultContent
         this.state = {content: Immutable.fromJS(content)}
     }
 
@@ -53,7 +55,7 @@ export default class ExtensibleInputTable extends React.Component {
                 {row.map((value, j) => (
                     <td key={j}>
                         <input type="text"
-                            name={`${i}-${j}`}
+                            name={`${this.props.alternative.id}-${i}-${j}`}
                             value={value}
                             required="required"
                             onChange={(event) => this.handleChange(event, i, j)}
@@ -70,7 +72,7 @@ export default class ExtensibleInputTable extends React.Component {
             <table>
                 <thead>
                     <tr>
-                        <th colSpan="2">{this.props.system}</th>
+                        <th colSpan="2">{this.props.alternative.name}</th>
                     </tr>
                     <tr>
                         {ths}
@@ -97,5 +99,5 @@ export default class ExtensibleInputTable extends React.Component {
 ExtensibleInputTable.propTypes = {
     titles: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
     content: React.PropTypes.arrayOf(React.PropTypes.arrayOf(React.PropTypes.string)),
-    system: React.PropTypes.string.isRequired
+    alternative: React.PropTypes.object.isRequired
 }

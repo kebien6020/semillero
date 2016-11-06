@@ -11,7 +11,7 @@
 <header>
     <h1>
         @if ($edit)
-            Configurar parametro: {{ $param->name }}
+            Configurar funciones valor del parametro: {{ $param->name }}
         @else
             Agregar nuevo parámetro
         @endif
@@ -21,7 +21,7 @@
 <main>
     <p>
         @if($edit)
-            Aquí podrá configurar el parametro {{ $param->name }}.
+            Aquí podrá configurar el parametro {{ $param->name }} y sus funciones valor.
         @else
             Aquí podrá agregar un nuevo parametro a la matriz de selección preliminar.
         @endif
@@ -35,7 +35,9 @@
             @endif
             >
         </div>
-        <div id="value-functions-initial-data" style="display: none;">{{ $param->valueFunctions->toJson() }}</div>
+        <div id="value-functions-initial-data" style="display: none;">
+            {{ $edit ? $param->valueFunctions->toJson() : $emptyValueFunctions->toJson() }}
+        </div>
         <div id="value-function-editor">Cargando editor de funciones valor...</div>
         <div class="submit-container">
             <input type="submit" value="Agregar parametro">

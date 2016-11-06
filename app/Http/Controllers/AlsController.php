@@ -29,19 +29,22 @@ class AlsController extends Controller
             ->load('field.basin');
     }
 
+    // TODO: Fetch params from database
+    // NOTE: Initialized at the end of the file
+    public static $testParams;
+    public static $testAlternatives;
+
     public function matrix()
     {
-        return view('als.matrix');
+        return view('als.matrix', [
+            'params' => self::$testParams
+        ]);
     }
 
     public function matrixConfig()
     {
         return view('als.matrix_config');
     }
-
-    // TODO: Fetch params from database
-    // NOTE: Initialized at the end of the file
-    public static $testParams;
 
     public function matrixValueFunc()
     {
@@ -66,7 +69,34 @@ class AlsController extends Controller
 
     public function matrixParamCreate()
     {
-        return view('als.matrix_param_form', []);
+        $emptyValueFunctions = self::$testAlternatives->map(function ($item) {
+            return (object)[
+                'alternative' => $item,
+                'data' => []
+            ];
+        });
+        return view('als.matrix_param_form', [
+            'emptyValueFunctions' => $emptyValueFunctions
+        ]);
+    }
+
+    public function matrixAlternatives()
+    {
+        return view('als.matrix_alternatives', [
+            'alternatives' => self::$testAlternatives
+        ]);
+    }
+
+    public function matrixAlternativeCreate()
+    {
+        return view('als.matrix_alternative_form');
+    }
+
+    public function matrixAlternativeEdit()
+    {
+        return view('als.matrix_alternative_form', [
+            'name' => 'BM'
+        ]);
     }
 
     public function mapCampos()
@@ -82,8 +112,18 @@ AlsController::$testParams = [
        'weight' => 3,
        'valueFunctions' => collect([
            [
-               'system' => 'BM',
+               'alternative' => [
+                   'id' => 1,
+                   'name' => 'BM'
+               ],
                'data' => [['10','100'], ['50','30']]
+           ],
+           [
+               'alternative' => [
+                   'id' => 2,
+                   'name' => 'BES'
+               ],
+               'data' => [['20', '80'], ['40', '20']]
            ]
        ])
    ],
@@ -93,3 +133,14 @@ AlsController::$testParams = [
        'weight' => 2
    ]
 ];
+
+AlsController::$testAlternatives = collect([
+    (object)[
+        'id' => 1,
+        'name' => 'BM',
+    ],
+    (object)[
+        'id' => 2,
+        'name' => 'BES',
+    ]
+]);

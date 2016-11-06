@@ -1,3 +1,4 @@
+import './app.js'
 import React from 'react'
 import ReactDOM from 'react-dom'
 
@@ -12,7 +13,7 @@ const valueFunctions =
 const editors = valueFunctions.map((valueFunction, i) => {
     return (
         <ExtensibleInputTable
-            system={valueFunction.system}
+            alternative={valueFunction.alternative}
             titles={['Valor', 'Puntaje']}
             content={valueFunction.data}
             key={i}

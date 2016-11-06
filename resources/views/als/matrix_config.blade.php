@@ -14,6 +14,7 @@
     <div class="list-group">
         <a href="/sla/matrix/value_func">Configurar funciones valor</a>
         <a href="/sla/matrix/weights">Configurar pesos</a>
+        <a href="/sla/matrix/alternatives">Configurar alternativas</a>
     </div>
 </main>
 

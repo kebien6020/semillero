@@ -13,7 +13,7 @@
         Aquí podrá configurar las funciones valor para cada combinación Parametro-Alternativa.
     </p>
     <p>
-        Seleccione el parametro que desea configurar:
+        Seleccione el parametro para el que desea configurar sus funciones valor:
     </p>
     <div class="list-group">
         @foreach ($params as $param)
