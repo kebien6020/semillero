@@ -20,6 +20,20 @@ export default class ExtensibleInputTable extends React.Component {
         }
     }
 
+    handleRowBlur() {
+        const comparator = (left, right) => {
+            const a = Number(left.get(0))
+            const b = Number(right.get(0))
+            return a === b ? 0 : (a < b ? -1 : 1)
+        }
+        const newContent = this.state.content.sort(comparator)
+        if (!this.state.content.equals(newContent)) {
+            this.setState({content: newContent})
+            // Force lost focus
+            setTimeout(() => document.activeElement.blur(), 0)
+        }
+    }
+
     addRow() {
         this.setState({
             content: this.state.content.push(Immutable.List.of('', ''))
@@ -43,6 +57,10 @@ export default class ExtensibleInputTable extends React.Component {
                             value={value}
                             required="required"
                             onChange={(event) => this.handleChange(event, i, j)}
+                            onBlur={() => {
+                                if (j === row.size - 1)
+                                    this.handleRowBlur()
+                            }}
                         />
                     </td>
                 ))}

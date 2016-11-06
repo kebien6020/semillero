@@ -25733,6 +25733,23 @@ var ExtensibleInputTable = function (_React$Component) {
             }
         }
     }, {
+        key: 'handleRowBlur',
+        value: function handleRowBlur() {
+            var comparator = function comparator(left, right) {
+                var a = Number(left.get(0));
+                var b = Number(right.get(0));
+                return a === b ? 0 : a < b ? -1 : 1;
+            };
+            var newContent = this.state.content.sort(comparator);
+            if (!this.state.content.equals(newContent)) {
+                this.setState({ content: newContent });
+                // Force lost focus
+                setTimeout(function () {
+                    return document.activeElement.blur();
+                }, 0);
+            }
+        }
+    }, {
         key: 'addRow',
         value: function addRow() {
             this.setState({
@@ -25772,6 +25789,9 @@ var ExtensibleInputTable = function (_React$Component) {
                                 required: 'required',
                                 onChange: function onChange(event) {
                                     return _this2.handleChange(event, i, j);
+                                },
+                                onBlur: function onBlur() {
+                                    if (j === row.size - 1) _this2.handleRowBlur();
                                 }
                             })
                         );
