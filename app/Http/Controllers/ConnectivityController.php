@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 
 use App\Well;
+use App\Basin;
+use App\Field;
+use App\ConnectivityMethod;
 
 class ConnectivityController extends Controller
 {
@@ -19,8 +22,14 @@ class ConnectivityController extends Controller
     public function wells()
     {
         $wells = Well::has('connectivityOccurrences')
-            ->with('connectivityOccurrences')
+            ->with('connectivityOccurrences.connectivityMethod')
             ->get();
         return $wells;
+    }
+
+    // API Route
+    public function methods()
+    {
+        return ConnectivityMethod::all(['name', 'color'])->toJson();
     }
 }

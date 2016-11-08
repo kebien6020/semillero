@@ -13870,9 +13870,7 @@ exports.setupMarkers = function (data) {
     var color_table = {};
     var callback = data.on_open_marker || function () {};
 
-    if (color_mode !== 'name' && color_mode !== 'color') {
-        color_mode = 'none';
-    }
+    if (color_mode !== 'name' && color_mode !== 'color') color_mode = 'none';
 
     if (color_mode !== 'none') {
         if (color_mode === 'name' && data.color_pallete) color_pallete = arr_unique(data.color_pallete.concat(default_color_pallete));
@@ -13888,15 +13886,13 @@ exports.setupMarkers = function (data) {
             throw 'Must specify valid color_by';
         }
 
-        if (color_mode === 'name') {
-            for (var i = 0; i < color_values.length; ++i) {
-                var color_value = color_values[i];
-                if (i + 1 > color_pallete.length) {
-                    color_table[color_value] = 'gray';
-                    continue;
-                }
-                color_table[color_value] = color_pallete[i];
+        if (color_mode === 'name') for (var i = 0; i < color_values.length; ++i) {
+            var color_value = color_values[i];
+            if (i + 1 > color_pallete.length) {
+                color_table[color_value] = 'gray';
+                continue;
             }
+            color_table[color_value] = color_pallete[i];
         } else {
             var _iteratorNormalCompletion = true;
             var _didIteratorError = false;
@@ -13922,9 +13918,7 @@ exports.setupMarkers = function (data) {
                     }
                 }
             }
-        }
-
-        setupLegend(color_table, color_mode, base_url);
+        }setupLegend(color_table, color_mode, base_url);
     }
 
     var _iteratorNormalCompletion2 = true;
@@ -14072,6 +14066,7 @@ function modelGet(model, key) {
         for (var _iterator5 = key.split('.')[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
             var subkey = _step5.value;
 
+            if (res === undefined) throw 'key: ' + key + ' not found in model ' + JSON.stringify(model, null, 2);
             res = res[subkey];
             if (Array.isArray(res)) res = res[res.length - 1];
         }
@@ -14089,8 +14084,6 @@ function modelGet(model, key) {
             }
         }
     }
-
-    if (res === undefined) throw 'key: ' + key + ' not found in model ' + JSON.stringify(model, null, 2);
 
     return res;
 }

@@ -15,6 +15,7 @@ use App\AlsOccurrence;
 use App\Basin;
 use App\Completion;
 use App\ConnectivityOccurrence;
+use App\ConnectivityMethod;
 use App\DensityRange;
 use App\Field;
 use App\Fluid;
@@ -70,9 +71,9 @@ class UploadController extends Controller
             $file->getFilename(),
             file_get_contents($file->getRealPath())
         );
-        
+
         $filename = storage_path('app') . '/' . $file->getFilename();
-        
+
         $excel = Excel::selectSheetsByIndex(0)->load($filename)->remember(5);
         $sheet = null;
         $file_empty = $excel->get()->isEmpty();
@@ -187,7 +188,7 @@ class UploadController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        
+
         $this->tables = [
             'fluidos_pozos' => [
                 'project' => 'fluidos',
@@ -548,9 +549,8 @@ class UploadController extends Controller
                     ['name' => 'latitude', 'display_name' => 'Latitud'],
                     ['name' => 'field', 'display_name' => 'Campo'],
                     ['name' => 'vicepresidency', 'display_name' => 'Vicepresidencia'],
-                    ['name' => 'field_longitude', 'display_name' => 'Longitud del Campo'],
-                    ['name' => 'field_latitude', 'display_name' => 'Latitud del Campo'],
                     ['name' => 'basin', 'display_name' => 'Cuenca'],
+                    ['name' => 'color', 'display_name' => 'Color para representar al método'],
                 ],
                 'hierarchy' => [
                     [
@@ -585,9 +585,18 @@ class UploadController extends Controller
                         'fields' => [
                             'start_date' => 'start_date',
                             'end_date' => 'end_date',
-                            'method' => 'method',
                         ],
                     ],
+                    [
+                        'model' => ConnectivityMethod::class,
+                        'prev' => 'connectivityMethod',
+                        'action' => 'groupBy',
+                        'column' => 'method',
+                        'fields' => [
+                            'method' => 'name',
+                            'color' => 'color'
+                        ]
+                    ]
                 ],
             ],
             'multiples_ocurrencias' => [
@@ -756,7 +765,7 @@ class UploadController extends Controller
                 $model = new $info['model'];
                 static::addToCreated($created, $model);
             }
-            
+
             $model->fill($fields);
 
             if ($parentModel == null) {

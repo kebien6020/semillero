@@ -12422,6 +12422,8 @@ $().alert();
 },{"bootstrap":1,"jquery":3,"jquery.flot.pie":7}],5:[function(require,module,exports){
 'use strict';
 
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
 require('./app');
 
 var _map = require('./map');
@@ -12438,10 +12440,9 @@ var markers_data = {
     title_key: 'name',
     longitude_key: 'longitude',
     latitude_key: 'latitude',
-    color_mode: 'name',
+    color_mode: 'color',
     color_by: {
-        key: 'connectivity_occurrences.method',
-        values: ['ABRASIJET', 'CASING GUN', 'EXPANDABLE', 'HIGH SHOT', 'PERFORATE', 'SCALL GUN', 'SLICK GUN', 'TBG CONVEY', 'TCP', 'TRHUTUBING', 'WIRELINE', 'OTHERS', 'No Reporta']
+        key: 'connectivity_occurrences.connectivity_method.color'
     },
     on_open_marker: setupMarker
 };
@@ -12456,7 +12457,7 @@ function setupMarker(infowindow, well) {
         for (var _iterator = well.connectivity_occurrences[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
             var connectivity_occurrence = _step.value;
 
-            html += '<hr>\n                 \n                 <strong>Método de cañoneo:</strong>\n                 ' + connectivity_occurrence.method + '<br>\n\n                 <strong>Fecha de inicio:</strong>\n                 ' + connectivity_occurrence.start_date + '<br>\n\n                 <strong>Fecha de finalización:</strong>\n                 ' + connectivity_occurrence.end_date + '<br>';
+            html += '<hr>\n\n                 <strong>Método de cañoneo:</strong>\n                 ' + connectivity_occurrence.connectivity_method.name + '<br>\n\n                 <strong>Fecha de inicio:</strong>\n                 ' + connectivity_occurrence.start_date + '<br>\n\n                 <strong>Fecha de finalización:</strong>\n                 ' + connectivity_occurrence.end_date + '<br>';
         }
     } catch (err) {
         _didIteratorError = true;
@@ -12483,11 +12484,20 @@ function init() {
 }
 
 function getData() {
-    return _jquery2.default.getJSON('/conectividad/api/wells');
+    return _jquery2.default.when(_jquery2.default.getJSON('/conectividad/api/wells'), _jquery2.default.getJSON('/conectividad/api/methods'));
 }
 
-function setupMap(wells) {
+function setupMap(_ref, _ref2) {
+    var _ref4 = _slicedToArray(_ref, 1);
+
+    var wells = _ref4[0];
+
+    var _ref3 = _slicedToArray(_ref2, 1);
+
+    var methods = _ref3[0];
+
     markers_data.data = wells;
+    markers_data.color_by.values = methods;
 
     _map2.default.load(function () {
         _map2.default.setupMarkers(markers_data);
@@ -13864,9 +13874,7 @@ exports.setupMarkers = function (data) {
     var color_table = {};
     var callback = data.on_open_marker || function () {};
 
-    if (color_mode !== 'name' && color_mode !== 'color') {
-        color_mode = 'none';
-    }
+    if (color_mode !== 'name' && color_mode !== 'color') color_mode = 'none';
 
     if (color_mode !== 'none') {
         if (color_mode === 'name' && data.color_pallete) color_pallete = arr_unique(data.color_pallete.concat(default_color_pallete));
@@ -13882,15 +13890,13 @@ exports.setupMarkers = function (data) {
             throw 'Must specify valid color_by';
         }
 
-        if (color_mode === 'name') {
-            for (var i = 0; i < color_values.length; ++i) {
-                var color_value = color_values[i];
-                if (i + 1 > color_pallete.length) {
-                    color_table[color_value] = 'gray';
-                    continue;
-                }
-                color_table[color_value] = color_pallete[i];
+        if (color_mode === 'name') for (var i = 0; i < color_values.length; ++i) {
+            var color_value = color_values[i];
+            if (i + 1 > color_pallete.length) {
+                color_table[color_value] = 'gray';
+                continue;
             }
+            color_table[color_value] = color_pallete[i];
         } else {
             var _iteratorNormalCompletion = true;
             var _didIteratorError = false;
@@ -13916,9 +13922,7 @@ exports.setupMarkers = function (data) {
                     }
                 }
             }
-        }
-
-        setupLegend(color_table, color_mode, base_url);
+        }setupLegend(color_table, color_mode, base_url);
     }
 
     var _iteratorNormalCompletion2 = true;
@@ -14066,6 +14070,7 @@ function modelGet(model, key) {
         for (var _iterator5 = key.split('.')[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
             var subkey = _step5.value;
 
+            if (res === undefined) throw 'key: ' + key + ' not found in model ' + JSON.stringify(model, null, 2);
             res = res[subkey];
             if (Array.isArray(res)) res = res[res.length - 1];
         }
@@ -14083,8 +14088,6 @@ function modelGet(model, key) {
             }
         }
     }
-
-    if (res === undefined) throw 'key: ' + key + ' not found in model ' + JSON.stringify(model, null, 2);
 
     return res;
 }

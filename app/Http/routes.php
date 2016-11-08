@@ -34,6 +34,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'conectividad'], function () {
 
     //api routes
     Route::get('/api/wells', 'ConnectivityController@wells');
+    Route::get('/api/methods', 'ConnectivityController@methods');
 });
 
 // als

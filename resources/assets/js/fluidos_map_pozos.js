@@ -1,11 +1,11 @@
-import './app.js';
-import Map from './map.js';
-import $ from 'jquery';
+import './app.js'
+import Map from './map.js'
+import $ from 'jquery'
 
-let markers_data = {
-    title_key: 'well.name',
-    longitude_key: 'well.longitude',
-    latitude_key: 'well.latitude',
+const markers_data = {
+    'title_key': 'well.name',
+    'longitude_key': 'well.longitude',
+    'latitude_key': 'well.latitude',
     show: [
         {
             display: 'Fluido de completamiento: ',
@@ -26,39 +26,39 @@ let markers_data = {
             nullable: true
         }
     ],
-    color_mode: 'color',
-    color_by: {
+    'color_mode': 'color',
+    'color_by': {
         key: 'fluid.color'
     }
 }
 
 function init() {
     getData()
-        .then(setupMap, handleAjaxError);
+        .then(setupMap, handleAjaxError)
 }
 
 function getData() {
     const promise = $.when(
         $.getJSON('/api/fluidos/fluid_occurrences'),
         $.getJSON('/api/fluidos/fluids')
-    );
-    return promise;
+    )
+    return promise
 }
 
 // ES6 Destructuring arrays.
 // Here we are getting the first element of each param
 function setupMap([fluid_occurrences], [fluids]){
-    markers_data.data = fluid_occurrences;
-    markers_data.color_by.values = fluids;
+    markers_data.data = fluid_occurrences
+    markers_data.color_by.values = fluids
 
     Map.load(() => {
-        Map.setupMarkers(markers_data);
-    });
+        Map.setupMarkers(markers_data)
+    })
 }
 
 function handleAjaxError(){
-    alert('Error cargando los datos del mapa desde el servidor');
+    alert('Error cargando los datos del mapa desde el servidor')
 
 }
 
-init();
+init()

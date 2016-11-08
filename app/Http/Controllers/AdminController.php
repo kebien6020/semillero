@@ -12,6 +12,7 @@ use App\SandControlSummary;
 use App\FluidOccurrence;
 use App\DensityRange;
 use App\MultipleOccurrence;
+use App\ConnectivityOccurrence;
 
 class AdminController extends Controller
 {

@@ -5,13 +5,14 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 use App\Well;
+use App\ConnectivityMethod;
 
 class ConnectivityOccurrence extends Model
 {
     protected $fillable = [
         'start_date',
         'end_date',
-        'method'
+        'connectivity_method_id'
     ];
 
     protected $dates = [
@@ -22,5 +23,10 @@ class ConnectivityOccurrence extends Model
     public function well()
     {
         return $this->belongsTo(Well::class);
+    }
+
+    public function connectivityMethod()
+    {
+        return $this->belongsTo(ConnectivityMethod::class);
     }
 }
