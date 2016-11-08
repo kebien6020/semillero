@@ -12458,6 +12458,7 @@ function setupMarker(infowindow, well) {
             var connectivity_occurrence = _step.value;
 
             html += '<hr>\n\n                 <strong>Método de cañoneo:</strong>\n                 ' + connectivity_occurrence.connectivity_method.name + '<br>\n\n                 <strong>Fecha de inicio:</strong>\n                 ' + connectivity_occurrence.start_date + '<br>\n\n                 <strong>Fecha de finalización:</strong>\n                 ' + connectivity_occurrence.end_date + '<br>';
+            if (connectivity_occurrence.event !== null) html += '<strong>Siglas del evento:</strong>\n                     ' + connectivity_occurrence.event + '<br>';
         }
     } catch (err) {
         _didIteratorError = true;

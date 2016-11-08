@@ -12,6 +12,7 @@ class ConnectivityOccurrence extends Model
     protected $fillable = [
         'start_date',
         'end_date',
+        'event',
         'connectivity_method_id'
     ];
 

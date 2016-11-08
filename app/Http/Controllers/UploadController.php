@@ -550,6 +550,7 @@ class UploadController extends Controller
                     ['name' => 'field', 'display_name' => 'Campo'],
                     ['name' => 'vicepresidency', 'display_name' => 'Vicepresidencia'],
                     ['name' => 'basin', 'display_name' => 'Cuenca'],
+                    ['name' => 'event', 'display_name' => 'Siglas del evento'],
                     ['name' => 'color', 'display_name' => 'Color para representar al método'],
                 ],
                 'hierarchy' => [
@@ -585,6 +586,7 @@ class UploadController extends Controller
                         'fields' => [
                             'start_date' => 'start_date',
                             'end_date' => 'end_date',
+                            'event' => 'event',
                         ],
                     ],
                     [

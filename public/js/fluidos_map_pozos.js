@@ -13749,9 +13749,9 @@ var _jquery2 = _interopRequireDefault(_jquery);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var markers_data = {
-    title_key: 'well.name',
-    longitude_key: 'well.longitude',
-    latitude_key: 'well.latitude',
+    'title_key': 'well.name',
+    'longitude_key': 'well.longitude',
+    'latitude_key': 'well.latitude',
     show: [{
         display: 'Fluido de completamiento: ',
         key: 'fluid.name'
@@ -13767,8 +13767,8 @@ var markers_data = {
         key: 'event',
         nullable: true
     }],
-    color_mode: 'color',
-    color_by: {
+    'color_mode': 'color',
+    'color_by': {
         key: 'fluid.color'
     }
 };

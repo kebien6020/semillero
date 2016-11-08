@@ -22,7 +22,10 @@ class ConnectivityController extends Controller
     public function wells()
     {
         $wells = Well::has('connectivityOccurrences')
-            ->with('connectivityOccurrences.connectivityMethod')
+            ->with(['connectivityOccurrences' => function ($query) {
+                $query->orderBy('start_date', 'ASC');
+                $query->with('connectivityMethod');
+            }])
             ->get();
         return $wells;
     }

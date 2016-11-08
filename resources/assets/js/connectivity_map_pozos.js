@@ -16,7 +16,7 @@ const markers_data = {
 function setupMarker(infowindow, well) {
     let html = `<h2 class="marker-title">${well.name}</h2>
                 <div class="connectivity-occurrences">`
-    for (const connectivity_occurrence of well.connectivity_occurrences)
+    for (const connectivity_occurrence of well.connectivity_occurrences) {
         html += `<hr>
 
                  <strong>Método de cañoneo:</strong>
@@ -27,7 +27,10 @@ function setupMarker(infowindow, well) {
 
                  <strong>Fecha de finalización:</strong>
                  ${connectivity_occurrence.end_date}<br>`
-
+        if (connectivity_occurrence.event !== null)
+            html += `<strong>Siglas del evento:</strong>
+                     ${connectivity_occurrence.event}<br>`
+    }
     html += '</div>'
 
     infowindow.setContent(html)
