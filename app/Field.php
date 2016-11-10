@@ -39,4 +39,28 @@ class Field extends Model
         }
         return $res;
     }
+
+    public function connectivityDistribution()
+    {
+        $this->load('wells.connectivityOccurrences');
+        $connectivityOccurrences = $this->wells->pluck('connectivityOccurrences')->flatten();
+        $methods_ids = $connectivityOccurrences->unique('connectivity_method_id')->pluck('connectivity_method_id');
+        $res = [];
+        $count = 0;
+        foreach ($methods_ids as $method_id) {
+            $method = ConnectivityMethod::find($method_id);
+            $occurrences = $connectivityOccurrences->where('connectivity_method_id', $method_id)->count();
+            $res[] = (object)[
+                'id' => $method->id,
+                'name' => $method->name,
+                'color' => $method->color,
+                'occurrences' => $occurrences,
+            ];
+            $count += $occurrences;
+        }
+        return (object)[
+            'distribution' => $res,
+            'count' => $count
+        ];
+    }
 }

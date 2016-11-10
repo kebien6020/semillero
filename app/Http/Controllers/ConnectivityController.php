@@ -18,6 +18,49 @@ class ConnectivityController extends Controller
         return view('connectivity.map_pozos');
     }
 
+    public function matrix()
+    {
+        return 'matrix';
+    }
+
+    public function basins()
+    {
+        $basins = Basin::query()
+            ->has('fields.wells.connectivityOccurrences')
+            ->orderBy('name', 'ASC')
+            ->get();
+        return view('connectivity.basins', [
+            'basins' => $basins
+        ]);
+    }
+    public function basinDetail($id)
+    {
+        $basin = Basin::findOrFail($id);
+        $fields = $basin->fields()
+            ->has('wells.connectivityOccurrences')
+            ->orderBy('name', 'ASC')
+            ->get();
+        return view('connectivity.basin_detail', [
+            'basin' => $basin,
+            'fields' => $fields
+        ]);
+    }
+    public function fieldDetail($basinId, $fieldId)
+    {
+        $field = Field::findOrFail($fieldId);
+        $distribution = $field->connectivityDistribution();
+        return view('connectivity.field_detail', [
+            'field' => $field,
+            'basinId' => $basinId,
+            'distribution' => collect($distribution->distribution)->sortBy('occurrences')->reverse(),
+            'occurrenceCount' => $distribution->count,
+        ]);
+    }
+    public function wellDetail()
+    {
+        return 'wellDetail';
+    }
+
     // API route
     public function wells()
     {
