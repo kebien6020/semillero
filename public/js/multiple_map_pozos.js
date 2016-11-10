@@ -14103,7 +14103,7 @@ function setupMarker(infowindow, well) {
         for (var _iterator = well.multiple_occurrences[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
             var multiple_occurrence = _step.value;
 
-            html += '<hr>\n                 \n                <strong>Sistema de levantamiento:</strong>\n                ' + multiple_occurrence.completion.name + '<br>\n\n                <strong>Fecha de instalación:</strong>\n                ' + multiple_occurrence.start_date + '<br>\n\n                <strong>Siglas del evento:</strong>\n                ' + multiple_occurrence.event + '<br>\n\n                <strong>Causa de la intervención:</strong>\n                ' + multiple_occurrence.reason + '<br>\n\n                <strong>Tipo de Pozo:</strong>\n                ' + multiple_occurrence.type + '<br>';
+            html += '<hr>\n\n                <strong>Tipo de completamiento:</strong>\n                ' + multiple_occurrence.completion.name + '<br>\n\n                <strong>Fecha de instalación:</strong>\n                ' + multiple_occurrence.start_date + '<br>\n\n                <strong>Siglas del evento:</strong>\n                ' + multiple_occurrence.event + '<br>\n\n                <strong>Causa de la intervención:</strong>\n                ' + multiple_occurrence.reason + '<br>\n\n                <strong>Tipo de Pozo:</strong>\n                ' + multiple_occurrence.type + '<br>';
         }
     } catch (err) {
         _didIteratorError = true;

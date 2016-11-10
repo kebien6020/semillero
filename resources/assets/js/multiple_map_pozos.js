@@ -2,7 +2,7 @@ import './app'
 import Map from './map'
 import $ from 'jquery'
 
-let markers_data = {
+const markers_data = {
     title_key: 'name',
     longitude_key: 'longitude',
     latitude_key: 'latitude',
@@ -16,10 +16,10 @@ let markers_data = {
 function setupMarker(infowindow, well) {
     let html = `<h2 class="marker-title">${well.name}</h2>
                 <div class="multiple-occurrences">`
-    for (let multiple_occurrence of well.multiple_occurrences) {
+    for (const multiple_occurrence of well.multiple_occurrences) 
         html += `<hr>
-                 
-                <strong>Sistema de levantamiento:</strong>
+
+                <strong>Tipo de completamiento:</strong>
                 ${multiple_occurrence.completion.name}<br>
 
                 <strong>Fecha de instalación:</strong>
@@ -33,7 +33,7 @@ function setupMarker(infowindow, well) {
 
                 <strong>Tipo de Pozo:</strong>
                 ${multiple_occurrence.type}<br>`
-    }
+    
     html += '</div>'
 
     infowindow.setContent(html)
@@ -55,11 +55,11 @@ function getData() {
 
 function setupMap([wells], [completions]){
     markers_data.data = wells
-    markers_data.color_by.values = completions;
+    markers_data.color_by.values = completions
 
     Map.load(() => {
         Map.setupMarkers(markers_data)
-    });
+    })
 }
 
 function handleAjaxError(){
