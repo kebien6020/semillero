@@ -3,6 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Fluid;
+use App\ConnectivityMethod;
 
 class Field extends Model
 {
