@@ -32869,7 +32869,7 @@ window.$ = $;
 $('.success-panel, .error-panel').addClass('alert fade in');
 $().alert();
 
-},{"bootstrap":1,"jquery":27,"jquery.flot.pie":179}],175:[function(require,module,exports){
+},{"bootstrap":1,"jquery":27,"jquery.flot.pie":180}],175:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -33125,6 +33125,133 @@ Recommendations.propTypes = {
 };
 
 },{"react":173}],178:[function(require,module,exports){
+'use strict';
+
+require('./app');
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = require('react-dom');
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+var _QuestionMatrix = require('./components/QuestionMatrix.jsx');
+
+var _QuestionMatrix2 = _interopRequireDefault(_QuestionMatrix);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var questions = [
+// 0
+{
+    text: 'Condición de presión',
+    type: 'multi',
+    options: ['Bajo balance', 'Sobre balance'],
+    default: 'Sobre balance',
+    prereq: [],
+    recommend: {
+        'Bajo balance': ['thru', 'tcp'],
+        'Sobre balance': ['thru', 'gun']
+    }
+},
+// 1
+{
+    text: '¿El pozo se encuentra con tubería de producción o con revestimiento?',
+    type: 'multi',
+    options: ['Tubería de producción', 'Revestimiento'],
+    default: 'Revestimiento',
+    prereq: [],
+    recommend: {
+        'Revestimiento': ['gun'],
+        'Tubería de producción': ['thru', 'tcp']
+    }
+},
+// 2
+{
+    text: '¿La sección a cañonear es de gran longitud y se requiere una densidad de disparo > 6TTP?',
+    type: 'boolean',
+    default: false,
+    prereq: [{
+        id: 0,
+        answer: 'Bajo balance'
+    }],
+    recommend: {
+        'true': ['tcp', 'pure'],
+        'false': ['thru', 'slickline']
+    }
+},
+// 3
+{
+    text: '¿Es necesaria una velocidad de operación alta?',
+    type: 'boolean',
+    default: false,
+    prereq: [{
+        id: 0,
+        answer: 'Sobre balance'
+    }],
+    recommend: {
+        'true': ['gun', 'extreme'],
+        'false': ['thru', 'extreme']
+    }
+},
+// 4
+{
+    text: ['Se tiene alguna de estas condiciones?', _react2.default.createElement(
+        'ul',
+        { key: '0' },
+        _react2.default.createElement(
+            'li',
+            null,
+            'Ángulo de pozo > 60°.'
+        ),
+        _react2.default.createElement(
+            'li',
+            null,
+            'Requiere cañonear zonas múltiples.'
+        ),
+        _react2.default.createElement(
+            'li',
+            null,
+            'Densidad de disparo > 6 TTP.'
+        ),
+        _react2.default.createElement(
+            'li',
+            null,
+            'Cañonear zonas profundas'
+        )
+    )],
+    type: 'boolean',
+    default: false,
+    prereq: [{
+        id: 1,
+        answer: 'Tubería de producción'
+    }],
+    recommend: {
+        'true': ['tcp', 'high'],
+        'false': ['thru']
+    }
+}];
+
+var recommendations = {
+    thru: 'Through Tubing Wireline (cañoneo a través de tubería de producción bajado con línea eléctrica)',
+    tcp: 'TCP (cañoneo bajado con la tubería de producción)',
+    gun: 'Casing Gun Wireline (cañoneo a través de revestimiento bajado con línea eléctrica)',
+    pure: 'Sugerencia: Utilizar la técnica Pure para que los perforados queden limpios, incrementar la productividad e inyectabilidad en los pozos. Además permite minimizar el daño por el cañoneo.',
+    slickline: 'Sugerencia: Utilizar Slickline para poder controlar de mejor manera la presión debido a su diámetro menor.',
+    extreme: 'Sugerencia: Utilizar la técnica de sobre balance extremo para minimizar el daño e incrementar la conectividad.',
+    high: 'Sugerencia: Utilizar un sistema de High Shot Density (alta densidad de disparo). También se puede utilizar el método Through tubing con coiled tubing para pozos altamente desviados.'
+
+};
+
+_reactDom2.default.render(_react2.default.createElement(_QuestionMatrix2.default, {
+    questions: questions,
+    recommendationText: recommendations,
+    noRecommendations: 'No se recomienda completamiento múltiple'
+}), document.getElementById('matrix'));
+
+},{"./app":174,"./components/QuestionMatrix.jsx":176,"react":173,"react-dom":30}],179:[function(require,module,exports){
 (function (global){
 
 ; require("jquery");
@@ -33610,7 +33737,7 @@ function floorInBase(n,base){return base*Math.floor(n/base);}})(jQuery);
 }).call(global, module, undefined, undefined);
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"jquery":27}],179:[function(require,module,exports){
+},{"jquery":27}],180:[function(require,module,exports){
 (function (global){
 
 ; require("/home/vagrant/Code/Semillero/resources/assets/js/flot/jquery.flot.js");
@@ -34436,243 +34563,6 @@ More detail and specific examples can be found in the included HTML file.
 }).call(global, module, undefined, undefined);
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"/home/vagrant/Code/Semillero/resources/assets/js/flot/jquery.flot.js":178}],180:[function(require,module,exports){
-'use strict';
+},{"/home/vagrant/Code/Semillero/resources/assets/js/flot/jquery.flot.js":179}]},{},[178]);
 
-require('./app');
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactDom = require('react-dom');
-
-var _reactDom2 = _interopRequireDefault(_reactDom);
-
-var _QuestionMatrix = require('./components/QuestionMatrix.jsx');
-
-var _QuestionMatrix2 = _interopRequireDefault(_QuestionMatrix);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var questions = [
-// 0
-{
-    text: '¿Hay mas de una zona prospectiva en el pozo (inyección o producción)?',
-    type: 'boolean',
-    default: true,
-    prereq: [],
-    recommend: {}
-},
-// 1
-{
-    text: '¿Existe alta diferencia de permeabilidad entre zonas?',
-    type: 'boolean',
-    default: true,
-    prereq: [{
-        id: 0,
-        answer: true
-    }],
-    recommend: {}
-},
-// 2
-{
-    text: '¿Cuenta con las facilidades e inversion inicial para la instalación de un completamiento no convencional?',
-    type: 'boolean',
-    default: true,
-    prereq: [{
-        id: 1,
-        answer: true
-    }],
-    recommend: {}
-},
-// 3
-{
-    text: '¿Una o mas capas productoras depletaron o entraron en irrupción de agua y gas?',
-    type: 'boolean',
-    default: false,
-    prereq: [{
-        id: 2,
-        answer: true
-    }],
-    recommend: {}
-},
-// 4
-{
-    text: '¿Acorde a la conectividad del yacimiento las capas depletadas son candidatas a inyección para recobro disposal?',
-    type: 'boolean',
-    default: false,
-    prereq: [{
-        id: 3,
-        answer: true
-    }],
-    recommend: {
-        'true': ['parallelInyProd']
-    }
-},
-// 5
-{
-    text: 'Se definió entonces que el pozo quedaría...',
-    type: 'multi',
-    options: ['Inyector', 'Productor'],
-    default: 'Productor',
-    prereq: [{
-        id: 3,
-        answer: false
-    }, {
-        id: 4,
-        answer: false
-    }],
-    recommend: {}
-},
-// 6
-{
-    text: '¿Espaciamiento entre arenas es menor a __?',
-    type: 'boolean',
-    default: false,
-    prereq: [{
-        id: 5,
-        answer: 'Inyector'
-    }],
-    recommend: {
-        'false': ['directIny'],
-        'true': ['vrf']
-    }
-},
-// 7
-{
-    text: '¿Que tipo de pozo es con respecto a la geometría?',
-    type: 'multi',
-    options: ['Vertical o Desviado', 'Horizontal o Multilateral'],
-    default: 'Vertical o Desviado',
-    prereq: [{
-        id: 5,
-        answer: 'Productor'
-    }],
-    recommend: {}
-},
-// 8
-{
-    text: '¿Requiere fiscalizar las zonas de forma simultanea e independiente?',
-    type: 'boolean',
-    default: false,
-    prereq: [{
-        id: 7,
-        answer: 'Vertical o Desviado'
-    }],
-    recommend: {
-        'true': ['parallel', 'dualBes', 'dualGl']
-    }
-},
-// 9
-{
-    text: '¿Desea tener control de reservas y retrasar frentes de agua de forma simultanea en todas las zonas?',
-    type: 'boolean',
-    default: false,
-    prereq: [{
-        id: 8,
-        answer: false
-    }],
-    recommend: {
-        'false': ['ssd']
-    }
-},
-// 10
-{
-    text: '¿Cuál es el tipo de completamiento utilizado en el pozo?',
-    type: 'multi',
-    options: ['Hueco Revestido', 'Hueco Abierto/Gravel Pack'],
-    default: 'Hueco Abierto/Gravel Pack',
-    prereq: [{
-        id: 7,
-        answer: 'Horizontal o Multilateral'
-    }, {
-        id: 9,
-        answer: true
-    }],
-    recommend: {
-        'Hueco Abierto/Gravel Pack': ['icd']
-    }
-},
-// 11
-{
-    text: '¿Se espera intrusión de agua?',
-    type: 'boolean',
-    default: false,
-    prereq: [{
-        id: 10,
-        answer: 'Hueco Abierto/Gravel Pack'
-    }],
-    recommend: {
-        'false': ['picd'],
-        'true': ['aicd']
-    }
-},
-// 12
-{
-    text: '¿Requiere futuras estimulaciones?',
-    type: 'boolean',
-    default: false,
-    prereq: [{
-        id: 10,
-        answer: 'Hueco Revestido'
-    }],
-    recommend: {
-        'true': ['ssv']
-    }
-},
-// 13
-{
-    text: '¿Requiere evaluación independiente de cada zona?',
-    type: 'boolean',
-    default: false,
-    prereq: [{
-        id: 12,
-        answer: false
-    }],
-    recommend: {
-        'true': ['ssd'],
-        'false': ['icv']
-    }
-},
-// 14
-{
-    text: '¿Hay presencia de shales o zonas apretadas?',
-    type: 'boolean',
-    default: false,
-    prereq: [{
-        id: 13,
-        answer: false
-    }],
-    recommend: {
-        'true': ['binaryValves'],
-        'false': ['chokeValves']
-    }
-}];
-
-var recommendations = {
-    parallelInyProd: 'Instalar sartas paralelas inyección/producción',
-    directIny: 'Completamiento de inyección directa',
-    vrf: 'Completamiento de inyección selectiva con VRF',
-    parallel: 'Instalar sartas paralelas',
-    dualBes: 'Instalar completamiento dual concentrico BES',
-    dualGl: 'Instalar completamiento dual Gas Lift',
-    ssd: 'Instalar completamiento SSD',
-    icd: 'Instalar completamiento ICD convencional',
-    picd: 'Instalar completamiento PICD',
-    aicd: 'Instalar completamiento AICD',
-    ssv: 'Instalar completamiento SSV',
-    icv: 'Instalar completamiento ICV',
-    binaryValves: 'Instalar válvulas bianrias y de choke para ICV',
-    chokeValves: 'Instalar válvulas de choke ICV'
-};
-
-_reactDom2.default.render(_react2.default.createElement(_QuestionMatrix2.default, {
-    questions: questions,
-    recommendationText: recommendations,
-    noRecommendations: 'No se recomienda completamiento múltiple'
-}), document.getElementById('matrix'));
-
-},{"./app":174,"./components/QuestionMatrix.jsx":176,"react":173,"react-dom":30}]},{},[180]);
-
-//# sourceMappingURL=multiple_matrix.js.map
+//# sourceMappingURL=connectivity_matrix.js.map

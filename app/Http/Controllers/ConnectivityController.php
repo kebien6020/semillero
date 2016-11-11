@@ -20,7 +20,7 @@ class ConnectivityController extends Controller
 
     public function matrix()
     {
-        return 'matrix';
+        return view('connectivity.matrix');
     }
 
     public function basins()

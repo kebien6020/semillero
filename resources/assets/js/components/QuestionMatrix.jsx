@@ -52,6 +52,8 @@ export default class QuestionMatrix extends React.Component {
             })
             .filter(rec => rec !== null)
             .map(rec => this.props.recommendationText[rec])
+        recommendations = new Set(recommendations)
+        recommendations = [...recommendations]
         if (recommendations.length === 0)
             recommendations = [this.props.noRecommendations]
         return (
