@@ -16,6 +16,11 @@ class MultipleController extends Controller
         return view('multiple.map_pozos');
     }
 
+    public function matrix()
+    {
+        return view('multiple.matrix');
+    }
+
     // API function
     public function wells()
     {

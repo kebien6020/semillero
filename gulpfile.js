@@ -36,7 +36,8 @@ elixir(function(mix) {
         'als_map_pozos.js',
         'als_matrix_param_form.js',
         'connectivity_map_pozos.js',
-        'multiple_map_pozos.js'
+        'multiple_map_pozos.js',
+        'multiple_matrix.js'
     ].forEach(function(val){
         mix.browserify(val)
     })

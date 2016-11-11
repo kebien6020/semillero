@@ -20,6 +20,7 @@ Route::get('/', 'HomeController@home');
 Route::group(['prefix' => 'multiples', 'middleware' => 'auth'], function () {
 
     Route::get('/map/pozos', 'MultipleController@mapPozos');
+    Route::get('/matrix', 'MultipleController@matrix');
 
     // API routes
     Route::get('/api/wells', 'MultipleController@wells');
