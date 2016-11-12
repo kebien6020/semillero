@@ -14,14 +14,14 @@
     </p>
     {{-- TODO: Extract as React Component --}}
     <form class="form-3-9" action="" method="post">
-        @foreach ($params as $param)
+        @foreach ($criteria as $criterion)
             <div class="form-group">
-                <label for="input-{{ $param->id }}">{{ $param->name }}</label>
+                <label for="input-{{ $criterion->id }}">{{ $criterion->name }}</label>
                 <input
-                    id="input-{{ $param->id }}"
+                    id="input-{{ $criterion->id }}"
                     type="text"
-                    name="{{ $param->id }}"
-                    placeholder="{{ $param->name }}"
+                    name="{{ $criterion->id }}"
+                    placeholder="{{ $criterion->name }}"
                 >
             </div>
         @endforeach

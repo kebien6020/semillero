@@ -37,7 +37,7 @@ class AlsController extends Controller
     public function matrix()
     {
         return view('als.matrix', [
-            'params' => self::$testParams
+            'criteria' => self::$testParams
         ]);
     }
 
@@ -49,25 +49,25 @@ class AlsController extends Controller
     public function matrixValueFunc()
     {
         return view('als.matrix_value_func', [
-            'params' => self::$testParams
+            'criteria' => self::$testParams
         ]);
     }
 
     public function matrixWeights()
     {
         return view('als.matrix_weights', [
-            'params' => self::$testParams
+            'criteria' => self::$testParams
         ]);
     }
 
-    public function matrixParamEdit()
+    public function matrixCriterionEdit()
     {
-        return view('als.matrix_param_form', [
-            'param' => self::$testParams[0]
+        return view('als.matrix_criterion_form', [
+            'criterion' => self::$testParams[0]
         ]);
     }
 
-    public function matrixParamCreate()
+    public function matrixCriterionCreate()
     {
         $emptyValueFunctions = self::$testAlternatives->map(function ($item) {
             return (object)[
@@ -75,7 +75,7 @@ class AlsController extends Controller
                 'data' => []
             ];
         });
-        return view('als.matrix_param_form', [
+        return view('als.matrix_criterion_form', [
             'emptyValueFunctions' => $emptyValueFunctions
         ]);
     }

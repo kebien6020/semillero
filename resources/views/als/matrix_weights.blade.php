@@ -8,18 +8,18 @@
 
 <main>
     <p>
-        Aquí podrá configurar los pesos de cada uno de los parametros.
+        Aquí podrá configurar los pesos de cada uno de los criterios de seleccion.
     </p>
     <form class="form-2-10" action="" method="post">
-        @foreach ($params as $param)
+        @foreach ($criteria as $criterion)
             <div class="form-group">
-                <label for="input-weight-{{ $param->id }}">{{ $param->name }}</label>
-                <input id="input-weight-{{ $param->id }}"
+                <label for="input-weight-{{ $criterion->id }}">{{ $criterion->name }}</label>
+                <input id="input-weight-{{ $criterion->id }}"
                     type="text"
-                    name="weight-{{ $param->id }}"
-                    placeholder="Peso para el parametro {{ $param->name }}"
+                    name="weight-{{ $criterion->id }}"
+                    placeholder="Peso para el parametro {{ $criterion->name }}"
                     autocomplete="off"
-                    value="{{ $param->weight }}">
+                    value="{{ $criterion->weight }}">
             </div>
         @endforeach
 

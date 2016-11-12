@@ -39377,4 +39377,4 @@ More detail and specific examples can be found in the included HTML file.
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"/home/vagrant/Code/Semillero/resources/assets/js/flot/jquery.flot.js":178}]},{},[175]);
 
-//# sourceMappingURL=als_matrix_param_form.js.map
+//# sourceMappingURL=als_matrix_criterion_form.js.map

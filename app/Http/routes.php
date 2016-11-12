@@ -53,8 +53,8 @@ Route::group(['middleware' => 'auth', 'prefix' => 'sla'], function () {
     Route::get('/matrix/config', 'AlsController@matrixConfig');
     Route::get('/matrix/value_func', 'AlsController@matrixValueFunc');
     Route::get('/matrix/weights', 'AlsController@matrixWeights');
-    Route::get('/matrix/params/new', 'AlsController@matrixParamCreate');
-    Route::get('/matrix/params/{id}', 'AlsController@matrixParamEdit');
+    Route::get('/matrix/criteria/new', 'AlsController@matrixCriterionCreate');
+    Route::get('/matrix/criteria/{id}', 'AlsController@matrixCriterionEdit');
     Route::get('/matrix/alternatives', 'AlsController@matrixAlternatives');
     Route::get('/matrix/alternatives/new', 'AlsController@matrixAlternativeCreate');
     Route::get('/matrix/alternatives/{id}', 'AlsController@matrixAlternativeEdit');

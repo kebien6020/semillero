@@ -10,19 +10,19 @@
 
 <main>
     <p>
-        Aquí podrá configurar las funciones valor para cada combinación Parametro-Alternativa.
+        Aquí podrá configurar las funciones valor para cada combinación Criterio-Alternativa.
     </p>
     <p>
-        Seleccione el parametro para el que desea configurar sus funciones valor:
+        Seleccione el criterio de selección para el que desea configurar sus funciones valor:
     </p>
     <div class="list-group">
-        @foreach ($params as $param)
-            <a href="/sla/matrix/params/{{ $param->id }}">{{ $param->name }}</a>
+        @foreach ($criteria as $criterion)
+            <a href="/sla/matrix/criteria/{{ $criterion->id }}">{{ $criterion->name }}</a>
         @endforeach
     </div>
 
     <div class="buttons">
-        <a href="/sla/matrix/params/new">Agregar parametro</a>
+        <a href="/sla/matrix/criteria/new">Agregar criterio</a>
     </div>
 </main>
 
