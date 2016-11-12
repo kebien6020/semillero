@@ -10,7 +10,8 @@ class Criterion extends Model
 {
     protected $fillable = [
         'name',
-        'type'
+        'type',
+        'weight'
     ];
 
     public function valueFunctionDataPoint()
