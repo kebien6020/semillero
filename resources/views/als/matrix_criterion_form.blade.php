@@ -1,5 +1,7 @@
 @extends ('layouts.container')
 
+@section ('title', 'SLA - Configurar criterio')
+
 @section ('script', 'als_matrix_criterion_form')
 
 @section ('content')

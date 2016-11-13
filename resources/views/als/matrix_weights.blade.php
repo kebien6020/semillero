@@ -1,5 +1,7 @@
 @extends ('layouts.container')
 
+@section ('title', 'SLA - Pesos')
+
 @section ('content')
 
 <header>
