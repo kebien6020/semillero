@@ -53,11 +53,18 @@ Route::group(['middleware' => 'auth', 'prefix' => 'sla'], function () {
     Route::get('/matrix/config', 'AlsController@matrixConfig');
     Route::get('/matrix/value_func', 'AlsController@matrixValueFunc');
     Route::get('/matrix/weights', 'AlsController@matrixWeights');
-    Route::get('/matrix/criteria/new', 'AlsController@matrixCriterionCreate');
+    Route::put('/matrix/weights', 'AlsController@matrixWeightsUpdate');
+
+    Route::get('/matrix/criteria/new', 'AlsController@matrixCriterionNew');
     Route::get('/matrix/criteria/{id}', 'AlsController@matrixCriterionEdit');
+    Route::post('/matrix/criteria', 'AlsController@matrixCriterionCreate');
+    Route::put('/matrix/criteria/{id}', 'AlsController@matrixCriterionUpdate');
+
     Route::get('/matrix/alternatives', 'AlsController@matrixAlternatives');
-    Route::get('/matrix/alternatives/new', 'AlsController@matrixAlternativeCreate');
+    Route::get('/matrix/alternatives/new', 'AlsController@matrixAlternativeNew');
     Route::get('/matrix/alternatives/{id}', 'AlsController@matrixAlternativeEdit');
+    Route::post('/matrix/alternatives', 'AlsController@matrixAlternativeCreate');
+    Route::put('/matrix/alternatives/{id}', 'AlsController@matrixAlternativeUpdate');
 
     // Route::get('/map/campos', 'AlsController@mapCampos');
     //Route::get('/test/map', 'slaController@testMap');

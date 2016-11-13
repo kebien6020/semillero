@@ -2,26 +2,22 @@ import './app.js'
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import ExtensibleInputTable from './components/ExtensibleInputTable.jsx'
+import CriterionEditor from './components/CriterionEditor.jsx'
 
-const valueFunctions =
+const data =
     JSON.parse(
         document
             .getElementById('value-functions-initial-data')
             .innerHTML
     )
-const editors = valueFunctions.map((valueFunction, i) => {
-    return (
-        <ExtensibleInputTable
-            alternative={valueFunction.alternative}
-            titles={['Valor', 'Puntaje']}
-            content={valueFunction.data}
-            key={i}
-        />
-    )
-})
+
+const { alternatives, valueFunctions, type } = data
 
 ReactDOM.render(
-    <div>{editors}</div>,
+    <CriterionEditor
+        alternatives={alternatives}
+        initialValueFunctions={valueFunctions}
+        initialType={type}
+    />,
     document.getElementById('value-function-editor')
 )

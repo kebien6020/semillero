@@ -10,7 +10,9 @@
     <p>
         Aquí podrá configurar los pesos de cada uno de los criterios de seleccion.
     </p>
-    <form class="form-2-10" action="" method="post">
+    <form class="form-2-10" action="/sla/matrix/weights" method="post">
+        {{ method_field('PUT') }}
+        {{ csrf_field() }}
         @foreach ($criteria as $criterion)
             <div class="form-group">
                 <label for="input-weight-{{ $criterion->id }}">{{ $criterion->name }}</label>

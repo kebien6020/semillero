@@ -8,6 +8,9 @@ use App\Http\Requests;
 
 use App\AlsOccurrence;
 use App\Well;
+use App\Alternative;
+use App\Criterion;
+use App\ValueFunctionDataPoint;
 
 class AlsController extends Controller
 {
@@ -29,15 +32,11 @@ class AlsController extends Controller
             ->load('field.basin');
     }
 
-    // TODO: Fetch params from database
-    // NOTE: Initialized at the end of the file
-    public static $testParams;
-    public static $testAlternatives;
-
     public function matrix()
     {
+        $criteria = Criterion::all();
         return view('als.matrix', [
-            'criteria' => self::$testParams
+            'criteria' => $criteria
         ]);
     }
 
@@ -48,55 +47,171 @@ class AlsController extends Controller
 
     public function matrixValueFunc()
     {
+        $criteria = Criterion::all();
         return view('als.matrix_value_func', [
-            'criteria' => self::$testParams
+            'criteria' => $criteria
         ]);
     }
 
     public function matrixWeights()
     {
+        $criteria = Criterion::all();
         return view('als.matrix_weights', [
-            'criteria' => self::$testParams
+            'criteria' => $criteria,
         ]);
     }
 
-    public function matrixCriterionEdit()
+    public function matrixWeightsUpdate(Request $request)
     {
-        return view('als.matrix_criterion_form', [
-            'criterion' => self::$testParams[0]
-        ]);
+        foreach ($request->all() as $key => $value) {
+            $arr = explode('-', $key);
+            if (array_has($arr, 1)) {
+                $criterionId = $arr[1];
+                $criterion = Criterion::findOrFail($criterionId);
+                $criterion->weight = $value;
+                $criterion->save();
+            }
+        }
+        return redirect('/sla/matrix/weights');
     }
 
-    public function matrixCriterionCreate()
+    private static function alternativesObject()
     {
-        $emptyValueFunctions = self::$testAlternatives->map(function ($item) {
-            return (object)[
-                'alternative' => $item,
-                'data' => []
-            ];
+        return Alternative::all()->keyBy('id')->map(function ($alternative) {
+            return $alternative->name;
         });
+    }
+
+    public function matrixCriterionEdit($criterionId)
+    {
+        $criterion = Criterion::findOrFail($criterionId);
+        $alternatives = self::alternativesObject();
+        $valueFunctions = ValueFunctionDataPoint
+            ::where([
+                'criterion_id' => $criterionId,
+            ])
+            ->get()
+            ->groupBy('alternative_id')
+            ->map(function ($dataPoints, $key) {
+                return collect([
+                    'id' => $key,
+                    'data' => $dataPoints->map(function ($dataPoint) {
+                        return [$dataPoint->value, (string) $dataPoint->score];
+                    }),
+                ]);
+            })
+            ->values();
         return view('als.matrix_criterion_form', [
-            'emptyValueFunctions' => $emptyValueFunctions
+            'criterion' => $criterion,
+            'alternatives' => $alternatives,
+            'valueFunctions' => $valueFunctions,
         ]);
+    }
+
+    public function matrixCriterionNew()
+    {
+        $alternatives = self::alternativesObject();
+        return view('als.matrix_criterion_form', [
+            'alternatives' => $alternatives,
+        ]);
+    }
+
+    private static function createValueFunctionsFromRequest($request, $criterionId)
+    {
+        $valueFunctions = [];
+        foreach ($request->all() as $key => $value) {
+            $matches = [];
+            $dataKey = preg_match('/(\d+)-(\d+)-(\d+)/', $key, $matches) === 1;
+            if ($dataKey) {
+                $alternativeId = $matches[1];
+                $row = $matches[2];
+                $type = $matches[3] === '0' ? 'value': 'score';
+                if (!isset($valueFunctions[$alternativeId])) {
+                    $valueFunctions[$alternativeId] = [];
+                }
+                if (!isset($valueFunctions[$alternativeId][$row])) {
+                    $valueFunctions[$alternativeId][$row] = [];
+                }
+                $valueFunctions[$alternativeId][$row][$type] = $value;
+            }
+        }
+
+        foreach ($valueFunctions as $alternativeId => $dataPoints) {
+            foreach ($dataPoints as $dataPoint) {
+                ValueFunctionDataPoint::create([
+                    'alternative_id' => $alternativeId,
+                    'criterion_id' => $criterionId,
+                    'value' => $dataPoint['value'],
+                    'score' => $dataPoint['score'],
+                ]);
+            }
+        }
+    }
+
+    public function matrixCriterionCreate(Request $request)
+    {
+        $criterion = new Criterion();
+        $criterion->name = $request->name;
+        $criterion->type = $request->type;
+        $criterion->weight = $request->weight;
+        $criterion->save();
+
+        self::createValueFunctionsFromRequest($request, $criterion->id);
+        return redirect('/sla/matrix/value_func');
+    }
+
+    public function matrixCriterionUpdate(Request $request, $criterionId)
+    {
+        $criterion = Criterion::findOrFail($criterionId);
+        $criterion->name = $request->name;
+        $criterion->type = $request->type;
+        $criterion->weight = $request->weight;
+        $criterion->save();
+
+        ValueFunctionDataPoint
+            ::where(['criterion_id' => $criterionId])
+            ->delete();
+
+        self::createValueFunctionsFromRequest($request, $criterionId);
+
+        return redirect('/sla/matrix/value_func');
     }
 
     public function matrixAlternatives()
     {
+        $alternatives = Alternative::all();
         return view('als.matrix_alternatives', [
-            'alternatives' => self::$testAlternatives
+            'alternatives' => $alternatives,
         ]);
     }
 
-    public function matrixAlternativeCreate()
+    public function matrixAlternativeNew()
     {
         return view('als.matrix_alternative_form');
     }
 
-    public function matrixAlternativeEdit()
+    public function matrixAlternativeEdit($id)
     {
+        $alternative = Alternative::findOrFail($id);
         return view('als.matrix_alternative_form', [
-            'name' => 'BM'
+            'alternative' => $alternative
         ]);
+    }
+
+    public function matrixAlternativeCreate(Request $request)
+    {
+        Alternative::create([
+            'name' => $request->name,
+        ]);
+        return redirect('/sla/matrix/alternatives');
+    }
+
+    public function matrixAlternativeUpdate(Request $request, $id)
+    {
+        $alternative = Alternative::findOrFail($id);
+        $alternative->name = $request->name;
+        $alternative->save();
+        return redirect('/sla/matrix/alternatives');
     }
 
     public function mapCampos()
@@ -104,43 +219,3 @@ class AlsController extends Controller
         return view('als.map_campos');
     }
 }
-
-AlsController::$testParams = [
-   (object)[
-       'id' => 1,
-       'name' => 'Viscosidad',
-       'weight' => 3,
-       'valueFunctions' => collect([
-           [
-               'alternative' => [
-                   'id' => 1,
-                   'name' => 'BM'
-               ],
-               'data' => [['10','100'], ['50','30']]
-           ],
-           [
-               'alternative' => [
-                   'id' => 2,
-                   'name' => 'BES'
-               ],
-               'data' => [['20', '80'], ['40', '20']]
-           ]
-       ])
-   ],
-   (object)[
-       'id' => 2,
-       'name' => 'Arenas',
-       'weight' => 2
-   ]
-];
-
-AlsController::$testAlternatives = collect([
-    (object)[
-        'id' => 1,
-        'name' => 'BM',
-    ],
-    (object)[
-        'id' => 2,
-        'name' => 'BES',
-    ]
-]);

@@ -11,7 +11,9 @@ class ValueFunctionDataPoint extends Model
 {
     protected $fillable = [
         'value',
-        'score'
+        'score',
+        'alternative_id',
+        'criterion_id',
     ];
 
     public function alternative()
