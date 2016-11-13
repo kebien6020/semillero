@@ -32993,6 +32993,13 @@ var CriterionEditor = function (_React$Component) {
             var type = event.target.value;
             this.setState(function (state) {
                 state.type = type;
+                state.valueFunctions = state.valueFunctions.map(function (func) {
+                    func.data = state.options.map(function (op, i) {
+                        if (func.data[i]) return [op, func.data[i][1]];
+                        return [op, ''];
+                    });
+                    return func;
+                });
                 return state;
             });
         }
@@ -33001,6 +33008,13 @@ var CriterionEditor = function (_React$Component) {
         value: function handleOptionsChange(value, i) {
             this.setState(function (state) {
                 state.options[i] = value;
+                state.valueFunctions = state.valueFunctions.map(function (func) {
+                    func.data = state.options.map(function (op, i) {
+                        if (func.data[i]) return [op, func.data[i][1]];
+                        return [op, ''];
+                    });
+                    return func;
+                });
                 return state;
             });
         }
@@ -33009,6 +33023,13 @@ var CriterionEditor = function (_React$Component) {
         value: function handleOptionAdd() {
             this.setState(function (state) {
                 state.options.push('');
+                state.valueFunctions = state.valueFunctions.map(function (func) {
+                    func.data = state.options.map(function (op, i) {
+                        if (func.data[i]) return [op, func.data[i][1]];
+                        return [op, ''];
+                    });
+                    return func;
+                });
                 return state;
             });
         }
@@ -33017,6 +33038,13 @@ var CriterionEditor = function (_React$Component) {
         value: function handleOptionRemove() {
             if (this.state.options.length > 1) this.setState(function (state) {
                 state.options.pop();
+                state.valueFunctions = state.valueFunctions.map(function (func) {
+                    func.data = state.options.map(function (op, i) {
+                        if (func.data[i]) return [op, func.data[i][1]];
+                        return [op, ''];
+                    });
+                    return func;
+                });
                 return state;
             });
         }

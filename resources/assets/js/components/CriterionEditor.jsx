@@ -56,6 +56,14 @@ export default class CriterionEditor extends React.Component {
         const type = event.target.value
         this.setState(state => {
             state.type = type
+            state.valueFunctions = state.valueFunctions.map(func => {
+                func.data = state.options.map((op, i) => {
+                    if (func.data[i])
+                        return [op, func.data[i][1]]
+                    return [op, '']
+                })
+                return func
+            })
             return state
         })
     }
@@ -63,6 +71,14 @@ export default class CriterionEditor extends React.Component {
     handleOptionsChange(value, i) {
         this.setState(state => {
             state.options[i] = value
+            state.valueFunctions = state.valueFunctions.map(func => {
+                func.data = state.options.map((op, i) => {
+                    if (func.data[i])
+                        return [op, func.data[i][1]]
+                    return [op, '']
+                })
+                return func
+            })
             return state
         })
     }
@@ -70,6 +86,14 @@ export default class CriterionEditor extends React.Component {
     handleOptionAdd() {
         this.setState(state => {
             state.options.push('')
+            state.valueFunctions = state.valueFunctions.map(func => {
+                func.data = state.options.map((op, i) => {
+                    if (func.data[i])
+                        return [op, func.data[i][1]]
+                    return [op, '']
+                })
+                return func
+            })
             return state
         })
     }
@@ -78,6 +102,14 @@ export default class CriterionEditor extends React.Component {
         if (this.state.options.length > 1)
             this.setState(state => {
                 state.options.pop()
+                state.valueFunctions = state.valueFunctions.map(func => {
+                    func.data = state.options.map((op, i) => {
+                        if (func.data[i])
+                            return [op, func.data[i][1]]
+                        return [op, '']
+                    })
+                    return func
+                })
                 return state
             })
 
