@@ -12,13 +12,11 @@ const questions = [
         options: [
             'Bajo balance',
             'Sobre balance',
+            'Desconocida',
         ],
         default: 'Sobre balance',
         prereq: [],
-        recommend: {
-            'Bajo balance': ['thru', 'tcp'],
-            'Sobre balance': ['thru', 'gun'],
-        },
+        recommend: {},
     },
     // 1
     {
@@ -29,10 +27,14 @@ const questions = [
             'Revestimiento',
         ],
         default: 'Revestimiento',
-        prereq: [],
+        prereq: [
+            {
+                id: 0,
+                answer: 'Desconocida',
+            }
+        ],
         recommend: {
             'Revestimiento': ['gun'],
-            'Tubería de producción': ['thru', 'tcp'],
         }
     },
     // 2
