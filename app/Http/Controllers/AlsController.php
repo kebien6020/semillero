@@ -34,9 +34,20 @@ class AlsController extends Controller
 
     public function matrix()
     {
-        $criteria = Criterion::all();
+        $criteria = Criterion::with('valueFunctionDataPoints')->get();
+        $data = $criteria->map(function ($criterion) {
+            return collect([
+                'id' => $criterion->id,
+                'name' => $criterion->name,
+                'type' => $criterion->type,
+                'weight' => $criterion->weight,
+                'valueFunctions' => $criterion->valueFunctionsObject(),
+            ]);
+        });
+        $alternatives = self::alternativesObject();
         return view('als.matrix', [
-            'criteria' => $criteria
+            'criteria' => $data,
+            'alternatives' => $alternatives,
         ]);
     }
 
@@ -86,21 +97,7 @@ class AlsController extends Controller
     {
         $criterion = Criterion::findOrFail($criterionId);
         $alternatives = self::alternativesObject();
-        $valueFunctions = ValueFunctionDataPoint
-            ::where([
-                'criterion_id' => $criterionId,
-            ])
-            ->get()
-            ->groupBy('alternative_id')
-            ->map(function ($dataPoints, $key) {
-                return collect([
-                    'id' => $key,
-                    'data' => $dataPoints->map(function ($dataPoint) {
-                        return [$dataPoint->value, (string) $dataPoint->score];
-                    }),
-                ]);
-            })
-            ->values();
+        $valueFunctions = $criterion->valueFunctionsObject();
         return view('als.matrix_criterion_form', [
             'criterion' => $criterion,
             'alternatives' => $alternatives,

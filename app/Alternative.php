@@ -12,7 +12,7 @@ class Alternative extends Model
         'name'
     ];
 
-    public function valueFunctionDataPoint()
+    public function valueFunctionDataPoints()
     {
         return $this->hasMany(ValueFunctionDataPoint::class);
     }

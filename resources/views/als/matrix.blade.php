@@ -2,6 +2,8 @@
 
 @section ('title', 'SLA - Matriz')
 
+@section ('script', 'als_matrix')
+
 @section ('content')
 
 <header>
@@ -14,29 +16,13 @@
     <p>
         La matriz de seleccion preliminar de sistemas de levantamiento artificial permite realizar la selección de un sistema de levantamiento artificial a partir de datos suminisitrados.
     </p>
-    {{-- TODO: Extract as React Component --}}
-    <form class="form-3-9" action="" method="post">
-        @foreach ($criteria as $criterion)
-            <div class="form-group">
-                <label for="input-{{ $criterion->id }}">{{ $criterion->name }}</label>
-                <input
-                    id="input-{{ $criterion->id }}"
-                    type="text"
-                    name="{{ $criterion->id }}"
-                    placeholder="{{ $criterion->name }}"
-                >
-            </div>
-        @endforeach
-    </form>
-    <div class="">
-        <h2>Recomendaciones</h2>
-        <ol>
-            <li>BES</li>
-            <li>BM</li>
-            <li>BCP</li>
-        </ol>
+    <div id="matrix-data" style="display: none;">
+        {
+            "criteria": {{ $criteria->toJson() }},
+            "alternatives": {{ $alternatives->toJson() }}
+        }
     </div>
-    {{-- Extract until here --}}
+    <div id="matrix"></div>
     <div class="buttons">
         <a href="/sla/matrix/config">Configurar matriz</a>
     </div>
