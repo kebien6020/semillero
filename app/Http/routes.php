@@ -37,6 +37,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'conectividad'], function () {
     Route::get('/basins/{basinId}/fields/{fieldId}', 'ConnectivityController@fieldDetail');
     Route::get('/basins/{basinId}/fields/{fieldId}/wells/{wellId}', 'ConnectivityController@wellDetail');
     Route::get('/matrix', 'ConnectivityController@matrix');
+    Route::get('/matrix/explanations', 'ConnectivityController@matrixExplanations');
 
     //api routes
     Route::get('/api/wells', 'ConnectivityController@wells');

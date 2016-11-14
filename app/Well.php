@@ -41,4 +41,14 @@ class Well extends Model
     {
         return $this->hasMany(MultipleOccurrence::class);
     }
+
+    public function lastConnectivityOccurrence()
+    {
+        $occurrence = $this
+            ->connectivityOccurrences()
+            ->orderBy('start_date', 'DESC')
+            ->get()
+            ->first();
+        return $occurrence;
+    }
 }

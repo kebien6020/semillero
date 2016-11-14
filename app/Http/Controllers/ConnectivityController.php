@@ -23,6 +23,11 @@ class ConnectivityController extends Controller
         return view('connectivity.matrix');
     }
 
+    public function matrixExplanations()
+    {
+        return view('connectivity.matrix_explanations');
+    }
+
     public function basins()
     {
         $basins = Basin::query()
@@ -48,12 +53,39 @@ class ConnectivityController extends Controller
     public function fieldDetail($basinId, $fieldId)
     {
         $field = Field::findOrFail($fieldId);
-        $distribution = $field->connectivityDistribution();
+        $wells = Well
+            ::where([
+                'field_id' => $fieldId
+            ])
+            ->has('connectivityOccurrences')
+            ->get();
+        $wells = $wells->map(function ($well) {
+            return collect([
+                'name' => $well->name,
+                'color' => $well->lastConnectivityOccurrence()->connectivityMethod->color,
+                'method' => $well->lastConnectivityOccurrence()->connectivityMethod->name,
+            ]);
+        });
+        $distribution = $wells
+            ->groupBy('method')
+            ->map(function ($well, $key) {
+                $count = $well->count();
+                $method = $key;
+                $color = $well[0]['color'];
+                return collect([
+                    'count' => $count,
+                    'name' => $method,
+                    'color' => $color,
+                ]);
+            })
+            ->values();
+        $numWells = $wells->count();
         return view('connectivity.field_detail', [
             'field' => $field,
             'basinId' => $basinId,
-            'distribution' => collect($distribution->distribution)->sortBy('occurrences')->reverse(),
-            'occurrenceCount' => $distribution->count,
+            'distribution' => collect($distribution)->sortBy('count')->reverse(),
+            'wellCount' => $numWells,
+            'wells' => $wells,
         ]);
     }
     public function wellDetail()

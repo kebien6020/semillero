@@ -33233,12 +33233,20 @@ var questions = [
     }
 }];
 
+var makeLink = function makeLink(name, text) {
+    return _react2.default.createElement(
+        'a',
+        { href: '/conectividad/matrix/explanations#' + name },
+        text
+    );
+};
+
 var recommendations = {
-    thru: 'Through Tubing Wireline (cañoneo a través de tubería de producción bajado con línea eléctrica)',
-    tcp: 'TCP (cañoneo bajado con la tubería de producción)',
-    gun: 'Casing Gun Wireline (cañoneo a través de revestimiento bajado con línea eléctrica)',
+    thru: [makeLink('thru', 'Through Tubing Wireline'), ' (cañoneo a través de tubería de producción bajado con línea eléctrica)'],
+    tcp: [makeLink('tcp', 'TCP'), ' (cañoneo bajado con la tubería de producción)'],
+    gun: [makeLink('gun', 'Casing Gun Wireline'), ' (cañoneo a través de revestimiento bajado con línea eléctrica)'],
     pure: 'Sugerencia: Utilizar la técnica Pure para que los perforados queden limpios, incrementar la productividad e inyectabilidad en los pozos. Además permite minimizar el daño por el cañoneo.',
-    slickline: 'Sugerencia: Utilizar Slickline para poder controlar de mejor manera la presión debido a su diámetro menor.',
+    slickline: 'Sugerencia: Utilizar cargas que minimicen la producción de derbis.',
     extreme: 'Sugerencia: Utilizar la técnica de sobre balance extremo para minimizar el daño e incrementar la conectividad.',
     high: 'Sugerencia: Utilizar un sistema de High Shot Density (alta densidad de disparo). También se puede utilizar el método Through tubing con coiled tubing para pozos altamente desviados.'
 

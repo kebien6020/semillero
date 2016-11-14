@@ -7935,4 +7935,11 @@ table {
   .fluidos-matrix form .recommendations h2 {
     margin-top: 0px; }
 
+.connectivity-matrix-explanations h2 a {
+  color: inherit;
+  text-decoration: none; }
+
+.connectivity-matrix-explanations .img {
+  text-align: center; }
+
 /*# sourceMappingURL=app.css.map */
