@@ -17,6 +17,13 @@
 </header>
 
 <main>
+    <p>
+        @if ($edit)
+            Aquí podra realizar la edición de la alternativa {{ $alternative->name }} y las nuevas tecnologías asociadas a esta alternativa.
+        @else
+            Aquí podrá introducir una alternativa y las nuevas tecnologías asociadas a las misma.
+        @endif
+    </p>
     <form
         class="form-3-9"
         action="/sla/matrix/alternatives{{ $edit ? '/' . $alternative->id : ''}}"

@@ -10,7 +10,7 @@
 
 <main>
     <p>
-        Aquí podrá configurar los pesos de cada uno de los criterios de seleccion.
+        Aquí podrá configurar los pesos de cada uno de los criterios de selección.
     </p>
     <form class="form-2-10" action="/sla/matrix/weights" method="post">
         {{ method_field('PUT') }}

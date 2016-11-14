@@ -9,6 +9,9 @@
 </header>
 
 <main>
+    <p>
+        Aquí se pordrán configurar las alternativas de selección (sistemas de levantamiento artificial).
+    </p>
     <div class="list-group">
         @foreach ($alternatives as $alternative)
             <a href="/sla/matrix/alternatives/{{ $alternative->id }}">{{ $alternative->name }}</a>
