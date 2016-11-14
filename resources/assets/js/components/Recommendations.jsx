@@ -15,5 +15,5 @@ export default function Recommendations(props) {
 }
 
 Recommendations.propTypes = {
-    recommendations: React.PropTypes.arrayOf(React.PropTypes.string).isRequired
+    recommendations: React.PropTypes.array.isRequired
 }

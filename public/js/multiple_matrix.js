@@ -33121,7 +33121,7 @@ function Recommendations(props) {
 }
 
 Recommendations.propTypes = {
-    recommendations: _react2.default.PropTypes.arrayOf(_react2.default.PropTypes.string).isRequired
+    recommendations: _react2.default.PropTypes.array.isRequired
 };
 
 },{"react":173}],178:[function(require,module,exports){
