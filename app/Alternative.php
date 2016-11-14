@@ -9,7 +9,8 @@ use App\ValueFunctionDataPoint;
 class Alternative extends Model
 {
     protected $fillable = [
-        'name'
+        'name',
+        'new_tech'
     ];
 
     public function valueFunctionDataPoints()

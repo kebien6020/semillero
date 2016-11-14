@@ -18,7 +18,8 @@ export default class AlsMatrix extends React.Component {
             if (alternatives.hasOwnProperty(alternativeId))
                 this.alternatives[alternativeId] = {
                     id: alternativeId,
-                    name: alternatives[alternativeId],
+                    name: alternatives[alternativeId].name,
+                    newTech: alternatives[alternativeId].newTech.split('\n')
                 }
 
 
@@ -258,6 +259,27 @@ export default class AlsMatrix extends React.Component {
                 </ol>
             </div>
         )
+
+        const filteredAlternatives = alternatives.filter(alternative =>
+            ruledOut.indexOf(alternative.id) === -1
+        )
+
+        const newTechList = filteredAlternatives.map(alternative =>
+            alternative.newTech.map(item =>
+                <li key={item}>
+                    <strong>{alternative.name}</strong>: {item}
+                </li>
+            )
+        )
+
+        const newTech = (
+            <div>
+                <h2>Nuevas tecnologías asociadas a las recomendaciones</h2>
+                <ul>
+                    {newTechList}
+                </ul>
+            </div>
+        )
         return (
             <form className="form-3-9">
                 {formGroups}
@@ -273,6 +295,7 @@ export default class AlsMatrix extends React.Component {
                 </div>
                 {scoreTable}
                 {recommendations}
+                {newTech}
             </form>
         )
     }

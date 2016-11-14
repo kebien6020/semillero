@@ -26,6 +26,7 @@
         <div class="form-group">
             <label for="input-name">Nombre de la alternativa</label>
             <input
+                id="input-name"
                 type="text"
                 name="name"
                 @if($edit)
@@ -34,6 +35,15 @@
                 placeholder="Nombre de la alternativa"
                 required
             >
+        </div>
+        <div class="form-group">
+            <label for="input-new-tech">Nuevas tecnologías asociadas</label>
+            <textarea
+                id="input-new-tech"
+                name="new_tech"
+                placeholder="Nuevas tecnologías asociadas (separadas por enter)"
+                style="width: 300px;"
+            >@if($edit){{$alternative->new_tech}}@endif</textarea>
         </div>
         <div class="submit-container">
             <input

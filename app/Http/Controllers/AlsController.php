@@ -89,7 +89,10 @@ class AlsController extends Controller
     private static function alternativesObject()
     {
         return Alternative::all()->keyBy('id')->map(function ($alternative) {
-            return $alternative->name;
+            return collect([
+                'name' => $alternative->name,
+                'newTech' => $alternative->new_tech,
+            ]);
         });
     }
 
@@ -199,6 +202,7 @@ class AlsController extends Controller
     {
         Alternative::create([
             'name' => $request->name,
+            'new_tech' => $request->new_tech,
         ]);
         return redirect('/sla/matrix/alternatives');
     }
@@ -207,6 +211,7 @@ class AlsController extends Controller
     {
         $alternative = Alternative::findOrFail($id);
         $alternative->name = $request->name;
+        $alternative->new_tech = $request->new_tech;
         $alternative->save();
         return redirect('/sla/matrix/alternatives');
     }
