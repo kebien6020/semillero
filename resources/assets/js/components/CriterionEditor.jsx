@@ -167,7 +167,7 @@ export default class CriterionEditor extends React.Component {
                     tag={i}
                     titles={['Valor', 'Puntaje']}
                     content={content}
-                    mainTitle={alternatives[valueFunction.id]}
+                    mainTitle={alternatives[valueFunction.id].name}
                     inputNamePrefix={valueFunction.id + '-'}
                     fixedColumns={type === 'multi' ? [0] : []}
                     onChange={this.handleTableChange}

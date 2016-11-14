@@ -33113,7 +33113,7 @@ var CriterionEditor = function (_React$Component) {
                     tag: i,
                     titles: ['Valor', 'Puntaje'],
                     content: content,
-                    mainTitle: alternatives[valueFunction.id],
+                    mainTitle: alternatives[valueFunction.id].name,
                     inputNamePrefix: valueFunction.id + '-',
                     fixedColumns: type === 'multi' ? [0] : [],
                     onChange: _this2.handleTableChange,
