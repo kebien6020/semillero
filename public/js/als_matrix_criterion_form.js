@@ -32955,7 +32955,7 @@ var CriterionEditor = function (_React$Component) {
                 if (alternatives.hasOwnProperty(alternativeId)) if (!initialValueFunctions.some(func => func.id === alternativeId)) initialValueFunctions.push({ id: alternativeId });
             };
 
-            for (const alternativeId in alternatives) {
+            for (let alternativeId in alternatives) {
                 _loop(alternativeId);
             }
         }initialValueFunctions = initialValueFunctions.map(function (func) {
