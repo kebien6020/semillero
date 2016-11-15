@@ -10,7 +10,7 @@
     del archivo que contiene la información requerida</p>
 
 <form class="form-3-9"
-    action="{{ $project->name }}/table_upload/{{ $table_name }}"
+    action="/{{ $project->name }}/table_upload/{{ $table_name }}"
     method="POST">
     {{ method_field('PUT') }}
     {{ csrf_field() }}
@@ -20,7 +20,7 @@
             <select name="columns[{{ $column['name'] }}]" autocomplete="off">
                 @foreach ($uploaded_columns->toArray() as $j => $ucolumn)
 
-                <option value="{{ $ucolumn }}" 
+                <option value="{{ $ucolumn }}"
                     @if ($i < count($uploaded_columns) and $j == $i)
                         selected
                     @endif

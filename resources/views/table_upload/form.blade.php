@@ -27,7 +27,7 @@
     @endforeach
 </ul>
 
-<form action="{{ $project->name }}/table_upload/{{ $table_name }}"
+<form action="/{{ $project->name }}/table_upload/{{ $table_name }}"
     method="POST"
     enctype="multipart/form-data">
     {{ csrf_field() }}
