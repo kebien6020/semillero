@@ -32884,6 +32884,11 @@ var _react2 = _interopRequireDefault(_react);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function renderInput(data, handleChange) {
+    var description = data.description ? _react2.default.createElement(
+        'p',
+        null,
+        data.description
+    ) : null;
     if (data.type === 'boolean') {
         // Render as checkbox
         return _react2.default.createElement(
@@ -32901,7 +32906,8 @@ function renderInput(data, handleChange) {
                     }
                 }),
                 data.text
-            )
+            ),
+            description
         );
     } else if (data.type === 'multi') {
         // Render as select
@@ -32920,6 +32926,7 @@ function renderInput(data, handleChange) {
                 null,
                 data.text
             ),
+            description,
             _react2.default.createElement(
                 'select',
                 {

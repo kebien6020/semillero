@@ -1,6 +1,7 @@
 import React from 'react'
 
 function renderInput(data, handleChange) {
+    const description = data.description ? <p>{data.description}</p> : null
     if (data.type === 'boolean') {
         // Render as checkbox
         return (
@@ -14,6 +15,7 @@ function renderInput(data, handleChange) {
                     />
                     {data.text}
                 </label>
+                {description}
             </div>
         )
     } else if (data.type === 'multi') {
@@ -24,6 +26,7 @@ function renderInput(data, handleChange) {
         return (
             <div className="form-group" key={data.id}>
                 <label>{data.text}</label>
+                {description}
                 <select
                     onChange={(event) => handleChange(event, data.type, data.id)}
                     value={data.answer}>
