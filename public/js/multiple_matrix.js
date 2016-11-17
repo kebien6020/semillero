@@ -34682,7 +34682,7 @@ var makeLink = function makeLink(id, text) {
 
 var recommendations = {
     parallelInyProd: 'Instalar sartas paralelas inyección/producción',
-    directIny: 'Completamiento de inyección directa',
+    directIny: makeLink('iny-directa', 'Completamiento de inyección directa'),
     vrf: [makeLink('vrf', 'Completamiento de inyección selectiva con VRF'), _react2.default.createElement('br', null), _react2.default.createElement('br', null), _react2.default.createElement(
         'strong',
         null,

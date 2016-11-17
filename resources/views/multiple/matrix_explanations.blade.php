@@ -118,13 +118,21 @@
     <strong>Fuente.</strong> Página Web Schlumberger, Halliburton y Baker Hughes. Data Sheets.
     <p>*No hay información de diámetros en la página web de la compañía.</p>
 
-    <h2 id="dual-bes">Dual Concéntrico Bes</h2>
+    <h2 id="dual-bes">DUAL CONCÉNTRICO BES</h2>
     <p>Completamiento Diseñado con el objetivo de producir de dos zonas independientemente desde fondo hasta superficie, este completamiento se ha venido implementando en yacimientos para los que el sistema de levantamiento artificial de Bombeo Electrosumergible es el más ideal, ambas zonas tiene un alto potencial y no es posible producirlas de forma mezclada, sin embargo tiene algunas restricciones mecánicas debido a la complejidad que presenta tener dos bombas electrosumergibles en el pozo.</p>
     <p><strong>Figura 5.</strong> Producción simultánea independiente mediante Dual Concéntrico BES.</p>
     <div class="text-center">
         <img src="/images/dual-bes.png">
     </div>
     <p><strong>Fuente.</strong> RMS pumptools, Dual Concentric Multiple Zone  [En línea] &lt;<a href="http://www.rmspumptools.com/perch/resources/product%20docs/dual-concentric-multiple-zone.pdf">http://www.rmspumptools.com/perch/resources/product%20docs/dual-concentric-multiple-zone.pdf</a>&gt;  [Citado en 15 de Mayo de 2016].</p>
+
+    <h2 id="iny-directa">COMPLETAMIENTO DE INYECCIÓN DIRECTA</h2>
+    <p>Este tipo de completamiento ha sido el más utilizado a través de los años en la industria petrolera con fines de inyección de agua bien sea disposal o de recobro, consta de un empaque sentado por encima de la zona a inyectar (Ver Figura 6) junto con una sarta sencilla, esta configuración inyecta según el flujo que sea administrado en superficie y no se tiene un control o preferencia del caudal para las formaciones, debido a esto en los procesos de recuperación secundaria las capas con mayor permeabilidad se inundan mucho más fácil que las de baja, lo que hace que la intrusión de agua en el pozo productor sea mucho más rápida.</p>
+    <p><strong>Figura 6.</strong> Estado mecánico de un pozo con BHA de sarta de inyección directa</p>
+    <div class="text-center">
+        <img src="/images/iny-directa.png">
+    </div>
+    <p><strong>Fuente.</strong> Profile-ECOPETROL S.A.</p>
 </main>
 
 @endsection

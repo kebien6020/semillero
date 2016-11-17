@@ -261,7 +261,7 @@ const makeLink = (id, text) =>
 
 const recommendations = {
     parallelInyProd: 'Instalar sartas paralelas inyección/producción',
-    directIny: 'Completamiento de inyección directa',
+    directIny: makeLink('iny-directa', 'Completamiento de inyección directa'),
     vrf: [
         makeLink('vrf', 'Completamiento de inyección selectiva con VRF'), <br />, <br />,
         <strong>Nota:</strong>, ' Para este completamiento se consideraron espaciamientos mínimos de arenas con respecto a los datos adquiridos de completamientos de inyección selectiva en cargados en OpenWells', <span>&reg;</span>
