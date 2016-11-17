@@ -21,6 +21,11 @@ class MultipleController extends Controller
         return view('multiple.matrix');
     }
 
+    public function matrixExplanations()
+    {
+        return view('multiple.matrix_explanations');
+    }
+
     // API function
     public function wells()
     {

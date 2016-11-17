@@ -34650,10 +34650,18 @@ var questions = [
     }
 }];
 
+var makeLink = function makeLink(id, text) {
+    return _react2.default.createElement(
+        'a',
+        { href: '/multiples/matrix/explanations#' + id },
+        text
+    );
+};
+
 var recommendations = {
     parallelInyProd: 'Instalar sartas paralelas inyección/producción',
     directIny: 'Completamiento de inyección directa',
-    vrf: ['Completamiento de inyección selectiva con VRF', _react2.default.createElement('br', null), _react2.default.createElement('br', null), _react2.default.createElement(
+    vrf: [makeLink('vrf', 'Completamiento de inyección selectiva con VRF'), _react2.default.createElement('br', null), _react2.default.createElement('br', null), _react2.default.createElement(
         'strong',
         null,
         'Nota:'
@@ -34667,7 +34675,7 @@ var recommendations = {
         null,
         'Nota:'
     ), ' Si el pozo produce por flujo natural considere el completamiento de sartas paralelas para la producción de las dos zonas, de lo contrario consultar la matriz de selección preliminar de los sistemas de levantamiento artificial, si resulta que su pozo es un candidato para BES considere instalar el sistema Dual Concéntrico BES. Si resulta que su pozo es un candidato para gas lift considere instalar el sistema de gas lift dual.'],
-    dualBes: ['Instalar completamiento dual concentrico BES.', _react2.default.createElement('br', null), _react2.default.createElement('br', null), _react2.default.createElement(
+    dualBes: [makeLink('dual-bes', 'Instalar completamiento dual concéntrico BES.'), _react2.default.createElement('br', null), _react2.default.createElement('br', null), _react2.default.createElement(
         'strong',
         null,
         'Nota:'
@@ -34728,7 +34736,7 @@ var recommendations = {
             'Este diseño puede completarse con métodos para control de arena'
         )
     )],
-    ssd: ['Instalar completamiento SSD.', _react2.default.createElement('br', null), _react2.default.createElement('br', null), _react2.default.createElement(
+    ssd: [makeLink('ssd', 'Instalar completamiento SSD.'), _react2.default.createElement('br', null), _react2.default.createElement('br', null), _react2.default.createElement(
         'strong',
         null,
         'Nota:'
@@ -34737,11 +34745,11 @@ var recommendations = {
         null,
         'Recomendación:'
     ), ' Si el pozo tiene una desviación mayor a 70 grados es recomendable utilizar herramientas de apertura y cierre E-Line.'],
-    icd: 'Instalar completamiento ICD convencional',
-    picd: 'Instalar completamiento PICD',
-    aicd: 'Instalar completamiento AICD',
-    ssv: 'Instalar completamiento SSV',
-    icv: 'Instalar completamiento ICV',
+    icd: makeLink('picd-aicd', 'Instalar completamiento ICD convencional'),
+    picd: makeLink('picd-aicd', 'Instalar completamiento PICD'),
+    aicd: makeLink('picd-aicd', 'Instalar completamiento AICD'),
+    ssv: makeLink('icv', 'Instalar completamiento SSV'),
+    icv: makeLink('icv', 'Instalar completamiento ICV'),
     binaryValves: _react2.default.createElement(
         'ul',
         null,

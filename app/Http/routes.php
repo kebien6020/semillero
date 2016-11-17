@@ -21,6 +21,7 @@ Route::group(['prefix' => 'multiples', 'middleware' => 'auth'], function () {
 
     Route::get('/map/pozos', 'MultipleController@mapPozos');
     Route::get('/matrix', 'MultipleController@matrix');
+    Route::get('/matrix/explanations', 'MultipleController@matrixExplanations');
 
     // API routes
     Route::get('/api/wells', 'MultipleController@wells');

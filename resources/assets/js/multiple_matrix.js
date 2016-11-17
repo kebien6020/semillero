@@ -239,11 +239,14 @@ const questions = [
     }
 ]
 
+const makeLink = (id, text) =>
+    <a href={`/multiples/matrix/explanations#${id}`}>{text}</a>
+
 const recommendations = {
     parallelInyProd: 'Instalar sartas paralelas inyección/producción',
     directIny: 'Completamiento de inyección directa',
     vrf: [
-        'Completamiento de inyección selectiva con VRF', <br />, <br />,
+        makeLink('vrf', 'Completamiento de inyección selectiva con VRF'), <br />, <br />,
         <strong>Nota:</strong>, ' Para este completamiento se consideraron espaciamientos mínimos de arenas con respecto a los datos adquiridos de completamientos de inyección selectiva en cargados en OpenWells', <span>&reg;</span>
     ],
     parallel: [
@@ -251,7 +254,7 @@ const recommendations = {
         <strong>Nota:</strong>, ' Si el pozo produce por flujo natural considere el completamiento de sartas paralelas para la producción de las dos zonas, de lo contrario consultar la matriz de selección preliminar de los sistemas de levantamiento artificial, si resulta que su pozo es un candidato para BES considere instalar el sistema Dual Concéntrico BES. Si resulta que su pozo es un candidato para gas lift considere instalar el sistema de gas lift dual.'
     ],
     dualBes: [
-        'Instalar completamiento dual concentrico BES.', <br />, <br />,
+        makeLink('dual-bes', 'Instalar completamiento dual concéntrico BES.'), <br />, <br />,
         <strong>Nota:</strong>, ' Tenga en cuenta los siguientes rangos de aplicación:',
         <ul>
             <li>Angulo máximo de desviación de 45º</li>
@@ -272,15 +275,15 @@ const recommendations = {
         </ul>
     ],
     ssd: [
-        'Instalar completamiento SSD.', <br />, <br />,
+        makeLink('ssd', 'Instalar completamiento SSD.'), <br />, <br />,
         <strong>Nota:</strong>, ' La producción selectiva o secuencial permite la evaluación de zonas por medio de la producción secuencial de las mismas, sin embargo es posible producir más de una zona al tiempo.', <br />,
         <strong>Recomendación:</strong>,  ' Si el pozo tiene una desviación mayor a 70 grados es recomendable utilizar herramientas de apertura y cierre E-Line.'
     ],
-    icd: 'Instalar completamiento ICD convencional',
-    picd: 'Instalar completamiento PICD',
-    aicd: 'Instalar completamiento AICD',
-    ssv: 'Instalar completamiento SSV',
-    icv: 'Instalar completamiento ICV',
+    icd: makeLink('picd-aicd', 'Instalar completamiento ICD convencional'),
+    picd: makeLink('picd-aicd', 'Instalar completamiento PICD'),
+    aicd: makeLink('picd-aicd', 'Instalar completamiento AICD'),
+    ssv: makeLink('icv', 'Instalar completamiento SSV'),
+    icv: makeLink('icv', 'Instalar completamiento ICV'),
     binaryValves: <ul><li>Instalar válvulas bianrias y de choke para ICV</li></ul>,
     chokeValves: <ul><li>Instalar válvulas de choke ICV</li></ul>,
 }
