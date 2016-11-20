@@ -22,6 +22,8 @@ Route::group(['prefix' => 'multiples', 'middleware' => 'auth'], function () {
     Route::get('/map/pozos', 'MultipleController@mapPozos');
     Route::get('/matrix', 'MultipleController@matrix');
     Route::get('/matrix/explanations', 'MultipleController@matrixExplanations');
+    Route::get('/manual', 'MultipleController@manual');
+
 
     // API routes
     Route::get('/api/wells', 'MultipleController@wells');
@@ -39,6 +41,8 @@ Route::group(['middleware' => 'auth', 'prefix' => 'conectividad'], function () {
     Route::get('/basins/{basinId}/fields/{fieldId}/wells/{wellId}', 'ConnectivityController@wellDetail');
     Route::get('/matrix', 'ConnectivityController@matrix');
     Route::get('/matrix/explanations', 'ConnectivityController@matrixExplanations');
+
+    Route::get('/manual', 'ConnectivityController@manual');
 
     //api routes
     Route::get('/api/wells', 'ConnectivityController@wells');

@@ -40,4 +40,9 @@ class MultipleController extends Controller
     {
         return Completion::all(['name', 'color']);
     }
+
+    public function manual()
+    {
+        return view('multiple.manual');
+    }
 }
