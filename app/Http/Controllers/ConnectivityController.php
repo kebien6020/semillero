@@ -110,4 +110,9 @@ class ConnectivityController extends Controller
     {
         return ConnectivityMethod::all(['name', 'color'])->toJson();
     }
+
+    public function manual()
+    {
+        return view('connectivity.manual');
+    }
 }
