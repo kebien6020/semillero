@@ -7404,6 +7404,10 @@ body > main > header, body > main header.title, body > main > .container > heade
 .minus-button, .minus-button:hover, .minus-button:focus, .minus-button:active {
   color: darkred !important; }
 
+#main-video {
+  height: 50rem;
+  width: 100%; }
+
 /* Absolute Center Spinner */
 .loading {
   position: fixed;

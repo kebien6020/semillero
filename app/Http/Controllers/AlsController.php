@@ -220,4 +220,9 @@ class AlsController extends Controller
     {
         return view('als.map_campos');
     }
+
+    public function manual()
+    {
+        return view('als.manual');
+    }
 }

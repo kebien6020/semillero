@@ -68,6 +68,8 @@ Route::group(['middleware' => 'auth', 'prefix' => 'sla'], function () {
     Route::post('/matrix/alternatives', 'AlsController@matrixAlternativeCreate');
     Route::put('/matrix/alternatives/{id}', 'AlsController@matrixAlternativeUpdate');
 
+    Route::get('/manual', 'AlsController@manual');
+
     // Route::get('/map/campos', 'AlsController@mapCampos');
     //Route::get('/test/map', 'slaController@testMap');
     //Route::post('/test/map/add_data_submit', 'slaController@testMapAddDataSubmit');
