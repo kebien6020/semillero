@@ -32881,13 +32881,24 @@ var data = JSON.parse(document.getElementById('value-functions-initial-data').in
 var alternatives = data.alternatives;
 var valueFunctions = data.valueFunctions;
 var type = data.type;
+var editMode = data.editMode;
 
+var buttonText = (editMode ? 'Actualizar' : 'Agregar') + ' criterio';
 
-_reactDom2.default.render(_react2.default.createElement(_CriterionEditor2.default, {
-    alternatives: alternatives,
-    initialValueFunctions: valueFunctions,
-    initialType: type
-}), document.getElementById('value-function-editor'));
+_reactDom2.default.render(_react2.default.createElement(
+    'div',
+    null,
+    _react2.default.createElement(_CriterionEditor2.default, {
+        alternatives: alternatives,
+        initialValueFunctions: valueFunctions,
+        initialType: type
+    }),
+    _react2.default.createElement(
+        'div',
+        { className: 'submit-container' },
+        _react2.default.createElement('input', { type: 'submit', value: buttonText })
+    )
+), document.getElementById('value-function-editor'));
 
 },{"./app.js":175,"./components/CriterionEditor.jsx":176,"react":173,"react-dom":30}],175:[function(require,module,exports){
 'use strict';

@@ -56,18 +56,17 @@
                 {
                     "alternatives": {{ $alternatives->toJson() }},
                     "valueFunctions": {{ $valueFunctions->toJson() }},
-                    "type": "{{ $criterion->type }}"
+                    "type": "{{ $criterion->type }}",
+                    "editMode": true
                 }
             @else
                 {
-                    "alternatives": {{  $alternatives->toJson()  }}
+                    "alternatives": {{  $alternatives->toJson()  }},
+                    "editMode": false
                 }
             @endif
         </div>
         <div id="value-function-editor">Cargando editor de funciones valor...</div>
-        <div class="submit-container">
-            <input type="submit" value="@if($edit) Actualizar @else Agregar @endif criterio">
-        </div>
     </form>
 </main>
 

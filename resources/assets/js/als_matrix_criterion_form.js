@@ -11,13 +11,19 @@ const data =
             .innerHTML
     )
 
-const { alternatives, valueFunctions, type } = data
+const { alternatives, valueFunctions, type, editMode } = data
+const buttonText = (editMode ? 'Actualizar' : 'Agregar') + ' criterio'
 
 ReactDOM.render(
-    <CriterionEditor
-        alternatives={alternatives}
-        initialValueFunctions={valueFunctions}
-        initialType={type}
-    />,
+    <div>
+        <CriterionEditor
+            alternatives={alternatives}
+            initialValueFunctions={valueFunctions}
+            initialType={type}
+        />
+        <div className="submit-container">
+            <input type="submit" value={buttonText} />
+        </div>
+    </div>,
     document.getElementById('value-function-editor')
 )
