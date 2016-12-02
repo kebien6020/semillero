@@ -34556,8 +34556,8 @@ var questions = [
         answer: 'Inyector'
     }],
     recommend: {
-        'false': ['directIny'],
-        'true': ['vrf']
+        'true': ['directIny'],
+        'false': ['vrf']
     }
 },
 // 8

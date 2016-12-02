@@ -116,8 +116,8 @@ const questions = [
             }
         ],
         recommend: {
-            'false': ['directIny'],
-            'true': ['vrf'],
+            'true': ['directIny'],
+            'false': ['vrf'],
         },
     },
     // 8
