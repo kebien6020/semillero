@@ -34473,8 +34473,7 @@ var questions = [
 },
 // 1
 {
-    text: '¿Hay una diferencia mayor de 6 Darcies entre las formaciones?',
-    description: 'Considere que este parámetro es muy relativo, y no reemplaza ningún valor de campo, depende de la máxima diferencia de permeabilidades entre las formaciones productoras del campo.',
+    text: '¿Existe una diferencia de presión mayor a 250 psi entre los intervalos productores?',
     type: 'boolean',
     default: true,
     prereq: [{
@@ -34485,8 +34484,8 @@ var questions = [
 },
 // 2
 {
-    text: '¿Las capas productoras se encuentran divididas por barreras de muy baja permeabilidad de al menos 3 ft?',
-    description: 'Se  consideran discontinuidades, arcillas, shales o arenas de muy baja permeabilidad como barreras, considere también la continuidad de la barrera que permita que hayan dos estratos de diferentes  características petrofísicas y de fluido a lo largo del yacimiento que no permitan que se crucen los fluidos detrás de la cara del pozo, el valor mínimo estimado para crear esa separación litológica es de 3 ft.',
+    text: '¿Hay una diferencia mayor de 6 Darcies entre las formaciones?',
+    description: 'Considere que este parámetro es muy relativo, y no reemplaza ningún valor de campo, depende de la máxima diferencia de permeabilidades entre las formaciones productoras del campo.',
     type: 'boolean',
     default: true,
     prereq: [{
@@ -34497,7 +34496,8 @@ var questions = [
 },
 // 3
 {
-    text: '¿Acorde a las facilidades y la tasa de retorno es factible la instalación de un completamiento múltiple?',
+    text: '¿Las capas productoras se encuentran divididas por barreras de muy baja permeabilidad de al menos 3 ft?',
+    description: 'Se  consideran discontinuidades, arcillas, shales o arenas de muy baja permeabilidad como barreras, considere también la continuidad de la barrera que permita que hayan dos estratos de diferentes  características petrofísicas y de fluido a lo largo del yacimiento que no permitan que se crucen los fluidos detrás de la cara del pozo, el valor mínimo estimado para crear esa separación litológica es de 3 ft.',
     type: 'boolean',
     default: true,
     prereq: [{
@@ -34508,9 +34508,9 @@ var questions = [
 },
 // 4
 {
-    text: '¿Una o mas capas productoras depletaron o entraron en irrupción de agua y gas?',
+    text: '¿Acorde a las facilidades y la tasa de retorno es factible la instalación de un completamiento múltiple?',
     type: 'boolean',
-    default: false,
+    default: true,
     prereq: [{
         id: 3,
         answer: true
@@ -34519,40 +34519,51 @@ var questions = [
 },
 // 5
 {
-    text: '¿Acorde a la conectividad del yacimiento las capas depletadas son candidatas a inyección para recobro o disposal?',
+    text: '¿Una o mas capas productoras depletaron o entraron en irrupción de agua y gas?',
     type: 'boolean',
     default: false,
     prereq: [{
         id: 4,
         answer: true
     }],
+    recommend: {}
+},
+// 6
+{
+    text: '¿Acorde a la conectividad del yacimiento las capas depletadas son candidatas a inyección para recobro o disposal?',
+    type: 'boolean',
+    default: false,
+    prereq: [{
+        id: 5,
+        answer: true
+    }],
     recommend: {
         'true': ['parallelInyProd']
     }
 },
-// 6
+// 7
 {
     text: 'Se definió tipo de pozo',
     type: 'multi',
     options: ['Inyector', 'Productor'],
     default: 'Productor',
     prereq: [{
-        id: 4,
+        id: 5,
         answer: false
     }, {
-        id: 5,
+        id: 6,
         answer: false
     }],
     recommend: {}
 },
-// 7
+// 8
 {
     text: '¿Espaciamiento entre arenas es menor a 60 pies?',
     description: 'Considere que este criterio ha sido seleccionado  con base en las longitudes mínimas de las siguientes herramientas de completamiento para la inyección selectiva: Empaque, Pup Joint, Mandril de Inyección, Pup Joint y Empaque.',
     type: 'boolean',
     default: false,
     prereq: [{
-        id: 6,
+        id: 7,
         answer: 'Inyector'
     }],
     recommend: {
@@ -34560,68 +34571,68 @@ var questions = [
         'false': ['vrf']
     }
 },
-// 8
+// 9
 {
     text: '¿Que tipo de pozo es con respecto a la geometría?',
     type: 'multi',
     options: ['Vertical o Desviado', 'Horizontal o Multilateral'],
     default: 'Vertical o Desviado',
     prereq: [{
-        id: 6,
+        id: 7,
         answer: 'Productor'
     }],
     recommend: {}
 },
-// 9
+// 10
 {
     text: '¿Requiere fiscalizar las zonas de forma simultanea e independiente?',
     type: 'boolean',
     default: false,
     prereq: [{
-        id: 8,
+        id: 9,
         answer: 'Vertical o Desviado'
     }],
     recommend: {
         'true': ['parallel', 'dualBes', 'dualGl']
     }
 },
-// 10
+// 11
 {
     text: '¿Desea tener control de reservas y retrasar frentes de agua de forma simultanea en todas las zonas?',
     type: 'boolean',
     default: false,
     prereq: [{
-        id: 9,
+        id: 10,
         answer: false
     }],
     recommend: {
         'false': ['ssd']
     }
 },
-// 11
+// 12
 {
     text: '¿Cuál es el tipo de completamiento utilizado en el pozo?',
     type: 'multi',
     options: ['Hueco Revestido', 'Hueco Abierto/Gravel Pack'],
     default: 'Hueco Abierto/Gravel Pack',
     prereq: [{
-        id: 8,
+        id: 9,
         answer: 'Horizontal o Multilateral'
     }, {
-        id: 10,
+        id: 11,
         answer: true
     }],
     recommend: {
         'Hueco Abierto/Gravel Pack': ['icd']
     }
 },
-// 12
+// 13
 {
     text: '¿Se espera intrusión de agua?',
     type: 'boolean',
     default: false,
     prereq: [{
-        id: 11,
+        id: 12,
         answer: 'Hueco Abierto/Gravel Pack'
     }],
     recommend: {
@@ -34629,26 +34640,26 @@ var questions = [
         'true': ['aicd']
     }
 },
-// 13
+// 14
 {
     text: '¿Requiere futuras estimulaciones?',
     type: 'boolean',
     default: false,
     prereq: [{
-        id: 11,
+        id: 12,
         answer: 'Hueco Revestido'
     }],
     recommend: {
         'true': ['ssv']
     }
 },
-// 14
+// 15
 {
     text: '¿Requiere evaluación independiente de cada zona?',
     type: 'boolean',
     default: false,
     prereq: [{
-        id: 13,
+        id: 14,
         answer: false
     }],
     recommend: {
@@ -34656,14 +34667,14 @@ var questions = [
         'false': ['icv']
     }
 },
-// 15
+// 16
 {
     text: '¿Hay presencia de zonas apretadas o shales?',
     description: 'Considere que las zonas apretadas van desde una permeabilidad de 0,01mD  hasta 0,1 mD y un yacimiento Shale a partir de 0,0001 mD hasta 0,01 mD.',
     type: 'boolean',
     default: false,
     prereq: [{
-        id: 14,
+        id: 15,
         answer: false
     }],
     recommend: {
