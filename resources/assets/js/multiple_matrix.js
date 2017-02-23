@@ -7,7 +7,7 @@ import QuestionMatrix from './components/QuestionMatrix.jsx'
 const questions = [
     // 0
     {
-        text: '¿Hay mas de una zona prospectiva en el pozo (inyección o producción)?',
+        text: '¿Existe mas de una zona prospectiva en el pozo (inyección o producción)?',
         type: 'boolean',
         default: true,
         prereq: [],
@@ -28,7 +28,7 @@ const questions = [
     },
     // 2
     {
-        text: '¿Hay una diferencia mayor de 6 Darcies entre las formaciones?',
+        text: '¿Existe una diferencia mayor de 6 Darcies entre las formaciones?',
         description: 'Considere que este parámetro es muy relativo, y no reemplaza ningún valor de campo, depende de la máxima diferencia de permeabilidades entre las formaciones productoras del campo.',
         type: 'boolean',
         default: true,
