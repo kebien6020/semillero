@@ -19,7 +19,9 @@ Route::get('/', 'HomeController@home');
 
 Route::group(['prefix' => 'tuberias', 'middleware' => 'auth'], function () {
 
-    // Route::get('/map', 'PipeController@map');
+    Route::get('/map', 'PipeController@map');
+
+    Route::get('/api/pozos', 'PipeController@wells');
 });
 
 // Completamientos multiples

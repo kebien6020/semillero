@@ -39,7 +39,8 @@ elixir(function(mix) {
         'connectivity_map_pozos.js',
         'connectivity_matrix.js',
         'multiple_map_pozos.js',
-        'multiple_matrix.js'
+        'multiple_matrix.js',
+        'pipe_map.js'
     ].forEach(function(val){
         mix.browserify(val)
     })

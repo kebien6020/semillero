@@ -45,7 +45,7 @@
         "no-useless-escape": "warn",
         "block-spacing": "warn",
         "brace-style": "warn",
-        "camelcase": "warn",
+        "camelcase": "off",
         "comma-spacing": "warn",
         "spaced-comment": "warn",
         "no-const-assign": "error",
