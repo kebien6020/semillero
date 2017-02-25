@@ -58,6 +58,15 @@
             </ul>
         </div>
         <div>
+            <button type="button" data-toggle="dropdown">
+                Tuberías de Corrosión
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu collapse">
+                @include('partial.pipe_links')
+            </ul>
+        </div>
+        <div>
             <a href="/dashboard">
                 Administrar Información
             </a>
