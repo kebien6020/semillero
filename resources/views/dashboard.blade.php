@@ -66,6 +66,12 @@
                 'Eliminar: Completamientos múltiples - Datos por pozos'
                 ) }}
         </p>
+        <p>
+            {{ makeDeleteButton(
+                '/admin/delete_tuberias_pozos',
+                'Eliminar: Tuberías de Corrosión - Datos por pozos'
+                ) }}
+        </p>
     </div>
 </div>
 

@@ -13,6 +13,7 @@ use App\FluidOccurrence;
 use App\DensityRange;
 use App\MultipleOccurrence;
 use App\ConnectivityOccurrence;
+use App\PipeOccurrence;
 
 class AdminController extends Controller
 {
@@ -78,6 +79,14 @@ class AdminController extends Controller
         return static::deleteModel(
             MultipleOccurrence::query(),
             'Ocurrencias de Completamientos Múltiples'
+        );
+    }
+
+    public function deleteTuberiasPipeOccurrences()
+    {
+        return static::deleteModel(
+            PipeOccurrence::query(),
+            'Ocurrencias de Tuberías de Corrosión'
         );
     }
 }

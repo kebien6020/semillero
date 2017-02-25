@@ -157,3 +157,4 @@ Route::delete('/admin/delete_fluidos_pozos', 'AdminController@deleteFluidosFluid
 Route::delete('/admin/delete_fluidos_rangos', 'AdminController@deleteFluidosDensityRanges');
 Route::delete('/admin/delete_conectividad_pozos', 'AdminController@deleteConectividadConnectivityOccurrences');
 Route::delete('/admin/delete_multiples_pozos', 'AdminController@deleteMultiplesMultipleOccurrences');
+Route::delete('/admin/delete_tuberias_pozos', 'AdminController@deleteTuberiasPipeOccurrences');
