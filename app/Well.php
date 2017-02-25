@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\AlsOccurrence;
 use App\ConnectivityOccurrence;
 use App\MultipleOccurrence;
+use App\PipeOccurrence;
 
 class Well extends Model
 {
@@ -50,5 +51,10 @@ class Well extends Model
             ->get()
             ->first();
         return $occurrence;
+    }
+
+    public function pipeOccurrence()
+    {
+        return $this->hasOne(PipeOccurrence::class);
     }
 }

@@ -21,6 +21,7 @@ use App\Field;
 use App\Fluid;
 use App\FluidOccurrence;
 use App\MultipleOccurrence;
+use App\PipeOccurrence;
 use App\Sample;
 use App\SampleGroup;
 use App\SandControl;
@@ -668,6 +669,57 @@ class UploadController extends Controller
                         'fields' => [
                             'completion' => 'name',
                             'color' => 'color',
+                        ],
+                    ],
+                ],
+            ],
+            'tuberias_ocurrencias' => [
+                'project' => 'tuberias',
+                'redirect_to' => '/tuberias/map',
+                'columns' => [
+                    ['name' => 'type', 'display_name' => 'Grado de la tubería'],
+                    ['name' => 'year', 'display_name' => 'Año de Instalación'],
+                    ['name' => 'corrosion', 'display_name' => 'Corrosión'],
+                    ['name' => 'well', 'display_name' => 'Nombre Común del Pozo'],
+                    ['name' => 'longitude', 'display_name' => 'Longitud'],
+                    ['name' => 'latitude', 'display_name' => 'Latitud'],
+                    ['name' => 'field', 'display_name' => 'Campo'],
+                    ['name' => 'vicepresidency', 'display_name' => 'Vicepresidencia'],
+                    ['name' => 'basin', 'display_name' => 'Cuenca'],
+                ],
+                'hierarchy' => [
+                    [
+                        'model' => Basin::class,
+                        'action' => 'groupBy',
+                        'column' => 'basin',
+                        'fields' => ['basin' => 'name'],
+                    ],
+                    [
+                        'model' => Field::class,
+                        'prev' => 'fields',
+                        'action' => 'groupBy',
+                        'column' => 'field',
+                        'fields' => ['field' => 'name', 'vicepresidency' => 'vicepresidency'],
+                    ],
+                    [
+                        'model' => Well::class,
+                        'prev' => 'wells',
+                        'action' => 'groupBy',
+                        'column' => 'well',
+                        'fields' => [
+                            'well' => 'name',
+                            'longitude' => 'longitude',
+                            'latitude' => 'latitude',
+                        ],
+                    ],
+                    [
+                        'model' => PipeOccurrence::class,
+                        'prev' => 'pipeOccurrence',
+                        'action' => 'none',
+                        'fields' => [
+                            'type' => 'type',
+                            'year' => 'year',
+                            'corrosion' => 'corrosion',
                         ],
                     ],
                 ],

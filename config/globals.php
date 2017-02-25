@@ -7,7 +7,8 @@ return [
         'arenas' => 'Mecanismos de control de arenas',
         'fluidos' => 'Fluidos de Completamiento',
         'conectividad' => 'Conectividad',
-        'multiples' => 'Completamientos Múltiples'
+        'multiples' => 'Completamientos Múltiples',
+        'tuberias' => 'Tuberías de corrosion'
     ],
 
 ];

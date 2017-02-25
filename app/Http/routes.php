@@ -15,6 +15,13 @@ use Illuminate\Http\Request;
 
 Route::get('/', 'HomeController@home');
 
+// Tuberías
+
+Route::group(['prefix' => 'tuberias', 'middleware' => 'auth'], function () {
+
+    // Route::get('/map', 'PipeController@map');
+});
+
 // Completamientos multiples
 
 Route::group(['prefix' => 'multiples', 'middleware' => 'auth'], function () {
