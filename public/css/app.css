@@ -7946,4 +7946,14 @@ table {
 .connectivity-matrix-explanations .img {
   text-align: center; }
 
+.pipe-basins #plot {
+  width: 100%;
+  height: 70vh; }
+
+.pipe-basins #legend-container {
+  text-align: center; }
+
+.pipe-basins #plot-legend {
+  display: inline-block; }
+
 /*# sourceMappingURL=app.css.map */
