@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Well;
 use App\Basin;
+use App\Field;
 use App\PipeOccurrence;
 
 use DB;
@@ -67,8 +68,10 @@ class PipeController extends Controller
 
     public function basinDetail($id)
     {
-        $basin = Basin::findOrFail($id)
-            ->load('fields');
+        $basin = Basin::findOrFail($id);
+        $fields = Field::where('basin_id', '=', $id)
+            ->has('wells.pipeOccurrence')
+            ->get();
         $byYear = PipeOccurrence::countOccurrences('year', 'basin', $id);
         $byType = PipeOccurrence::countOccurrences('type', 'basin', $id);
         $occurrences = collect([
@@ -77,8 +80,33 @@ class PipeController extends Controller
         ]);
         return view('pipe/basin_detail', [
             'basinName' => $basin->name,
-            'fields' => $basin->fields,
+            'fields' => $fields,
             'occurrences' => $occurrences,
         ]);
+    }
+
+    public function fieldDetail($id)
+    {
+        $field = Field::findOrFail($id);
+        $wells = Well::where('field_id', '=', $id)
+            ->has('pipeOccurrence')
+            ->get();
+        $byYear = PipeOccurrence::countOccurrences('year', 'field', $id);
+        $byType = PipeOccurrence::countOccurrences('type', 'field', $id);
+        $occurrences = collect([
+            'byYear' => $byYear,
+            'byType' => $byType,
+        ]);
+        return view('pipe/field_detail', [
+            'fieldName' => $field->name,
+            'wells' => $wells,
+            'occurrences' => $occurrences,
+        ]);
+    }
+
+    public function wellDetail($id)
+    {
+        $well = Well::findOrFail($id)->with('pipeOccurrence');
+        return view('pipe/well_detail');
     }
 }

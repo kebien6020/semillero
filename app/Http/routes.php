@@ -24,6 +24,8 @@ Route::group(['prefix' => 'tuberias', 'middleware' => 'auth'], function () {
 
     Route::get('/cuencas', 'PipeController@basins');
     Route::get('/cuencas/{id}', 'PipeController@basinDetail');
+    Route::get('/campos/{id}', 'PipeController@fieldDetail');
+    Route::get('/pozos/{id}', 'PipeController@wellDetail');
 });
 
 // Completamientos multiples
