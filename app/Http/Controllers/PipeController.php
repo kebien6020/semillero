@@ -64,4 +64,25 @@ class PipeController extends Controller
             'occurrences' => $data,
         ]);
     }
+
+    public function basinDetail($id)
+    {
+        $basin = Basin::findOrFail($id)
+            ->load('fields');
+        $occurrences = PipeOccurrence::getQuery()
+            ->select('year')
+            ->addSelect(DB::raw('count(distinct `pipe_occurrences`.`id`) as `occurrences`'))
+            ->where('basins.id', '=', $id)
+            ->join('wells', 'pipe_occurrences.well_id', '=', 'wells.id')
+            ->join('fields', 'wells.field_id', '=', 'fields.id')
+            ->join('basins', 'fields.basin_id', '=', 'basins.id')
+            ->groupBy('pipe_occurrences.year')
+            ->get();
+        $occurrences = collect($occurrences);
+        return view('pipe/basin_detail', [
+            'basinName' => $basin->name,
+            'fields' => $basin->fields,
+            'occurrences' => $occurrences,
+        ]);
+    }
 }

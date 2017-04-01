@@ -1,6 +1,8 @@
 import './app'
 import $ from 'jquery'
 import 'jquery.flot.orderBars' // Allows for multi-series bar graph
+import throttle from './modules/throttle'
+import arrayUnique from './modules/array_unique'
 
 // Query the DOM elements we are going to need
 const $plot = document.getElementById('plot')
@@ -45,6 +47,7 @@ const options = {
     xaxis: {
         min: minyear - 1,
         max: maxyear + 1,
+        ticks: arrayUnique(years),
     }
 }
 
@@ -53,26 +56,8 @@ const plot = () => {
     $.plot($plot, series, options)
 }
 
-// Add optimizedResize event
-// Code from https://developer.mozilla.org/en-US/docs/Web/Events/resize
-(function() {
-    const throttle = (type, name, obj) => {
-        obj = obj || window
-        let running = false
-        const func = function() {
-            if (running)  return
-            running = true
-            requestAnimationFrame(function() {
-                obj.dispatchEvent(new CustomEvent(name))
-                running = false
-            })
-        }
-        obj.addEventListener(type, func)
-    }
-
-    /* init - you can init any event */
-    throttle('resize', 'optimizedResize')
-})()
+// Create custom throttled resize event
+throttle('resize', 'tResize')
 
 // plot normally
 plot()
@@ -80,4 +65,4 @@ plot()
 // without this the plot stays at the same sime when the window is resized
 // There is no need to recalculate the width as it is obtained from the
 // container element, which should escale on a responsive fashion
-window.addEventListener('optimizedResize', plot)
+window.addEventListener('tResize', plot)

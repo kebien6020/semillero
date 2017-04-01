@@ -12198,7 +12198,7 @@ window.$ = $;
 $('.success-panel, .error-panel').addClass('alert fade in');
 $().alert();
 
-},{"bootstrap":1,"jquery":2,"jquery.flot.pie":6}],4:[function(require,module,exports){
+},{"bootstrap":1,"jquery":2,"jquery.flot.pie":5}],4:[function(require,module,exports){
 (function (global){
 
 ; require("jquery");
@@ -12685,198 +12685,6 @@ function floorInBase(n,base){return base*Math.floor(n/base);}})(jQuery);
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"jquery":2}],5:[function(require,module,exports){
-(function (global){
-
-; require("/home/vagrant/Code/Semillero/resources/assets/js/flot/jquery.flot.js");
-; var __browserify_shim_require__=require;(function browserifyShim(module, define, require) {
-"use strict";
-
-/*
- * Flot plugin to order bars side by side.
- * 
- * Released under the MIT license by Benjamin BUFFET, 20-Sep-2010.
- *
- * This plugin is an alpha version.
- *
- * To activate the plugin you must specify the parameter "order" for the specific serie :
- *
- *  $.plot($("#placeholder"), [{ data: [ ... ], bars :{ order = null or integer }])
- *
- * If 2 series have the same order param, they are ordered by the position in the array;
- *
- * The plugin adjust the point by adding a value depanding of the barwidth
- * Exemple for 3 series (barwidth : 0.1) :
- *
- *          first bar décalage : -0.15
- *          second bar décalage : -0.05
- *          third bar décalage : 0.05
- *
- */
-
-(function ($) {
-    function init(plot) {
-        var orderedBarSeries;
-        var nbOfBarsToOrder;
-        var borderWidth;
-        var borderWidthInXabsWidth;
-        var pixelInXWidthEquivalent = 1;
-        var isHorizontal = false;
-
-        /*
-         * This method add shift to x values
-         */
-        function reOrderBars(plot, serie, datapoints) {
-            var shiftedPoints = null;
-
-            if (serieNeedToBeReordered(serie)) {
-                checkIfGraphIsHorizontal(serie);
-                calculPixel2XWidthConvert(plot);
-                retrieveBarSeries(plot);
-                calculBorderAndBarWidth(serie);
-
-                if (nbOfBarsToOrder >= 2) {
-                    var position = findPosition(serie);
-                    var decallage = 0;
-
-                    var centerBarShift = calculCenterBarShift();
-
-                    if (isBarAtLeftOfCenter(position)) {
-                        decallage = -1 * sumWidth(orderedBarSeries, position - 1, Math.floor(nbOfBarsToOrder / 2) - 1) - centerBarShift;
-                    } else {
-                        decallage = sumWidth(orderedBarSeries, Math.ceil(nbOfBarsToOrder / 2), position - 2) + centerBarShift + borderWidthInXabsWidth * 2;
-                    }
-
-                    shiftedPoints = shiftPoints(datapoints, serie, decallage);
-                    datapoints.points = shiftedPoints;
-                }
-            }
-            return shiftedPoints;
-        }
-
-        function serieNeedToBeReordered(serie) {
-            return serie.bars != null && serie.bars.show && serie.bars.order != null;
-        }
-
-        function calculPixel2XWidthConvert(plot) {
-            var gridDimSize = isHorizontal ? plot.getPlaceholder().innerHeight() : plot.getPlaceholder().innerWidth();
-            var minMaxValues = isHorizontal ? getAxeMinMaxValues(plot.getData(), 1) : getAxeMinMaxValues(plot.getData(), 0);
-            var AxeSize = minMaxValues[1] - minMaxValues[0];
-            pixelInXWidthEquivalent = AxeSize / gridDimSize;
-        }
-
-        function getAxeMinMaxValues(series, AxeIdx) {
-            var minMaxValues = new Array();
-            for (var i = 0; i < series.length; i++) {
-                minMaxValues[0] = series[i].data[0][AxeIdx];
-                minMaxValues[1] = series[i].data[series[i].data.length - 1][AxeIdx];
-            }
-            return minMaxValues;
-        }
-
-        function retrieveBarSeries(plot) {
-            orderedBarSeries = findOthersBarsToReOrders(plot.getData());
-            nbOfBarsToOrder = orderedBarSeries.length;
-        }
-
-        function findOthersBarsToReOrders(series) {
-            var retSeries = new Array();
-
-            for (var i = 0; i < series.length; i++) {
-                if (series[i].bars.order != null && series[i].bars.show) {
-                    retSeries.push(series[i]);
-                }
-            }
-
-            return retSeries.sort(sortByOrder);
-        }
-
-        function sortByOrder(serie1, serie2) {
-            var x = serie1.bars.order;
-            var y = serie2.bars.order;
-            return x < y ? -1 : x > y ? 1 : 0;
-        }
-
-        function calculBorderAndBarWidth(serie) {
-            borderWidth = serie.bars.lineWidth ? serie.bars.lineWidth : 2;
-            borderWidthInXabsWidth = borderWidth * pixelInXWidthEquivalent;
-        }
-
-        function checkIfGraphIsHorizontal(serie) {
-            if (serie.bars.horizontal) {
-                isHorizontal = true;
-            }
-        }
-
-        function findPosition(serie) {
-            var pos = 0;
-            for (var i = 0; i < orderedBarSeries.length; ++i) {
-                if (serie == orderedBarSeries[i]) {
-                    pos = i;
-                    break;
-                }
-            }
-
-            return pos + 1;
-        }
-
-        function calculCenterBarShift() {
-            var width = 0;
-
-            if (nbOfBarsToOrder % 2 != 0) width = orderedBarSeries[Math.ceil(nbOfBarsToOrder / 2)].bars.barWidth / 2;
-
-            return width;
-        }
-
-        function isBarAtLeftOfCenter(position) {
-            return position <= Math.ceil(nbOfBarsToOrder / 2);
-        }
-
-        function sumWidth(series, start, end) {
-            var totalWidth = 0;
-
-            for (var i = start; i <= end; i++) {
-                totalWidth += series[i].bars.barWidth + borderWidthInXabsWidth * 2;
-            }
-
-            return totalWidth;
-        }
-
-        function shiftPoints(datapoints, serie, dx) {
-            var ps = datapoints.pointsize;
-            var points = datapoints.points;
-            var j = 0;
-            for (var i = isHorizontal ? 1 : 0; i < points.length; i += ps) {
-                points[i] += dx;
-                //Adding the new x value in the serie to be abble to display the right tooltip value,
-                //using the index 3 to not overide the third index.
-                serie.data[j][3] = points[i];
-                j++;
-            }
-
-            return points;
-        }
-
-        plot.hooks.processDatapoints.push(reOrderBars);
-    }
-
-    var options = {
-        series: {
-            bars: { order: null } // or number/string
-        }
-    };
-
-    $.plot.plugins.push({
-        init: init,
-        options: options,
-        name: "orderBars",
-        version: "0.2"
-    });
-})(jQuery);
-
-}).call(global, module, undefined, undefined);
-
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"/home/vagrant/Code/Semillero/resources/assets/js/flot/jquery.flot.js":4}],6:[function(require,module,exports){
 (function (global){
 
 ; require("/home/vagrant/Code/Semillero/resources/assets/js/flot/jquery.flot.js");
@@ -13702,21 +13510,53 @@ More detail and specific examples can be found in the included HTML file.
 }).call(global, module, undefined, undefined);
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"/home/vagrant/Code/Semillero/resources/assets/js/flot/jquery.flot.js":4}],7:[function(require,module,exports){
-"use strict";
+},{"/home/vagrant/Code/Semillero/resources/assets/js/flot/jquery.flot.js":4}],6:[function(require,module,exports){
+'use strict';
 
-module.exports = function (array) {
-    var a = array.concat();
-    for (var i = 0; i < a.length; ++i) {
-        for (var j = i + 1; j < a.length; ++j) {
-            if (a[i] === a[j]) a.splice(j--, 1);
-        }
-    }
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = flotAddLabels;
 
-    return a;
-};
+var _jquery = require('jquery');
 
-},{}],8:[function(require,module,exports){
+var _jquery2 = _interopRequireDefault(_jquery);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function flotAddLabels(plot) {
+    var _ref = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
+    var _ref$xOffset = _ref.xOffset;
+    var xOffset = _ref$xOffset === undefined ? 0 : _ref$xOffset;
+    var _ref$yOffset = _ref.yOffset;
+    var yOffset = _ref$yOffset === undefined ? -25 : _ref$yOffset;
+    var _ref$fadeIn = _ref.fadeIn;
+    var fadeIn = _ref$fadeIn === undefined ? false : _ref$fadeIn;
+    var process = _ref.process;
+
+    // Adapted from http://stackoverflow.com/a/2601155
+    _jquery2.default.each(plot.getData()[0].data, function (i, point) {
+        var o = plot.pointOffset({ x: point[0], y: point[1] });
+        var value = point[1];
+        if (process) value = process.call(null, value);
+        var $label = (0, _jquery2.default)('<div class="data-point-label">' + value + '</div>');
+
+        $label.css({
+            position: 'absolute',
+            left: o.left + xOffset,
+            top: o.top + yOffset,
+            transform: 'translateX(-50%)' });
+        // Center
+        if (fadeIn) $label.css({ display: 'none' });
+
+        $label.appendTo(plot.getPlaceholder());
+
+        if (fadeIn) $label.fadeIn('slow');
+    });
+}
+
+},{"jquery":2}],7:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -13740,7 +13580,7 @@ var throttle = function throttle(type, name, obj) {
 
 exports.default = throttle;
 
-},{}],9:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 'use strict';
 
 require('./app');
@@ -13749,40 +13589,31 @@ var _jquery = require('jquery');
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
-require('jquery.flot.orderBars');
-
 var _throttle = require('./modules/throttle');
 
 var _throttle2 = _interopRequireDefault(_throttle);
 
-var _array_unique = require('./modules/array_unique');
+var _flot_add_labels = require('./modules/flot_add_labels');
 
-var _array_unique2 = _interopRequireDefault(_array_unique);
+var _flot_add_labels2 = _interopRequireDefault(_flot_add_labels);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // Query the DOM elements we are going to need
-// Allows for multi-series bar graph
 var $plot = document.getElementById('plot');
-var $legendContainer = document.getElementById('plot-legend');
 var $plotData = document.getElementById('plot-data');
 
 // Obtain the plot data from the DOM
 var data = JSON.parse($plotData.innerHTML);
 
 // Map the data to the format flot requires
-var series = data.map(function (d) {
-    return {
-        bars: { order: true }, // Enable the orderBars plugin
-        label: d.basin,
-        data: d.occurrences
-    };
-});
-
+var series = [{
+    data: data.map(function (d) {
+        return [d.year, d.occurrences];
+    }),
+    label: 'something'
+}];
 // Utility functions for finding min and max
-var flatMap = function flatMap(arr, fn) {
-    return Array.prototype.concat.apply([], arr.map(fn));
-};
 var min = function min(arr) {
     return Math.min.apply(null, arr);
 };
@@ -13790,13 +13621,9 @@ var max = function max(arr) {
     return Math.max.apply(null, arr);
 };
 
-// Concat all datapoints together and then map to the x coordinate
-var years = flatMap(data, function (d) {
-    return d.occurrences;
-}).map(function (point) {
-    return point[0];
+var years = data.map(function (d) {
+    return d.year;
 });
-
 var minyear = min(years);
 var maxyear = max(years);
 
@@ -13806,37 +13633,51 @@ var options = {
         bars: { show: true }
     },
     bars: {
-        // 0.3 is the space between bars from different datapoints
-        barWidth: (1 - 0.3) / series.length
+        align: 'center',
+        barWidth: 0.5
     },
     legend: {
-        // Horizontal legend
-        noColumns: 0,
-        container: $legendContainer
+        show: false
     },
     xaxis: {
         min: minyear - 1,
         max: maxyear + 1,
-        ticks: (0, _array_unique2.default)(years)
+        ticks: years,
+        tickFormatter: function tickFormatter(num) {
+            return String(num);
+        }
     }
 };
 
 // Wrap plot action in a function
 var plot = function plot() {
-    _jquery2.default.plot($plot, series, options);
+    var sum = data.map(function (d) {
+        return d.occurrences;
+    }).reduce(function (a, b) {
+        return a + b;
+    });
+    var percentage = function percentage(frac) {
+        return (frac * 100).toFixed(1) + '%';
+    };
+
+    var plot = _jquery2.default.plot($plot, series, options);
+    (0, _flot_add_labels2.default)(plot, {
+        yOffset: -10,
+        process: function process(value) {
+            return value + ' (' + percentage(value / sum) + ')';
+        }
+    });
 };
+
+// Make the plot
+plot();
 
 // Create custom throttled resize event
 (0, _throttle2.default)('resize', 'tResize');
 
-// plot normally
-plot();
-// re-plot on resize
-// without this the plot stays at the same sime when the window is resized
-// There is no need to recalculate the width as it is obtained from the
-// container element, which should escale on a responsive fashion
+// Re-plot on tResize
 window.addEventListener('tResize', plot);
 
-},{"./app":3,"./modules/array_unique":7,"./modules/throttle":8,"jquery":2,"jquery.flot.orderBars":5}]},{},[9]);
+},{"./app":3,"./modules/flot_add_labels":6,"./modules/throttle":7,"jquery":2}]},{},[8]);
 
-//# sourceMappingURL=pipe_basins.js.map
+//# sourceMappingURL=pipe_basin_detail.js.map

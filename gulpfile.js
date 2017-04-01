@@ -41,7 +41,8 @@ elixir(function(mix) {
         'multiple_map_pozos.js',
         'multiple_matrix.js',
         'pipe_map.js',
-        'pipe_basins.js'
+        'pipe_basins.js',
+        'pipe_basin_detail.js'
     ].forEach(function(val){
         mix.browserify(val)
     })
