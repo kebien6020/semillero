@@ -19,7 +19,10 @@
 
     <div id="plot-data" style="display: none;">{{ $occurrences->toJson() }}</div>
     {{-- Placeholder for plot --}}
-    <div id="plot" style="height: 50vh; width: 100%;"></div>
+    <p>Gráfico por años</p>
+    <div id="year-plot" style="height: 50vh; width: 100%;"></div>
+    <p>Gráfico por grado de tubería</p>
+    <div id="type-plot" style="height: 50vh; width: 100%;"></div>
     {{-- <div id="legend-container"><div id="plot-legend"></div></div> --}}
 
     <p>

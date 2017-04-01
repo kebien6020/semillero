@@ -13600,83 +13600,86 @@ var _flot_add_labels2 = _interopRequireDefault(_flot_add_labels);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // Query the DOM elements we are going to need
-var $plot = document.getElementById('plot');
+var $yearPlot = document.getElementById('year-plot');
+var $typePlot = document.getElementById('type-plot');
 var $plotData = document.getElementById('plot-data');
 
 // Obtain the plot data from the DOM
-var data = JSON.parse($plotData.innerHTML);
+var serverData = JSON.parse($plotData.innerHTML);
 
-// Map the data to the format flot requires
-var series = [{
-    data: data.map(function (d) {
-        return [d.year, d.occurrences];
-    }),
-    label: 'something'
-}];
-// Utility functions for finding min and max
-var min = function min(arr) {
-    return Math.min.apply(null, arr);
-};
-var max = function max(arr) {
-    return Math.max.apply(null, arr);
-};
+// Returns a function that when called graphs the plot
+var makePlotFn = function makePlotFn(data, $targetElem) {
+    // Map the data to the format flot requires
+    var series = [{
+        // Replace xcoord with serial number
+        data: data.map(function (d, i) {
+            return [i, d[1]];
+        })
+    }];
 
-var years = data.map(function (d) {
-    return d.year;
-});
-var minyear = min(years);
-var maxyear = max(years);
+    // Setup ticks
+    var ticks = data.map(function (d, i) {
+        return [i, d[0]];
+    });
 
-// Flot's options object
-var options = {
-    series: {
-        bars: { show: true }
-    },
-    bars: {
-        align: 'center',
-        barWidth: 0.5
-    },
-    legend: {
-        show: false
-    },
-    xaxis: {
-        min: minyear - 1,
-        max: maxyear + 1,
-        ticks: years,
-        tickFormatter: function tickFormatter(num) {
-            return String(num);
+    // Flot's options object
+    var options = {
+        series: {
+            bars: { show: true }
+        },
+        bars: {
+            align: 'center',
+            barWidth: 0.5
+        },
+        legend: {
+            show: false
+        },
+        xaxis: {
+            ticks: ticks,
+            min: -0.5,
+            max: ticks.length - 1 + 0.5
         }
-    }
-};
+    };
 
-// Wrap plot action in a function
-var plot = function plot() {
+    // Sum of all ycoords
     var sum = data.map(function (d) {
-        return d.occurrences;
+        return d[1];
     }).reduce(function (a, b) {
         return a + b;
     });
+    // Utility function
     var percentage = function percentage(frac) {
         return (frac * 100).toFixed(1) + '%';
     };
+    // Wrap plot action in a function
+    var plotFn = function plotFn() {
+        var plot = _jquery2.default.plot($targetElem, series, options);
 
-    var plot = _jquery2.default.plot($plot, series, options);
-    (0, _flot_add_labels2.default)(plot, {
-        yOffset: -10,
-        process: function process(value) {
-            return value + ' (' + percentage(value / sum) + ')';
-        }
-    });
+        (0, _flot_add_labels2.default)(plot, {
+            yOffset: -15,
+            process: function process(value) {
+                return value + ' (' + percentage(value / sum) + ')';
+            }
+        });
+    };
+
+    return plotFn;
 };
 
-// Make the plot
-plot();
+// Make the plot functions
+var plotYears = makePlotFn(serverData.byYear, $yearPlot);
+var plotType = makePlotFn(serverData.byType, $typePlot);
+
+// Use them
+plotYears();
+plotType();
 
 // Create custom throttled resize event
 (0, _throttle2.default)('resize', 'tResize');
 
 // Re-plot on tResize
-window.addEventListener('tResize', plot);
+window.addEventListener('tResize', plotYears);
+window.addEventListener('tResize', plotType);
 
 },{"./app":3,"./modules/flot_add_labels":6,"./modules/throttle":7,"jquery":2}]},{},[8]);
 
