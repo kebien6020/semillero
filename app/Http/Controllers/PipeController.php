@@ -106,7 +106,9 @@ class PipeController extends Controller
 
     public function wellDetail($id)
     {
-        $well = Well::findOrFail($id)->with('pipeOccurrence');
-        return view('pipe/well_detail');
+        $well = Well::findOrFail($id)->load('pipeOccurrence');
+        return view('pipe/well_detail', [
+            'well' => $well,
+        ]);
     }
 }
