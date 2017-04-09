@@ -1,6 +1,6 @@
 @extends ('layouts.container')
 
-@section ('title', "Tuberias - Tendencias - $basinName")
+@section ('title', "Tuberias - Tendencias - $basin->name")
 
 @section ('script', 'pipe_basin_detail')
 
@@ -9,10 +9,11 @@
 @section ('content')
 
 <header>
-    <h1>Tendencias en {{$basinName}} <small>Tuberías de Corrosión</small></h1>
+    <h1>Tendencias en {{$basin->name}} <small>Tuberías de Corrosión</small></h1>
 </header>
 
 <main>
+    
     <p>
         Parrafo explicativo.
     </p>

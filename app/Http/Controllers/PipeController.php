@@ -79,7 +79,7 @@ class PipeController extends Controller
             'byType' => $byType,
         ]);
         return view('pipe/basin_detail', [
-            'basinName' => $basin->name,
+            'basin' => $basin,
             'fields' => $fields,
             'occurrences' => $occurrences,
         ]);
@@ -98,7 +98,7 @@ class PipeController extends Controller
             'byType' => $byType,
         ]);
         return view('pipe/field_detail', [
-            'fieldName' => $field->name,
+            'field' => $field,
             'wells' => $wells,
             'occurrences' => $occurrences,
         ]);

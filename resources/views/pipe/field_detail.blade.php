@@ -1,7 +1,6 @@
 @extends ('layouts.container')
 
-@section ('title', "Tuberias - Tendencias - $fieldName")
-
+@section ('title', "Tuberias - Tendencias - $field->name")
 {{-- Use same plotting script as basin_detail --}}
 @section ('script', 'pipe_basin_detail')
 
@@ -10,10 +9,26 @@
 @section ('content')
 
 <header>
-    <h1>Tendencias en {{ $fieldName }} <small>Tuberías de Corrosión</small></h1>
+    <h1>Tendencias en {{ $field->name }} <small>Tuberías de Corrosión</small></h1>
 </header>
 
 <main>
+    <table>
+        <tbody>
+            <tr>
+                <th>Nombre</th>
+                <td>{{$field->name}}</td>
+            </tr>
+            <tr>
+                <th>Vicepresidencia</th>
+                <td>{{$field->vicepresidency}}</td>
+            </tr>
+            <tr>
+                <th>No. Pozos</th>
+                <td>{{$wells->count()}}</td>
+            </tr>
+        </tbody>
+    </table>
     <p>
         Parrafo explicativo.
     </p>

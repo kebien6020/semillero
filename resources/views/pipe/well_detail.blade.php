@@ -31,16 +31,10 @@ $rows = [
         Parrafo explicativo.
     </p>
     <table>
-        <thead>
-            <tr>
-                <th>Propiedad</th>
-                <th>Valor</th>
-            </tr>
-        </thead>
         <tbody>
             @foreach ($rows as $key => $value)
                 <tr>
-                    <td>{{ $key }}</td>
+                    <th>{{ $key }}</th>
                     <td>{{ $value }}</td>
                 </tr>
             @endforeach
