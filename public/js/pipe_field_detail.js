@@ -13720,13 +13720,13 @@ var _plot_year_and_type2 = _interopRequireDefault(_plot_year_and_type);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 (0, _plot_year_and_type2.default)({
-    'LLANOS ORIENTALES': '#edc240',
-    'PUTUMAYO': '#afd8f8',
-    'CATATUMBO': '#cb4b4b',
-    'VSM': '#4da74d',
-    'VMM': '#9440ed'
+    'LLANOS ORIENTALES': '#F97F04',
+    'PUTUMAYO': '#04F9F9',
+    'CATATUMBO': '#F9F904',
+    'VSM': '#08F904',
+    'VMM': '#F904B6'
 });
 
 },{"./app":3,"./modules/plot_year_and_type":7}]},{},[9]);
 
-//# sourceMappingURL=pipe_basin_detail.js.map
+//# sourceMappingURL=pipe_field_detail.js.map

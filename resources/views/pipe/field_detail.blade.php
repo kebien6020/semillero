@@ -1,8 +1,8 @@
 @extends ('layouts.container')
 
 @section ('title', "Tuberias - Tendencias - $field->name")
-{{-- Use same plotting script as basin_detail --}}
-@section ('script', 'pipe_basin_detail')
+
+@section ('script', 'pipe_field_detail')
 
 {{-- @section ('view-class', 'pipe-field-detail') --}}
 

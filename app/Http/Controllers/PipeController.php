@@ -77,6 +77,7 @@ class PipeController extends Controller
         $occurrences = collect([
             'byYear' => $byYear,
             'byType' => $byType,
+            'basin' => $basin->name,
         ]);
         return view('pipe/basin_detail', [
             'basin' => $basin,
@@ -96,6 +97,7 @@ class PipeController extends Controller
         $occurrences = collect([
             'byYear' => $byYear,
             'byType' => $byType,
+            'basin' => $field->basin->name,
         ]);
         return view('pipe/field_detail', [
             'field' => $field,
