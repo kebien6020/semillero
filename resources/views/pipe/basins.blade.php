@@ -9,7 +9,7 @@
 @section ('content')
 
 <header>
-    <h1>No es una Matriz de Tendencias ♥ <small>Tuberías de Corrosión</small></h1>
+    <h1>Matriz de Tendencias<small>Tuberías de Corrosión</small></h1>
 </header>
 
 <main>
