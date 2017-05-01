@@ -23,12 +23,12 @@ $rows = [
 ?>
 
 <header>
-    <h1>Datos del pozo {{ $well->name }} <small>Tuberías de Corrosión</small></h1>
+    <h1>Datos del pozo {{ $well->name }}</h1>
 </header>
 
 <main>
     <p>
-        Parrafo explicativo.
+        En la tabla se muestran las especificaciones en cuanto a ubicación y caracterización del pozo. También se muestra si hubo o no un reporte por corrosión en la campaña 2009 a 2015.
     </p>
     <table>
         <tbody>

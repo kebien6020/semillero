@@ -81,7 +81,7 @@
            data-toggle="dropdown"
            role="button"
            aria-expanded="false">
-           Tuberías de Corrosión<span class="caret"></span>
+           Metalurgia de Tubería<span class="caret"></span>
         </a>
 
         <ul role="menu">

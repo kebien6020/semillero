@@ -9,20 +9,21 @@
 @section ('content')
 
 <header>
-    <h1>Tendencias en {{$basin->name}} <small>Tuberías de Corrosión</small></h1>
+    <h1>Tendencias en {{$basin->name}}</h1>
 </header>
 
 <main>
-    
-    <p>
-        Parrafo explicativo.
-    </p>
-
     <div id="plot-data" style="display: none;">{{ $occurrences->toJson() }}</div>
+
+    <p>
+        Se muestra la frecuencia de instalación de sartas de producción en la Cuenca {{ $basin->name }} por años.
+    </p>
     {{-- Placeholder for plot --}}
-    <p>Gráfico por años</p>
     <div id="year-plot" style="height: 50vh; width: 100%;"></div>
-    <p>Gráfico por grado de tubería</p>
+
+    <p>
+        Se muestra la frecuencia de instalación de sartas de producción en la Cuenca {{ $basin->name }} por grado de acero.
+    </p>
     <div id="type-plot" style="height: 50vh; width: 100%;"></div>
     {{-- <div id="legend-container"><div id="plot-legend"></div></div> --}}
 
