@@ -13560,7 +13560,7 @@ function flotAddLabels(plot) {
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+     value: true
 });
 exports.default = plotYearAndType;
 
@@ -13580,64 +13580,64 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 // Returns a function that when called graphs the plot
 var makePlotFn = function makePlotFn(data, $targetElem, color) {
-    // Map the data to the format flot requires
-    var series = [{
-        // Replace xcoord with serial number
-        data: data.map(function (d, i) {
-            return [i, d[1]];
-        })
-    }];
+     // Map the data to the format flot requires
+     var series = [{
+          // Replace xcoord with serial number
+          data: data.map(function (d, i) {
+               return [i, d[1]];
+          })
+     }];
 
-    // Setup ticks
-    var ticks = data.map(function (d, i) {
-        return [i, d[0]];
-    });
+     // Setup ticks
+     var ticks = data.map(function (d, i) {
+          return [i, d[0]];
+     });
 
-    // Flot's options object
-    var options = {
-        series: {
-            bars: { show: true }
-        },
-        bars: {
-            align: 'center',
-            barWidth: 0.5
-        },
-        legend: {
-            show: false
-        },
-        xaxis: {
-            ticks: ticks,
-            min: -0.5,
-            max: ticks.length - 1 + 0.5
-        }
-    };
+     // Flot's options object
+     var options = {
+          series: {
+               bars: { show: true }
+          },
+          bars: {
+               align: 'center',
+               barWidth: 0.5
+          },
+          legend: {
+               show: false
+          },
+          xaxis: {
+               ticks: ticks,
+               min: -0.5,
+               max: ticks.length - 1 + 0.5
+          }
+     };
 
-    // Setup graph color if provided
-    if (color) options.colors = [color];
+     // Setup graph color if provided
+     if (color) options.colors = [color];
 
-    // Sum of all ycoords
-    var sum = data.map(function (d) {
-        return d[1];
-    }).reduce(function (a, b) {
-        return a + b;
-    });
-    // Utility function
-    var percentage = function percentage(frac) {
-        return (frac * 100).toFixed(1) + '%';
-    };
-    // Wrap plot action in a function
-    var plotFn = function plotFn() {
-        var plot = _jquery2.default.plot($targetElem, series, options);
+     // Sum of all ycoords
+     var sum = data.map(function (d) {
+          return d[1];
+     }).reduce(function (a, b) {
+          return a + b;
+     });
+     // Utility function
+     var percentage = function percentage(frac) {
+          return (frac * 100).toFixed(1) + '%';
+     };
+     // Wrap plot action in a function
+     var plotFn = function plotFn() {
+          var plot = _jquery2.default.plot($targetElem, series, options);
 
-        (0, _flot_add_labels2.default)(plot, {
-            yOffset: -15,
-            process: function process(value) {
-                return value + ' (' + percentage(value / sum) + ')';
-            }
-        });
-    };
+          (0, _flot_add_labels2.default)(plot, {
+               yOffset: -15,
+               process: function process(value) {
+                    return value + ' (' + percentage(value / sum) + ')';
+               }
+          });
+     };
 
-    return plotFn;
+     return plotFn;
 }; /**
     * Plot year and type on #year-plot, #type-plot
     * using data from #plot-data in the form of
@@ -13650,38 +13650,38 @@ var makePlotFn = function makePlotFn(data, $targetElem, color) {
 
 
 function plotYearAndType() {
-    var colorLookup = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+     var colorLookup = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
 
-    // Query the DOM elements we are going to need
-    var $yearPlot = document.getElementById('year-plot');
-    var $typePlot = document.getElementById('type-plot');
-    var $plotData = document.getElementById('plot-data');
+     // Query the DOM elements we are going to need
+     var $yearPlot = document.getElementById('year-plot');
+     var $typePlot = document.getElementById('type-plot');
+     var $plotData = document.getElementById('plot-data');
 
-    // Obtain the plot data from the DOM
-    var serverData = JSON.parse($plotData.innerHTML);
+     // Obtain the plot data from the DOM
+     var serverData = JSON.parse($plotData.innerHTML);
 
-    // Lookup the color to use from the basin name
-    //
-    // If the color is not found it will be simply undefined
-    // and makePlotFn will simply ignore it for being a falsy
-    // value and use default flot coloring
-    var color = colorLookup[serverData.basin];
+     // Lookup the color to use from the basin name
+     //
+     // If the color is not found it will be simply undefined
+     // and makePlotFn will simply ignore it for being a falsy
+     // value and use default flot coloring
+     var color = colorLookup[serverData.basin];
 
-    // Make the plot functions
-    var plotYears = makePlotFn(serverData.byYear, $yearPlot, color);
-    var plotType = makePlotFn(serverData.byType, $typePlot, color);
+     // Make the plot functions
+     var plotYears = makePlotFn(serverData.byYear, $yearPlot, color);
+     var plotType = makePlotFn(serverData.byType, $typePlot, color);
 
-    // Use them
-    plotYears();
-    plotType();
+     // Use them
+     plotYears();
+     plotType();
 
-    // Create custom throttled resize event
-    (0, _throttle2.default)('resize', 'tResize');
+     // Create custom throttled resize event
+     (0, _throttle2.default)('resize', 'tResize');
 
-    // Re-plot on tResize
-    window.addEventListener('tResize', plotYears);
-    window.addEventListener('tResize', plotType);
+     // Re-plot on tResize
+     window.addEventListener('tResize', plotYears);
+     window.addEventListener('tResize', plotType);
 }
 
 },{"./flot_add_labels":6,"./throttle":8,"jquery":2}],8:[function(require,module,exports){

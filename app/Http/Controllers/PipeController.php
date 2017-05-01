@@ -113,4 +113,9 @@ class PipeController extends Controller
             'well' => $well,
         ]);
     }
+
+    public function matrix()
+    {
+        return view('pipe/matrix');
+    }
 }
