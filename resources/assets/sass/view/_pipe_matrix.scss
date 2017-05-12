@@ -1,0 +1,48 @@
+@import 'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css';
+.pipe-matrix {
+
+@mixin fa {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+@mixin fa-caret-right {
+    @include fa;
+    &::before {
+        content: "\f0da";
+    }
+}
+
+@mixin fa-caret-down {
+    @include fa;
+    &::before {
+        content: "\f0d7";
+    }
+}
+
+.procedure {
+
+    h2 {
+        cursor: pointer;
+    }
+
+    .rec-caret {
+        @include fa-caret-right;
+        transition: color 0.5s ease-out;
+    }
+    &.shown {
+        .rec-caret {
+            @include fa-caret-down;
+
+        }
+    }
+    h2:hover {
+        .rec-caret { color: blue; }
+    }
+}
+
+}

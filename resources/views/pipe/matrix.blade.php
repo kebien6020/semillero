@@ -4,7 +4,7 @@
 
 @section ('script', 'pipe_matrix')
 
-{{-- @section ('view-class', 'pipe-basins') --}}
+@section ('view-class', 'pipe-matrix')
 
 @section ('content')
 

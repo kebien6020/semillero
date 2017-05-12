@@ -43,10 +43,10 @@ vf_vc([qo, qw, qg, api, rhoW, rhoG, muO, muW, muG, sigmaO, sigmaW, id]) {
             * Math.pow(sigmaL, 0.205)
             * Math.pow(rhoG, 0.7)
             * Math.pow(muG, 2.75) / (Math.pow(gt, 0.435) * Math.pow(rhoL, 0.72))
-    intermediate('x', 'X', x)
+    intermediate('x', 'X', x, '/images/formula-x.png')
 
     const rl = getRL(x)
-    intermediate('rl', 'RL', rl)
+    intermediate('rl', 'RL', rl, '/images/graph-rl.png')
 
     const vl = wl / (1097.28 * rl * rhoL * area)
     intermediate('vl', 'VL (ft/s)', vl)
@@ -55,6 +55,7 @@ vf_vc([qo, qw, qg, api, rhoW, rhoG, muO, muW, muG, sigmaO, sigmaW, id]) {
     const vc = 100 / Math.sqrt(rhoL * 0.01602)
     intermediate('vc', 'VC (ft/s)', vc)
 
+    intermediate('vl_vc', 'VL > VC', vl > vc ? 'Verdadero' : 'Falso')
     return vl > vc
 }
 

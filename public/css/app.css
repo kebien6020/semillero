@@ -5,6 +5,7 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
+@import 'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css';
 html {
   font-family: sans-serif;
   -ms-text-size-adjust: 100%;
@@ -7955,5 +7956,32 @@ table {
 
 .pipe-basins #plot-legend {
   display: inline-block; }
+
+.pipe-matrix .procedure h2 {
+  cursor: pointer; }
+
+.pipe-matrix .procedure .rec-caret {
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: color 0.5s ease-out; }
+  .pipe-matrix .procedure .rec-caret::before {
+    content: "\f0da"; }
+
+.pipe-matrix .procedure.shown .rec-caret {
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; }
+  .pipe-matrix .procedure.shown .rec-caret::before {
+    content: "\f0d7"; }
+
+.pipe-matrix .procedure h2:hover .rec-caret {
+  color: blue; }
 
 /*# sourceMappingURL=app.css.map */

@@ -33785,6 +33785,7 @@ var PipeMatrix = function (_Component) {
 
         _this.state = {
             answers: {
+                // Some test values
                 // 'water_cut_1': true,
                 // 'gases': true,
                 // 'p_co2': 500000,
@@ -33805,19 +33806,12 @@ var PipeMatrix = function (_Component) {
                 // 'sigmaO': 2300,
                 // 'sigmaW': 72.75,
                 // 'id': 4,
-            }
+            },
+            showProcedure: false
         }
 
-        // for (const question of questions)
-        //     if (question.type === 'boolean')
-        //         // eslint-disable-next-line react/no-direct-mutation-state
-        //         this.state.answers[question.name] = false
-        //     else if (question.type === 'multi')
-        //         // eslint-disable-next-line react/no-direct-mutation-state
-        //         this.state.answers[question.name] = question.options[0].name
-
         // Bind `this` to methods
-        ;['renderQuestion', 'handleAnswer', 'shownQuestions', 'render', 'neededActions', 'referencedQuestions', 'shownRecommendations'].forEach(function (fName) {
+        ;['renderQuestion', 'handleAnswer', 'shownQuestions', 'render', 'neededActions', 'referencedQuestions', 'shownRecommendations', 'handleProcedureClick'].forEach(function (fName) {
             return _this[fName] = _this[fName].bind(_this);
         });
         return _this;
@@ -33829,6 +33823,7 @@ var PipeMatrix = function (_Component) {
     _createClass(PipeMatrix, [{
         key: 'handleAnswer',
         value: function handleAnswer(question, answer) {
+            intermediateData = {};
             function doHandle(state, question, answer) {
                 if (question.processing) {
                     if (question.type === 'multiquestion') {
@@ -33847,6 +33842,14 @@ var PipeMatrix = function (_Component) {
 
             if (answer !== null) this.setState(function (state) {
                 return doHandle(state, question, answer);
+            });
+        }
+    }, {
+        key: 'handleProcedureClick',
+        value: function handleProcedureClick() {
+            this.setState(function (state) {
+                state.showProcedure = !state.showProcedure;
+                return state;
             });
         }
 
@@ -34001,6 +34004,33 @@ var PipeMatrix = function (_Component) {
                 rec
             );
         }
+    }, {
+        key: 'renderStep',
+        value: function renderStep(step, i) {
+            var img = step.image && _react2.default.createElement(
+                'div',
+                null,
+                _react2.default.createElement(
+                    'p',
+                    null,
+                    'Leido/calculado de:'
+                ),
+                _react2.default.createElement('img', { src: step.image, alt: 'Gráfica: ' + step.showName })
+            );
+            if (typeof step.value === 'number' && isNaN(step.value)) return null;
+            return _react2.default.createElement(
+                'div',
+                { key: i },
+                _react2.default.createElement(
+                    'strong',
+                    null,
+                    step.showName,
+                    ': '
+                ),
+                step.value,
+                img
+            );
+        }
 
         // # Main render
 
@@ -34009,7 +34039,10 @@ var PipeMatrix = function (_Component) {
         value: function render() {
             var $questions = this.shownQuestions(questions, this.state.answers).map(this.renderQuestion);
 
-            var recommendations = this.shownRecommendations(questions, this.state.answers).map(this.renderRecommendation);
+            var $recommendations = this.shownRecommendations(questions, this.state.answers).map(this.renderRecommendation);
+
+            var $steps = Object.values(intermediateData).map(this.renderStep);
+
             return _react2.default.createElement(
                 'div',
                 null,
@@ -34024,17 +34057,28 @@ var PipeMatrix = function (_Component) {
                     _react2.default.createElement(
                         'h2',
                         null,
-                        'Recomendaciones'
+                        'Recomendación'
                     ),
                     _react2.default.createElement(
                         'div',
                         null,
-                        recommendations
+                        $recommendations
                     )
                 ),
                 _react2.default.createElement(
                     'div',
-                    { style: { whiteSpace: 'pre' } },
+                    { className: 'procedure' + (this.state.showProcedure ? ' shown' : '') },
+                    _react2.default.createElement(
+                        'h2',
+                        { onClick: this.handleProcedureClick },
+                        _react2.default.createElement('i', { className: 'rec-caret' }),
+                        'Cálculo'
+                    ),
+                    this.state.showProcedure && $steps
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { style: { whiteSpace: 'pre', display: 'none' } },
                     'Procedimiento:',
                     _react2.default.createElement('br', null),
                     JSON.stringify(intermediateData, null, 4),
@@ -34221,7 +34265,7 @@ function questions(intermediate) {
             var i = _ref2[4];
 
             var ph = -Math.log10(pCO2 / alk) + 8.68 + 4.05e-3 * bht + 4.58e-7 * (bht * bht) - 3.07e-5 * bhp - 0.477 * Math.sqrt(i) + 0.19301 * i;
-            intermediate('ph', 'PH', ph);
+            intermediate('ph', 'pH', ph, '/images/formula-ph-co2.png');
             if (isNaN(ph)) return 'none';
             return ph >= 6 ? 'ph>=6' : ph >= 5 ? 'ph>=5' : 'ph<5';
         },
@@ -34370,35 +34414,65 @@ function questions(intermediate) {
     }, {
         'name': 'zone',
         'type': 'multiquestion',
-        'questions': ['alk', 'bht', 'bhp', 'i', 'p_h2s'],
+        'questions': ['p_h2s', 't'],
         'processing': function processing(_ref3) {
-            var _ref4 = _slicedToArray(_ref3, 5);
+            var _ref4 = _slicedToArray(_ref3, 2);
 
-            var alk = _ref4[0];
-            var bht = _ref4[1];
-            var bhp = _ref4[2];
-            var i = _ref4[3];
-            var pH2S = _ref4[4];
+            var pH2S = _ref4[0];
+            var t = _ref4[1];
 
-            var ph = -Math.log10(pH2S / alk) + 8.68 + 4.05e-3 * bht + 4.58e-7 * (bht * bht) - 3.07e-5 * bhp - 0.477 * Math.sqrt(i) + 0.19301 * i;
-            intermediate('ph', 'PH', ph);
-            if (isNaN(ph) || ph > 6.5 || ph < 2.5) return 'none';
-            if (isNaN(pH2S) || pH2S > 150 || pH2S < 0) return 'none';
+            // pH calculation
+            var phData = {
+                t20: {
+                    a: { x: 0.5527, y: 5.01347 },
+                    b: { x: 25880.4, y: 2.70071 }
+                },
+                t100: {
+                    a: { x: 0.894044, y: 5.11523 },
+                    b: { x: 38681.7, y: 2.79199 }
+                }
+            };
+            var t20 = phData.t20;
+            var t100 = phData.t100;
 
+            var log = function log(v) {
+                return Math.log10(v);
+            };
+            var interpolate = function interpolate(x, _ref5, _ref6) {
+                var x1 = _ref5.x;
+                var y1 = _ref5.y;
+                var x2 = _ref6.x;
+                var y2 = _ref6.y;
+                return y1 + (y2 - y1) * (x - x1) / (x2 - x1);
+            };
+
+            var pH2Skpa = pH2S * 6.89476;
+            intermediate('pH2Skpa', 'Presión Parcial de H2S (kPa)', pH2Skpa);
+            var pct20 = log(pH2Skpa / t20.a.x) / log(t20.b.x / t20.a.x);
+            var ph20 = t20.a.y + (t20.b.y - t20.a.y) * pct20;
+            // Use pct for both calculations to get that slanted interpolation
+            var ph100 = t100.a.y + (t100.b.y - t100.a.y) * pct20;
+
+            var ph = interpolate(t, { x: 20, y: ph20 }, { x: 100, y: ph100 });
+            intermediate('ph', 'pH', ph, '/images/graph-ph-h2s.png');
+            if (isNaN(ph) || ph > 6.5 || ph < 2.5) return 'ph_out';
+            if (isNaN(pH2S) || pH2S > 150 || pH2S < 0) return 'p_h2s_out';
+
+            var image = '/images/graph-zone.png';
             // zone 0
             if (pH2S <= 0.05) {
-                intermediate('zone', 'Gráfica Presencia de H2S', 'Zona 0');
+                intermediate('zone', 'Gráfica Presencia de H2S', 'Zona 0', image);
                 return 'zone0';
             }
 
             // utility function
             // http://stackoverflow.com/a/2049593/4992717
-            var checkInTriangle = function checkInTriangle(point, _ref5) {
-                var _ref6 = _slicedToArray(_ref5, 3);
+            var checkInTriangle = function checkInTriangle(point, _ref7) {
+                var _ref8 = _slicedToArray(_ref7, 3);
 
-                var v1 = _ref6[0];
-                var v2 = _ref6[1];
-                var v3 = _ref6[2];
+                var v1 = _ref8[0];
+                var v2 = _ref8[1];
+                var v3 = _ref8[2];
 
                 var sign = function sign(p1, p2, p3) {
                     return (p1.x - p3.x) * (p2.y - p3.y) - (p2.x - p3.x) * (p1.y - p3.y);
@@ -34410,37 +34484,38 @@ function questions(intermediate) {
 
                 return b1 === b2 && b2 === b3;
             };
-            var log = function log(v) {
-                return Math.log10(v);
-            };
 
             // zone 1
             var zone1Triangle = [{ x: log(0.05), y: 6.5 }, { x: log(15), y: 6.5 }, { x: log(0.05), y: 4 }];
             if (checkInTriangle({ x: log(pH2S), y: ph }, zone1Triangle)) {
-                intermediate('zone', 'Gráfica Presencia de H2S', 'Zona 1');
+                intermediate('zone', 'Gráfica Presencia de H2S', 'Zona 1', image);
                 return 'zone1';
             }
 
             // zone 3
             if (ph <= 3.5 || ph <= 5.5 && pH2S >= 15) {
-                intermediate('zone', 'Gráfica Presencia de H2S', 'Zona 3');
+                intermediate('zone', 'Gráfica Presencia de H2S', 'Zona 3', image);
                 return 'zone3';
             }
             var zone3Triangle = [{ x: log(15), y: 5.5 }, { x: log(15), y: 3.5 }, { x: log(0.15), y: 3.5 }];
             if (checkInTriangle({ x: log(pH2S), y: ph }, zone3Triangle)) {
-                intermediate('zone', 'Gráfica Presencia de H2S', 'Zona 3');
+                intermediate('zone', 'Gráfica Presencia de H2S', 'Zona 3', image);
                 return 'zone3';
             }
 
             // zone 2
             // Everything else was discarded, zone 2 is the only option
-            intermediate('zone', 'Gráfica Presencia de H2S', 'Zona 2');
+            intermediate('zone', 'Gráfica Presencia de H2S', 'Zona 2', image);
             return 'zone2';
         },
         'actions': {
-            'none': [{
+            'ph_out': [{
                 'type': 'recommendation',
                 'recommendation': 'El ph calculado se sale del rango 2.5 - 6.5'
+            }],
+            'p_h2s_out': [{
+                'type': 'recommendation',
+                'recommendation': 'El pH2S se sale del rango 0 - 150 psi'
             }],
             'zone0': [{
                 'type': 'recommendation',
@@ -34465,14 +34540,19 @@ function questions(intermediate) {
         'type': 'numeric',
         'actions': {}
     }, {
+        'name': 't',
+        'text': 'Temperatura (°C)',
+        'type': 'numeric',
+        'actions': {}
+    }, {
         'name': 'zone_2',
         'type': 'multiquestion',
         'questions': ['p_h2s', 'p_co2'],
-        'processing': function processing(_ref7) {
-            var _ref8 = _slicedToArray(_ref7, 2);
+        'processing': function processing(_ref9) {
+            var _ref10 = _slicedToArray(_ref9, 2);
 
-            var pH2S_psi = _ref8[0];
-            var pCO2_psi = _ref8[1];
+            var pH2S_psi = _ref10[0];
+            var pCO2_psi = _ref10[1];
 
             var pH2S = pH2S_psi / 14.7;
             intermediate('pH2S_atm', 'Presión Parcial de H2S (atm)', pH2S);
@@ -34489,9 +34569,9 @@ function questions(intermediate) {
                 f: { minx: 0.871204, maxx: 9206.02, miny: 0.205259, maxy: 9367.18, name: 'zoneF', showName: 'Zona F' },
                 all: { minx: 9.08E-05, maxx: 9206.02, miny: 9.03E-05, maxy: 9367.18 }
             };
-            function isInZone(_ref9, name) {
-                var x = _ref9.x;
-                var y = _ref9.y;
+            function isInZone(_ref11, name) {
+                var x = _ref11.x;
+                var y = _ref11.y;
                 var _zones$name = zones[name];
                 var minx = _zones$name.minx;
                 var maxx = _zones$name.maxx;
@@ -34513,12 +34593,14 @@ function questions(intermediate) {
             if (check('f')) res = 'f';
             if (!check('all')) res = 'none';
 
+            var image = '/images/graph-zone-2.png';
+
             if (res === 'none') {
-                intermediate('zone_2', 'Gráfica Presencia de Ambos Gases', 'Fuera de Rango');
+                intermediate('zone_2', 'Gráfica Presencia de Ambos Gases', 'Fuera de Rango', image);
                 return 'none';
             }
 
-            intermediate('zone_2', 'Gráfica Presencia de Ambos Gases', zones[res].showName);
+            intermediate('zone_2', 'Gráfica Presencia de Ambos Gases', zones[res].showName, image);
             return zones[res].name;
         },
         'actions': {
@@ -34612,10 +34694,10 @@ exports.default = function (intermediate) {
         intermediate('rhoL', 'Densidad de la fracción Líquida (lb/ft^3)', rhoL);
 
         var x = Math.pow(wl / wg, 0.9) * Math.pow(muL, 0.19) * Math.pow(sigmaL, 0.205) * Math.pow(rhoG, 0.7) * Math.pow(muG, 2.75) / (Math.pow(gt, 0.435) * Math.pow(rhoL, 0.72));
-        intermediate('x', 'X', x);
+        intermediate('x', 'X', x, '/images/formula-x.png');
 
         var rl = (0, _pipe_matrix_get_rl2.default)(x);
-        intermediate('rl', 'RL', rl);
+        intermediate('rl', 'RL', rl, '/images/graph-rl.png');
 
         var vl = wl / (1097.28 * rl * rhoL * area);
         intermediate('vl', 'VL (ft/s)', vl);
@@ -34624,6 +34706,7 @@ exports.default = function (intermediate) {
         var vc = 100 / Math.sqrt(rhoL * 0.01602);
         intermediate('vc', 'VC (ft/s)', vc);
 
+        intermediate('vl_vc', 'VL > VC', vl > vc ? 'Verdadero' : 'Falso');
         return vl > vc;
     };
 };

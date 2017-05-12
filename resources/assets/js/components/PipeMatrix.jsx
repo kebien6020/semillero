@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import NumericInput from 'react-numeric-input'
 
-const intermediateData = {}
+let intermediateData = {}
 const intermediate = (name, showName, value, image = null) => {
     intermediateData[name] = {
         showName,
@@ -23,6 +23,7 @@ export default class PipeMatrix extends Component {
         super(props)
         this.state = {
             answers: {
+                // Some test values
                 // 'water_cut_1': true,
                 // 'gases': true,
                 // 'p_co2': 500000,
@@ -43,17 +44,9 @@ export default class PipeMatrix extends Component {
                 // 'sigmaO': 2300,
                 // 'sigmaW': 72.75,
                 // 'id': 4,
-            }
+            },
+            showProcedure: false,
         }
-
-        // for (const question of questions)
-        //     if (question.type === 'boolean')
-        //         // eslint-disable-next-line react/no-direct-mutation-state
-        //         this.state.answers[question.name] = false
-        //     else if (question.type === 'multi')
-        //         // eslint-disable-next-line react/no-direct-mutation-state
-        //         this.state.answers[question.name] = question.options[0].name
-
 
         // Bind `this` to methods
         ;[
@@ -63,12 +56,14 @@ export default class PipeMatrix extends Component {
             'render',
             'neededActions',
             'referencedQuestions',
-            'shownRecommendations'
+            'shownRecommendations',
+            'handleProcedureClick'
         ].forEach(fName => this[fName] = this[fName].bind(this))
     }
 
     // # Handlers
     handleAnswer(question, answer) {
+        intermediateData = {}
         function doHandle(state, question, answer){
             if (question.processing)
                 if (question.type === 'multiquestion') {
@@ -90,6 +85,13 @@ export default class PipeMatrix extends Component {
         if (answer !== null)
             this.setState(state => doHandle(state, question, answer))
 
+    }
+
+    handleProcedureClick() {
+        this.setState(state => {
+            state.showProcedure = !state.showProcedure
+            return state
+        })
     }
 
     // # Render functions
@@ -193,23 +195,50 @@ export default class PipeMatrix extends Component {
         )
     }
 
+    renderStep(step, i) {
+        const img = step.image
+                 && <div>
+                        <p>Leido/calculado de:</p>
+                        <img src={step.image} alt={'Gráfica: ' + step.showName} />
+                    </div>
+        if (typeof step.value === 'number' && isNaN(step.value))
+            return null
+        return (
+            <div key={i}>
+                <strong>{step.showName}: </strong>
+                {step.value}
+                {img}
+            </div>
+        )
+    }
+
     // # Main render
     render() {
         const $questions = this.shownQuestions(questions, this.state.answers).map(this.renderQuestion)
 
-        const recommendations = this.shownRecommendations(questions, this.state.answers).map(this.renderRecommendation)
+        const $recommendations = this.shownRecommendations(questions, this.state.answers).map(this.renderRecommendation)
+
+        const $steps = Object.values(intermediateData).map(this.renderStep)
+
         return (
             <div>
                 <form>
                     {$questions}
                 </form>
                 <div className="recommendations">
-                    <h2>Recomendaciones</h2>
+                    <h2>Recomendación</h2>
                     <div>
-                        {recommendations}
+                        {$recommendations}
                     </div>
                 </div>
-                <div style={{whiteSpace: 'pre'}}>
+                <div className={'procedure' + (this.state.showProcedure ? ' shown' : '')}>
+                    <h2 onClick={this.handleProcedureClick}>
+                        <i className="rec-caret"></i>
+                        Cálculo
+                    </h2>
+                    {this.state.showProcedure && $steps}
+                </div>
+                <div style={{whiteSpace: 'pre', display: 'none'}}>
                     Procedimiento:<br />
                     {JSON.stringify(intermediateData, null, 4)}<br />
                     State:<br />

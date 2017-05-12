@@ -137,7 +137,7 @@ return [
                        + 4.05e-3 * bht + 4.58e-7 * (bht*bht)
                        - 3.07e-5 * bhp - 0.477 * Math.sqrt(i)
                        + 0.19301 * i
-            intermediate('ph', 'PH', ph)
+            intermediate('ph', 'pH', ph, '/images/formula-ph-co2.png')
             if (isNaN(ph)) return 'none'
             return ph >= 6 ? 'ph>=6' : (ph >= 5 ? 'ph>=5': 'ph<5')
         },
@@ -321,24 +321,42 @@ return [
         'name': 'zone',
         'type': 'multiquestion',
         'questions': [
-            'alk',
-            'bht',
-            'bhp',
-            'i',
-            'p_h2s'
+            'p_h2s',
+            't'
         ],
-        'processing': function([alk, bht, bhp, i, pH2S]) {
-            const ph = - Math.log10(pH2S/alk) + 8.68
-                       + 4.05e-3 * bht + 4.58e-7 * (bht*bht)
-                       - 3.07e-5 * bhp - 0.477 * Math.sqrt(i)
-                       + 0.19301 * i
-            intermediate('ph', 'PH', ph)
-            if (isNaN(ph) || ph > 6.5 || ph < 2.5) return 'none'
-            if (isNaN(pH2S) || pH2S > 150 || pH2S < 0) return 'none'
+        'processing': function([pH2S, t]) {
+            // pH calculation
+            const phData = {
+                t20: {
+                    a: {x: 0.5527, y: 5.01347},
+                    b: {x: 25880.4, y: 2.70071},
+                },
+                t100: {
+                    a: {x: 0.894044, y: 5.11523},
+                    b: {x: 38681.7, y: 2.79199},
+                }
+            }
+            const { t20, t100 } = phData
+            const log = v => Math.log10(v)
+            const interpolate = (x, {x:x1, y:y1}, {x:x2, y:y2}) =>
+                y1 + (y2 - y1) * (x - x1) / (x2 - x1)
 
+            const pH2Skpa = pH2S * 6.89476
+            intermediate('pH2Skpa', 'Presión Parcial de H2S (kPa)', pH2Skpa)
+            const pct20 = log(pH2Skpa / t20.a.x) / log(t20.b.x / t20.a.x)
+            const ph20 = t20.a.y + (t20.b.y - t20.a.y) * pct20
+            // Use pct for both calculations to get that slanted interpolation
+            const ph100 = t100.a.y + (t100.b.y - t100.a.y) * pct20
+
+            const ph = interpolate(t, {x: 20, y: ph20}, {x: 100, y: ph100})
+            intermediate('ph', 'pH', ph, '/images/graph-ph-h2s.png')
+            if (isNaN(ph) || ph > 6.5 || ph < 2.5) return 'ph_out'
+            if (isNaN(pH2S) || pH2S > 150 || pH2S < 0) return 'p_h2s_out'
+
+            const image = '/images/graph-zone.png'
             // zone 0
             if (pH2S <= 0.05){
-                intermediate('zone', 'Gráfica Presencia de H2S', 'Zona 0')
+                intermediate('zone', 'Gráfica Presencia de H2S', 'Zona 0', image)
                 return 'zone0'
             }
 
@@ -353,7 +371,6 @@ return [
 
                 return ((b1 === b2) && (b2 === b3))
             }
-            const log = v => Math.log10(v)
 
             // zone 1
             const zone1Triangle = [
@@ -362,13 +379,13 @@ return [
                 {x: log(0.05), y: 4}
             ]
             if (checkInTriangle({x: log(pH2S), y: ph}, zone1Triangle)) {
-                intermediate('zone', 'Gráfica Presencia de H2S', 'Zona 1')
+                intermediate('zone', 'Gráfica Presencia de H2S', 'Zona 1', image)
                 return 'zone1'
             }
 
             // zone 3
             if (ph <= 3.5 || (ph <= 5.5 && pH2S >= 15)) {
-                intermediate('zone', 'Gráfica Presencia de H2S', 'Zona 3')
+                intermediate('zone', 'Gráfica Presencia de H2S', 'Zona 3', image)
                 return 'zone3'
             }
             const zone3Triangle = [
@@ -377,20 +394,24 @@ return [
                 {x: log(0.15), y: 3.5}
             ]
             if (checkInTriangle({x: log(pH2S), y: ph}, zone3Triangle)) {
-                intermediate('zone', 'Gráfica Presencia de H2S', 'Zona 3')
+                intermediate('zone', 'Gráfica Presencia de H2S', 'Zona 3', image)
                 return 'zone3'
             }
 
             // zone 2
             // Everything else was discarded, zone 2 is the only option
-            intermediate('zone', 'Gráfica Presencia de H2S', 'Zona 2')
+            intermediate('zone', 'Gráfica Presencia de H2S', 'Zona 2', image)
             return 'zone2'
 
         },
         'actions': {
-            'none': [{
+            'ph_out': [{
                 'type': 'recommendation',
                 'recommendation': 'El ph calculado se sale del rango 2.5 - 6.5'
+            }],
+            'p_h2s_out': [{
+                'type': 'recommendation',
+                'recommendation': 'El pH2S se sale del rango 0 - 150 psi'
             }],
             'zone0': [{
                 'type': 'recommendation',
@@ -413,6 +434,12 @@ return [
     {
         'name': 'p_h2s',
         'text': 'Presión Parcial de H2S (psi)',
+        'type': 'numeric',
+        'actions': {}
+    },
+    {
+        'name': 't',
+        'text': 'Temperatura (°C)',
         'type': 'numeric',
         'actions': {}
     },
@@ -454,12 +481,14 @@ return [
             if (check('f')) res = 'f'
             if (!check('all')) res = 'none'
 
+            const image = '/images/graph-zone-2.png'
+
             if (res === 'none') {
-                intermediate('zone_2', 'Gráfica Presencia de Ambos Gases', 'Fuera de Rango')
+                intermediate('zone_2', 'Gráfica Presencia de Ambos Gases', 'Fuera de Rango', image)
                 return 'none'
             }
 
-            intermediate('zone_2', 'Gráfica Presencia de Ambos Gases', zones[res].showName)
+            intermediate('zone_2', 'Gráfica Presencia de Ambos Gases', zones[res].showName, image)
             return zones[res].name
         },
         'actions': {
