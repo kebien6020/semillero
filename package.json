@@ -18,7 +18,8 @@
     "laravel-elixir": "^5.0.0",
     "node-sass": "^3.8.0",
     "react": "^15.3.2",
-    "react-dom": "^15.3.2"
+    "react-dom": "^15.3.2",
+    "react-numeric-input": "^2.0.7"
   },
   "browserify": {
     "transform": [
