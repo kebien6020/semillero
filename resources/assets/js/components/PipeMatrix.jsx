@@ -11,7 +11,7 @@ const intermediate = (name, showName, value, image = null) => {
 }
 
 import questionsTemp from './pipe_matrix_questions.js'
-const questions = questionsTemp(intermediate)
+const { questions, recommendations } = questionsTemp(intermediate)
 
 const getQuestion = (questions, name) => {
     return questions.filter(q => q.name === name)[0]
@@ -57,7 +57,8 @@ export default class PipeMatrix extends Component {
             'neededActions',
             'referencedQuestions',
             'shownRecommendations',
-            'handleProcedureClick'
+            'handleProcedureClick',
+            'renderRecommendation'
         ].forEach(fName => this[fName] = this[fName].bind(this))
     }
 
@@ -189,9 +190,17 @@ export default class PipeMatrix extends Component {
             .map(action => action.recommendation)
     }
 
-    renderRecommendation(rec, i) {
+    renderRecommendation(recs, i) {
         return (
-            <p key={i}>{rec}</p>
+            <ul key={i}>{recs.map((rec, j) =>
+                <li key={j}>
+                    {recommendations[rec].name}
+                    {recommendations[rec].pipe &&
+                        <span>(<a href={`estallido?grado=${rec}&sistema=${this.state.answers.system_type || 'gc'}`}>
+                            Calcular estallido/colapso
+                        </a>)</span>
+                    }</li>
+            )}</ul>
         )
     }
 
@@ -226,7 +235,7 @@ export default class PipeMatrix extends Component {
                     {$questions}
                 </form>
                 <div className="recommendations">
-                    <h2>Recomendación</h2>
+                    <h2>Recomendaciones</h2>
                     <div>
                         {$recommendations}
                     </div>

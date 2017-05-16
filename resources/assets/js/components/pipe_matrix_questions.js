@@ -1,11 +1,11 @@
 import vf_vc_temp from './pipe_matrix_vf_vc.js'
+import React from 'react'
 
 export default function questions(intermediate) {
 
-// eslint-disable-next-line indent
+/* eslint-disable indent */
 const vf_vc = vf_vc_temp(intermediate)
-// eslint-disable-next-line indent
-return [
+const questions = [
     {
         name: 'system_type',
         text: 'Tipo de Sistema',
@@ -49,7 +49,16 @@ return [
             'false': [
                 {
                     type: 'recommendation',
-                    recommendation: 'J55-N80-L80-C90-C95-P110-Q125 + notes'
+                    recommendation: [
+                        'j55',
+                        'n80',
+                        'l80',
+                        'c90',
+                        'c95',
+                        'p110',
+                        'q125',
+                        'rec'
+                    ]
                 }
             ]
         }
@@ -68,7 +77,16 @@ return [
             'false': [
                 {
                     type: 'recommendation',
-                    recommendation: 'J55-N80-L80-C90-C95-P110-Q125 + notes'
+                    recommendation: [
+                        'j55',
+                        'n80',
+                        'l80',
+                        'c90',
+                        'c95',
+                        'p110',
+                        'q125',
+                        'rec'
+                    ]
                 }
             ]
         }
@@ -144,7 +162,7 @@ return [
         actions: {
             'ph>=6': [{
                 'type': 'recommendation',
-                'recommendation': '1% Cr'
+                'recommendation': ['cr1']
             }],
             'ph>=5': [{
                 'type': 'question',
@@ -193,7 +211,7 @@ return [
         'actions': {
             'true':[{
                 'type': 'recommendation',
-                'recommendation': '3% Cr'
+                'recommendation': ['cr3']
             }],
             'false': [{
                 'type': 'question',
@@ -208,11 +226,11 @@ return [
         'actions': {
             'true': [{
                 'type': 'recommendation',
-                'recommendation': 'S 13% Cr'
+                'recommendation': ['sCr13']
             }],
             'false': [{
                 'type': 'recommendation',
-                'recommendation': '13% Cr'
+                'recommendation': ['cr13']
             }],
         }
     },
@@ -237,11 +255,11 @@ return [
         actions: {
             'true': [{
                 'type': 'recommendation',
-                'recommendation': '5% Cr'
+                'recommendation': ['cr9', 'rec']
             }],
             'false': [{
                 'type': 'recommendation',
-                'recommendation': '9% Cr'
+                'recommendation': ['cr5']
             }],
         }
     },
@@ -415,19 +433,37 @@ return [
             }],
             'zone0': [{
                 'type': 'recommendation',
-                'recommendation': 'J55 - N80 - L80 - C90 - C95 - P110 - Q125'
+                'recommendation': [
+                    'j55',
+                    'n80',
+                    'l80',
+                    'l809',
+                    'l8013',
+                    'c90',
+                    'c95',
+                    'p110',
+                    'q125'
+                ]
             }],
             'zone1': [{
                 'type': 'recommendation',
-                'recommendation': 'J55 - N80 - L80 - L80 9 - C90 - T95 - Q125'
+                'recommendation': [
+                    'j55',
+                    'n80',
+                    'l80',
+                    'l809',
+                    'l8013',
+                    'c90',
+                    't95'
+                ]
             }],
             'zone2': [{
                 'type': 'recommendation',
-                'recommendation': 'J55 - N80 - L80 - L80 9 - C90 - T95 - Q125'
+                'recommendation': ['l80', 'l809', 'l8013']
             }],
             'zone3': [{
                 'type': 'recommendation',
-                'recommendation': 'C90 - T95'
+                'recommendation': 'Grados de propietario según recomendaciones'
             }]
         }
     },
@@ -494,23 +530,23 @@ return [
         'actions': {
             zoneA: [{
                 type: 'recommendation',
-                recommendation: 'J55 - N80 - P110 - Q125'
+                recommendation: ['j55', 'n80', 'p110', 'q125']
             }],
             zoneB: [{
                 type: 'recommendation',
-                recommendation: 'L80 - C90 - T95'
+                recommendation: ['l80', 'c90', 't95']
             }],
             zoneC: [{
                 type: 'recommendation',
-                recommendation: '13% Cr'
+                recommendation: ['cr13']
             }],
             zoneD: [{
                 type: 'recommendation',
-                recommendation: 'S 13% Cr'
+                recommendation: ['sCr13']
             }],
             zoneE: [{
                 type: 'recommendation',
-                recommendation: '22% Cr – 25% Cr'
+                recommendation: ['cr22', 'cr25']
             }],
             zoneF: [{
                 type: 'recommendation',
@@ -519,5 +555,29 @@ return [
         }
     }
 ]
+
+const recommendations = {
+    l80: {name: 'L80', pipe: true},
+    l809: {name: 'L80 9', pipe: true},
+    l8013: {name: 'L80 13', pipe: true},
+    cr13: {name: '13% Cr', pipe: true},
+    t95: {name: 'T95', pipe: true},
+    p110: {name: 'P110', pipe: true},
+    sCr13: {name: 'S 13% Cr', pipe: true},
+    cr22: {name: '22% Cr', pipe: true},
+    cr25: {name: '25% Cr', pipe: true},
+    cr1: {name: '1% Cr', pipe: true},
+    cr9: {name: '9% Cr', pipe: true},
+    cr3: {name: '3% Cr', pipe: true},
+    cr5: {name: '5% Cr', pipe: true},
+    j55: {name: 'J55', pipe: true},
+    n80: {name: 'N80', pipe: true},
+    c90: {name: 'C90', pipe: true},
+    c95: {name: 'C95', pipe: true},
+    q125: {name: 'Q125', pipe: true},
+    rec: {name: <a href="#">Recubrimientos</a>, pipe: false}
+}
+
+return {questions, recommendations}
 
 }

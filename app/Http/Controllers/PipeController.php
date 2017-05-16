@@ -118,4 +118,9 @@ class PipeController extends Controller
     {
         return view('pipe/matrix');
     }
+
+    public function burst()
+    {
+        return view('pipe/burst');
+    }
 }

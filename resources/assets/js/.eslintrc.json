@@ -52,6 +52,7 @@
         "no-var": "error",
         "prefer-const": "error",
         "template-curly-spacing": ["warn", "never"],
-        "react/prefer-stateless-function": "warn"
+        "react/prefer-stateless-function": "warn",
+        "react/prop-types": "off"
     }
 }

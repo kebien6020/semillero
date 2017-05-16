@@ -23,6 +23,7 @@ elixir(function(mix) {
 
   // Javascript
     [
+        'pipe_burst.js',
         'pipe_matrix.js',
         'app.js',
         'home.js',

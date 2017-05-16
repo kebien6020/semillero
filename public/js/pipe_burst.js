@@ -33742,9 +33742,13 @@ var _reactNumericInput = require('react-numeric-input');
 
 var _reactNumericInput2 = _interopRequireDefault(_reactNumericInput);
 
-var _pipe_matrix_questions = require('./pipe_matrix_questions.js');
+var _pipe_burst_questions = require('./pipe_burst_questions.js');
 
-var _pipe_matrix_questions2 = _interopRequireDefault(_pipe_matrix_questions);
+var _pipe_burst_questions2 = _interopRequireDefault(_pipe_burst_questions);
+
+var _pipe_burst_data = require('./pipe_burst_data.js');
+
+var _pipe_burst_data2 = _interopRequireDefault(_pipe_burst_data);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -33756,27 +33760,39 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var intermediateData = {};
-var intermediate = function intermediate(name, showName, value) {
-    var image = arguments.length <= 3 || arguments[3] === undefined ? null : arguments[3];
-
-    intermediateData[name] = {
-        showName: showName,
-        value: value,
-        image: image
-    };
+var tubingTables = {
+    l80: ['api80'],
+    l809: ['api80'],
+    l8013: ['cra80'],
+    cr13: ['cra80', 'cra95', 'cra110'],
+    t95: ['api95'],
+    p110: ['api110'],
+    sCr13: ['cra80', 'cra95', 'cra110', 'cra125'],
+    cr22: ['cra110', 'cra125', 'cra140'],
+    cr25: ['cra80', 'cra110', 'cra125', 'cra140'],
+    cr1: ['api90', 'api95'],
+    cr9: ['api80'],
+    cr3: ['api80', 'api95', 'api110'],
+    cr5: ['api80', 'api95', 'api110'],
+    j55: ['api55'],
+    n80: ['api80'],
+    c90: ['api90'],
+    c95: ['api95'],
+    q125: ['api125']
 };
 
-var _questionsTemp = (0, _pipe_matrix_questions2.default)(intermediate);
-
-var questions = _questionsTemp.questions;
-var recommendations = _questionsTemp.recommendations;
-
-
-var getQuestion = function getQuestion(questions, name) {
-    return questions.filter(function (q) {
-        return q.name === name;
-    })[0];
+var tableShowName = {
+    api55: 'API 55',
+    api80: 'API 80',
+    api90: 'API 90',
+    api95: 'API 95',
+    api110: 'API 110',
+    api125: 'API 125',
+    cra80: 'CRA 80',
+    cra95: 'CRA 95',
+    cra110: 'CRA 110',
+    cra125: 'CRA 125',
+    cra140: 'CRA 140'
 };
 
 var PipeMatrix = function (_Component) {
@@ -33789,63 +33805,45 @@ var PipeMatrix = function (_Component) {
 
         _this.state = {
             answers: {
-                // Some test values
-                // 'water_cut_1': true,
-                // 'gases': true,
-                // 'p_co2': 500000,
-                // 'alk': 300,
-                // 'bht': 80,
-                // 'bhp': 150,
-                // 'i': 0.5,
-                // 'ask_ph': 'ph>=5',
-                // 'qo': 6000,
-                // 'qw': 7000,
-                // 'qg': 4.5e5,
-                // 'api': 10,
-                // 'rhoW': 62.4,
-                // 'rhoG': 7,
-                // 'muO': 2.1,
-                // 'muW': 0.8,
-                // 'muG': 0.2,
-                // 'sigmaO': 2300,
-                // 'sigmaW': 72.75,
-                // 'id': 4,
+                'hGasket': 9000,
+                'hBrine': 3000,
+                'tvd': 10000,
+                'p': 10000,
+                'rhoBrine': 12,
+                'id': 3.958,
+                'od': 4.5,
+                'api': 28,
+                'waterCut': 0.4,
+                'rhoW': 8.33,
+                'grade': props.grade || 'l80',
+                'systemType': props.systemType || 'liq'
             },
-            showProcedure: false
+            // 'h_gasket': null,
+            // 'h_brine': null,
+            // 'tvd': null,
+            // 'p': null,
+            // 'rho_brine': null,
+            // 'id': null,
+            // 'od': null,
+            // 'API': null,
+            // 'W.C': null,
+            // 'rho_water': null,
+            showProcedure: true
         }
 
         // Bind `this` to methods
-        ;['renderQuestion', 'handleAnswer', 'shownQuestions', 'render', 'neededActions', 'referencedQuestions', 'shownRecommendations', 'handleProcedureClick', 'renderRecommendation'].forEach(function (fName) {
+        ;['renderQuestion', 'renderStep', 'handleAnswer', 'handleProcedureClick', 'processBase', 'processFullEvacuation'].forEach(function (fName) {
             return _this[fName] = _this[fName].bind(_this);
         });
         return _this;
     }
 
-    // # Handlers
-
-
     _createClass(PipeMatrix, [{
         key: 'handleAnswer',
         value: function handleAnswer(question, answer) {
-            intermediateData = {};
-            function doHandle(state, question, answer) {
-                if (question.processing) {
-                    if (question.type === 'multiquestion') {
-                        var otherAns = question.questions.map(function (qName) {
-                            return state.answers[qName];
-                        });
-                        state.answers[question.name] = question.processing(otherAns);
-                    } else {
-                        state.answers[question.name] = question.processing(answer);
-                    }
-                } else state.answers[question.name] = answer;
-
-                if (question.parent) state = doHandle(state, question.parent, answer);
+            this.setState(function (state) {
+                state.answers[question.name] = answer;
                 return state;
-            }
-
-            if (answer !== null) this.setState(function (state) {
-                return doHandle(state, question, answer);
             });
         }
     }, {
@@ -33856,9 +33854,6 @@ var PipeMatrix = function (_Component) {
                 return state;
             });
         }
-
-        // # Render functions
-
     }, {
         key: 'renderQuestion',
         value: function renderQuestion(question) {
@@ -33884,6 +33879,7 @@ var PipeMatrix = function (_Component) {
                         'select',
                         {
                             id: question.name,
+                            value: this.state.answers[question.name],
                             onChange: function onChange(ev) {
                                 return _this2.handleAnswer(question, ev.target.value);
                             } },
@@ -33918,114 +33914,14 @@ var PipeMatrix = function (_Component) {
                     ),
                     _react2.default.createElement(_reactNumericInput2.default, {
                         id: question.name,
-                        precision: 2,
+                        precision: question.precision !== undefined ? question.precision : 2,
                         value: this.state.answers[question.name],
                         style: false,
                         onChange: function onChange(num) {
                             return _this2.handleAnswer(question, num);
                         } })
                 );
-            } else if (question.type === 'multiquestion') {
-                return question.questions.map(function (qName) {
-                    return getQuestion(questions, qName);
-                }).map(function (q) {
-                    q.parent = question;
-                    return q;
-                }).map(function (q) {
-                    return _this2.renderQuestion(q);
-                });
             }
-        }
-
-        // # Helpers
-        // Some helpers to be used within render
-
-    }, {
-        key: 'neededActions',
-        value: function neededActions(question, answers) {
-            var ans = answers[question.name];
-            if (ans === undefined) if (question.type === 'boolean') ans = false;else if (question.type === 'multi') ans = question.options[0].name;
-
-            if (question.actions[ans] === undefined) return [];
-            return question.actions[ans];
-        }
-    }, {
-        key: 'referencedQuestions',
-        value: function referencedQuestions(question, answers) {
-            var _this3 = this;
-
-            var flatmap = function flatmap(arr, cb) {
-                var _ref;
-
-                return (_ref = []).concat.apply(_ref, _toConsumableArray(arr.map(cb)));
-            };
-            var actions = this.neededActions(question, answers).filter(function (q) {
-                return q.type === 'question';
-            });
-            if (actions && actions.length > 0) {
-                var refs = actions.map(function (action) {
-                    return getQuestion(questions, action.name);
-                });
-                return refs.concat(flatmap(refs, function (q) {
-                    return _this3.referencedQuestions(q, answers);
-                }));
-            } else {
-                return [];
-            }
-        }
-
-        // Filter the questions that need to be shown
-
-    }, {
-        key: 'shownQuestions',
-        value: function shownQuestions(questions, answers) {
-            return [questions[0]].concat(this.referencedQuestions(questions[0], answers));
-        }
-    }, {
-        key: 'shownRecommendations',
-        value: function shownRecommendations(questions, answers) {
-            var _this4 = this;
-
-            var flatmap = function flatmap(arr, cb) {
-                var _ref2;
-
-                return (_ref2 = []).concat.apply(_ref2, _toConsumableArray(arr.map(cb)));
-            };
-            return flatmap(this.shownQuestions(questions, answers), function (q) {
-                return _this4.neededActions(q, answers);
-            }).filter(function (action) {
-                return action.type === 'recommendation';
-            }).map(function (action) {
-                return action.recommendation;
-            });
-        }
-    }, {
-        key: 'renderRecommendation',
-        value: function renderRecommendation(recs, i) {
-            var _this5 = this;
-
-            return _react2.default.createElement(
-                'ul',
-                { key: i },
-                recs.map(function (rec, j) {
-                    return _react2.default.createElement(
-                        'li',
-                        { key: j },
-                        recommendations[rec].name,
-                        recommendations[rec].pipe && _react2.default.createElement(
-                            'span',
-                            null,
-                            '(',
-                            _react2.default.createElement(
-                                'a',
-                                { href: 'estallido?grado=' + rec + '&sistema=' + (_this5.state.answers.system_type || 'gc') },
-                                'Calcular estallido/colapso'
-                            ),
-                            ')'
-                        )
-                    );
-                })
-            );
         }
     }, {
         key: 'renderStep',
@@ -34054,17 +33950,308 @@ var PipeMatrix = function (_Component) {
                 img
             );
         }
+    }, {
+        key: 'findNearest',
+        value: function findNearest(intermediate, grade, load, id, od) {
+            var searchField = arguments.length <= 5 || arguments[5] === undefined ? 'burst' : arguments[5];
+            var ratio = arguments.length <= 6 || arguments[6] === undefined ? 1.15 : arguments[6];
+
+            // Utility function
+            var flatmap = function flatmap(arr, cb) {
+                var _ref;
+
+                return (_ref = []).concat.apply(_ref, _toConsumableArray(arr.map(cb)));
+            };
+            // Tables we need to compare against
+            var tables = tubingTables[grade];
+            // Unify all the tables but preserve the table name in all rows
+            var masterTable = flatmap(tables, function (tName) {
+                return _pipe_burst_data2.default[tName].map(function (row) {
+                    row['tName'] = tName;
+                    return row;
+                });
+            });
+            // Filter all in which load/searchField is greater than ratio
+            // Filter only the ones in which id and od matches
+            var filtered = masterTable.filter(function (row) {
+                return row[searchField] / load > ratio;
+            }).filter(function (row) {
+                return row.id === id && row.od === od;
+            });
+            // Return the best 2, with lowest searchField
+            var ans = filtered.sort(function (a, b) {
+                return a[searchField] - b[searchField];
+            }).slice(0, 2);
+            var ansName = 'Mejores valores de carga/' + (searchField === 'burst' ? 'P estallido' : 'P colapso');
+            intermediate(ansName, JSON.stringify(ans.map(function (row) {
+                return row[searchField] / load;
+            }), null, 2));
+            return ans;
+        }
+    }, {
+        key: 'processBase',
+        value: function processBase(_ref2) {
+            var p = _ref2.p;
+            var tvd = _ref2.tvd;
+            var rhoW = _ref2.rhoW;
+            var waterCut = _ref2.waterCut;
+            var api = _ref2.api;
+            var hGasket = _ref2.hGasket;
+            var rhoBrine = _ref2.rhoBrine;
+            var grade = _ref2.grade;
+            var id = _ref2.id;
+            var od = _ref2.od;
+
+            var intermediateSteps = [];
+            var intermediate = function intermediate(showName, value) {
+                var image = arguments.length <= 2 || arguments[2] === undefined ? null : arguments[2];
+
+                intermediateSteps.push({
+                    showName: showName,
+                    value: value,
+                    image: image
+                });
+            };
+
+            var specificGravityO = 141.5 / (api + 131.5);
+            intermediate('Gravedad Específica del Petróleo', specificGravityO);
+            var rhoO = specificGravityO * rhoW;
+            intermediate('Densidad del Petróleo (ppg)', rhoO);
+            var p1in = p - 0.052 * tvd * (rhoW * waterCut + rhoO * (1 - waterCut));
+            intermediate('Punto 1 - P in (psi)', p1in);
+            var deltaP1 = p1in;
+            intermediate('∆P1 (psi)', deltaP1);
+            var p2in = p - 0.052 * (tvd - hGasket) * (rhoW * waterCut + rhoO * (1 - waterCut));
+            intermediate('Punto 2 - P in (psi)', p2in);
+            var p2out = 0.052 * rhoBrine * hGasket;
+            intermediate('Punto 2 - P out (psi)', p2out);
+            var deltaP2 = p2in - p2out;
+            intermediate('∆P2 (psi)', deltaP2);
+            var load = Math.max(deltaP1, deltaP2);
+            intermediate('∆P máximo (psi)', load);
+
+            var recommendations = this.findNearest(intermediate, grade, load, id, od);
+
+            return { recommendations: recommendations, intermediateSteps: intermediateSteps };
+        }
+    }, {
+        key: 'processFullEvacuation',
+        value: function processFullEvacuation(_ref3) {
+            var rhoBrine = _ref3.rhoBrine;
+            var hGasket = _ref3.hGasket;
+            var grade = _ref3.grade;
+            var id = _ref3.id;
+            var od = _ref3.od;
+
+            var intermediateSteps = [];
+            var intermediate = function intermediate(showName, value) {
+                var image = arguments.length <= 2 || arguments[2] === undefined ? null : arguments[2];
+
+                intermediateSteps.push({
+                    showName: showName,
+                    value: value,
+                    image: image
+                });
+            };
+
+            var deltaP1 = 0;
+            intermediate('∆P1 (psi)', deltaP1);
+            var p2out = 0.052 * rhoBrine * hGasket;
+            intermediate('Punto 2 - P out (psi)', p2out);
+            var deltaP2 = Math.abs(0 - p2out);
+            intermediate('∆P2 (psi)', deltaP2);
+            var load = Math.max(deltaP1, deltaP2);
+            intermediate('∆P máximo (psi)', load);
+
+            var recommendations = this.findNearest(intermediate, grade, load, id, od, 'collapse', 1.125);
+            return { recommendations: recommendations, intermediateSteps: intermediateSteps };
+        }
+    }, {
+        key: 'processGas',
+        value: function processGas(_ref4) {
+            var p = _ref4.p;
+            var gasGradient = _ref4.gasGradient;
+            var tvd = _ref4.tvd;
+            var hGasket = _ref4.hGasket;
+            var rhoBrine = _ref4.rhoBrine;
+            var grade = _ref4.grade;
+            var id = _ref4.id;
+            var od = _ref4.od;
+
+            var intermediateSteps = [];
+            var intermediate = function intermediate(showName, value) {
+                var image = arguments.length <= 2 || arguments[2] === undefined ? null : arguments[2];
+
+                intermediateSteps.push({
+                    showName: showName,
+                    value: value,
+                    image: image
+                });
+            };
+
+            var p1in = p - gasGradient * tvd;
+            intermediate('Punto 1 - P in (psi)', p1in);
+            var deltaP1 = Math.abs(p1in - 0);
+            intermediate('∆P1 (psi)', deltaP1);
+            var p2in = p - gasGradient * (tvd - hGasket);
+            intermediate('Punto 2 - P in (psi)', p2in);
+            var p2out = 0.052 * rhoBrine * (tvd - hGasket);
+            intermediate('Punto 2 - P out (psi)', p2out);
+            var deltaP2 = p2in - p2out;
+            intermediate('∆P2 (psi)', deltaP2);
+            var load = Math.max(deltaP1, deltaP2);
+            intermediate('load', '∆P máximo (psi)', load);
+
+            var recommendations = this.findNearest(intermediate, grade, load, id, od);
+            return { recommendations: recommendations, intermediateSteps: intermediateSteps };
+        }
+    }, {
+        key: 'renderRecommendation',
+        value: function renderRecommendation(rec, i) {
+            var fix3 = function fix3(n) {
+                return n.toFixed(3);
+            };
+            return _react2.default.createElement(
+                'tr',
+                { key: i },
+                _react2.default.createElement(
+                    'td',
+                    null,
+                    tableShowName[rec.tName]
+                ),
+                _react2.default.createElement(
+                    'td',
+                    null,
+                    rec.name
+                ),
+                _react2.default.createElement(
+                    'td',
+                    null,
+                    rec.name2
+                ),
+                _react2.default.createElement(
+                    'td',
+                    null,
+                    rec.od
+                ),
+                _react2.default.createElement(
+                    'td',
+                    null,
+                    fix3((rec.od - rec.id) / 2)
+                ),
+                _react2.default.createElement(
+                    'td',
+                    null,
+                    rec.id
+                ),
+                _react2.default.createElement(
+                    'td',
+                    null,
+                    rec.burst
+                ),
+                _react2.default.createElement(
+                    'td',
+                    null,
+                    rec.collapse
+                )
+            );
+        }
 
         // # Main render
 
     }, {
         key: 'render',
         value: function render() {
-            var $questions = this.shownQuestions(questions, this.state.answers).map(this.renderQuestion);
+            var _this3 = this;
 
-            var $recommendations = this.shownRecommendations(questions, this.state.answers).map(this.renderRecommendation);
+            var $questions = _pipe_burst_questions2.default.filter(function (q) {
+                return q.show ? q.show(_this3.state) : true;
+            }).map(this.renderQuestion);
 
-            var $steps = Object.values(intermediateData).map(this.renderStep);
+            var gas = this.state.answers.sistemType === 'gc';
+
+            var _processBase = this.processBase(this.state.answers);
+
+            var baseRecommendations = _processBase.recommendations;
+            var baseSteps = _processBase.intermediateSteps;
+
+            var _processFullEvacuatio = this.processFullEvacuation(this.state.answers);
+
+            var fullEvacRecommendations = _processFullEvacuatio.recommendations;
+            var fullEvacSteps = _processFullEvacuatio.intermediateSteps;
+
+            var _processGas = this.processGas(this.state.answers);
+
+            var gasRecommendations = _processGas.recommendations;
+            var gasSteps = _processGas.intermediateSteps;
+
+
+            var $baseRecommendations = baseRecommendations.map(this.renderRecommendation);
+            var $fullEvacRecommendations = fullEvacRecommendations.map(this.renderRecommendation);
+            var $gasRecommendations = gasRecommendations.map(this.renderRecommendation);
+
+            var allSteps = gas ? baseSteps.concat(gasSteps) : baseSteps.concat(fullEvacSteps);
+
+            var $steps = allSteps.map(this.renderStep);
+            var makeTable = function makeTable($rec) {
+                return _react2.default.createElement(
+                    'table',
+                    null,
+                    _react2.default.createElement(
+                        'thead',
+                        null,
+                        _react2.default.createElement(
+                            'tr',
+                            null,
+                            _react2.default.createElement(
+                                'th',
+                                null,
+                                'Tabla'
+                            ),
+                            _react2.default.createElement(
+                                'th',
+                                null,
+                                'Etiqueta 1'
+                            ),
+                            _react2.default.createElement(
+                                'th',
+                                null,
+                                'Etiqueta 2'
+                            ),
+                            _react2.default.createElement(
+                                'th',
+                                null,
+                                'Diametro Externo (pulg)'
+                            ),
+                            _react2.default.createElement(
+                                'th',
+                                null,
+                                'Espesor de Pared (pulg)'
+                            ),
+                            _react2.default.createElement(
+                                'th',
+                                null,
+                                'Diametro Interno (pulg)'
+                            ),
+                            _react2.default.createElement(
+                                'th',
+                                null,
+                                'Presión de Estallido (psi)'
+                            ),
+                            _react2.default.createElement(
+                                'th',
+                                null,
+                                'Presión de Colapso (psi)'
+                            )
+                        )
+                    ),
+                    _react2.default.createElement(
+                        'tbody',
+                        null,
+                        $rec
+                    )
+                );
+            };
 
             return _react2.default.createElement(
                 'div',
@@ -34080,13 +34267,21 @@ var PipeMatrix = function (_Component) {
                     _react2.default.createElement(
                         'h2',
                         null,
-                        'Recomendaciones'
+                        'Recomendaciones Caso Base'
                     ),
-                    _react2.default.createElement(
-                        'div',
+                    makeTable($baseRecommendations),
+                    !gas && _react2.default.createElement(
+                        'h2',
                         null,
-                        $recommendations
-                    )
+                        'Recomendaciones Full Evacuation'
+                    ),
+                    !gas && makeTable($fullEvacRecommendations),
+                    gas && _react2.default.createElement(
+                        'h2',
+                        null,
+                        'Recomendaciones Gas Shut-In'
+                    ),
+                    gas && makeTable($gasRecommendations)
                 ),
                 _react2.default.createElement(
                     'div',
@@ -34102,10 +34297,6 @@ var PipeMatrix = function (_Component) {
                 _react2.default.createElement(
                     'div',
                     { style: { whiteSpace: 'pre', display: 'none' } },
-                    'Procedimiento:',
-                    _react2.default.createElement('br', null),
-                    JSON.stringify(intermediateData, null, 4),
-                    _react2.default.createElement('br', null),
                     'State:',
                     _react2.default.createElement('br', null),
                     JSON.stringify(this.state, null, 4),
@@ -34120,49 +34311,25 @@ var PipeMatrix = function (_Component) {
 
 exports.default = PipeMatrix;
 
-},{"./pipe_matrix_questions.js":177,"react":174,"react-numeric-input":31}],176:[function(require,module,exports){
-"use strict";
+},{"./pipe_burst_data.js":176,"./pipe_burst_questions.js":177,"react":174,"react-numeric-input":31}],176:[function(require,module,exports){
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.default = getRL;
-// Linearized data
-var data = [{ x: 0.00142065, y: 0.0373832 }, { x: 0.00242791, y: 0.0404984 }, { x: 0.00463587, y: 0.0498442 }, { x: 0.00822106, y: 0.0654206 }, { x: 0.0145789, y: 0.0965732 }, { x: 0.0258535, y: 0.130841 }, { x: 0.0582975, y: 0.186916 }, { x: 0.176681, y: 0.274143 }, { x: 0.436968, y: 0.395639 }, { x: 1.04149, y: 0.548287 }, { x: 1.6531, y: 0.641745 }, { x: 2.6728, y: 0.735202 }, { x: 4.56784, y: 0.82243 }, { x: 7.1175, y: 0.88162 }, { x: 11.5079, y: 0.925234 }, { x: 19.6671, y: 0.950156 }, { x: 28.4612, y: 0.965732 }, { x: 53.3491, y: 0.978193 }, { x: 86.257, y: 0.984424 }, { x: 107.672, y: 0.984424 }];
-
-// Linear interpolation
-function interpolate(x, _ref, _ref2) {
-    var x1 = _ref.x;
-    var y1 = _ref.y;
-    var x2 = _ref2.x;
-    var y2 = _ref2.y;
-
-    return y1 + (y2 - y1) * (x - x1) / (x2 - x1);
-}
-
-// Linear interpolation but in a graph with the x axis in log scale
-function logInterpolate(x, p1, p2) {
-    var p1Mod = { x: Math.log10(p1.x), y: p1.y };
-    var p2Mod = { x: Math.log10(p2.x), y: p2.y };
-    return interpolate(Math.log10(x), p1Mod, p2Mod);
-}
-
-function getRL(x) {
-    // Handle edge cases
-    if (x <= data[0].x) return data[0].y;
-    if (x >= data[data.length - 1].x) return data[data.length - 1].y;
-    // Find the points between which we want to interpolate
-    var p1 = void 0,
-        p2 = void 0;
-    for (var i = 1; i < data.length; ++i) {
-        if (x < data[i].x) {
-            p1 = data[i - 1];
-            p2 = data[i];
-            break;
-        }
-    } // Return interpolation between the two points
-    return logInterpolate(x, p1, p2);
-}
+exports.default = {
+    'api55': [{ name: '1    ', od: 1.05, id: 0.824, burst: 10358.333, collapse: 10564.0907 }, { name: '1    ', od: 1.05, id: 0.742, burst: 14116.667, collapse: 13767.11111 }, { name: '1 1/3', od: 1.315, id: 1.049, burst: 9734.791, collapse: 10000.2371 }, { name: '1 1/3', od: 1.315, id: 0.957, burst: 13101.711, collapse: 12935.18195 }, { name: '1 2/3', od: 1.66, id: 1.41, burst: 7247.741, collapse: 7659.402671 }, { name: '1 2/3', od: 1.66, id: 1.38, burst: 8117.470, collapse: 8494.701698 }, { name: '1 2/3', od: 1.66, id: 1.278, burst: 11074.548, collapse: 11200.35201 }, { name: '1 8/9', od: 1.9, id: 1.65, burst: 6332.237, collapse: 6641.197368 }, { name: '1 8/9', od: 1.9, id: 1.61, burst: 7345.395, collapse: 7754.085873 }, { name: '1 8/9', od: 1.9, id: 1.5, burst: 10131.579, collapse: 10360.1108 }, { name: '1 8/9', od: 1.9, id: 1.4, burst: 12664.474, collapse: 12569.25208 }, { name: '1 8/9', od: 1.9, id: 1.3, burst: 15197.368, collapse: 14626.03878 }, { name: '2    ', od: 2.063, id: 1.715, burst: 7278.236, collapse: 7688.993975 }, { name: '2    ', od: 2.063, id: 1.613, burst: 10497.455, collapse: 10688.63519 }, { name: '2 3/8', od: 2.375, id: 2.041, burst: 6767.895, collapse: 7190.862715 }, { name: '2 3/8', od: 2.375, id: 1.995, burst: 7700.000, collapse: 8096 }, { name: '2 3/8', od: 2.375, id: 1.867, burst: 10293.684, collapse: 10506.05917 }, { name: '2 3/8', od: 2.375, id: 1.785, burst: 11955.263, collapse: 11966.04986 }, { name: '2 3/8', od: 2.375, id: 1.703, burst: 13616.842, collapse: 13360.4769 }, { name: '2 7/8', od: 2.875, id: 2.441, burst: 7264.783, collapse: 7675.942231 }, { name: '2 7/8', od: 2.875, id: 2.323, burst: 9240.000, collapse: 9546.24 }, { name: '2 7/8', od: 2.875, id: 2.259, burst: 10311.304, collapse: 10521.88552 }, { name: '2 7/8', od: 2.875, id: 2.195, burst: 11382.609, collapse: 11470.27599 }, { name: '2 7/8', od: 2.875, id: 2.091, burst: 13123.478, collapse: 12953.2806 }, { name: '2 7/8', od: 2.875, id: 1.995, burst: 14730.435, collapse: 14258.32892 }, { name: '3 1/2', od: 3.5, id: 3.068, burst: 5940.000, collapse: 5970.808571 }, { name: '3 1/2', od: 3.5, id: 2.992, burst: 6985.000, collapse: 7403.529796 }, { name: '3 1/2', od: 3.5, id: 2.922, burst: 7947.500, collapse: 8332.872653 }, { name: '3 1/2', od: 3.5, id: 2.75, burst: 10312.500, collapse: 10522.95918 }, { name: '3 1/2', od: 3.5, id: 2.64, burst: 11825.000, collapse: 11853.95918 }, { name: '3 1/2', od: 3.5, id: 2.548, burst: 13090.000, collapse: 12925.44 }, { name: '3 1/2', od: 3.5, id: 2.44, burst: 14575.000, collapse: 14134.77551 }, { name: '4    ', od: 4, id: 3.548, burst: 5438.125, collapse: 5113.0325 }, { name: '4    ', od: 4, id: 3.476, burst: 6304.375, collapse: 6593.5775 }, { name: '4    ', od: 4, id: 3.34, burst: 7940.625, collapse: 8326.3125 }, { name: '4    ', od: 4, id: 3.17, burst: 9985.938, collapse: 10228.45313 }, { name: '4    ', od: 4, id: 3, burst: 12031.250, collapse: 12031.25 }, { name: '4    ', od: 4, id: 2.78, burst: 14678.125, collapse: 14216.8125 }, { name: '4 1/2', od: 4.5, id: 3.958, burst: 5796.389, collapse: 5725.356667 }, { name: '4 1/2', od: 4.5, id: 3.826, burst: 7208.056, collapse: 7620.859753 }, { name: '4 1/2', od: 4.5, id: 3.74, burst: 8127.778, collapse: 8504.493827 }, { name: '4 1/2', od: 4.5, id: 3.64, burst: 9197.222, collapse: 9506.716049 }, { name: '4 1/2', od: 4.5, id: 3.5, burst: 10694.444, collapse: 10864.19753 }, { name: '4 1/2', od: 4.5, id: 3.38, burst: 11977.778, collapse: 11985.38272 }, { name: '4 1/2', od: 4.5, id: 3.24, burst: 13475.000, collapse: 13244 }],
+    'api80': [{ name: '1', od: 1.05, id: 0.824, burst: 15066.667, collapse: 15365.95011 }, { name: '1', od: 1.05, id: 0.742, burst: 20533.333, collapse: 20024.88889 }, { name: '1 1/3', od: 1.315, id: 1.049, burst: 14159.696, collapse: 14545.79942 }, { name: '1 1/3', od: 1.315, id: 0.957, burst: 19057.034, collapse: 18814.8101 }, { name: '1 2/3', od: 1.66, id: 1.41, burst: 10542.169, collapse: 11140.94934 }, { name: '1 2/3', od: 1.66, id: 1.38, burst: 11807.229, collapse: 12355.92974 }, { name: '1 2/3', od: 1.66, id: 1.278, burst: 16108.434, collapse: 16291.42111 }, { name: '1 8/9', od: 1.9, id: 1.65, burst: 9210.526, collapse: 8872.157895 }, { name: '1 8/9', od: 1.9, id: 1.61, burst: 10684.211, collapse: 11278.67036 }, { name: '1 8/9', od: 1.9, id: 1.5, burst: 14736.842, collapse: 15069.25208 }, { name: '1 8/9', od: 1.9, id: 1.4, burst: 18421.053, collapse: 18282.54848 }, { name: '1 8/9', od: 1.9, id: 1.3, burst: 22105.263, collapse: 21274.23823 }, { name: '2', od: 2.063, id: 1.715, burst: 10586.524, collapse: 11183.99124 }, { name: '2', od: 2.063, id: 1.613, burst: 15269.026, collapse: 15547.10572 }, { name: '2 3/8', od: 2.375, id: 2.041, burst: 9844.211, collapse: 9984.183158 }, { name: '2 3/8', od: 2.375, id: 1.995, burst: 11200.000, collapse: 11776 }, { name: '2 3/8', od: 2.375, id: 1.867, burst: 14972.632, collapse: 15281.54061 }, { name: '2 3/8', od: 2.375, id: 1.785, burst: 17389.474, collapse: 17405.16343 }, { name: '2 3/8', od: 2.375, id: 1.703, burst: 19806.316, collapse: 19433.42094 }, { name: '2 7/8', od: 2.875, id: 2.441, burst: 10566.957, collapse: 11165.00688 }, { name: '2 7/8', od: 2.875, id: 2.323, burst: 13440.000, collapse: 13885.44 }, { name: '2 7/8', od: 2.875, id: 2.259, burst: 14998.261, collapse: 15304.56076 }, { name: '2 7/8', od: 2.875, id: 2.195, burst: 16556.522, collapse: 16684.03781 }, { name: '2 7/8', od: 2.875, id: 2.091, burst: 19088.696, collapse: 18841.13543 }, { name: '2 7/8', od: 2.875, id: 1.995, burst: 21426.087, collapse: 20739.38752 }, { name: '3 1/2', od: 3.5, id: 3.068, burst: 8640.000, collapse: 7870.965714 }, { name: '3 1/2', od: 3.5, id: 2.992, burst: 10160.000, collapse: 10538.34857 }, { name: '3 1/2', od: 3.5, id: 2.922, burst: 11560.000, collapse: 12120.54204 }, { name: '3 1/2', od: 3.5, id: 2.75, burst: 15000.000, collapse: 15306.12245 }, { name: '3 1/2', od: 3.5, id: 2.64, burst: 17200.000, collapse: 17242.12245 }, { name: '3 1/2', od: 3.5, id: 2.548, burst: 19040.000, collapse: 18800.64 }, { name: '3 1/2', od: 3.5, id: 2.44, burst: 21200.000, collapse: 20559.67347 }, { name: '4', od: 4, id: 3.548, burst: 7910.000, collapse: 6589.92 }, { name: '4', od: 4, id: 3.476, burst: 9170.000, collapse: 8801.04 }, { name: '4', od: 4, id: 3.34, burst: 11550.000, collapse: 12111 }, { name: '4', od: 4, id: 3.17, burst: 14525.000, collapse: 14877.75 }, { name: '4', od: 4, id: 3, burst: 17500.000, collapse: 17500 }, { name: '4', od: 4, id: 2.78, burst: 21350.000, collapse: 20679 }, { name: '4 1/2', od: 4.5, id: 3.958, burst: 8431.111, collapse: 7504.395556 }, { name: '4 1/2', od: 4.5, id: 3.826, burst: 10484.444, collapse: 11084.88691 }, { name: '4 1/2', od: 4.5, id: 3.74, burst: 11822.222, collapse: 12370.17284 }, { name: '4 1/2', od: 4.5, id: 3.64, burst: 13377.778, collapse: 13827.95062 }, { name: '4 1/2', od: 4.5, id: 3.5, burst: 15555.556, collapse: 15802.46914 }, { name: '4 1/2', od: 4.5, id: 3.38, burst: 17422.222, collapse: 17433.28395 }, { name: '4 1/2', od: 4.5, id: 3.24, burst: 19600.000, collapse: 19264 }],
+    'api90': [{ name: '1    ', od: 1.05, id: 0.824, burst: 16950.000, collapse: 17286.69388 }, { name: '1    ', od: 1.05, id: 0.742, burst: 23100.000, collapse: 22528 }, { name: '1 1/3', od: 1.315, id: 1.049, burst: 15929.658, collapse: 16364.02435 }, { name: '1 1/3', od: 1.315, id: 0.957, burst: 21439.163, collapse: 21166.66137 }, { name: '1 2/3', od: 1.66, id: 1.41, burst: 11859.940, collapse: 12333.6988 }, { name: '1 2/3', od: 1.66, id: 1.38, burst: 13283.133, collapse: 13900.42096 }, { name: '1 2/3', od: 1.66, id: 1.278, burst: 18121.988, collapse: 18327.84874 }, { name: '1 8/9', od: 1.9, id: 1.65, burst: 10361.842, collapse: 9674.789474 }, { name: '1 8/9', od: 1.9, id: 1.61, burst: 12019.737, collapse: 12617.31579 }, { name: '1 8/9', od: 1.9, id: 1.5, burst: 16578.947, collapse: 16952.90859 }, { name: '1 8/9', od: 1.9, id: 1.4, burst: 20723.684, collapse: 20567.86704 }, { name: '1 8/9', od: 1.9, id: 1.3, burst: 24868.421, collapse: 23933.51801 }, { name: '2    ', od: 2.063, id: 1.715, burst: 11909.840, collapse: 12422.26466 }, { name: '2    ', od: 2.063, id: 1.613, burst: 17177.654, collapse: 17490.49394 }, { name: '2 3/8', od: 2.375, id: 2.041, burst: 11074.737, collapse: 10940.07579 }, { name: '2 3/8', od: 2.375, id: 1.995, burst: 12600.000, collapse: 13248 }, { name: '2 3/8', od: 2.375, id: 1.867, burst: 16844.211, collapse: 17191.73319 }, { name: '2 3/8', od: 2.375, id: 1.785, burst: 19563.158, collapse: 19580.80886 }, { name: '2 3/8', od: 2.375, id: 1.703, burst: 22282.105, collapse: 21862.59856 }, { name: '2 7/8', od: 2.875, id: 2.441, burst: 11887.826, collapse: 12383.19304 }, { name: '2 7/8', od: 2.875, id: 2.323, burst: 15120.000, collapse: 15621.12 }, { name: '2 7/8', od: 2.875, id: 2.259, burst: 16873.043, collapse: 17217.63085 }, { name: '2 7/8', od: 2.875, id: 2.195, burst: 18626.087, collapse: 18769.54253 }, { name: '2 7/8', od: 2.875, id: 2.091, burst: 21474.783, collapse: 21196.27735 }, { name: '2 7/8', od: 2.875, id: 1.995, burst: 24104.348, collapse: 23331.81096 }, { name: '3 1/2', od: 3.5, id: 3.068, burst: 9720.000, collapse: 8535.611429 }, { name: '3 1/2', od: 3.5, id: 2.992, burst: 11430.000, collapse: 11570.61714 }, { name: '3 1/2', od: 3.5, id: 2.922, burst: 13005.000, collapse: 13635.6098 }, { name: '3 1/2', od: 3.5, id: 2.75, burst: 16875.000, collapse: 17219.38776 }, { name: '3 1/2', od: 3.5, id: 2.64, burst: 19350.000, collapse: 19397.38776 }, { name: '3 1/2', od: 3.5, id: 2.548, burst: 21420.000, collapse: 21150.72 }, { name: '3 1/2', od: 3.5, id: 2.44, burst: 23850.000, collapse: 23129.63265 }, { name: '4    ', od: 4, id: 3.548, burst: 8898.750, collapse: 7078.01 }, { name: '4    ', od: 4, id: 3.476, burst: 10316.250, collapse: 9593.87 }, { name: '4    ', od: 4, id: 3.34, burst: 12993.750, collapse: 13624.875 }, { name: '4    ', od: 4, id: 3.17, burst: 16340.625, collapse: 16737.46875 }, { name: '4    ', od: 4, id: 3, burst: 19687.500, collapse: 19687.5 }, { name: '4    ', od: 4, id: 2.78, burst: 24018.750, collapse: 23263.875 }, { name: '4 1/2', od: 4.5, id: 3.958, burst: 9485.000, collapse: 8118.52 }, { name: '4 1/2', od: 4.5, id: 3.826, burst: 11795.000, collapse: 12218.44 }, { name: '4 1/2', od: 4.5, id: 3.74, burst: 13300.000, collapse: 13916.44444 }, { name: '4 1/2', od: 4.5, id: 3.64, burst: 15050.000, collapse: 15556.44444 }, { name: '4 1/2', od: 4.5, id: 3.5, burst: 17500.000, collapse: 17777.77778 }, { name: '4 1/2', od: 4.5, id: 3.38, burst: 19600.000, collapse: 19612.44444 }, { name: '4 1/2', od: 4.5, id: 3.24, burst: 22050.000, collapse: 21672 }],
+    'api95': [{ name: '1    ', od: 1.05, id: 0.824, burst: 17891.667, collapse: 18247.06576 }, { name: '1    ', od: 1.05, id: 0.742, burst: 24383.333, collapse: 23779.55556 }, { name: '1 1/3', od: 1.315, id: 1.049, burst: 16814.639, collapse: 17273.13681 }, { name: '1 1/3', od: 1.315, id: 0.957, burst: 22630.228, collapse: 22342.587 }, { name: '1 2/3', od: 1.66, id: 1.41, burst: 12518.825, collapse: 12885.39157 }, { name: '1 2/3', od: 1.66, id: 1.38, burst: 14021.084, collapse: 14672.66657 }, { name: '1 2/3', od: 1.66, id: 1.278, burst: 19128.765, collapse: 19346.06256 }, { name: '1 8/9', od: 1.9, id: 1.65, burst: 10937.500, collapse: 10062.5 }, { name: '1 8/9', od: 1.9, id: 1.61, burst: 12687.500, collapse: 13186.5 }, { name: '1 8/9', od: 1.9, id: 1.5, burst: 17500.000, collapse: 17894.73684 }, { name: '1 8/9', od: 1.9, id: 1.4, burst: 21875.000, collapse: 21710.52632 }, { name: '1 8/9', od: 1.9, id: 1.3, burst: 26250.000, collapse: 25263.15789 }, { name: '2    ', od: 2.063, id: 1.715, burst: 12571.498, collapse: 12979.41953 }, { name: '2    ', od: 2.063, id: 1.613, burst: 18131.968, collapse: 18462.18805 }, { name: '2 3/8', od: 2.375, id: 2.041, burst: 11690.000, collapse: 11405.82 }, { name: '2 3/8', od: 2.375, id: 1.995, burst: 13300.000, collapse: 13984 }, { name: '2 3/8', od: 2.375, id: 1.867, burst: 17780.000, collapse: 18146.82947 }, { name: '2 3/8', od: 2.375, id: 1.785, burst: 20650.000, collapse: 20668.63158 }, { name: '2 3/8', od: 2.375, id: 1.703, burst: 23520.000, collapse: 23077.18737 }, { name: '2 7/8', od: 2.875, id: 2.441, burst: 12548.261, collapse: 12937.93826 }, { name: '2 7/8', od: 2.875, id: 2.323, burst: 15960.000, collapse: 16488.96 }, { name: '2 7/8', od: 2.875, id: 2.259, burst: 17810.435, collapse: 18174.1659 }, { name: '2 7/8', od: 2.875, id: 2.195, burst: 19660.870, collapse: 19812.2949 }, { name: '2 7/8', od: 2.875, id: 2.091, burst: 22667.826, collapse: 22373.84832 }, { name: '2 7/8', od: 2.875, id: 1.995, burst: 25443.478, collapse: 24628.02268 }, { name: '3 1/2', od: 3.5, id: 3.068, burst: 10260.000, collapse: 8853.065714 }, { name: '3 1/2', od: 3.5, id: 2.992, burst: 12065.000, collapse: 12075.24857 }, { name: '3 1/2', od: 3.5, id: 2.922, burst: 13727.500, collapse: 14393.14367 }, { name: '3 1/2', od: 3.5, id: 2.75, burst: 17812.500, collapse: 18176.02041 }, { name: '3 1/2', od: 3.5, id: 2.64, burst: 20425.000, collapse: 20475.02041 }, { name: '3 1/2', od: 3.5, id: 2.548, burst: 22610.000, collapse: 22325.76 }, { name: '3 1/2', od: 3.5, id: 2.44, burst: 25175.000, collapse: 24414.61224 }, { name: '4    ', od: 4, id: 3.548, burst: 9393.125, collapse: 7305.57 }, { name: '4    ', od: 4, id: 3.476, burst: 10889.375, collapse: 9976.59 }, { name: '4    ', od: 4, id: 3.34, burst: 13715.625, collapse: 14381.8125 }, { name: '4    ', od: 4, id: 3.17, burst: 17248.438, collapse: 17667.32813 }, { name: '4    ', od: 4, id: 3, burst: 20781.250, collapse: 20781.25 }, { name: '4    ', od: 4, id: 2.78, burst: 25353.125, collapse: 24556.3125 }, { name: '4 1/2', od: 4.5, id: 3.958, burst: 10011.944, collapse: 8410.251111 }, { name: '4 1/2', od: 4.5, id: 3.826, burst: 12450.278, collapse: 12763.02444 }, { name: '4 1/2', od: 4.5, id: 3.74, burst: 14038.889, collapse: 14689.58025 }, { name: '4 1/2', od: 4.5, id: 3.64, burst: 15886.111, collapse: 16420.69136 }, { name: '4 1/2', od: 4.5, id: 3.5, burst: 18472.222, collapse: 18765.4321 }, { name: '4 1/2', od: 4.5, id: 3.38, burst: 20688.889, collapse: 20702.02469 }, { name: '4 1/2', od: 4.5, id: 3.24, burst: 23275.000, collapse: 22876 }],
+    'api110': [{ name: '1    ', od: 1.05, id: 0.824, burst: 20.717, collapse: 21.12818141 }, { name: '1    ', od: 1.05, id: 0.742, burst: 28.233, collapse: 27.53422222 }, { name: '1 1/3', od: 1.315, id: 1.049, burst: 19.470, collapse: 20.0004742 }, { name: '1 1/3', od: 1.315, id: 0.957, burst: 26.203, collapse: 25.87036389 }, { name: '1 2/3', od: 1.66, id: 1.41, burst: 14.495, collapse: -2834.660355 }, { name: '1 2/3', od: 1.66, id: 1.38, burst: 16.235, collapse: 16.9894034 }, { name: '1 2/3', od: 1.66, id: 1.278, burst: 22.149, collapse: 22.40070402 }, { name: '1 8/9', od: 1.9, id: 1.65, burst: 12.664, collapse: -2837.988605 }, { name: '1 8/9', od: 1.9, id: 1.61, burst: 14.691, collapse: -2834.305342 }, { name: '1 8/9', od: 1.9, id: 1.5, burst: 20.263, collapse: 20.72022161 }, { name: '1 8/9', od: 1.9, id: 1.4, burst: 25.329, collapse: 25.13850416 }, { name: '1 8/9', od: 1.9, id: 1.3, burst: 30.395, collapse: 29.25207756 }, { name: '2    ', od: 2.063, id: 1.715, burst: 14.556, collapse: -2834.549494 }, { name: '2    ', od: 2.063, id: 1.613, burst: 20.995, collapse: 21.37727037 }, { name: '2 3/8', od: 2.375, id: 2.041, burst: 13.536, collapse: -2836.404802 }, { name: '2 3/8', od: 2.375, id: 1.995, burst: 15.400, collapse: -2833.0162 }, { name: '2 3/8', od: 2.375, id: 1.867, burst: 20.587, collapse: 21.01211834 }, { name: '2 3/8', od: 2.375, id: 1.785, burst: 23.911, collapse: 23.93209972 }, { name: '2 3/8', od: 2.375, id: 1.703, burst: 27.234, collapse: 26.7209538 }, { name: '2 7/8', od: 2.875, id: 2.441, burst: 14.530, collapse: -2834.598402 }, { name: '2 7/8', od: 2.875, id: 2.323, burst: 18.480, collapse: 19.09248 }, { name: '2 7/8', od: 2.875, id: 2.259, burst: 20.623, collapse: 21.04377104 }, { name: '2 7/8', od: 2.875, id: 2.195, burst: 22.765, collapse: 22.94055198 }, { name: '2 7/8', od: 2.875, id: 2.091, burst: 26.247, collapse: 25.90656121 }, { name: '2 7/8', od: 2.875, id: 1.995, burst: 29.461, collapse: 28.51665784 }, { name: '3 1/2', od: 3.5, id: 3.068, burst: 11.880, collapse: -2839.414554 }, { name: '3 1/2', od: 3.5, id: 2.992, burst: 13.970, collapse: -2835.615531 }, { name: '3 1/2', od: 3.5, id: 2.922, burst: 15.895, collapse: 16.66574531 }, { name: '3 1/2', od: 3.5, id: 2.75, burst: 20.625, collapse: 21.04591837 }, { name: '3 1/2', od: 3.5, id: 2.64, burst: 23.650, collapse: 23.70791837 }, { name: '3 1/2', od: 3.5, id: 2.548, burst: 26.180, collapse: 25.85088 }, { name: '3 1/2', od: 3.5, id: 2.44, burst: 29.150, collapse: 28.26955102 }, { name: '4    ', od: 4, id: 3.548, burst: 10.876, collapse: -2841.239085 }, { name: '4    ', od: 4, id: 3.476, burst: 12.609, collapse: -2838.089895 }, { name: '4    ', od: 4, id: 3.34, burst: 15.881, collapse: 16.652625 }, { name: '4    ', od: 4, id: 3.17, burst: 19.972, collapse: 20.45690625 }, { name: '4    ', od: 4, id: 3, burst: 24.063, collapse: 24.0625 }, { name: '4    ', od: 4, id: 2.78, burst: 29.356, collapse: 28.433625 }, { name: '4 1/2', od: 4.5, id: 3.958, burst: 11.593, collapse: -2839.936642 }, { name: '4 1/2', od: 4.5, id: 3.826, burst: 14.416, collapse: -2834.804629 }, { name: '4 1/2', od: 4.5, id: 3.74, burst: 16.256, collapse: 17.00898765 }, { name: '4 1/2', od: 4.5, id: 3.64, burst: 18.394, collapse: 19.0134321 }, { name: '4 1/2', od: 4.5, id: 3.5, burst: 21.389, collapse: 21.72839506 }, { name: '4 1/2', od: 4.5, id: 3.38, burst: 23.956, collapse: 23.97076543 }, { name: '4 1/2', od: 4.5, id: 3.24, burst: 26.950, collapse: 26.488 }],
+    'api125': [{ name: '1    ', od: 1.05, id: 0.824, burst: 23541.667, collapse: 24009.29705 }, { name: '1    ', od: 1.05, id: 0.742, burst: 32083.333, collapse: 31288.88889 }, { name: '1 1/3', od: 1.315, id: 1.049, burst: 22124.525, collapse: 22727.81159 }, { name: '1 1/3', od: 1.315, id: 0.957, burst: 29776.616, collapse: 29398.14079 }, { name: '1 2/3', od: 1.66, id: 1.41, burst: 16472.139, collapse: 15999.0753 }, { name: '1 2/3', od: 1.66, id: 1.38, burst: 18448.795, collapse: 19306.14022 }, { name: '1 2/3', od: 1.66, id: 1.278, burst: 25169.428, collapse: 25455.34548 }, { name: '1 8/9', od: 1.9, id: 1.65, burst: 14391.447, collapse: 12148.01316 }, { name: '1 8/9', od: 1.9, id: 1.61, burst: 16694.079, collapse: 16409.85526 }, { name: '1 8/9', od: 1.9, id: 1.5, burst: 23026.316, collapse: 23545.70637 }, { name: '1 8/9', od: 1.9, id: 1.4, burst: 28782.895, collapse: 28566.48199 }, { name: '1 8/9', od: 1.9, id: 1.3, burst: 34539.474, collapse: 33240.99723 }, { name: '2    ', od: 2.063, id: 1.715, burst: 16541.444, collapse: 16127.3507 }, { name: '2    ', od: 2.063, id: 1.613, burst: 23857.853, collapse: 24292.35269 }, { name: '2 3/8', od: 2.375, id: 2.041, burst: 15381.579, collapse: 13980.60526 }, { name: '2 3/8', od: 2.375, id: 1.995, burst: 17500.000, collapse: 17901.5 }, { name: '2 3/8', od: 2.375, id: 1.867, burst: 23394.737, collapse: 23877.4072 }, { name: '2 3/8', od: 2.375, id: 1.785, burst: 27171.053, collapse: 27195.56787 }, { name: '2 3/8', od: 2.375, id: 1.703, burst: 30947.368, collapse: 30364.72022 }, { name: '2 7/8', od: 2.875, id: 2.441, burst: 16510.870, collapse: 16070.76087 }, { name: '2 7/8', od: 2.875, id: 2.323, burst: 21000.000, collapse: 21696 }, { name: '2 7/8', od: 2.875, id: 2.259, burst: 23434.783, collapse: 23913.37618 }, { name: '2 7/8', od: 2.875, id: 2.195, burst: 25869.565, collapse: 26068.80907 }, { name: '2 7/8', od: 2.875, id: 2.091, burst: 29826.087, collapse: 29439.2741 }, { name: '2 7/8', od: 2.875, id: 1.995, burst: 33478.261, collapse: 32405.29301 }, { name: '3 1/2', od: 3.5, id: 3.068, burst: 13500.000, collapse: 10498.07143 }, { name: '3 1/2', od: 3.5, id: 2.992, burst: 15875.000, collapse: 14893.85714 }, { name: '3 1/2', od: 3.5, id: 2.922, burst: 18062.500, collapse: 18942.60714 }, { name: '3 1/2', od: 3.5, id: 2.75, burst: 23437.500, collapse: 23915.81633 }, { name: '3 1/2', od: 3.5, id: 2.64, burst: 26875.000, collapse: 26940.81633 }, { name: '3 1/2', od: 3.5, id: 2.548, burst: 29750.000, collapse: 29376 }, { name: '3 1/2', od: 3.5, id: 2.44, burst: 33125.000, collapse: 32124.4898 }, { name: '4    ', od: 4, id: 3.548, burst: 12359.375, collapse: 8386.9375 }, { name: '4    ', od: 4, id: 3.476, burst: 14328.125, collapse: 12030.8125 }, { name: '4    ', od: 4, id: 3.34, burst: 18046.875, collapse: 18913.6875 }, { name: '4    ', od: 4, id: 3.17, burst: 22695.313, collapse: 23246.48438 }, { name: '4    ', od: 4, id: 3, burst: 27343.750, collapse: 27343.75 }, { name: '4    ', od: 4, id: 2.78, burst: 33359.375, collapse: 32310.9375 }, { name: '4 1/2', od: 4.5, id: 3.958, burst: 13173.611, collapse: 9893.972222 }, { name: '4 1/2', od: 4.5, id: 3.826, burst: 16381.944, collapse: 15832.13889 }, { name: '4 1/2', od: 4.5, id: 3.74, burst: 18472.222, collapse: 19328.39506 }, { name: '4 1/2', od: 4.5, id: 3.64, burst: 20902.778, collapse: 21606.17284 }, { name: '4 1/2', od: 4.5, id: 3.5, burst: 24305.556, collapse: 24691.35802 }, { name: '4 1/2', od: 4.5, id: 3.38, burst: 27222.222, collapse: 27239.50617 }, { name: '4 1/2', od: 4.5, id: 3.24, burst: 30625.000, collapse: 30100 }],
+    'cra80': [{ name: '1    ', name2: '1.140', od: 1.05, id: 0.824, burst: 17733.333, collapse: 17699.55556 }, { name: '1    ', name2: '1.480', od: 1.05, id: 0.742, burst: 20533.333, collapse: 20024.88889 }, { name: '1 1/3', name2: '1.700', od: 1.315, id: 1.049, burst: 14159.696, collapse: 14545.79942 }, { name: '1 1/3', name2: '2.190', od: 1.315, id: 0.957, burst: 19057.034, collapse: 18814.8101 }, { name: '1 2/3', name2: '2.090', od: 1.66, id: 1.41, burst: 10542.169, collapse: 11140.94934 }, { name: '1 2/3', name2: '2.300', od: 1.66, id: 1.36, burst: 11807.229, collapse: 12355.92974 }, { name: '1 2/3', name2: '3.030', od: 1.66, id: 1.278, burst: 16108.434, collapse: 16291.42111 }, { name: '1 8/9', name2: '2.400', od: 1.9, id: 1.65, burst: 9210.526, collapse: 8872.157895 }, { name: '1 8/9', name2: '2.750', od: 1.9, id: 1.61, burst: 10684.211, collapse: 11278.67036 }, { name: '1 8/9', name2: '3.650', od: 1.9, id: 1.5, burst: 14736.842, collapse: 15069.25208 }, { name: '1 8/9', name2: '4.420', od: 1.9, id: 1.4, burst: 18421.053, collapse: 18282.54848 }, { name: '1 8/9', name2: '5.150', od: 1.9, id: 1.3, burst: 22105.263, collapse: 21274.23823 }, { name: '2 3/8', name2: '4.000', od: 2.375, id: 2.041, burst: 9844.211, collapse: 9984.183158 }, { name: '2 3/8', name2: '4.600', od: 2.375, id: 1.996, burst: 11200.000, collapse: 11776 }, { name: '2 3/8', name2: '5.800', od: 2.375, id: 1.867, burst: 14972.632, collapse: 15281.54061 }, { name: '2 3/8', name2: '6.600', od: 2.375, id: 1.785, burst: 17389.474, collapse: 17405.16343 }, { name: '2 3/8', name2: '7.350', od: 2.375, id: 1.703, burst: 19806.316, collapse: 19433.42094 }, { name: '2 7/8', name2: '6.400', od: 2.875, id: 2.441, burst: 10566.957, collapse: 11165.00688 }, { name: '2 7/8', name2: '7.800', od: 2.875, id: 2.323, burst: 13440.000, collapse: 13885.44 }, { name: '2 7/8', name2: '8.600', od: 2.875, id: 2.259, burst: 14998.261, collapse: 15304.56076 }, { name: '2 7/8', name2: '9.350', od: 2.875, id: 2.195, burst: 16556.522, collapse: 16684.03781 }, { name: '2 7/8', name2: '10.500', od: 2.875, id: 2.091, burst: 19088.696, collapse: 18841.13543 }, { name: '2 7/8', name2: '11.500', od: 2.875, id: 1.995, burst: 21426.087, collapse: 20739.38752 }, { name: '3 1/2', name2: '7.700', od: 3.5, id: 3.062, burst: 8640.000, collapse: 7870.965714 }, { name: '3 1/2', name2: '9.200', od: 3.5, id: 2.992, burst: 10160.000, collapse: 10538.34857 }, { name: '3 1/2', name2: '10.200', od: 3.5, id: 2.922, burst: 11560.000, collapse: 12120.54204 }, { name: '3 1/2', name2: '12.700', od: 3.5, id: 2.75, burst: 15000.000, collapse: 15306.12245 }, { name: '3 1/2', name2: '14.300', od: 3.5, id: 2.64, burst: 17200.000, collapse: 17242.12245 }, { name: '3 1/2', name2: '15.500', od: 3.5, id: 2.548, burst: 18400.000, collapse: 18264.81633 }, { name: '3 1/2', name2: '17.000', od: 3.5, id: 2.44, burst: 21200.000, collapse: 20559.67347 }, { name: '4    ', name2: '9.500', od: 4, id: 3.548, burst: 7910.000, collapse: 6589.92 }, { name: '4    ', name2: '10.700', od: 4, id: 3.478, burst: 9170.000, collapse: 8801.04 }, { name: '4    ', name2: '13.200', od: 4, id: 3.34, burst: 11550.000, collapse: 12111 }, { name: '4    ', name2: '16.100', od: 4, id: 3.17, burst: 14525.000, collapse: 14877.75 }, { name: '4    ', name2: '18.900', od: 4, id: 3, burst: 17500.000, collapse: 17500 }, { name: '4    ', name2: '22.200', od: 4, id: 2.78, burst: 21350.000, collapse: 20679 }, { name: '4 1/2', name2: '9.500', od: 4.5, id: 4.09, burst: 6377.778, collapse: 3901.088889 }, { name: '4 1/2', name2: '10.500', od: 4.5, id: 4.052, burst: 6968.889, collapse: 4938.404444 }, { name: '4 1/2', name2: '11.600', od: 4.5, id: 4, burst: 7777.778, collapse: 6357.888889 }, { name: '4 1/2', name2: '12.600', od: 4.5, id: 3.958, burst: 8431.111, collapse: 7504.395556 }, { name: '4 1/2', name2: '13.500', od: 4.5, id: 3.92, burst: 9022.222, collapse: 8541.711111 }, { name: '4 1/2', name2: '15.100', od: 4.5, id: 3.826, burst: 10484.444, collapse: 11084.88691 }, { name: '4 1/2', name2: '17.000', od: 4.5, id: 3.74, burst: 11822.222, collapse: 12370.17284 }, { name: '4 1/2', name2: '18.900', od: 4.5, id: 3.64, burst: 13377.778, collapse: 13827.95062 }, { name: '4 1/2', name2: '21.500', od: 4.5, id: 3.5, burst: 15555.556, collapse: 15802.46914 }, { name: '4 1/2', name2: '23.700', od: 4.5, id: 3.8, burst: 17422.222, collapse: 17433.28395 }, { name: '4 1/2', name2: '26.100', od: 4.5, id: 3.24, burst: 19600.000, collapse: 19264 }],
+    'cra95': [{ name: '1    ', name2: '1.140', od: 1.05, id: 0.824, burst: 19950.000, collapse: 19912 }, { name: '1    ', name2: '1.480', od: 1.05, id: 0.742, burst: 23100.000, collapse: 22528 }, { name: '1 1/3', name2: '1.700', od: 1.315, id: 1.049, burst: 15929.658, collapse: 16364.02435 }, { name: '1 1/3', name2: '2.190', od: 1.315, id: 0.957, burst: 21439.163, collapse: 21166.66137 }, { name: '1 2/3', name2: '2.090', od: 1.66, id: 1.41, burst: 11859.940, collapse: 12080.68675 }, { name: '1 2/3', name2: '2.300', od: 1.66, id: 1.36, burst: 13283.133, collapse: 13900.42096 }, { name: '1 2/3', name2: '3.030', od: 1.66, id: 1.278, burst: 18121.988, collapse: 18327.84874 }, { name: '1 8/9', name2: '2.400', od: 1.9, id: 1.65, burst: 10361.842, collapse: 9406.368421 }, { name: '1 8/9', name2: '2.750', od: 1.9, id: 1.61, burst: 12019.737, collapse: 12365.94737 }, { name: '1 8/9', name2: '3.650', od: 1.9, id: 1.5, burst: 16578.947, collapse: 16952.90859 }, { name: '1 8/9', name2: '4.420', od: 1.9, id: 1.4, burst: 20723.684, collapse: 20567.86704 }, { name: '1 8/9', name2: '5.150', od: 1.9, id: 1.3, burst: 24868.421, collapse: 23933.51801 }, { name: '2 3/8', name2: '4.000', od: 2.375, id: 2.041, burst: 11074.737, collapse: 10678.98737 }, { name: '2 3/8', name2: '4.600', od: 2.375, id: 1.996, burst: 12600.000, collapse: 13248 }, { name: '2 3/8', name2: '5.800', od: 2.375, id: 1.867, burst: 16844.211, collapse: 17191.73319 }, { name: '2 3/8', name2: '6.600', od: 2.375, id: 1.785, burst: 19563.158, collapse: 19580.80886 }, { name: '2 3/8', name2: '7.350', od: 2.375, id: 1.703, burst: 22282.105, collapse: 21862.59856 }, { name: '2 7/8', name2: '6.400', od: 2.875, id: 2.441, burst: 11887.826, collapse: 12130.46783 }, { name: '2 7/8', name2: '7.800', od: 2.875, id: 2.323, burst: 15120.000, collapse: 15621.12 }, { name: '2 7/8', name2: '8.600', od: 2.875, id: 2.259, burst: 16873.043, collapse: 17217.63085 }, { name: '2 7/8', name2: '9.350', od: 2.875, id: 2.195, burst: 18626.087, collapse: 18769.54253 }, { name: '2 7/8', name2: '10.500', od: 2.875, id: 2.091, burst: 21474.783, collapse: 21196.27735 }, { name: '2 7/8', name2: '11.500', od: 2.875, id: 1.995, burst: 24104.348, collapse: 23331.81096 }, { name: '3 1/2', name2: '7.700', od: 3.5, id: 3.062, burst: 9720.000, collapse: 8260.588571 }, { name: '3 1/2', name2: '9.200', od: 3.5, id: 2.992, burst: 11430.000, collapse: 11313.18286 }, { name: '3 1/2', name2: '10.200', od: 3.5, id: 2.922, burst: 13005.000, collapse: 13635.6098 }, { name: '3 1/2', name2: '12.700', od: 3.5, id: 2.75, burst: 16875.000, collapse: 17219.38776 }, { name: '3 1/2', name2: '14.300', od: 3.5, id: 2.64, burst: 19350.000, collapse: 19397.38776 }, { name: '3 1/2', name2: '15.500', od: 3.5, id: 2.548, burst: 20700.000, collapse: 20547.91837 }, { name: '3 1/2', name2: '17.000', od: 3.5, id: 2.44, burst: 23850.000, collapse: 23129.63265 }, { name: '4    ', name2: '9.500', od: 4, id: 3.548, burst: 8898.750, collapse: 6794.54 }, { name: '4    ', name2: '10.700', od: 4, id: 3.478, burst: 10316.250, collapse: 9324.98 }, { name: '4    ', name2: '13.200', od: 4, id: 3.34, burst: 12993.750, collapse: 13624.875 }, { name: '4    ', name2: '16.100', od: 4, id: 3.17, burst: 16340.625, collapse: 16737.46875 }, { name: '4    ', name2: '18.900', od: 4, id: 3, burst: 19687.500, collapse: 19687.5 }, { name: '4    ', name2: '22.200', od: 4, id: 2.78, burst: 24018.750, collapse: 23263.875 }, { name: '4 1/2', name2: '9.500', od: 4.5, id: 4.09, burst: 7175.000, collapse: 8482.8518 }, { name: '4 1/2', name2: '10.500', od: 4.5, id: 4.052, burst: 7840.000, collapse: 4904.52 }, { name: '4 1/2', name2: '11.600', od: 4.5, id: 4, burst: 8750.000, collapse: 6529 }, { name: '4 1/2', name2: '12.600', od: 4.5, id: 3.958, burst: 9485.000, collapse: 7841.08 }, { name: '4 1/2', name2: '13.500', od: 4.5, id: 3.92, burst: 10150.000, collapse: 9028.2 }, { name: '4 1/2', name2: '15.100', od: 4.5, id: 3.826, burst: 11795.000, collapse: 11964.76 }, { name: '4 1/2', name2: '17.000', od: 4.5, id: 3.74, burst: 13300.000, collapse: 13916.44444 }, { name: '4 1/2', name2: '18.900', od: 4.5, id: 3.64, burst: 15050.000, collapse: 15556.44444 }, { name: '4 1/2', name2: '21.500', od: 4.5, id: 3.5, burst: 17500.000, collapse: 17777.77778 }, { name: '4 1/2', name2: '23.700', od: 4.5, id: 3.8, burst: 19600.000, collapse: 19612.44444 }, { name: '4 1/2', name2: '26.100', od: 4.5, id: 3.24, burst: 22050.000, collapse: 21672 }],
+    'cra110': [{ name: '1    ', name2: '1.140', od: 1.05, id: 0.824, burst: 24383.333, collapse: 24336.88889 }, { name: '1    ', name2: '1.480', od: 1.05, id: 0.742, burst: 28233.333, collapse: 27534.22222 }, { name: '1 1/3', name2: '1.700', od: 1.315, id: 1.049, burst: 19469.582, collapse: 20000.4742 }, { name: '1 1/3', name2: '2.190', od: 1.315, id: 0.957, burst: 26203.422, collapse: 25870.36389 }, { name: '1 2/3', name2: '2.090', od: 1.66, id: 1.41, burst: 14495.482, collapse: 14487.64458 }, { name: '1 2/3', name2: '2.300', od: 1.66, id: 1.36, burst: 16234.940, collapse: 16989.4034 }, { name: '1 2/3', name2: '3.030', od: 1.66, id: 1.278, burst: 22149.096, collapse: 22400.70402 }, { name: '1 8/9', name2: '2.400', od: 1.9, id: 1.65, burst: 12664.474, collapse: 11159.39474 }, { name: '1 8/9', name2: '2.750', od: 1.9, id: 1.61, burst: 14690.789, collapse: 14842.65789 }, { name: '1 8/9', name2: '3.650', od: 1.9, id: 1.5, burst: 20263.158, collapse: 20720.22161 }, { name: '1 8/9', name2: '4.420', od: 1.9, id: 1.4, burst: 25328.947, collapse: 25138.50416 }, { name: '1 8/9', name2: '5.150', od: 1.9, id: 1.3, burst: 30394.737, collapse: 29252.07756 }, { name: '2 3/8', name2: '4.000', od: 2.375, id: 2.041, burst: 13535.789, collapse: 12743.19789 }, { name: '2 3/8', name2: '4.600', od: 2.375, id: 1.996, burst: 15400.000, collapse: 16131.8 }, { name: '2 3/8', name2: '5.800', od: 2.375, id: 1.867, burst: 20587.368, collapse: 21012.11834 }, { name: '2 3/8', name2: '6.600', od: 2.375, id: 1.785, burst: 23910.526, collapse: 23932.09972 }, { name: '2 3/8', name2: '7.350', od: 2.375, id: 1.703, burst: 27233.684, collapse: 26720.9538 }, { name: '2 7/8', name2: '6.400', od: 2.875, id: 2.441, burst: 14529.565, collapse: 14549.59826 }, { name: '2 7/8', name2: '7.800', od: 2.875, id: 2.323, burst: 18480.000, collapse: 19092.48 }, { name: '2 7/8', name2: '8.600', od: 2.875, id: 2.259, burst: 20622.609, collapse: 21043.77104 }, { name: '2 7/8', name2: '9.350', od: 2.875, id: 2.195, burst: 22765.217, collapse: 22940.55198 }, { name: '2 7/8', name2: '10.500', od: 2.875, id: 2.091, burst: 26246.957, collapse: 25906.56121 }, { name: '2 7/8', name2: '11.500', od: 2.875, id: 1.995, burst: 29460.870, collapse: 28516.65784 }, { name: '3 1/2', name2: '7.700', od: 3.5, id: 3.062, burst: 11880.000, collapse: 9733.445714 }, { name: '3 1/2', name2: '9.200', od: 3.5, id: 2.992, burst: 13970.000, collapse: 13532.46857 }, { name: '3 1/2', name2: '10.200', od: 3.5, id: 2.922, burst: 15895.000, collapse: 16665.74531 }, { name: '3 1/2', name2: '12.700', od: 3.5, id: 2.75, burst: 20625.000, collapse: 21045.91837 }, { name: '3 1/2', name2: '14.300', od: 3.5, id: 2.64, burst: 23650.000, collapse: 23707.91837 }, { name: '3 1/2', name2: '15.500', od: 3.5, id: 2.548, burst: 25300.000, collapse: 25114.12245 }, { name: '3 1/2', name2: '17.000', od: 3.5, id: 2.44, burst: 29150.000, collapse: 28269.55102 }, { name: '4    ', name2: '9.500', od: 4, id: 3.548, burst: 10876.250, collapse: 7908.915 }, { name: '4    ', name2: '10.700', od: 4, id: 3.478, burst: 12608.750, collapse: 11058.105 }, { name: '4    ', name2: '13.200', od: 4, id: 3.34, burst: 15881.250, collapse: 16652.625 }, { name: '4    ', name2: '16.100', od: 4, id: 3.17, burst: 19971.875, collapse: 20456.90625 }, { name: '4    ', name2: '18.900', od: 4, id: 3, burst: 24062.500, collapse: 24062.5 }, { name: '4    ', name2: '22.200', od: 4, id: 2.78, burst: 29356.250, collapse: 28433.625 }, { name: '4 1/2', name2: '9.500', od: 4.5, id: 4.09, burst: 8769.444, collapse: 10287.75961 }, { name: '4 1/2', name2: '10.500', od: 4.5, id: 4.052, burst: 9582.222, collapse: 5556.742222 }, { name: '4 1/2', name2: '11.600', od: 4.5, id: 4, burst: 10694.444, collapse: 7578.444444 }, { name: '4 1/2', name2: '12.600', od: 4.5, id: 3.958, burst: 11592.778, collapse: 9211.357778 }, { name: '4 1/2', name2: '13.500', od: 4.5, id: 3.92, burst: 12405.556, collapse: 10688.75556 }, { name: '4 1/2', name2: '15.100', od: 4.5, id: 3.826, burst: 14416.111, collapse: 14343.37111 }, { name: '4 1/2', name2: '17.000', od: 4.5, id: 3.74, burst: 16255.556, collapse: 17008.98765 }, { name: '4 1/2', name2: '18.900', od: 4.5, id: 3.64, burst: 18394.444, collapse: 19013.4321 }, { name: '4 1/2', name2: '21.500', od: 4.5, id: 3.5, burst: 21388.889, collapse: 21728.39506 }, { name: '4 1/2', name2: '23.700', od: 4.5, id: 3.8, burst: 23955.556, collapse: 23970.76543 }, { name: '4 1/2', name2: '26.100', od: 4.5, id: 3.24, burst: 26950.000, collapse: 26488 }],
+    'cra125': [{ name: '1    ', name2: '1.140', od: 1.05, id: 0.824, burst: 27708.333, collapse: 27655.55556 }, { name: '1    ', name2: '1.480', od: 1.05, id: 0.742, burst: 32083.333, collapse: 31288.88889 }, { name: '1 1/3', name2: '1.700', od: 1.315, id: 1.049, burst: 22124.525, collapse: 22727.81159 }, { name: '1 1/3', name2: '2.190', od: 1.315, id: 0.957, burst: 29776.616, collapse: 29398.14079 }, { name: '1 2/3', name2: '2.090', od: 1.66, id: 1.41, burst: 16472.139, collapse: 15999.0753 }, { name: '1 2/3', name2: '2.300', od: 1.66, id: 1.36, burst: 18448.795, collapse: 19306.14022 }, { name: '1 2/3', name2: '3.030', od: 1.66, id: 1.278, burst: 25169.428, collapse: 25455.34548 }, { name: '1 8/9', name2: '2.400', od: 1.9, id: 1.65, burst: 14391.447, collapse: 12148.01316 }, { name: '1 8/9', name2: '2.750', od: 1.9, id: 1.61, burst: 16694.079, collapse: 16409.85526 }, { name: '1 8/9', name2: '3.650', od: 1.9, id: 1.5, burst: 23026.316, collapse: 23545.70637 }, { name: '1 8/9', name2: '4.420', od: 1.9, id: 1.4, burst: 28782.895, collapse: 28566.48199 }, { name: '1 8/9', name2: '5.150', od: 1.9, id: 1.3, burst: 34539.474, collapse: 33240.99723 }, { name: '2 3/8', name2: '4.000', od: 2.375, id: 2.041, burst: 15381.579, collapse: 13980.60526 }, { name: '2 3/8', name2: '4.600', od: 2.375, id: 1.996, burst: 17500.000, collapse: 17901.5 }, { name: '2 3/8', name2: '5.800', od: 2.375, id: 1.867, burst: 23394.737, collapse: 23877.4072 }, { name: '2 3/8', name2: '6.600', od: 2.375, id: 1.785, burst: 27171.053, collapse: 27195.56787 }, { name: '2 3/8', name2: '7.350', od: 2.375, id: 1.703, burst: 30947.368, collapse: 30364.72022 }, { name: '2 7/8', name2: '6.400', od: 2.875, id: 2.441, burst: 16510.870, collapse: 16070.76087 }, { name: '2 7/8', name2: '7.800', od: 2.875, id: 2.323, burst: 21000.000, collapse: 21696 }, { name: '2 7/8', name2: '8.600', od: 2.875, id: 2.259, burst: 23434.783, collapse: 23913.37618 }, { name: '2 7/8', name2: '9.350', od: 2.875, id: 2.195, burst: 25869.565, collapse: 26068.80907 }, { name: '2 7/8', name2: '10.500', od: 2.875, id: 2.091, burst: 29826.087, collapse: 29439.2741 }, { name: '2 7/8', name2: '11.500', od: 2.875, id: 1.995, burst: 33478.261, collapse: 32405.29301 }, { name: '3 1/2', name2: '7.700', od: 3.5, id: 3.062, burst: 13500.000, collapse: 10498.07143 }, { name: '3 1/2', name2: '9.200', od: 3.5, id: 2.992, burst: 15875.000, collapse: 14893.85714 }, { name: '3 1/2', name2: '10.200', od: 3.5, id: 2.922, burst: 18062.500, collapse: 18942.60714 }, { name: '3 1/2', name2: '12.700', od: 3.5, id: 2.75, burst: 23437.500, collapse: 23915.81633 }, { name: '3 1/2', name2: '14.300', od: 3.5, id: 2.64, burst: 26875.000, collapse: 26940.81633 }, { name: '3 1/2', name2: '15.500', od: 3.5, id: 2.548, burst: 28750.000, collapse: 28538.77551 }, { name: '3 1/2', name2: '17.000', od: 3.5, id: 2.44, burst: 33125.000, collapse: 32124.4898 }, { name: '4    ', name2: '9.500', od: 4, id: 3.548, burst: 12359.375, collapse: 8386.9375 }, { name: '4    ', name2: '10.700', od: 4, id: 3.478, burst: 14328.125, collapse: 12030.8125 }, { name: '4    ', name2: '13.200', od: 4, id: 3.34, burst: 18046.875, collapse: 18913.6875 }, { name: '4    ', name2: '16.100', od: 4, id: 3.17, burst: 22695.313, collapse: 23246.48438 }, { name: '4    ', name2: '18.900', od: 4, id: 3, burst: 27343.750, collapse: 27343.75 }, { name: '4    ', name2: '22.200', od: 4, id: 2.78, burst: 33359.375, collapse: 32310.9375 }, { name: '4 1/2', name2: '9.500', od: 4.5, id: 4.09, burst: 9965.278, collapse: 11992.4418 }, { name: '4 1/2', name2: '10.500', od: 4.5, id: 4.052, burst: 10888.889, collapse: 13103.9418 }, { name: '4 1/2', name2: '11.600', od: 4.5, id: 4, burst: 12152.778, collapse: 8004.555556 }, { name: '4 1/2', name2: '12.600', od: 4.5, id: 3.958, burst: 13173.611, collapse: 9893.972222 }, { name: '4 1/2', name2: '13.500', od: 4.5, id: 3.92, burst: 14097.222, collapse: 11603.44444 }, { name: '4 1/2', name2: '15.100', od: 4.5, id: 3.826, burst: 16381.944, collapse: 15832.13889 }, { name: '4 1/2', name2: '17.000', od: 4.5, id: 3.74, burst: 18472.222, collapse: 19328.39506 }, { name: '4 1/2', name2: '18.900', od: 4.5, id: 3.64, burst: 20902.778, collapse: 21606.17284 }, { name: '4 1/2', name2: '21.500', od: 4.5, id: 3.5, burst: 24305.556, collapse: 24691.35802 }, { name: '4 1/2', name2: '23.700', od: 4.5, id: 3.8, burst: 27222.222, collapse: 27239.50617 }, { name: '4 1/2', name2: '26.100', od: 4.5, id: 3.24, burst: 30625.000, collapse: 30100 }],
+    'cra140': [{ name: '1    ', name2: '1.140', od: 1.05, id: 0.824, burst: 31033.333, collapse: 30974.22222 }, { name: '1    ', name2: '1.480', od: 1.05, id: 0.742, burst: 35933.333, collapse: 35043.55556 }, { name: '1 1/3', name2: '1.700', od: 1.315, id: 1.049, burst: 24779.468, collapse: 25455.14898 }, { name: '1 1/3', name2: '2.190', od: 1.315, id: 0.957, burst: 33349.810, collapse: 32925.91768 }, { name: '1 2/3', name2: '2.090', od: 1.66, id: 1.41, burst: 18448.795, collapse: 17412.53012 }, { name: '1 2/3', name2: '2.300', od: 1.66, id: 1.36, burst: 20662.651, collapse: 21583.43373 }, { name: '1 2/3', name2: '3.030', od: 1.66, id: 1.278, burst: 28189.759, collapse: 28509.98694 }, { name: '1 8/9', name2: '2.400', od: 1.9, id: 1.65, burst: 16118.421, collapse: 13022.10526 }, { name: '1 8/9', name2: '2.750', od: 1.9, id: 1.61, burst: 18697.368, collapse: 17880.84211 }, { name: '1 8/9', name2: '3.650', od: 1.9, id: 1.5, burst: 25789.474, collapse: 26371.19114 }, { name: '1 8/9', name2: '4.420', od: 1.9, id: 1.4, burst: 32236.842, collapse: 31994.45983 }, { name: '1 8/9', name2: '5.150', od: 1.9, id: 1.3, burst: 38684.211, collapse: 37229.9169 }, { name: '2 3/8', name2: '4.000', od: 2.375, id: 2.041, burst: 17227.368, collapse: 15111.36211 }, { name: '2 3/8', name2: '4.600', od: 2.375, id: 1.996, burst: 19600.000, collapse: 19581.4 }, { name: '2 3/8', name2: '5.800', od: 2.375, id: 1.867, burst: 26202.105, collapse: 26742.69607 }, { name: '2 3/8', name2: '6.600', od: 2.375, id: 1.785, burst: 30431.579, collapse: 30459.03601 }, { name: '2 3/8', name2: '7.350', od: 2.375, id: 1.703, burst: 34661.053, collapse: 34008.48665 }, { name: '2 7/8', name2: '6.400', od: 2.875, id: 2.441, burst: 18492.174, collapse: 17494.25565 }, { name: '2 7/8', name2: '7.800', od: 2.875, id: 2.323, burst: 23520.000, collapse: 24299.52 }, { name: '2 7/8', name2: '8.600', od: 2.875, id: 2.259, burst: 26246.957, collapse: 26782.98132 }, { name: '2 7/8', name2: '9.350', od: 2.875, id: 2.195, burst: 28973.913, collapse: 29197.06616 }, { name: '2 7/8', name2: '10.500', od: 2.875, id: 2.091, burst: 33405.217, collapse: 32971.98699 }, { name: '2 7/8', name2: '11.500', od: 2.875, id: 1.995, burst: 37495.652, collapse: 36293.92817 }, { name: '3 1/2', name2: '7.700', od: 3.5, id: 3.062, burst: 15120.000, collapse: 11141.08 }, { name: '3 1/2', name2: '9.200', od: 3.5, id: 2.992, burst: 17780.000, collapse: 16152.52 }, { name: '3 1/2', name2: '10.200', od: 3.5, id: 2.922, burst: 20230.000, collapse: 20768.32 }, { name: '3 1/2', name2: '12.700', od: 3.5, id: 2.75, burst: 26250.000, collapse: 26785.71429 }, { name: '3 1/2', name2: '14.300', od: 3.5, id: 2.64, burst: 30100.000, collapse: 30173.71429 }, { name: '3 1/2', name2: '15.500', od: 3.5, id: 2.548, burst: 32200.000, collapse: 31963.42857 }, { name: '3 1/2', name2: '17.000', od: 3.5, id: 2.44, burst: 37100.000, collapse: 35979.42857 }, { name: '4    ', name2: '9.500', od: 4, id: 3.548, burst: 13842.500, collapse: 8734.27 }, { name: '4    ', name2: '10.700', od: 4, id: 3.478, burst: 16047.500, collapse: 12888.49 }, { name: '4    ', name2: '13.200', od: 4, id: 3.34, burst: 20212.500, collapse: 20735.35 }, { name: '4    ', name2: '16.100', od: 4, id: 3.17, burst: 25418.750, collapse: 26036.0625 }, { name: '4    ', name2: '18.900', od: 4, id: 3, burst: 30625.000, collapse: 30625 }, { name: '4    ', name2: '22.200', od: 4, id: 2.78, burst: 37362.500, collapse: 36188.25 }, { name: '4 1/2', name2: '9.500', od: 4.5, id: 4.09, burst: 11161.111, collapse: 13686.64791 }, { name: '4 1/2', name2: '10.500', od: 4.5, id: 4.052, burst: 12195.556, collapse: 14955.17236 }, { name: '4 1/2', name2: '11.600', od: 4.5, id: 4, burst: 13611.111, collapse: 8298.333333 }, { name: '4 1/2', name2: '12.600', od: 4.5, id: 3.958, burst: 14754.444, collapse: 10452.37333 }, { name: '4 1/2', name2: '13.500', od: 4.5, id: 3.92, burst: 15788.889, collapse: 12401.26667 }, { name: '4 1/2', name2: '15.100', od: 4.5, id: 3.826, burst: 18347.778, collapse: 17222.21333 }, { name: '4 1/2', name2: '17.000', od: 4.5, id: 3.74, burst: 20688.889, collapse: 21632.86667 }, { name: '4 1/2', name2: '18.900', od: 4.5, id: 3.64, burst: 23411.111, collapse: 24198.91358 }, { name: '4 1/2', name2: '21.500', od: 4.5, id: 3.5, burst: 27222.222, collapse: 27654.32099 }, { name: '4 1/2', name2: '23.700', od: 4.5, id: 3.8, burst: 30488.889, collapse: 30508.24691 }, { name: '4 1/2', name2: '26.100', od: 4.5, id: 3.24, burst: 34300.000, collapse: 33712 }]
+};
 
 },{}],177:[function(require,module,exports){
 'use strict';
@@ -34170,608 +34337,74 @@ function getRL(x) {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-
-var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
-
-exports.default = questions;
-
-var _pipe_matrix_vf_vc = require('./pipe_matrix_vf_vc.js');
-
-var _pipe_matrix_vf_vc2 = _interopRequireDefault(_pipe_matrix_vf_vc);
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function questions(intermediate) {
-
-    /* eslint-disable indent */
-    var vf_vc = (0, _pipe_matrix_vf_vc2.default)(intermediate);
-    var questions = [{
-        name: 'system_type',
-        text: 'Tipo de Sistema',
-        type: 'multi',
-        options: [{
-            name: 'gc',
-            text: 'Gas Condensado'
-        }, {
-            name: 'liq',
-            text: 'Líquido'
-        }],
-        actions: {
-            'gc': [{
-                type: 'question',
-                name: 'water_cut_1'
-            }],
-            'liq': [{
-                type: 'question',
-                name: 'water_cut_2'
-            }]
-        }
+exports.default = [{
+    name: 'systemType',
+    text: 'Tipo de Sistema',
+    type: 'multi',
+    options: [{
+        name: 'gc',
+        text: 'Gas Condensado'
     }, {
-        name: 'water_cut_1',
-        text: 'Corte de Agua > 20%',
-        type: 'boolean',
-        actions: {
-            'true': [{
-                type: 'question',
-                name: 'gases'
-            }],
-            'false': [{
-                type: 'recommendation',
-                recommendation: ['j55', 'n80', 'l80', 'c90', 'c95', 'p110', 'q125', 'rec']
-            }]
-        }
-    }, {
-        name: 'water_cut_2',
-        text: 'Corte de Agua > 30%',
-        type: 'boolean',
-        actions: {
-            'true': [{
-                type: 'question',
-                name: 'gases'
-            }],
-            'false': [{
-                type: 'recommendation',
-                recommendation: ['j55', 'n80', 'l80', 'c90', 'c95', 'p110', 'q125', 'rec']
-            }]
-        }
-    }, {
-        name: 'gases',
-        text: '¿Gases Presentes?',
-        type: 'boolean',
-        actions: {
-            'true': [{
-                type: 'question',
-                name: 'which_gases'
-            }],
-            'false': []
-        }
-    }, {
-        name: 'which_gases',
-        text: '¿Cuales gases?',
-        type: 'multi',
-        options: [{
-            name: 'co2',
-            text: 'CO2'
-        }, {
-            name: 'h2s',
-            text: 'H2S'
-        }, {
-            name: 'co2_h2s',
-            text: 'CO2 y H2S'
-        }],
-        actions: {
-            'co2': [{
-                'type': 'question',
-                'name': 'ask_ph'
-            }],
-            'h2s': [{
-                'type': 'question',
-                'name': 'zone'
-            }],
-            'co2_h2s': [{
-                'type': 'question',
-                'name': 'zone_2'
-            }]
-        }
-    }, {
-        name: 'ask_ph',
-        type: 'multiquestion',
-        questions: ['p_co2', 'alk', 'bht', 'bhp', 'i'],
-        'processing': function processing(_ref) {
-            var _ref2 = _slicedToArray(_ref, 5);
+        name: 'liq',
+        text: 'Líquido'
+    }]
+}, {
+    name: 'gasGradient',
+    text: 'Gradiente de gas (psi/ft)',
+    type: 'numeric',
+    show: function show(state) {
+        return state.answers.system_type === 'gc';
+    }
+}, {
+    name: 'hGasket',
+    text: 'Altura Empaque (ft)',
+    type: 'numeric'
+}, {
+    name: 'hBrine',
+    text: 'Altura Salmuera (ft)',
+    type: 'numeric'
+}, {
+    name: 'tvd',
+    text: 'TVD (ft)',
+    type: 'numeric'
+}, {
+    name: 'p',
+    text: 'Presión estática (psi)',
+    type: 'numeric'
+}, {
+    name: 'rhoBrine',
+    text: 'Densidad de la Salmuera (ppg)',
+    type: 'numeric'
+}, {
+    name: 'id',
+    text: 'ID tubing (in)',
+    type: 'numeric',
+    precision: 3
+}, {
+    name: 'od',
+    text: 'OD tubing (in)',
+    type: 'numeric',
+    precision: 3
+}, {
+    name: 'api',
+    text: 'Gravedad API',
+    type: 'numeric'
+}, {
+    name: 'waterCut',
+    text: 'Corte de Agua',
+    type: 'numeric'
+}, {
+    name: 'rhoW',
+    text: 'Densidad del Agua (ppg)',
+    type: 'numeric'
+}, {
+    name: 'grade',
+    text: 'Grado de Tubería',
+    type: 'multi',
+    options: [{ name: 'l80', text: 'L80' }, { name: 'l809', text: 'L80 9' }, { name: 'l8013', text: 'L80 13' }, { name: 'cr13', text: '13% Cr' }, { name: 't95', text: 'T95' }, { name: 'p110', text: 'P110' }, { name: 'sCr13', text: 'S 13% Cr' }, { name: 'cr22', text: '22% Cr' }, { name: 'cr25', text: '25% Cr' }, { name: 'cr1', text: '1% Cr' }, { name: 'cr9', text: '9% Cr' }, { name: 'cr3', text: '3% Cr' }, { name: 'cr5', text: '5% Cr' }, { name: 'j55', text: 'J55' }, { name: 'n80', text: 'N80' }, { name: 'c90', text: 'C90' }, { name: 'c95', text: 'C95' }, { name: 'q125', text: 'Q125' }]
+}];
 
-            var pCO2 = _ref2[0];
-            var alk = _ref2[1];
-            var bht = _ref2[2];
-            var bhp = _ref2[3];
-            var i = _ref2[4];
-
-            var ph = -Math.log10(pCO2 / alk) + 8.68 + 4.05e-3 * bht + 4.58e-7 * (bht * bht) - 3.07e-5 * bhp - 0.477 * Math.sqrt(i) + 0.19301 * i;
-            intermediate('ph', 'pH', ph, '/images/formula-ph-co2.png');
-            if (isNaN(ph)) return 'none';
-            return ph >= 6 ? 'ph>=6' : ph >= 5 ? 'ph>=5' : 'ph<5';
-        },
-        actions: {
-            'ph>=6': [{
-                'type': 'recommendation',
-                'recommendation': ['cr1']
-            }],
-            'ph>=5': [{
-                'type': 'question',
-                'name': 't>80'
-            }],
-            'ph<5': [{
-                'type': 'question',
-                'name': 't>140'
-            }]
-        }
-    }, {
-        'name': 'p_co2',
-        'text': 'Presión Parcial de CO2 (psi)',
-        'type': 'numeric',
-        'actions': {}
-    }, {
-        'name': 'alk',
-        'text': 'Alcalinidad (mol/L)',
-        'type': 'numeric',
-        'actions': {}
-    }, {
-        'name': 'bht',
-        'text': 'Temperatura Máxima en Fondo (°F)',
-        'type': 'numeric',
-        'actions': {}
-    }, {
-        'name': 'bhp',
-        'text': 'Presion en Fondo (psi)',
-        'type': 'numeric',
-        'actions': {}
-    }, {
-        'name': 'i',
-        'text': 'Fuerza Ionica (mol/L)',
-        'type': 'numeric',
-        'actions': {}
-    }, {
-        'name': 't>80',
-        'text': 'T>80°C',
-        'type': 'boolean',
-        'actions': {
-            'true': [{
-                'type': 'recommendation',
-                'recommendation': ['cr3']
-            }],
-            'false': [{
-                'type': 'question',
-                'name': 'vf>vc'
-            }]
-        }
-    }, {
-        'name': 't>140',
-        'text': 'T>140°C',
-        'type': 'boolean',
-        'actions': {
-            'true': [{
-                'type': 'recommendation',
-                'recommendation': ['sCr13']
-            }],
-            'false': [{
-                'type': 'recommendation',
-                'recommendation': ['cr13']
-            }]
-        }
-    }, {
-        'name': 'vf>vc',
-        'type': 'multiquestion',
-        'questions': ['qo', 'qw', 'qg', 'api', 'rhoW', 'rhoG', 'muO', 'muW', 'muG', 'sigmaO', 'sigmaW', 'id'],
-        'processing': vf_vc,
-        actions: {
-            'true': [{
-                'type': 'recommendation',
-                'recommendation': ['cr9', 'rec']
-            }],
-            'false': [{
-                'type': 'recommendation',
-                'recommendation': ['cr5']
-            }]
-        }
-    }, {
-        'name': 'qo',
-        'text': 'Caudal de Petróleo (Bls/dia)',
-        'type': 'numeric',
-        'actions': {}
-    }, {
-        'name': 'qw',
-        'text': 'Caudal de Agua (Bls/dia)',
-        'type': 'numeric',
-        'actions': {}
-    }, {
-        'name': 'qg',
-        'text': 'Caudal de Gas (SCF/dia)',
-        'type': 'numeric',
-        'actions': {}
-    }, {
-        'name': 'api',
-        'text': 'API (°API)',
-        'type': 'numeric',
-        'actions': {}
-    }, {
-        'name': 'rhoW',
-        'text': 'Densidad del Agua (lb/ft^3)',
-        'type': 'numeric',
-        'actions': {}
-    }, {
-        'name': 'rhoG',
-        'text': 'Densidad del Gas (lb/ft^3)',
-        'type': 'numeric',
-        'actions': {}
-    }, {
-        'name': 'muO',
-        'text': 'Viscosidad del Petróleo (cp)',
-        'type': 'numeric',
-        'actions': {}
-    }, {
-        'name': 'muW',
-        'text': 'Viscosidad del Agua (cp)',
-        'type': 'numeric',
-        'actions': {}
-    }, {
-        'name': 'muG',
-        'text': 'Viscosidad del Gas (cp)',
-        'type': 'numeric',
-        'actions': {}
-    }, {
-        'name': 'sigmaO',
-        'text': 'Tensión Superficial del Petróleo (dina/cm)',
-        'type': 'numeric',
-        'actions': {}
-    }, {
-        'name': 'sigmaW',
-        'text': 'Tensión Superficial del Agua (dina/cm)',
-        'type': 'numeric',
-        'actions': {}
-    }, {
-        'name': 'id',
-        'text': 'Diametro Interno de la Tubería (in)',
-        'type': 'numeric',
-        'actions': {}
-    }, {
-        'name': 'zone',
-        'type': 'multiquestion',
-        'questions': ['p_h2s', 't'],
-        'processing': function processing(_ref3) {
-            var _ref4 = _slicedToArray(_ref3, 2);
-
-            var pH2S = _ref4[0];
-            var t = _ref4[1];
-
-            // pH calculation
-            var phData = {
-                t20: {
-                    a: { x: 0.5527, y: 5.01347 },
-                    b: { x: 25880.4, y: 2.70071 }
-                },
-                t100: {
-                    a: { x: 0.894044, y: 5.11523 },
-                    b: { x: 38681.7, y: 2.79199 }
-                }
-            };
-            var t20 = phData.t20;
-            var t100 = phData.t100;
-
-            var log = function log(v) {
-                return Math.log10(v);
-            };
-            var interpolate = function interpolate(x, _ref5, _ref6) {
-                var x1 = _ref5.x;
-                var y1 = _ref5.y;
-                var x2 = _ref6.x;
-                var y2 = _ref6.y;
-                return y1 + (y2 - y1) * (x - x1) / (x2 - x1);
-            };
-
-            var pH2Skpa = pH2S * 6.89476;
-            intermediate('pH2Skpa', 'Presión Parcial de H2S (kPa)', pH2Skpa);
-            var pct20 = log(pH2Skpa / t20.a.x) / log(t20.b.x / t20.a.x);
-            var ph20 = t20.a.y + (t20.b.y - t20.a.y) * pct20;
-            // Use pct for both calculations to get that slanted interpolation
-            var ph100 = t100.a.y + (t100.b.y - t100.a.y) * pct20;
-
-            var ph = interpolate(t, { x: 20, y: ph20 }, { x: 100, y: ph100 });
-            intermediate('ph', 'pH', ph, '/images/graph-ph-h2s.png');
-            if (isNaN(ph) || ph > 6.5 || ph < 2.5) return 'ph_out';
-            if (isNaN(pH2S) || pH2S > 150 || pH2S < 0) return 'p_h2s_out';
-
-            var image = '/images/graph-zone.png';
-            // zone 0
-            if (pH2S <= 0.05) {
-                intermediate('zone', 'Gráfica Presencia de H2S', 'Zona 0', image);
-                return 'zone0';
-            }
-
-            // utility function
-            // http://stackoverflow.com/a/2049593/4992717
-            var checkInTriangle = function checkInTriangle(point, _ref7) {
-                var _ref8 = _slicedToArray(_ref7, 3);
-
-                var v1 = _ref8[0];
-                var v2 = _ref8[1];
-                var v3 = _ref8[2];
-
-                var sign = function sign(p1, p2, p3) {
-                    return (p1.x - p3.x) * (p2.y - p3.y) - (p2.x - p3.x) * (p1.y - p3.y);
-                };
-
-                var b1 = sign(point, v1, v2) < 0.0;
-                var b2 = sign(point, v2, v3) < 0.0;
-                var b3 = sign(point, v3, v1) < 0.0;
-
-                return b1 === b2 && b2 === b3;
-            };
-
-            // zone 1
-            var zone1Triangle = [{ x: log(0.05), y: 6.5 }, { x: log(15), y: 6.5 }, { x: log(0.05), y: 4 }];
-            if (checkInTriangle({ x: log(pH2S), y: ph }, zone1Triangle)) {
-                intermediate('zone', 'Gráfica Presencia de H2S', 'Zona 1', image);
-                return 'zone1';
-            }
-
-            // zone 3
-            if (ph <= 3.5 || ph <= 5.5 && pH2S >= 15) {
-                intermediate('zone', 'Gráfica Presencia de H2S', 'Zona 3', image);
-                return 'zone3';
-            }
-            var zone3Triangle = [{ x: log(15), y: 5.5 }, { x: log(15), y: 3.5 }, { x: log(0.15), y: 3.5 }];
-            if (checkInTriangle({ x: log(pH2S), y: ph }, zone3Triangle)) {
-                intermediate('zone', 'Gráfica Presencia de H2S', 'Zona 3', image);
-                return 'zone3';
-            }
-
-            // zone 2
-            // Everything else was discarded, zone 2 is the only option
-            intermediate('zone', 'Gráfica Presencia de H2S', 'Zona 2', image);
-            return 'zone2';
-        },
-        'actions': {
-            'ph_out': [{
-                'type': 'recommendation',
-                'recommendation': 'El ph calculado se sale del rango 2.5 - 6.5'
-            }],
-            'p_h2s_out': [{
-                'type': 'recommendation',
-                'recommendation': 'El pH2S se sale del rango 0 - 150 psi'
-            }],
-            'zone0': [{
-                'type': 'recommendation',
-                'recommendation': ['j55', 'n80', 'l80', 'l809', 'l8013', 'c90', 'c95', 'p110', 'q125']
-            }],
-            'zone1': [{
-                'type': 'recommendation',
-                'recommendation': ['j55', 'n80', 'l80', 'l809', 'l8013', 'c90', 't95']
-            }],
-            'zone2': [{
-                'type': 'recommendation',
-                'recommendation': ['l80', 'l809', 'l8013']
-            }],
-            'zone3': [{
-                'type': 'recommendation',
-                'recommendation': 'Grados de propietario según recomendaciones'
-            }]
-        }
-    }, {
-        'name': 'p_h2s',
-        'text': 'Presión Parcial de H2S (psi)',
-        'type': 'numeric',
-        'actions': {}
-    }, {
-        'name': 't',
-        'text': 'Temperatura (°C)',
-        'type': 'numeric',
-        'actions': {}
-    }, {
-        'name': 'zone_2',
-        'type': 'multiquestion',
-        'questions': ['p_h2s', 'p_co2'],
-        'processing': function processing(_ref9) {
-            var _ref10 = _slicedToArray(_ref9, 2);
-
-            var pH2S_psi = _ref10[0];
-            var pCO2_psi = _ref10[1];
-
-            var pH2S = pH2S_psi / 14.7;
-            intermediate('pH2S_atm', 'Presión Parcial de H2S (atm)', pH2S);
-
-            var pCO2 = pCO2_psi / 14.7;
-            intermediate('pCO2_atm', 'Presión Parcial de CO2 (atm)', pCO2);
-
-            var zones = {
-                a: { minx: 9.08E-05, maxx: 0.00293134, miny: 9.03E-05, maxy: 0.205259, name: 'zoneA', showName: 'Zona A' },
-                b: { minx: 0.00293134, maxx: 9206.02, miny: 9.03E-05, maxy: 0.205259, name: 'zoneB', showName: 'Zona B' },
-                c: { minx: 9.08E-05, maxx: 0.00293134, miny: 0.205259, maxy: 9367.18, name: 'zoneC', showName: 'Zona C' },
-                d: { minx: 0.00293134, maxx: 0.0283202, miny: 0.205259, maxy: 9367.18, name: 'zoneD', showName: 'Zona D' },
-                e: { name: 'zoneE', showName: 'Zona E' },
-                f: { minx: 0.871204, maxx: 9206.02, miny: 0.205259, maxy: 9367.18, name: 'zoneF', showName: 'Zona F' },
-                all: { minx: 9.08E-05, maxx: 9206.02, miny: 9.03E-05, maxy: 9367.18 }
-            };
-            function isInZone(_ref11, name) {
-                var x = _ref11.x;
-                var y = _ref11.y;
-                var _zones$name = zones[name];
-                var minx = _zones$name.minx;
-                var maxx = _zones$name.maxx;
-                var miny = _zones$name.miny;
-                var maxy = _zones$name.maxy;
-
-                return x >= minx && x < maxx && y >= miny && y < maxy;
-            }
-            var p = { x: pH2S, y: pCO2 };
-            var check = function check(z) {
-                return isInZone(p, z);
-            };
-
-            var res = 'e';
-            if (check('a')) res = 'a';
-            if (check('b')) res = 'b';
-            if (check('c')) res = 'c';
-            if (check('d')) res = 'd';
-            if (check('f')) res = 'f';
-            if (!check('all')) res = 'none';
-
-            var image = '/images/graph-zone-2.png';
-
-            if (res === 'none') {
-                intermediate('zone_2', 'Gráfica Presencia de Ambos Gases', 'Fuera de Rango', image);
-                return 'none';
-            }
-
-            intermediate('zone_2', 'Gráfica Presencia de Ambos Gases', zones[res].showName, image);
-            return zones[res].name;
-        },
-        'actions': {
-            zoneA: [{
-                type: 'recommendation',
-                recommendation: ['j55', 'n80', 'p110', 'q125']
-            }],
-            zoneB: [{
-                type: 'recommendation',
-                recommendation: ['l80', 'c90', 't95']
-            }],
-            zoneC: [{
-                type: 'recommendation',
-                recommendation: ['cr13']
-            }],
-            zoneD: [{
-                type: 'recommendation',
-                recommendation: ['sCr13']
-            }],
-            zoneE: [{
-                type: 'recommendation',
-                recommendation: ['cr22', 'cr25']
-            }],
-            zoneF: [{
-                type: 'recommendation',
-                recommendation: 'Aleaciones de Niquel'
-            }]
-        }
-    }];
-
-    var recommendations = {
-        l80: { name: 'L80', pipe: true },
-        l809: { name: 'L80 9', pipe: true },
-        l8013: { name: 'L80 13', pipe: true },
-        cr13: { name: '13% Cr', pipe: true },
-        t95: { name: 'T95', pipe: true },
-        p110: { name: 'P110', pipe: true },
-        sCr13: { name: 'S 13% Cr', pipe: true },
-        cr22: { name: '22% Cr', pipe: true },
-        cr25: { name: '25% Cr', pipe: true },
-        cr1: { name: '1% Cr', pipe: true },
-        cr9: { name: '9% Cr', pipe: true },
-        cr3: { name: '3% Cr', pipe: true },
-        cr5: { name: '5% Cr', pipe: true },
-        j55: { name: 'J55', pipe: true },
-        n80: { name: 'N80', pipe: true },
-        c90: { name: 'C90', pipe: true },
-        c95: { name: 'C95', pipe: true },
-        q125: { name: 'Q125', pipe: true },
-        rec: { name: _react2.default.createElement(
-                'a',
-                { href: '#' },
-                'Recubrimientos'
-            ), pipe: false }
-    };
-
-    return { questions: questions, recommendations: recommendations };
-}
-
-},{"./pipe_matrix_vf_vc.js":178,"react":174}],178:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
-
-exports.default = function (intermediate) {
-    // eslint-disable-next-line indent
-    return function vf_vc(_ref) {
-        var _ref2 = _slicedToArray(_ref, 12);
-
-        var qo = _ref2[0];
-        var qw = _ref2[1];
-        var qg = _ref2[2];
-        var api = _ref2[3];
-        var rhoW = _ref2[4];
-        var rhoG = _ref2[5];
-        var muO = _ref2[6];
-        var muW = _ref2[7];
-        var muG = _ref2[8];
-        var sigmaO = _ref2[9];
-        var sigmaW = _ref2[10];
-        var id = _ref2[11];
-
-        // vl
-        var rhoO = 141.5 / (131.5 + api) * 62.4;
-        intermediate('rhoO', 'Densidad del Petróleo (lb/ft^3)', rhoO);
-
-        var wo = qo * 0.1061218411 * rhoO;
-        intermediate('wo', 'Flujo másico del Petróleo (lb/s)', wo);
-
-        var ww = qw * 0.1061218411 * rhoW;
-        intermediate('ww', 'Flujo másico del Agua (lb/s)', ww);
-
-        var wl = wo + ww;
-        intermediate('wl', 'Flujo másico de la fracción Líquida (lb/s)', wl);
-
-        var wg = qg * rhoG * 0.01889970456;
-        intermediate('wg', 'Flujo másico del Gas (lb/s)', wg);
-
-        var water_cut = qw / (qw + qo);
-        intermediate('water_cut', 'Corte de Agua', water_cut);
-
-        var muL = water_cut > 0.5 ? muW : muO;
-        intermediate('muL', 'Viscosidad de la fracción Líquida (cp)', muL);
-
-        var sigmaL = water_cut > 0.5 ? sigmaW : sigmaO;
-        intermediate('sigmaL', 'Tensión Superficial de la fracción Líquida (dina/cm)', sigmaL);
-
-        var area = Math.PI * (id * id) / 4 * (0.3048 / 144);
-        intermediate('area', 'Area (m^2)', area);
-
-        var gt = (wl + wg) / area * 0.0000003950923998;
-        intermediate('gt', 'GT', gt);
-
-        var rhoL = water_cut > 0.5 ? rhoW : rhoO;
-        intermediate('rhoL', 'Densidad de la fracción Líquida (lb/ft^3)', rhoL);
-
-        var x = Math.pow(wl / wg, 0.9) * Math.pow(muL, 0.19) * Math.pow(sigmaL, 0.205) * Math.pow(rhoG, 0.7) * Math.pow(muG, 2.75) / (Math.pow(gt, 0.435) * Math.pow(rhoL, 0.72));
-        intermediate('x', 'X', x, '/images/formula-x.png');
-
-        var rl = (0, _pipe_matrix_get_rl2.default)(x);
-        intermediate('rl', 'RL', rl, '/images/graph-rl.png');
-
-        var vl = wl / (17576.76039 * rl * rhoL * area);
-        intermediate('vl', 'VL (ft/s)', vl);
-
-        // vc
-        var vc = 100 / Math.sqrt(rhoL * 0.01602);
-        intermediate('vc', 'VC (ft/s)', vc);
-
-        intermediate('vl_vc', 'VL > VC', vl > vc ? 'Verdadero' : 'Falso');
-        return vl > vc;
-    };
-};
-
-var _pipe_matrix_get_rl = require('./pipe_matrix_get_rl.js');
-
-var _pipe_matrix_get_rl2 = _interopRequireDefault(_pipe_matrix_get_rl);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-},{"./pipe_matrix_get_rl.js":176}],179:[function(require,module,exports){
+},{}],178:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -34783,7 +34416,7 @@ window.$ = $;
 $('.success-panel, .error-panel').addClass('alert fade in');
 $().alert();
 
-},{"bootstrap":1,"jquery":27,"jquery.flot.pie":181}],180:[function(require,module,exports){
+},{"bootstrap":1,"jquery":27,"jquery.flot.pie":180}],179:[function(require,module,exports){
 (function (global){
 
 ; require("jquery");
@@ -35269,7 +34902,7 @@ function floorInBase(n,base){return base*Math.floor(n/base);}})(jQuery);
 }).call(global, module, undefined, undefined);
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"jquery":27}],181:[function(require,module,exports){
+},{"jquery":27}],180:[function(require,module,exports){
 (function (global){
 
 ; require("/home/vagrant/Code/Semillero/resources/assets/js/flot/jquery.flot.js");
@@ -36095,7 +35728,7 @@ More detail and specific examples can be found in the included HTML file.
 }).call(global, module, undefined, undefined);
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"/home/vagrant/Code/Semillero/resources/assets/js/flot/jquery.flot.js":180}],182:[function(require,module,exports){
+},{"/home/vagrant/Code/Semillero/resources/assets/js/flot/jquery.flot.js":179}],181:[function(require,module,exports){
 'use strict';
 
 require('./app');
@@ -36108,16 +35741,33 @@ var _reactDom = require('react-dom');
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _PipeMatrix = require('./Components/PipeMatrix.jsx');
+var _PipeBurst = require('./Components/PipeBurst.jsx');
 
-var _PipeMatrix2 = _interopRequireDefault(_PipeMatrix);
+var _PipeBurst2 = _interopRequireDefault(_PipeBurst);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var $app = document.getElementById('app');
 
-_reactDom2.default.render(_react2.default.createElement(_PipeMatrix2.default, null), $app);
+function getQueryParams(qs) {
+    var normalized = qs.replace(/\+/g, ' ');
 
-},{"./Components/PipeMatrix.jsx":175,"./app":179,"react":174,"react-dom":30}]},{},[182]);
+    var params = {},
+        re = /[?&]?([^=]+)=([^&]*)/g;
+    var tokens = void 0;
+    while ((tokens = re.exec(normalized)) !== null) {
+        params[decodeURIComponent(tokens[1])] = decodeURIComponent(tokens[2]);
+    }return params;
+}
 
-//# sourceMappingURL=pipe_matrix.js.map
+var _getQueryParams = getQueryParams(document.location.search);
+
+var grado = _getQueryParams.grado;
+var sistema = _getQueryParams.sistema;
+
+
+_reactDom2.default.render(_react2.default.createElement(_PipeBurst2.default, { grade: grado, systemType: sistema }), $app);
+
+},{"./Components/PipeBurst.jsx":175,"./app":178,"react":174,"react-dom":30}]},{},[181]);
+
+//# sourceMappingURL=pipe_burst.js.map

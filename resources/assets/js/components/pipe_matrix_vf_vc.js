@@ -48,7 +48,7 @@ vf_vc([qo, qw, qg, api, rhoW, rhoG, muO, muW, muG, sigmaO, sigmaW, id]) {
     const rl = getRL(x)
     intermediate('rl', 'RL', rl, '/images/graph-rl.png')
 
-    const vl = wl / (1097.28 * rl * rhoL * area)
+    const vl = wl / (17576.76039 * rl * rhoL * area)
     intermediate('vl', 'VL (ft/s)', vl)
 
     // vc

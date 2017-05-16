@@ -40,6 +40,7 @@
         "comma-spacing": "warn",
         "spaced-comment": "warn",
         "template-curly-spacing": ["warn", "never"],
-        "no-console": "off"
+        "no-console": "off",
+        "react/prop-types": "off"
     }
 }

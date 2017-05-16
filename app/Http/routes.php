@@ -47,6 +47,7 @@ Route::group(['prefix' => 'tuberias', 'middleware' => 'auth'], function () {
 
     // ## Matrix
     Route::get('/matriz', 'PipeController@matrix');
+    Route::get('/estallido', 'PipeController@burst');
 });
 
 // # Multiple (Completamientos multiples)
