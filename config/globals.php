@@ -8,7 +8,7 @@ return [
         'fluidos' => 'Fluidos de Completamiento',
         'conectividad' => 'Conectividad',
         'multiples' => 'Completamientos Múltiples',
-        'tuberias' => 'Tuberías de corrosion'
+        'tuberias' => 'Metalurgia de Tubería de Producción'
     ],
 
 ];

@@ -480,7 +480,7 @@ const questions = [
     },
     {
         'name': 'ph_h2s',
-        'text':'pH del H2S',
+        'text':'pH del Ambiente',
         'type': 'numeric',
         'actions': {}
     },
