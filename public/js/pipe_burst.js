@@ -33805,29 +33805,30 @@ var PipeMatrix = function (_Component) {
 
         _this.state = {
             answers: {
-                'hGasket': 9000,
-                'hBrine': 3000,
-                'tvd': 10000,
-                'p': 10000,
-                'rhoBrine': 12,
-                'id': 3.958,
-                'od': 4.5,
-                'api': 28,
-                'waterCut': 0.4,
-                'rhoW': 8.33,
+                // 'hGasket': 9000,
+                // 'hBrine': 3000,
+                // 'tvd': 10000,
+                // 'p': 10000,
+                // 'rhoBrine': 12,
+                // 'id': 3.958,
+                // 'od': 4.5,
+                // 'api': 28,
+                // 'waterCut': 0.4,
+                // 'rhoW': 8.33,
+                // 'gasGradient': 28,
                 'grade': props.grade || 'l80',
-                'systemType': props.systemType || 'liq'
+                'systemType': props.systemType || 'liq',
+                'h_gasket': null,
+                'h_brine': null,
+                'tvd': null,
+                'p': null,
+                'rho_brine': null,
+                'id': null,
+                'od': null,
+                'API': null,
+                'W.C': null,
+                'rho_water': null
             },
-            // 'h_gasket': null,
-            // 'h_brine': null,
-            // 'tvd': null,
-            // 'p': null,
-            // 'rho_brine': null,
-            // 'id': null,
-            // 'od': null,
-            // 'API': null,
-            // 'W.C': null,
-            // 'rho_water': null,
             showProcedure: true
         }
 
@@ -33856,47 +33857,55 @@ var PipeMatrix = function (_Component) {
         }
     }, {
         key: 'renderQuestion',
-        value: function renderQuestion(question) {
+        value: function renderQuestion(question, i) {
             var _this2 = this;
 
             if (question.type === 'multi') {
-                var $opts = question.options.map(function (option) {
+                var $opts = question.options.map(function (option, j) {
                     return _react2.default.createElement(
                         'option',
-                        { value: option.name, key: option.name },
+                        { value: option.name, key: j },
                         option.text
                     );
                 });
                 return _react2.default.createElement(
                     'div',
-                    { className: 'from-group', key: question.name },
+                    { className: 'my-form-group', key: i },
                     _react2.default.createElement(
                         'label',
                         { htmlFor: question.name },
                         question.text
                     ),
                     _react2.default.createElement(
-                        'select',
-                        {
-                            id: question.name,
-                            value: this.state.answers[question.name],
-                            onChange: function onChange(ev) {
-                                return _this2.handleAnswer(question, ev.target.value);
-                            } },
-                        $opts
+                        'span',
+                        null,
+                        _react2.default.createElement(
+                            'select',
+                            {
+                                id: question.name,
+                                value: this.state.answers[question.name],
+                                onChange: function onChange(ev) {
+                                    return _this2.handleAnswer(question, ev.target.value);
+                                } },
+                            $opts
+                        )
                     )
                 );
             } else if (question.type === 'boolean') {
                 return _react2.default.createElement(
                     'div',
-                    { className: 'from-group', key: question.name },
-                    _react2.default.createElement('input', {
-                        type: 'checkbox',
-                        id: question.name,
-                        onChange: function onChange(ev) {
-                            return _this2.handleAnswer(question, ev.target.checked);
-                        }
-                    }),
+                    { className: 'my-form-group', key: i },
+                    _react2.default.createElement(
+                        'span',
+                        null,
+                        _react2.default.createElement('input', {
+                            type: 'checkbox',
+                            id: question.name,
+                            onChange: function onChange(ev) {
+                                return _this2.handleAnswer(question, ev.target.checked);
+                            }
+                        })
+                    ),
                     _react2.default.createElement(
                         'label',
                         { htmlFor: question.name },
@@ -33906,7 +33915,7 @@ var PipeMatrix = function (_Component) {
             } else if (question.type === 'numeric') {
                 return _react2.default.createElement(
                     'div',
-                    { className: 'from-group', key: question.name },
+                    { className: 'my-form-group', key: i },
                     _react2.default.createElement(
                         'label',
                         { htmlFor: question.name },
@@ -34097,10 +34106,10 @@ var PipeMatrix = function (_Component) {
             intermediate('Punto 2 - P in (psi)', p2in);
             var p2out = 0.052 * rhoBrine * (tvd - hGasket);
             intermediate('Punto 2 - P out (psi)', p2out);
-            var deltaP2 = p2in - p2out;
+            var deltaP2 = Math.abs(p2in - p2out);
             intermediate('∆P2 (psi)', deltaP2);
             var load = Math.max(deltaP1, deltaP2);
-            intermediate('load', '∆P máximo (psi)', load);
+            intermediate('∆P máximo (psi)', load);
 
             var recommendations = this.findNearest(intermediate, grade, load, id, od);
             return { recommendations: recommendations, intermediateSteps: intermediateSteps };
@@ -34168,7 +34177,7 @@ var PipeMatrix = function (_Component) {
                 return q.show ? q.show(_this3.state) : true;
             }).map(this.renderQuestion);
 
-            var gas = this.state.answers.sistemType === 'gc';
+            var gas = this.state.answers.systemType === 'gc';
 
             var _processBase = this.processBase(this.state.answers);
 
@@ -34258,7 +34267,7 @@ var PipeMatrix = function (_Component) {
                 null,
                 _react2.default.createElement(
                     'form',
-                    null,
+                    { className: 'table-form' },
                     $questions
                 ),
                 _react2.default.createElement(
@@ -34337,7 +34346,14 @@ exports.default = {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.default = [{
+var gradeQuestion = {
+    name: 'grade',
+    text: 'Grado de Tubería',
+    type: 'multi',
+    options: [{ name: 'l80', text: 'L80' }, { name: 'l809', text: 'L80 9' }, { name: 'l8013', text: 'L80 13' }, { name: 'cr13', text: '13% Cr' }, { name: 't95', text: 'T95' }, { name: 'p110', text: 'P110' }, { name: 'sCr13', text: 'S 13% Cr' }, { name: 'cr22', text: '22% Cr' }, { name: 'cr25', text: '25% Cr' }, { name: 'cr1', text: '1% Cr' }, { name: 'cr9', text: '9% Cr' }, { name: 'cr3', text: '3% Cr' }, { name: 'cr5', text: '5% Cr' }, { name: 'j55', text: 'J55' }, { name: 'n80', text: 'N80' }, { name: 'c90', text: 'C90' }, { name: 'c95', text: 'C95' }, { name: 'q125', text: 'Q125' }]
+};
+
+exports.default = [gradeQuestion, {
     name: 'systemType',
     text: 'Tipo de Sistema',
     type: 'multi',
@@ -34353,7 +34369,7 @@ exports.default = [{
     text: 'Gradiente de gas (psi/ft)',
     type: 'numeric',
     show: function show(state) {
-        return state.answers.system_type === 'gc';
+        return state.answers.systemType === 'gc';
     }
 }, {
     name: 'hGasket',
@@ -34397,11 +34413,6 @@ exports.default = [{
     name: 'rhoW',
     text: 'Densidad del Agua (ppg)',
     type: 'numeric'
-}, {
-    name: 'grade',
-    text: 'Grado de Tubería',
-    type: 'multi',
-    options: [{ name: 'l80', text: 'L80' }, { name: 'l809', text: 'L80 9' }, { name: 'l8013', text: 'L80 13' }, { name: 'cr13', text: '13% Cr' }, { name: 't95', text: 'T95' }, { name: 'p110', text: 'P110' }, { name: 'sCr13', text: 'S 13% Cr' }, { name: 'cr22', text: '22% Cr' }, { name: 'cr25', text: '25% Cr' }, { name: 'cr1', text: '1% Cr' }, { name: 'cr9', text: '9% Cr' }, { name: 'cr3', text: '3% Cr' }, { name: 'cr5', text: '5% Cr' }, { name: 'j55', text: 'J55' }, { name: 'n80', text: 'N80' }, { name: 'c90', text: 'C90' }, { name: 'c95', text: 'C95' }, { name: 'q125', text: 'Q125' }]
 }];
 
 },{}],178:[function(require,module,exports){

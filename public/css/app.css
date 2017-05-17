@@ -7957,6 +7957,20 @@ table {
 .pipe-basins #plot-legend {
   display: inline-block; }
 
+.pipe-matrix form.table-form {
+  display: table;
+  margin-left: auto;
+  margin-right: auto; }
+  .pipe-matrix form.table-form .my-form-group {
+    width: 100%;
+    display: table-row; }
+    .pipe-matrix form.table-form .my-form-group > * {
+      display: table-cell;
+      width: auto; }
+    .pipe-matrix form.table-form .my-form-group input[type="checkbox"] {
+      margin-left: 5px;
+      margin-right: 10px; }
+
 .pipe-matrix .procedure h2 {
   cursor: pointer; }
 

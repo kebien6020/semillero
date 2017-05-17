@@ -24,6 +24,28 @@
     }
 }
 
+form.table-form {
+    display: table;
+    margin: {
+        left: auto;
+        right: auto;
+    }
+    .my-form-group {
+        width: 100%;
+        display: table-row;
+        > * {
+            display: table-cell;
+            width: auto;
+        }
+        input[type="checkbox"] {
+            margin: {
+                left: 5px;
+                right: 10px;
+            }
+        }
+    }
+}
+
 .procedure {
 
     h2 {

@@ -45,28 +45,29 @@ export default class PipeMatrix extends Component {
         super(props)
         this.state = {
             answers: {
-                'hGasket': 9000,
-                'hBrine': 3000,
-                'tvd': 10000,
-                'p': 10000,
-                'rhoBrine': 12,
-                'id': 3.958,
-                'od': 4.5,
-                'api': 28,
-                'waterCut': 0.4,
-                'rhoW': 8.33,
+                // 'hGasket': 9000,
+                // 'hBrine': 3000,
+                // 'tvd': 10000,
+                // 'p': 10000,
+                // 'rhoBrine': 12,
+                // 'id': 3.958,
+                // 'od': 4.5,
+                // 'api': 28,
+                // 'waterCut': 0.4,
+                // 'rhoW': 8.33,
+                // 'gasGradient': 28,
                 'grade': props.grade || 'l80',
                 'systemType': props.systemType || 'liq',
-                // 'h_gasket': null,
-                // 'h_brine': null,
-                // 'tvd': null,
-                // 'p': null,
-                // 'rho_brine': null,
-                // 'id': null,
-                // 'od': null,
-                // 'API': null,
-                // 'W.C': null,
-                // 'rho_water': null,
+                'h_gasket': null,
+                'h_brine': null,
+                'tvd': null,
+                'p': null,
+                'rho_brine': null,
+                'id': null,
+                'od': null,
+                'API': null,
+                'W.C': null,
+                'rho_water': null,
             },
             showProcedure: true,
         }
@@ -96,36 +97,36 @@ export default class PipeMatrix extends Component {
         })
     }
 
-    renderQuestion(question) {
+    renderQuestion(question, i) {
         if (question.type === 'multi') {
-            const $opts = question.options.map(option =>
-                <option value={option.name} key={option.name}>{option.text}</option>
+            const $opts = question.options.map((option, j) =>
+                <option value={option.name} key={j}>{option.text}</option>
             )
             return (
-                <div className="from-group" key={question.name}>
+                <div className="my-form-group" key={i}>
                     <label htmlFor={question.name}>{question.text}</label>
-                    <select
+                    <span><select
                         id={question.name}
                         value={this.state.answers[question.name]}
                         onChange={(ev) => this.handleAnswer(question, ev.target.value)}>
                         {$opts}
-                    </select>
+                    </select></span>
                 </div>
             )
         } else if (question.type === 'boolean') {
             return (
-                <div className="from-group" key={question.name}>
-                    <input
+                <div className="my-form-group" key={i}>
+                    <span><input
                         type="checkbox"
                         id={question.name}
                         onChange={(ev) => this.handleAnswer(question, ev.target.checked)}
-                    />
+                    /></span>
                     <label htmlFor={question.name}>{question.text}</label>
                 </div>
             )
         } else if (question.type === 'numeric') {
             return (
-                <div className="from-group" key={question.name}>
+                <div className="my-form-group" key={i}>
                     <label htmlFor={question.name}>{question.text}</label>
                     <NumericInput
                         id={question.name}
@@ -250,10 +251,10 @@ export default class PipeMatrix extends Component {
         intermediate('Punto 2 - P in (psi)', p2in)
         const p2out = 0.052 * rhoBrine * (tvd - hGasket)
         intermediate('Punto 2 - P out (psi)', p2out)
-        const deltaP2 = p2in - p2out
+        const deltaP2 = Math.abs(p2in - p2out)
         intermediate('∆P2 (psi)', deltaP2)
         const load = Math.max(deltaP1, deltaP2)
-        intermediate('load', '∆P máximo (psi)', load)
+        intermediate('∆P máximo (psi)', load)
 
         const recommendations = this.findNearest(intermediate, grade, load, id, od)
         return { recommendations, intermediateSteps }
@@ -279,7 +280,7 @@ export default class PipeMatrix extends Component {
     render() {
         const $questions = questions.filter(q => q.show ? q.show(this.state): true).map(this.renderQuestion)
 
-        const gas = this.state.answers.sistemType === 'gc'
+        const gas = this.state.answers.systemType === 'gc'
 
         const { recommendations: baseRecommendations, intermediateSteps: baseSteps } = this.processBase(this.state.answers)
         const { recommendations: fullEvacRecommendations, intermediateSteps: fullEvacSteps } = this.processFullEvacuation(this.state.answers)
@@ -316,7 +317,7 @@ export default class PipeMatrix extends Component {
 
         return (
             <div>
-                <form>
+                <form className="table-form">
                     {$questions}
                 </form>
                 <div className="recommendations">

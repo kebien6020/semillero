@@ -102,7 +102,7 @@ export default class PipeMatrix extends Component {
                 <option value={option.name} key={option.name}>{option.text}</option>
             )
             return (
-                <div className="from-group" key={question.name}>
+                <div className="my-form-group" key={question.name}>
                     <label htmlFor={question.name}>{question.text}</label>
                     <select
                         id={question.name}
@@ -113,7 +113,7 @@ export default class PipeMatrix extends Component {
             )
         } else if (question.type === 'boolean') {
             return (
-                <div className="from-group" key={question.name}>
+                <div className="my-form-group" key={question.name}>
                     <input
                         type="checkbox"
                         id={question.name}
@@ -124,7 +124,7 @@ export default class PipeMatrix extends Component {
             )
         } else if (question.type === 'numeric') {
             return (
-                <div className="from-group" key={question.name}>
+                <div className="my-form-group" key={question.name}>
                     <label htmlFor={question.name}>{question.text}</label>
                     <NumericInput
                         id={question.name}
@@ -196,7 +196,7 @@ export default class PipeMatrix extends Component {
                 <li key={j}>
                     {recommendations[rec].name}
                     {recommendations[rec].pipe &&
-                        <span>(<a href={`estallido?grado=${rec}&sistema=${this.state.answers.system_type || 'gc'}`}>
+                        <span>(<a href={`estallido?grado=${rec}&sistema=${this.state.answers.system_type || 'gc'}`} target="_blank">
                             Calcular estallido/colapso
                         </a>)</span>
                     }</li>

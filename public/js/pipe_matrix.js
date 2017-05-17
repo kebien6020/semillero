@@ -33874,7 +33874,7 @@ var PipeMatrix = function (_Component) {
                 });
                 return _react2.default.createElement(
                     'div',
-                    { className: 'from-group', key: question.name },
+                    { className: 'my-form-group', key: question.name },
                     _react2.default.createElement(
                         'label',
                         { htmlFor: question.name },
@@ -33893,7 +33893,7 @@ var PipeMatrix = function (_Component) {
             } else if (question.type === 'boolean') {
                 return _react2.default.createElement(
                     'div',
-                    { className: 'from-group', key: question.name },
+                    { className: 'my-form-group', key: question.name },
                     _react2.default.createElement('input', {
                         type: 'checkbox',
                         id: question.name,
@@ -33910,7 +33910,7 @@ var PipeMatrix = function (_Component) {
             } else if (question.type === 'numeric') {
                 return _react2.default.createElement(
                     'div',
-                    { className: 'from-group', key: question.name },
+                    { className: 'my-form-group', key: question.name },
                     _react2.default.createElement(
                         'label',
                         { htmlFor: question.name },
@@ -34018,7 +34018,7 @@ var PipeMatrix = function (_Component) {
                             '(',
                             _react2.default.createElement(
                                 'a',
-                                { href: 'estallido?grado=' + rec + '&sistema=' + (_this5.state.answers.system_type || 'gc') },
+                                { href: 'estallido?grado=' + rec + '&sistema=' + (_this5.state.answers.system_type || 'gc'), target: '_blank' },
                                 'Calcular estallido/colapso'
                             ),
                             ')'
