@@ -35,6 +35,7 @@ function logInterpolate(x, p1, p2) {
 }
 
 export default function getRL(x) {
+    if (isNaN(x)) return NaN
     // Handle edge cases
     if (x <= data[0].x) return data[0].y
     if (x >= data[data.length - 1].x) return data[data.length - 1].y

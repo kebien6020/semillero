@@ -133,6 +133,9 @@ const questions = [
             'h2s': [{
                 'type': 'question',
                 'name': 'zone'
+            }, {
+                'type': 'recommendation',
+                recommendation: ['iso']
             }],
             'co2_h2s': [{
                 'type': 'question',
@@ -182,8 +185,9 @@ const questions = [
     },
     {
         'name': 'alk',
-        'text': 'Alcalinidad (mol/L)',
+        'text': 'Alcalinidad (mol/L), concentración de Bicarbonato',
         'type': 'numeric',
+        'precision': 4,
         'actions': {}
     },
     {
@@ -200,7 +204,7 @@ const questions = [
     },
     {
         'name': 'i',
-        'text': 'Fuerza Ionica (mol/L)',
+        'text': 'Fuerza Ionica (mol/L), concentración de iones disueltos',
         'type': 'numeric',
         'actions': {}
     },
@@ -340,34 +344,35 @@ const questions = [
         'type': 'multiquestion',
         'questions': [
             'p_h2s',
-            't'
+            'ph_h2s'
         ],
-        'processing': function([pH2S, t]) {
-            // pH calculation
-            const phData = {
-                t20: {
-                    a: {x: 0.5527, y: 5.01347},
-                    b: {x: 25880.4, y: 2.70071},
-                },
-                t100: {
-                    a: {x: 0.894044, y: 5.11523},
-                    b: {x: 38681.7, y: 2.79199},
-                }
-            }
-            const { t20, t100 } = phData
+        'processing': function([pH2S, phH2S]) {
+            // // pH calculation
+            // const phData = {
+            //     t20: {
+            //         a: {x: 0.5527, y: 5.01347},
+            //         b: {x: 25880.4, y: 2.70071},
+            //     },
+            //     t100: {
+            //         a: {x: 0.894044, y: 5.11523},
+            //         b: {x: 38681.7, y: 2.79199},
+            //     }
+            // }
+            // const { t20, t100 } = phData
             const log = v => Math.log10(v)
-            const interpolate = (x, {x:x1, y:y1}, {x:x2, y:y2}) =>
-                y1 + (y2 - y1) * (x - x1) / (x2 - x1)
+            // const interpolate = (x, {x:x1, y:y1}, {x:x2, y:y2}) =>
+            //     y1 + (y2 - y1) * (x - x1) / (x2 - x1)
+            //
+            // const pH2Skpa = pH2S * 6.89476
+            // intermediate('pH2Skpa', 'Presión Parcial de H2S (kPa)', pH2Skpa)
+            // const pct20 = log(pH2Skpa / t20.a.x) / log(t20.b.x / t20.a.x)
+            // const ph20 = t20.a.y + (t20.b.y - t20.a.y) * pct20
+            // // Use pct for both calculations to get that slanted interpolation
+            // const ph100 = t100.a.y + (t100.b.y - t100.a.y) * pct20
+            // const ph = interpolate(t, {x: 20, y: ph20}, {x: 100, y: ph100})
 
-            const pH2Skpa = pH2S * 6.89476
-            intermediate('pH2Skpa', 'Presión Parcial de H2S (kPa)', pH2Skpa)
-            const pct20 = log(pH2Skpa / t20.a.x) / log(t20.b.x / t20.a.x)
-            const ph20 = t20.a.y + (t20.b.y - t20.a.y) * pct20
-            // Use pct for both calculations to get that slanted interpolation
-            const ph100 = t100.a.y + (t100.b.y - t100.a.y) * pct20
-
-            const ph = interpolate(t, {x: 20, y: ph20}, {x: 100, y: ph100})
-            intermediate('ph', 'pH', ph, '/images/graph-ph-h2s.png')
+            const ph = phH2S
+            // intermediate('ph', 'pH', ph, '/images/graph-ph-h2s.png')
             if (isNaN(ph) || ph > 6.5 || ph < 2.5) return 'ph_out'
             if (isNaN(pH2S) || pH2S > 150 || pH2S < 0) return 'p_h2s_out'
 
@@ -425,7 +430,7 @@ const questions = [
         'actions': {
             'ph_out': [{
                 'type': 'recommendation',
-                'recommendation': 'El ph calculado se sale del rango 2.5 - 6.5'
+                'recommendation': 'El ph se sale del rango 2.5 - 6.5'
             }],
             'p_h2s_out': [{
                 'type': 'recommendation',
@@ -474,8 +479,8 @@ const questions = [
         'actions': {}
     },
     {
-        'name': 't',
-        'text': 'Temperatura (°C)',
+        'name': 'ph_h2s',
+        'text':'pH del H2S',
         'type': 'numeric',
         'actions': {}
     },
@@ -575,7 +580,8 @@ const recommendations = {
     c90: {name: 'C90', pipe: true},
     c95: {name: 'C95', pipe: true},
     q125: {name: 'Q125', pipe: true},
-    rec: {name: <a href="#">Recubrimientos</a>, pipe: false}
+    rec: {name: <a href="/tuberias/recubrimientos">Recubrimientos</a>, pipe: false},
+    iso: {name: <a href="/files/ISO-15156-2-2015-D.pdf" target="_blank">Revisar las condiciones de la quimica del agua para elegir la gráfica correspondiente para hallar el valor del pH.</a>, pipe:false}
 }
 
 return {questions, recommendations}

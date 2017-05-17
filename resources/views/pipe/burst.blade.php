@@ -10,11 +10,11 @@
 @section ('content')
 
 <header>
-    <h1>Evaluador de Estallido y Colapso</h1>
+    <h1>Herramienta de evaluación de estallido y colapso</h1>
 </header>
 
 <main>
-    <p>Explicación...</p>
+    <p style="text-align: justify;">A partir de la recomendaciónes de material generada a partir de la evaluación de la corrosividad del ambiente, esta herramienta permite estudiar las cargas de presión generadas durante condiciones críticas a fin de seleccionar el grado de acero cuyo rating satisfaga estos parámetros.</p>
     <div id="app">Cargando Matriz...</div>
 </main>
 

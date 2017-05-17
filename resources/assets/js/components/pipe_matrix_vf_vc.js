@@ -52,7 +52,7 @@ vf_vc([qo, qw, qg, api, rhoW, rhoG, muO, muW, muG, sigmaO, sigmaW, id]) {
     intermediate('vl', 'VL (ft/s)', vl)
 
     // vc
-    const vc = 100 / Math.sqrt(rhoL * 0.01602)
+    const vc = 100 / Math.sqrt(rhoL)
     intermediate('vc', 'VC (ft/s)', vc)
 
     intermediate('vl_vc', 'VL > VC', vl > vc ? 'Verdadero' : 'Falso')

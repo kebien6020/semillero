@@ -53,11 +53,6 @@ export default [
         type: 'numeric'
     },
     {
-        name: 'hBrine',
-        text: 'Altura Salmuera (ft)',
-        type: 'numeric'
-    },
-    {
         name: 'tvd',
         text: 'TVD (ft)',
         type: 'numeric'
@@ -91,7 +86,7 @@ export default [
     },
     {
         name: 'waterCut',
-        text: 'Corte de Agua',
+        text: 'Corte de Agua (fracción)',
         type: 'numeric'
     },
     {

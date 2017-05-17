@@ -123,4 +123,9 @@ class PipeController extends Controller
     {
         return view('pipe/burst');
     }
+
+    public function coatings()
+    {
+        return view('pipe/coatings');
+    }
 }

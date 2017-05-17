@@ -33918,7 +33918,7 @@ var PipeMatrix = function (_Component) {
                     ),
                     _react2.default.createElement(_reactNumericInput2.default, {
                         id: question.name,
-                        precision: 2,
+                        precision: question.precision !== undefined ? question.precision : 2,
                         value: this.state.answers[question.name],
                         style: false,
                         onChange: function onChange(num) {
@@ -34004,6 +34004,11 @@ var PipeMatrix = function (_Component) {
         value: function renderRecommendation(recs, i) {
             var _this5 = this;
 
+            if (typeof recs === 'string') return _react2.default.createElement(
+                'p',
+                { key: i },
+                recs
+            );
             return _react2.default.createElement(
                 'ul',
                 { key: i },
@@ -34030,28 +34035,35 @@ var PipeMatrix = function (_Component) {
     }, {
         key: 'renderStep',
         value: function renderStep(step, i) {
-            var img = step.image && _react2.default.createElement(
+            var img = _react2.default.createElement(
                 'div',
                 null,
-                _react2.default.createElement(
-                    'p',
-                    null,
-                    'Leido/calculado de:'
-                ),
                 _react2.default.createElement('img', { src: step.image, alt: 'Gráfica: ' + step.showName })
             );
             if (typeof step.value === 'number' && isNaN(step.value)) return null;
             return _react2.default.createElement(
-                'div',
+                'tr',
                 { key: i },
                 _react2.default.createElement(
-                    'strong',
+                    'td',
                     null,
-                    step.showName,
-                    ': '
+                    _react2.default.createElement(
+                        'strong',
+                        null,
+                        step.showName,
+                        ': '
+                    )
                 ),
-                step.value,
-                img
+                _react2.default.createElement(
+                    'td',
+                    null,
+                    step.value
+                ),
+                _react2.default.createElement(
+                    'td',
+                    null,
+                    step.image ? img : 'No aplica'
+                )
             );
         }
 
@@ -34097,7 +34109,38 @@ var PipeMatrix = function (_Component) {
                         _react2.default.createElement('i', { className: 'rec-caret' }),
                         'Cálculo'
                     ),
-                    this.state.showProcedure && $steps
+                    this.state.showProcedure && _react2.default.createElement(
+                        'table',
+                        null,
+                        _react2.default.createElement(
+                            'thead',
+                            null,
+                            _react2.default.createElement(
+                                'tr',
+                                null,
+                                _react2.default.createElement(
+                                    'th',
+                                    null,
+                                    'Parámetro'
+                                ),
+                                _react2.default.createElement(
+                                    'th',
+                                    null,
+                                    'Resultado'
+                                ),
+                                _react2.default.createElement(
+                                    'th',
+                                    null,
+                                    'Fuente'
+                                )
+                            )
+                        ),
+                        _react2.default.createElement(
+                            'tbody',
+                            null,
+                            $steps
+                        )
+                    )
                 ),
                 _react2.default.createElement(
                     'div',
@@ -34148,6 +34191,7 @@ function logInterpolate(x, p1, p2) {
 }
 
 function getRL(x) {
+    if (isNaN(x)) return NaN;
     // Handle edge cases
     if (x <= data[0].x) return data[0].y;
     if (x >= data[data.length - 1].x) return data[data.length - 1].y;
@@ -34271,6 +34315,9 @@ function questions(intermediate) {
             'h2s': [{
                 'type': 'question',
                 'name': 'zone'
+            }, {
+                'type': 'recommendation',
+                recommendation: ['iso']
             }],
             'co2_h2s': [{
                 'type': 'question',
@@ -34316,8 +34363,9 @@ function questions(intermediate) {
         'actions': {}
     }, {
         'name': 'alk',
-        'text': 'Alcalinidad (mol/L)',
+        'text': 'Alcalinidad (mol/L), concentración de Bicarbonato',
         'type': 'numeric',
+        'precision': 4,
         'actions': {}
     }, {
         'name': 'bht',
@@ -34331,7 +34379,7 @@ function questions(intermediate) {
         'actions': {}
     }, {
         'name': 'i',
-        'text': 'Fuerza Ionica (mol/L)',
+        'text': 'Fuerza Ionica (mol/L), concentración de iones disueltos',
         'type': 'numeric',
         'actions': {}
     }, {
@@ -34440,47 +34488,41 @@ function questions(intermediate) {
     }, {
         'name': 'zone',
         'type': 'multiquestion',
-        'questions': ['p_h2s', 't'],
+        'questions': ['p_h2s', 'ph_h2s'],
         'processing': function processing(_ref3) {
             var _ref4 = _slicedToArray(_ref3, 2);
 
             var pH2S = _ref4[0];
-            var t = _ref4[1];
+            var phH2S = _ref4[1];
 
-            // pH calculation
-            var phData = {
-                t20: {
-                    a: { x: 0.5527, y: 5.01347 },
-                    b: { x: 25880.4, y: 2.70071 }
-                },
-                t100: {
-                    a: { x: 0.894044, y: 5.11523 },
-                    b: { x: 38681.7, y: 2.79199 }
-                }
-            };
-            var t20 = phData.t20;
-            var t100 = phData.t100;
-
+            // // pH calculation
+            // const phData = {
+            //     t20: {
+            //         a: {x: 0.5527, y: 5.01347},
+            //         b: {x: 25880.4, y: 2.70071},
+            //     },
+            //     t100: {
+            //         a: {x: 0.894044, y: 5.11523},
+            //         b: {x: 38681.7, y: 2.79199},
+            //     }
+            // }
+            // const { t20, t100 } = phData
             var log = function log(v) {
                 return Math.log10(v);
             };
-            var interpolate = function interpolate(x, _ref5, _ref6) {
-                var x1 = _ref5.x;
-                var y1 = _ref5.y;
-                var x2 = _ref6.x;
-                var y2 = _ref6.y;
-                return y1 + (y2 - y1) * (x - x1) / (x2 - x1);
-            };
+            // const interpolate = (x, {x:x1, y:y1}, {x:x2, y:y2}) =>
+            //     y1 + (y2 - y1) * (x - x1) / (x2 - x1)
+            //
+            // const pH2Skpa = pH2S * 6.89476
+            // intermediate('pH2Skpa', 'Presión Parcial de H2S (kPa)', pH2Skpa)
+            // const pct20 = log(pH2Skpa / t20.a.x) / log(t20.b.x / t20.a.x)
+            // const ph20 = t20.a.y + (t20.b.y - t20.a.y) * pct20
+            // // Use pct for both calculations to get that slanted interpolation
+            // const ph100 = t100.a.y + (t100.b.y - t100.a.y) * pct20
+            // const ph = interpolate(t, {x: 20, y: ph20}, {x: 100, y: ph100})
 
-            var pH2Skpa = pH2S * 6.89476;
-            intermediate('pH2Skpa', 'Presión Parcial de H2S (kPa)', pH2Skpa);
-            var pct20 = log(pH2Skpa / t20.a.x) / log(t20.b.x / t20.a.x);
-            var ph20 = t20.a.y + (t20.b.y - t20.a.y) * pct20;
-            // Use pct for both calculations to get that slanted interpolation
-            var ph100 = t100.a.y + (t100.b.y - t100.a.y) * pct20;
-
-            var ph = interpolate(t, { x: 20, y: ph20 }, { x: 100, y: ph100 });
-            intermediate('ph', 'pH', ph, '/images/graph-ph-h2s.png');
+            var ph = phH2S;
+            // intermediate('ph', 'pH', ph, '/images/graph-ph-h2s.png')
             if (isNaN(ph) || ph > 6.5 || ph < 2.5) return 'ph_out';
             if (isNaN(pH2S) || pH2S > 150 || pH2S < 0) return 'p_h2s_out';
 
@@ -34493,12 +34535,12 @@ function questions(intermediate) {
 
             // utility function
             // http://stackoverflow.com/a/2049593/4992717
-            var checkInTriangle = function checkInTriangle(point, _ref7) {
-                var _ref8 = _slicedToArray(_ref7, 3);
+            var checkInTriangle = function checkInTriangle(point, _ref5) {
+                var _ref6 = _slicedToArray(_ref5, 3);
 
-                var v1 = _ref8[0];
-                var v2 = _ref8[1];
-                var v3 = _ref8[2];
+                var v1 = _ref6[0];
+                var v2 = _ref6[1];
+                var v3 = _ref6[2];
 
                 var sign = function sign(p1, p2, p3) {
                     return (p1.x - p3.x) * (p2.y - p3.y) - (p2.x - p3.x) * (p1.y - p3.y);
@@ -34537,7 +34579,7 @@ function questions(intermediate) {
         'actions': {
             'ph_out': [{
                 'type': 'recommendation',
-                'recommendation': 'El ph calculado se sale del rango 2.5 - 6.5'
+                'recommendation': 'El ph se sale del rango 2.5 - 6.5'
             }],
             'p_h2s_out': [{
                 'type': 'recommendation',
@@ -34566,19 +34608,19 @@ function questions(intermediate) {
         'type': 'numeric',
         'actions': {}
     }, {
-        'name': 't',
-        'text': 'Temperatura (°C)',
+        'name': 'ph_h2s',
+        'text': 'pH del H2S',
         'type': 'numeric',
         'actions': {}
     }, {
         'name': 'zone_2',
         'type': 'multiquestion',
         'questions': ['p_h2s', 'p_co2'],
-        'processing': function processing(_ref9) {
-            var _ref10 = _slicedToArray(_ref9, 2);
+        'processing': function processing(_ref7) {
+            var _ref8 = _slicedToArray(_ref7, 2);
 
-            var pH2S_psi = _ref10[0];
-            var pCO2_psi = _ref10[1];
+            var pH2S_psi = _ref8[0];
+            var pCO2_psi = _ref8[1];
 
             var pH2S = pH2S_psi / 14.7;
             intermediate('pH2S_atm', 'Presión Parcial de H2S (atm)', pH2S);
@@ -34595,9 +34637,9 @@ function questions(intermediate) {
                 f: { minx: 0.871204, maxx: 9206.02, miny: 0.205259, maxy: 9367.18, name: 'zoneF', showName: 'Zona F' },
                 all: { minx: 9.08E-05, maxx: 9206.02, miny: 9.03E-05, maxy: 9367.18 }
             };
-            function isInZone(_ref11, name) {
-                var x = _ref11.x;
-                var y = _ref11.y;
+            function isInZone(_ref9, name) {
+                var x = _ref9.x;
+                var y = _ref9.y;
                 var _zones$name = zones[name];
                 var minx = _zones$name.minx;
                 var maxx = _zones$name.maxx;
@@ -34678,8 +34720,13 @@ function questions(intermediate) {
         q125: { name: 'Q125', pipe: true },
         rec: { name: _react2.default.createElement(
                 'a',
-                { href: '#' },
+                { href: '/tuberias/recubrimientos' },
                 'Recubrimientos'
+            ), pipe: false },
+        iso: { name: _react2.default.createElement(
+                'a',
+                { href: '/files/ISO-15156-2-2015-D.pdf', target: '_blank' },
+                'Revisar las condiciones de la quimica del agua para elegir la gráfica correspondiente para hallar el valor del pH.'
             ), pipe: false }
     };
 
@@ -34757,7 +34804,7 @@ exports.default = function (intermediate) {
         intermediate('vl', 'VL (ft/s)', vl);
 
         // vc
-        var vc = 100 / Math.sqrt(rhoL * 0.01602);
+        var vc = 100 / Math.sqrt(rhoL);
         intermediate('vc', 'VC (ft/s)', vc);
 
         intermediate('vl_vc', 'VL > VC', vl > vc ? 'Verdadero' : 'Falso');

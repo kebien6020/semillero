@@ -128,7 +128,7 @@ export default class PipeMatrix extends Component {
                     <label htmlFor={question.name}>{question.text}</label>
                     <NumericInput
                         id={question.name}
-                        precision={2}
+                        precision={question.precision !== undefined ? question.precision : 2}
                         value={this.state.answers[question.name]}
                         style={false}
                         onChange={num => this.handleAnswer(question, num)} />
@@ -191,6 +191,7 @@ export default class PipeMatrix extends Component {
     }
 
     renderRecommendation(recs, i) {
+        if (typeof recs === 'string') return <p key={i}>{recs}</p>
         return (
             <ul key={i}>{recs.map((rec, j) =>
                 <li key={j}>
@@ -205,19 +206,17 @@ export default class PipeMatrix extends Component {
     }
 
     renderStep(step, i) {
-        const img = step.image
-                 && <div>
-                        <p>Leido/calculado de:</p>
+        const img = <div>
                         <img src={step.image} alt={'Gráfica: ' + step.showName} />
                     </div>
         if (typeof step.value === 'number' && isNaN(step.value))
             return null
         return (
-            <div key={i}>
-                <strong>{step.showName}: </strong>
-                {step.value}
-                {img}
-            </div>
+            <tr key={i}>
+                <td><strong>{step.showName}: </strong></td>
+                <td>{step.value}</td>
+                <td>{step.image ? img : 'No aplica'}</td>
+            </tr>
         )
     }
 
@@ -245,7 +244,18 @@ export default class PipeMatrix extends Component {
                         <i className="rec-caret"></i>
                         Cálculo
                     </h2>
-                    {this.state.showProcedure && $steps}
+                    {this.state.showProcedure && <table>
+                        <thead>
+                            <tr>
+                                <th>Parámetro</th>
+                                <th>Resultado</th>
+                                <th>Fuente</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {$steps}
+                        </tbody>
+                    </table>}
                 </div>
                 <div style={{whiteSpace: 'pre', display: 'none'}}>
                     Procedimiento:<br />

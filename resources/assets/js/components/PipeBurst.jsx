@@ -58,16 +58,15 @@ export default class PipeMatrix extends Component {
                 // 'gasGradient': 28,
                 'grade': props.grade || 'l80',
                 'systemType': props.systemType || 'liq',
-                'h_gasket': null,
-                'h_brine': null,
+                'hGasket': null,
                 'tvd': null,
                 'p': null,
-                'rho_brine': null,
+                'rhoBrine': null,
                 'id': null,
                 'od': null,
                 'API': null,
                 'W.C': null,
-                'rho_water': null,
+                'rhoWater': null,
             },
             showProcedure: true,
         }
@@ -140,19 +139,13 @@ export default class PipeMatrix extends Component {
     }
 
     renderStep(step, i) {
-        const img = step.image
-                 && <div>
-                        <p>Leido/calculado de:</p>
-                        <img src={step.image} alt={'Gráfica: ' + step.showName} />
-                    </div>
         if (typeof step.value === 'number' && isNaN(step.value))
             return null
         return (
-            <div key={i}>
-                <strong>{step.showName}: </strong>
-                {step.value}
-                {img}
-            </div>
+            <tr key={i}>
+                <td><strong>{step.showName}: </strong></td>
+                <td>{step.value}</td>
+            </tr>
         )
     }
 
@@ -333,7 +326,17 @@ export default class PipeMatrix extends Component {
                         <i className="rec-caret"></i>
                         Cálculo
                     </h2>
-                    {this.state.showProcedure && $steps}
+                    {this.state.showProcedure && <table>
+                        <thead>
+                            <tr>
+                                <th>Parámetro</th>
+                                <th>Resultado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {$steps}
+                        </tbody>
+                    </table>}
                 </div>
                 <div style={{whiteSpace: 'pre', display: 'none'}}>
                     State:<br />

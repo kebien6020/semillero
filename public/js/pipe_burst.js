@@ -33818,16 +33818,15 @@ var PipeMatrix = function (_Component) {
                 // 'gasGradient': 28,
                 'grade': props.grade || 'l80',
                 'systemType': props.systemType || 'liq',
-                'h_gasket': null,
-                'h_brine': null,
+                'hGasket': null,
                 'tvd': null,
                 'p': null,
-                'rho_brine': null,
+                'rhoBrine': null,
                 'id': null,
                 'od': null,
                 'API': null,
                 'W.C': null,
-                'rho_water': null
+                'rhoWater': null
             },
             showProcedure: true
         }
@@ -33935,28 +33934,25 @@ var PipeMatrix = function (_Component) {
     }, {
         key: 'renderStep',
         value: function renderStep(step, i) {
-            var img = step.image && _react2.default.createElement(
-                'div',
-                null,
-                _react2.default.createElement(
-                    'p',
-                    null,
-                    'Leido/calculado de:'
-                ),
-                _react2.default.createElement('img', { src: step.image, alt: 'Gráfica: ' + step.showName })
-            );
             if (typeof step.value === 'number' && isNaN(step.value)) return null;
             return _react2.default.createElement(
-                'div',
+                'tr',
                 { key: i },
                 _react2.default.createElement(
-                    'strong',
+                    'td',
                     null,
-                    step.showName,
-                    ': '
+                    _react2.default.createElement(
+                        'strong',
+                        null,
+                        step.showName,
+                        ': '
+                    )
                 ),
-                step.value,
-                img
+                _react2.default.createElement(
+                    'td',
+                    null,
+                    step.value
+                )
             );
         }
     }, {
@@ -34301,7 +34297,33 @@ var PipeMatrix = function (_Component) {
                         _react2.default.createElement('i', { className: 'rec-caret' }),
                         'Cálculo'
                     ),
-                    this.state.showProcedure && $steps
+                    this.state.showProcedure && _react2.default.createElement(
+                        'table',
+                        null,
+                        _react2.default.createElement(
+                            'thead',
+                            null,
+                            _react2.default.createElement(
+                                'tr',
+                                null,
+                                _react2.default.createElement(
+                                    'th',
+                                    null,
+                                    'Parámetro'
+                                ),
+                                _react2.default.createElement(
+                                    'th',
+                                    null,
+                                    'Resultado'
+                                )
+                            )
+                        ),
+                        _react2.default.createElement(
+                            'tbody',
+                            null,
+                            $steps
+                        )
+                    )
                 ),
                 _react2.default.createElement(
                     'div',
@@ -34376,10 +34398,6 @@ exports.default = [gradeQuestion, {
     text: 'Altura Empaque (ft)',
     type: 'numeric'
 }, {
-    name: 'hBrine',
-    text: 'Altura Salmuera (ft)',
-    type: 'numeric'
-}, {
     name: 'tvd',
     text: 'TVD (ft)',
     type: 'numeric'
@@ -34407,7 +34425,7 @@ exports.default = [gradeQuestion, {
     type: 'numeric'
 }, {
     name: 'waterCut',
-    text: 'Corte de Agua',
+    text: 'Corte de Agua (fracción)',
     type: 'numeric'
 }, {
     name: 'rhoW',
