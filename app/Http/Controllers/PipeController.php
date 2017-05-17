@@ -128,4 +128,9 @@ class PipeController extends Controller
     {
         return view('pipe/coatings');
     }
+
+    public function manual()
+    {
+        return view('pipe/manual');
+    }
 }

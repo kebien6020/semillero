@@ -49,6 +49,9 @@ Route::group(['prefix' => 'tuberias', 'middleware' => 'auth'], function () {
     Route::get('/matriz', 'PipeController@matrix');
     Route::get('/estallido', 'PipeController@burst');
     Route::get('/recubrimientos', 'PipeController@coatings');
+
+    // ## Manual
+    Route::get('/manual', 'PipeController@manual');
 });
 
 // # Multiple (Completamientos multiples)
