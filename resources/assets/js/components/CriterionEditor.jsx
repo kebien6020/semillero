@@ -22,11 +22,16 @@ export default class CriterionEditor extends React.Component {
             for (let alternativeId in alternatives)
                 if (alternatives.hasOwnProperty(alternativeId))
                     if (!initialValueFunctions.some(func => Number(func.id) === Number(alternativeId)))
-                        initialValueFunctions.push({id: alternativeId})
+                        initialValueFunctions.push({id: Number(alternativeId)})
 
         initialValueFunctions = initialValueFunctions.map(func => {
             if (!func.data || func.data.length === 0)
-                func.data = [['', ''], ['', ''], ['', '']]
+                if (initialType === 'multi')
+                    func.data =
+                      props.initialValueFunctions[0].data
+                        .map(([name]) => [name, ''])
+                else
+                    func.data = [['', ''], ['', ''], ['', '']]
             return func
         })
 
