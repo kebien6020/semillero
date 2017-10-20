@@ -18,9 +18,10 @@ export default class CriterionEditor extends React.Component {
 
         // Add missing alternatives
         if (initialValueFunctions.length < Object.keys(alternatives).length)
+            // eslint-disable-next-line prefer-const
             for (let alternativeId in alternatives)
                 if (alternatives.hasOwnProperty(alternativeId))
-                    if (!initialValueFunctions.some(func => func.id === alternativeId))
+                    if (!initialValueFunctions.some(func => Number(func.id) === Number(alternativeId)))
                         initialValueFunctions.push({id: alternativeId})
 
         initialValueFunctions = initialValueFunctions.map(func => {
