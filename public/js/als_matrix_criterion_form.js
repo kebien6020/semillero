@@ -32963,22 +32963,28 @@ var CriterionEditor = function (_React$Component) {
         // Add missing alternatives
         if (initialValueFunctions.length < Object.keys(alternatives).length) {
             var _loop = function (alternativeId) {
-                if (alternatives.hasOwnProperty(alternativeId)) if (!initialValueFunctions.some(func => func.id === alternativeId)) initialValueFunctions.push({ id: alternativeId });
+                if (alternatives.hasOwnProperty(alternativeId)) if (!initialValueFunctions.some(func => Number(func.id) === Number(alternativeId))) initialValueFunctions.push({ id: Number(alternativeId) });
             };
 
+            // eslint-disable-next-line prefer-const
             for (let alternativeId in alternatives) {
                 _loop(alternativeId);
             }
         }initialValueFunctions = initialValueFunctions.map(function (func) {
-            if (!func.data || func.data.length === 0) func.data = [['', ''], ['', ''], ['', '']];
+            if (!func.data || func.data.length === 0) if (initialType === 'multi') func.data = props.initialValueFunctions[0].data.map(function (_ref) {
+                var _ref2 = _slicedToArray(_ref, 1);
+
+                var name = _ref2[0];
+                return [name, ''];
+            });else func.data = [['', ''], ['', ''], ['', '']];
             return func;
         });
 
         var initialOptions = void 0;
-        if (props.initialOptions) initialOptions = props.initialOptions;else if (initialType === 'multi') initialOptions = initialValueFunctions[0].data.map(function (_ref) {
-            var _ref2 = _slicedToArray(_ref, 1);
+        if (props.initialOptions) initialOptions = props.initialOptions;else if (initialType === 'multi') initialOptions = initialValueFunctions[0].data.map(function (_ref3) {
+            var _ref4 = _slicedToArray(_ref3, 1);
 
-            var x = _ref2[0];
+            var x = _ref4[0];
             return x;
         });else initialOptions = ['', ''];
 
@@ -33088,11 +33094,11 @@ var CriterionEditor = function (_React$Component) {
         value: function handleTableRowBlur(i, tag) {
             this.setState(function (state) {
                 var typeIsNumeric = state.type === 'numeric';
-                var newData = state.valueFunctions[tag].data.map(function (_ref3) {
-                    var _ref4 = _slicedToArray(_ref3, 2);
+                var newData = state.valueFunctions[tag].data.map(function (_ref5) {
+                    var _ref6 = _slicedToArray(_ref5, 2);
 
-                    var x = _ref4[0];
-                    var y = _ref4[1];
+                    var x = _ref6[0];
+                    var y = _ref6[1];
 
                     var newX = typeIsNumeric && isNaN(Number(x)) ? '' : x;
                     var newY = isNaN(Number(y)) ? '' : y;
