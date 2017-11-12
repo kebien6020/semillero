@@ -3,7 +3,6 @@ require('./app.js')
 let gapi       = require('google-maps'),
     $          = require('jquery'),
     arr_unique = require('./modules/array_unique.js')
-require('./app.js')
 
 gapi.KEY = 'AIzaSyA4T9LZ5gwZIHTA550ip33BbLvO9ob1Ji8'
 
@@ -12,6 +11,9 @@ let map = null
 // These propierties can be overriden by the caller before calling load
 exports.CONTAINER_SELECTOR = '#map'
 exports.LEGEND_SELECTOR = '#legend'
+
+// Fix for weird gmaps problem
+exports.prototype = exports.prototype || Object
 
 exports.load = function(fn){
 

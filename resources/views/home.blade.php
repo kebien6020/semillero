@@ -78,3 +78,7 @@
 @endsection
 
 @section('script', 'home')
+
+@section('head')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js"></script>
+@endsection

@@ -17,8 +17,6 @@
     "jquery": "^2.0",
     "laravel-elixir": "^5.0.0",
     "node-sass": "^3.8.0",
-    "react": "^15.3.2",
-    "react-dom": "^15.3.2",
     "react-numeric-input": "^2.0.7"
   },
   "browserify": {
@@ -27,37 +25,12 @@
     ]
   },
   "browser": {
-    "jquery.flot": "./resources/assets/js/flot/jquery.flot.js",
-    "jquery.flot.pie": "./resources/assets/js/flot/jquery.flot.pie.js",
-    "jquery.flot.orderBars": "./resources/assets/js/flot/jquery.flot.orderBars.js",
-    "bootstrap": "./node_modules/bootstrap-sass/assets/javascripts/bootstrap.js",
-    "jquery.backstretch": "./resources/assets/js/backstretch/jquery.backstretch.min.js"
+    "jquery.flot.orderBars": "./resources/assets/js/flot/jquery.flot.orderBars.js"
   },
   "browserify-shim": {
-    "jquery.flot": {
-      "depends": [
-        "jquery"
-      ]
-    },
-    "jquery.flot.pie": {
-      "depends": [
-        "jquery.flot"
-      ]
-    },
+    "jquery": "global:jQuery",
     "jquery.flot.orderBars": {
-      "depends": [
-        "jquery.flot"
-      ]
-    },
-    "bootstrap": {
-      "depends": [
-        "jquery:jQuery"
-      ]
-    },
-    "jquery.backstretch": {
-      "depends": [
-        "jquery"
-      ]
+      "exports": null
     }
   }
 }

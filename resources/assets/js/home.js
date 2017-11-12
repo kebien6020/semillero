@@ -1,5 +1,4 @@
-import './app.js';
-import $ from 'jquery';
-import 'jquery.backstretch';
+import './app.js'
+import $ from 'jquery'
 
-$.backstretch("images/bg.png");
+$.backstretch('images/bg.png')
