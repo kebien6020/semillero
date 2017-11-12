@@ -20,7 +20,7 @@ var _jquery2 = _interopRequireDefault(_jquery);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-_jquery2.default.backstretch('images/bg.png');
+_jquery2.default.backstretch('images/bg.jpg');
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"./app.js":1}]},{},[2]);
