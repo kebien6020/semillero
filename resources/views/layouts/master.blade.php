@@ -96,6 +96,18 @@
               @include('partial.pipe_links')
             </ul>
           </li>
+          <li class="dropdown">
+            <a href="#"
+               data-toggle="dropdown"
+               role="button"
+               aria-expanded="false">
+               Nuevas Tecnologías: Métodos de Cañoneo
+            </a>
+
+            <ul role="menu">
+              @include('partial.nt_perforate')
+            </ul>
+          </li>
         </ul>
       </li>
     </ul>

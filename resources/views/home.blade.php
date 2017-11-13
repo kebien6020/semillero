@@ -67,6 +67,15 @@
             </ul>
         </div>
         <div>
+            <button type="button" data-toggle="dropdown">
+                Nuevas Tecnologías: Métodos de Cañoneo
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu collapse">
+                @include('partial.nt_perforate')
+            </ul>
+        </div>
+        <div>
             <a href="/dashboard">
                 Administrar Información
             </a>
