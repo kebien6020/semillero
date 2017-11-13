@@ -23,6 +23,7 @@ elixir(function(mix) {
 
   // Javascript
     [
+        'nt_perforate_matrix.js',
         'pipe_burst.js',
         'pipe_matrix.js',
         'app.js',

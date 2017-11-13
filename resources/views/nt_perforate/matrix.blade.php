@@ -1,6 +1,6 @@
 @extends ('layouts.container')
 
-{{-- @section ('script', 'connectivity_matrix') --}}
+@section ('script', 'nt_perforate_matrix')
 
 @section ('content')
 
