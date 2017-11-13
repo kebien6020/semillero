@@ -262,3 +262,7 @@ Route::group(['prefix' => '/admin'], function () {
     Route::delete('/delete_multiples_pozos', 'AdminController@deleteMultiplesMultipleOccurrences');
     Route::delete('/delete_tuberias_pozos', 'AdminController@deleteTuberiasPipeOccurrences');
 });
+
+Route::group(['prefix' => '/nt_cañoneo'], function () {
+    Route::get('/matriz', 'NTPerforateController@matrix');
+});
