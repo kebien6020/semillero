@@ -284,13 +284,11 @@ function getData() {
 // ES6 Destructuring arrays.
 // Here we are getting the first element of each param
 function setupMap(_ref, _ref2) {
-    var _ref4 = _slicedToArray(_ref, 1);
+    var _ref4 = _slicedToArray(_ref, 1),
+        fluid_occurrences = _ref4[0];
 
-    var fluid_occurrences = _ref4[0];
-
-    var _ref3 = _slicedToArray(_ref2, 1);
-
-    var fluids = _ref3[0];
+    var _ref3 = _slicedToArray(_ref2, 1),
+        fluids = _ref3[0];
 
     markers_data.data = fluid_occurrences;
     markers_data.color_by.values = fluids;
@@ -311,7 +309,7 @@ init();
 (function (global){
 'use strict';
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 require('./app.js');
 

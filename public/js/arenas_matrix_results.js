@@ -49,10 +49,9 @@ var plot_options = {
         }
     },
     colors: ['blue', 'gray', 'gray', 'gray', 'gray', 'gray']
-};
 
-// Module global, jQuery DOM element where the plot is going to be drawn
-var $plot = null;
+    // Module global, jQuery DOM element where the plot is going to be drawn
+};var $plot = null;
 
 // Called when the module loads (see end of file)
 function init() {

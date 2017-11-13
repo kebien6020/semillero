@@ -183,8 +183,8 @@ $().alert();
 
     var options = {
         series: {
-            bars: { order: null } // or number/string
-        }
+            bars: { order: null // or number/string
+            } }
     };
 
     $.plot.plugins.push({
@@ -316,10 +316,9 @@ var options = {
         max: maxyear + 1,
         ticks: (0, _array_unique2.default)(years)
     }
-};
 
-// Wrap plot action in a function
-var plot = function plot() {
+    // Wrap plot action in a function
+};var plot = function plot() {
     _jquery2.default.plot($plot, series, options);
 };
 

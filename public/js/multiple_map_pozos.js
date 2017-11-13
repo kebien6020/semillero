@@ -233,7 +233,7 @@ $().alert();
 (function (global){
 'use strict';
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 require('./app.js');
 
@@ -606,7 +606,7 @@ function setupMarker(infowindow, well) {
         for (var _iterator = well.multiple_occurrences[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
             var multiple_occurrence = _step.value;
 
-            html += '<hr>\n\n                <strong>Tipo de completamiento:</strong>\n                ' + multiple_occurrence.completion.name + '<br>\n\n                <strong>Fecha de instalación:</strong>\n                ' + multiple_occurrence.start_date + '<br>\n\n                <strong>Siglas del evento:</strong>\n                ' + multiple_occurrence.event + '<br>\n\n                <strong>Causa de la intervención:</strong>\n                ' + multiple_occurrence.reason + '<br>\n\n                <strong>Tipo de Pozo:</strong>\n                ' + multiple_occurrence.type + '<br>';
+            html += '<hr>\n\n                <strong>Tipo de completamiento:</strong>\n                ' + multiple_occurrence.completion.name + '<br>\n\n                <strong>Fecha de instalaci\xF3n:</strong>\n                ' + multiple_occurrence.start_date + '<br>\n\n                <strong>Siglas del evento:</strong>\n                ' + multiple_occurrence.event + '<br>\n\n                <strong>Causa de la intervenci\xF3n:</strong>\n                ' + multiple_occurrence.reason + '<br>\n\n                <strong>Tipo de Pozo:</strong>\n                ' + multiple_occurrence.type + '<br>';
         }
     } catch (err) {
         _didIteratorError = true;
@@ -638,13 +638,11 @@ function getData() {
 }
 
 function setupMap(_ref, _ref2) {
-    var _ref4 = _slicedToArray(_ref, 1);
+    var _ref4 = _slicedToArray(_ref, 1),
+        wells = _ref4[0];
 
-    var wells = _ref4[0];
-
-    var _ref3 = _slicedToArray(_ref2, 1);
-
-    var completions = _ref3[0];
+    var _ref3 = _slicedToArray(_ref2, 1),
+        completions = _ref3[0];
 
     markers_data.data = wells;
     markers_data.color_by.values = completions;

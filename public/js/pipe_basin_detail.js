@@ -24,15 +24,14 @@ var _jquery2 = _interopRequireDefault(_jquery);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function flotAddLabels(plot) {
-    var _ref = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-
-    var _ref$xOffset = _ref.xOffset;
-    var xOffset = _ref$xOffset === undefined ? 0 : _ref$xOffset;
-    var _ref$yOffset = _ref.yOffset;
-    var yOffset = _ref$yOffset === undefined ? -25 : _ref$yOffset;
-    var _ref$fadeIn = _ref.fadeIn;
-    var fadeIn = _ref$fadeIn === undefined ? false : _ref$fadeIn;
-    var process = _ref.process;
+    var _ref = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
+        _ref$xOffset = _ref.xOffset,
+        xOffset = _ref$xOffset === undefined ? 0 : _ref$xOffset,
+        _ref$yOffset = _ref.yOffset,
+        yOffset = _ref$yOffset === undefined ? -25 : _ref$yOffset,
+        _ref$fadeIn = _ref.fadeIn,
+        fadeIn = _ref$fadeIn === undefined ? false : _ref$fadeIn,
+        process = _ref.process;
 
     // Adapted from http://stackoverflow.com/a/2601155
     _jquery2.default.each(plot.getData()[0].data, function (i, point) {
@@ -45,8 +44,8 @@ function flotAddLabels(plot) {
             position: 'absolute',
             left: o.left + xOffset,
             top: o.top + yOffset,
-            transform: 'translateX(-50%)' });
-        // Center
+            transform: 'translateX(-50%)' // Center
+        });
         if (fadeIn) $label.css({ display: 'none' });
 
         $label.appendTo(plot.getPlaceholder());
@@ -111,10 +110,9 @@ var makePlotFn = function makePlotFn(data, $targetElem, color) {
             min: -0.5,
             max: ticks.length - 1 + 0.5
         }
-    };
 
-    // Setup graph color if provided
-    if (color) options.colors = [color];
+        // Setup graph color if provided
+    };if (color) options.colors = [color];
 
     // Sum of all ycoords
     var sum = data.map(function (d) {
@@ -148,10 +146,8 @@ var makePlotFn = function makePlotFn(data, $targetElem, color) {
     *    basin: [basin name]
     * }
     */
-
-
 function plotYearAndType() {
-    var colorLookup = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+    var colorLookup = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
 
     // Query the DOM elements we are going to need

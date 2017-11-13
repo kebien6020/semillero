@@ -268,7 +268,7 @@ function setupMarker(infowindow, well) {
         for (var _iterator = well.connectivity_occurrences[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
             var connectivity_occurrence = _step.value;
 
-            html += '<hr>\n\n                 <strong>Método de cañoneo:</strong>\n                 ' + connectivity_occurrence.connectivity_method.name + '<br>\n\n                 <strong>Fecha de inicio:</strong>\n                 ' + connectivity_occurrence.start_date + '<br>\n\n                 <strong>Fecha de finalización:</strong>\n                 ' + connectivity_occurrence.end_date + '<br>';
+            html += '<hr>\n\n                 <strong>M\xE9todo de ca\xF1oneo:</strong>\n                 ' + connectivity_occurrence.connectivity_method.name + '<br>\n\n                 <strong>Fecha de inicio:</strong>\n                 ' + connectivity_occurrence.start_date + '<br>\n\n                 <strong>Fecha de finalizaci\xF3n:</strong>\n                 ' + connectivity_occurrence.end_date + '<br>';
             if (connectivity_occurrence.event !== null) html += '<strong>Siglas del evento:</strong>\n                     ' + connectivity_occurrence.event + '<br>';
         }
     } catch (err) {
@@ -300,13 +300,11 @@ function getData() {
 }
 
 function setupMap(_ref, _ref2) {
-    var _ref4 = _slicedToArray(_ref, 1);
+    var _ref4 = _slicedToArray(_ref, 1),
+        wells = _ref4[0];
 
-    var wells = _ref4[0];
-
-    var _ref3 = _slicedToArray(_ref2, 1);
-
-    var methods = _ref3[0];
+    var _ref3 = _slicedToArray(_ref2, 1),
+        methods = _ref3[0];
 
     markers_data.data = wells;
     markers_data.color_by.values = methods;
@@ -327,7 +325,7 @@ init();
 (function (global){
 'use strict';
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 require('./app.js');
 

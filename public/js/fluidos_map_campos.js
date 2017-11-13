@@ -280,10 +280,9 @@ var markers_data = {
     latitude_key: 'latitude',
     color_mode: 'none',
     on_open_marker: setupMarker
-};
 
-// Global DOM Elements
-var $overlay = void 0,
+    // Global DOM Elements
+};var $overlay = void 0,
     $leftPlot = void 0,
     $rightPlot = void 0,
     $fieldName = void 0,
@@ -443,10 +442,10 @@ function getFieldInfo(field_id) {
 }
 
 function setupFieldInfo(_ref) {
-    var name = _ref.name;
-    var min = _ref.min;
-    var max = _ref.max;
-    var well_count = _ref.well_count;
+    var name = _ref.name,
+        min = _ref.min,
+        max = _ref.max,
+        well_count = _ref.well_count;
 
     $fieldName.html(name);
     renderDens($minDensFi, min);
@@ -485,9 +484,9 @@ function renderRightPlot(data) {
                     label = 'No reporta densidad';
                 } else {
                     // ES6 Object destructuring
-                    var _range$range = range.range;
-                    var _min = _range$range.min;
-                    var _max = _range$range.max;
+                    var _range$range = range.range,
+                        _min = _range$range.min,
+                        _max = _range$range.max;
                     // ES6 Template literal
 
                     label = _min + ' PPG - ' + _max + ' PPG';
@@ -517,8 +516,8 @@ function renderRightPlot(data) {
     $fluidName.html(data.fluid_name);
 
     // ES6 Object destructuring
-    var min = data.min;
-    var max = data.max;
+    var min = data.min,
+        max = data.max;
 
 
     renderDens($minDensFl, min);
@@ -540,7 +539,7 @@ init();
 (function (global){
 'use strict';
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 require('./app.js');
 

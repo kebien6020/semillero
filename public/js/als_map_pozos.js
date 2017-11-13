@@ -258,9 +258,9 @@ function setupMarker(infowindow, well) {
         for (var _iterator = well.als_occurrences[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
             var als_occurrence = _step.value;
 
-            html += '<hr>\n\n                 <strong>Sistema de levantamiento:</strong>\n                 ' + als_occurrence.als + '<br>\n\n                 <strong>Fecha de instalación:</strong>\n                 ' + als_occurrence.start_date + '<br>\n\n                 <strong>Siglas del evento:</strong>\n                 ' + als_occurrence.event + '<br>';
+            html += '<hr>\n\n                 <strong>Sistema de levantamiento:</strong>\n                 ' + als_occurrence.als + '<br>\n\n                 <strong>Fecha de instalaci\xF3n:</strong>\n                 ' + als_occurrence.start_date + '<br>\n\n                 <strong>Siglas del evento:</strong>\n                 ' + als_occurrence.event + '<br>';
             if (als_occurrence.reason) {
-                html += '<strong>Causa de la intervención:</strong>\n                     ' + als_occurrence.reason + '<br>';
+                html += '<strong>Causa de la intervenci\xF3n:</strong>\n                     ' + als_occurrence.reason + '<br>';
             }
             if (als_occurrence.main_goal) {
                 html += '<strong>Objetivo principal:</strong>\n                     ' + als_occurrence.main_goal + '<br>';
@@ -323,7 +323,7 @@ $().alert();
 (function (global){
 'use strict';
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 require('./app.js');
 
