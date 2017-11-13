@@ -12,6 +12,7 @@ var elixir = require('laravel-elixir')
  */
 
 elixir.config.js.browserify.watchify.options.poll = true
+elixir.config.js.babel.options.presets = ['env', 'react']
 
 elixir(function(mix) {
   // Sass
