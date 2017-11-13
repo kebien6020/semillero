@@ -1,5 +1,7 @@
 @extends ('layouts.container')
 
+@section ('title', 'Cañoneo - Matriz de Selección')
+
 @section ('script', 'nt_perforate_matrix')
 
 @section ('content')
