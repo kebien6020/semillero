@@ -133,6 +133,114 @@ var questions = {
         text: 'Ingrese Profundidad de Penetración (mm)',
         type: 'numeric',
         default: 50
+    },
+    '14': {
+        text: '¿Presenta la condicion: Tuberia de Produccion?',
+        type: 'multi',
+        options: {
+            yes: 'Si',
+            no: 'No'
+        },
+        default: 'no'
+    },
+    '15': {
+        text: '¿Presenta la condicion: Through Tubing?',
+        type: 'multi',
+        options: {
+            yes: 'Si',
+            no: 'No'
+        },
+        default: 'no'
+    },
+    '16': {
+        text: '¿Presenta la condicion: TCP?',
+        type: 'multi',
+        options: {
+            yes: 'Si',
+            no: 'No'
+        },
+        default: 'no'
+    },
+    '17': {
+        text: '¿Presenta la condicion: Casing Gun?',
+        type: 'multi',
+        options: {
+            yes: 'Si',
+            no: 'No'
+        },
+        default: 'no'
+    },
+    '18': {
+        text: '¿Presenta la condicion: Coiled Tubing?',
+        type: 'multi',
+        options: {
+            yes: 'Si',
+            no: 'No'
+        },
+        default: 'no'
+    },
+    '19': {
+        text: '¿Presenta la condicion: Revestimiento?',
+        type: 'multi',
+        options: {
+            yes: 'Si',
+            no: 'No'
+        },
+        default: 'no'
+    },
+    '20': {
+        text: '¿Presenta la condicion: Reservorios Tight Gas?',
+        type: 'multi',
+        options: {
+            yes: 'Si',
+            no: 'No'
+        },
+        default: 'no'
+    },
+    '21': {
+        text: '¿Presenta la condicion: Wireline?',
+        type: 'multi',
+        options: {
+            yes: 'Si',
+            no: 'No'
+        },
+        default: 'no'
+    },
+    '22': {
+        text: '¿Presenta la condicion: Open-Cased Hole?',
+        type: 'multi',
+        options: {
+            yes: 'Si',
+            no: 'No'
+        },
+        default: 'no'
+    },
+    '23': {
+        text: '¿Presenta la condicion: Yacimientos de Petróleo con Capa de Gas?',
+        type: 'multi',
+        options: {
+            yes: 'Si',
+            no: 'No'
+        },
+        default: 'no'
+    },
+    '24': {
+        text: '¿Presenta la condicion: Ensamblaje instalado en Superficie?',
+        type: 'multi',
+        options: {
+            yes: 'Si',
+            no: 'No'
+        },
+        default: 'no'
+    },
+    '25': {
+        text: '¿Presenta la condicion: TCP con Cargas Orientadas?',
+        type: 'multi',
+        options: {
+            yes: 'Si',
+            no: 'No'
+        },
+        default: 'no'
     }
 };
 
