@@ -21,71 +21,81 @@
            data-toggle="dropdown"
            role="button"
            aria-expanded="false">
-           Control de Arena<span class="caret"></span>
+           Proyectos<span class="caret"></span>
         </a>
+        <ul>
+          <li class="dropdown">
+            <a href="#"
+               data-toggle="dropdown"
+               role="button"
+               aria-expanded="false">
+               Control de Arena
+            </a>
 
-        <ul role="menu">
-          @include('partial.arenas_links')
-        </ul>
-      </li>
-      <li class="dropdown">
-        <a href="#"
-           data-toggle="dropdown"
-           role="button"
-           aria-expanded="false">
-           Fluidos de Completamiento<span class="caret"></span>
-        </a>
+            <ul role="menu">
+              @include('partial.arenas_links')
+            </ul>
+          </li>
+          <li class="dropdown">
+            <a href="#"
+               data-toggle="dropdown"
+               role="button"
+               aria-expanded="false">
+               Fluidos de Completamiento
+            </a>
 
-        <ul role="menu">
-          @include('partial.fluidos_links')
-        </ul>
-      </li>
-      <li class="dropdown">
-        <a href="#"
-           data-toggle="dropdown"
-           role="button"
-           aria-expanded="false">
-           Sistemas de Levantamiento Artificial<span class="caret"></span>
-        </a>
+            <ul role="menu">
+              @include('partial.fluidos_links')
+            </ul>
+          </li>
+          <li class="dropdown">
+            <a href="#"
+               data-toggle="dropdown"
+               role="button"
+               aria-expanded="false">
+               Sistemas de Levantamiento Artificial
+            </a>
 
-        <ul role="menu">
-          @include('partial.sla_links')
-        </ul>
-      </li>
-      <li class="dropdown">
-        <a href="#"
-           data-toggle="dropdown"
-           role="button"
-           aria-expanded="false">
-           Conectividad<span class="caret"></span>
-        </a>
+            <ul role="menu">
+              @include('partial.sla_links')
+            </ul>
+          </li>
+          <li class="dropdown">
+            <a href="#"
+               data-toggle="dropdown"
+               role="button"
+               aria-expanded="false">
+               Conectividad
+            </a>
 
-        <ul role="menu">
-          @include('partial.conectividad_links')
-        </ul>
-      </li>
-      <li class="dropdown">
-        <a href="#"
-           data-toggle="dropdown"
-           role="button"
-           aria-expanded="false">
-           Completamientos Múltiples<span class="caret"></span>
-        </a>
+            <ul role="menu">
+              @include('partial.conectividad_links')
+            </ul>
+          </li>
+          <li class="dropdown">
+            <a href="#"
+               data-toggle="dropdown"
+               role="button"
+               aria-expanded="false">
+               Completamientos Múltiples
+            </a>
 
-        <ul role="menu">
-          @include('partial.multiples_links')
-        </ul>
-      </li>
-      <li class="dropdown">
-        <a href="#"
-           data-toggle="dropdown"
-           role="button"
-           aria-expanded="false">
-           Metalurgia de Tubería<span class="caret"></span>
-        </a>
+            <ul role="menu">
+              @include('partial.multiples_links')
+            </ul>
+          </li>
+          <li class="dropdown">
+            <a href="#"
+               data-toggle="dropdown"
+               role="button"
+               aria-expanded="false">
+               Metalurgia de Tubería
+            </a>
 
-        <ul role="menu">
-          @include('partial.pipe_links')
+            <ul role="menu">
+              @include('partial.pipe_links')
+            </ul>
+          </li>
         </ul>
       </li>
     </ul>
