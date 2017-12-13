@@ -68,7 +68,7 @@
         </div>
         <div>
             <button type="button" data-toggle="dropdown">
-                Nuevas Tecnologías: Métodos de Cañoneo
+                Nuevas Tecnologías: Métodos de Conectividad
                 <span class="caret"></span>
             </button>
             <ul class="dropdown-menu collapse">

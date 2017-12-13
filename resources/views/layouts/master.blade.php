@@ -101,7 +101,7 @@
                data-toggle="dropdown"
                role="button"
                aria-expanded="false">
-               Nuevas Tecnologías: Métodos de Cañoneo
+               Nuevas Tecnologías: Métodos de Conectividad
             </a>
 
             <ul role="menu">
