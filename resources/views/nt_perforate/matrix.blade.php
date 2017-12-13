@@ -7,7 +7,7 @@
 @section ('content')
 
 <header>
-    <h1>Matriz de Selección <small>Nuevas Tecnologías: Métodos de Cañoneo</small></h1>
+    <h1>Matriz de Selección <small>Nuevas Tecnologías: Métodos de Conectividad</small></h1>
 </header>
 
 <main>
