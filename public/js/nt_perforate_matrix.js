@@ -26,6 +26,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 var questions = {
     'have-phi': {
         title: 'Matriz de Formacion',
@@ -533,6 +535,35 @@ var questions = {
             answer: 'yes'
         }
     },
+    'ideal-diameter': {
+        text: 'Indicar diametro ideal de perforado',
+        type: 'numeric',
+        default: 10,
+        prereq: {
+            question: 'have-diameter',
+            answer: 'no'
+        }
+    },
+    'casing-grade-0': {
+        text: 'Indicar grado de tubería de revestimiento',
+        type: 'multi',
+        options: {
+            j55: 'J-55',
+            k55: 'K-55',
+            c55: 'C-55',
+            l80: 'L-80',
+            n80: 'N-80',
+            c95: 'C-95',
+            s95: 'S-95',
+            p105: 'P-105',
+            p110: 'P-110'
+        },
+        default: 'k55',
+        prereq: {
+            question: 'have-diameter',
+            answer: 'no'
+        }
+    },
     'have-casing-id': {
         text: '¿Conoce el diámetro interno de la tubería de revestimiento?',
         type: 'multi',
@@ -555,12 +586,76 @@ var questions = {
         text: 'Indicar grado de la tubería de revestimiento',
         type: 'multi',
         options: {
-            'none': 'No hay opciones'
+            k55: 'K-55',
+            l80: 'L-80',
+            p110: 'P-110',
+            v150: 'V-150',
+            mw155: 'MW-155',
+            soo140: 'SOO-140',
+            soo155: 'SOO-155'
         },
-        default: 'none',
+        default: 'k55',
         prereq: {
             question: 'have-casing-id',
             answer: 'no'
+        }
+    },
+    'casing-weight-k55': {
+        text: 'Indicar peso nominal de la tubería de revestimiento',
+        type: 'multi',
+        options: {
+            '94': '94',
+            '133': '133',
+            '65': '65',
+            '75': '75',
+            '109': '109'
+        },
+        default: '94',
+        prereq: {
+            question: 'casing-grade',
+            answer: 'k55'
+        }
+    },
+    'casing-weight-l80': {
+        text: 'Indicar peso nominal de la tubería de revestimiento',
+        type: 'multi',
+        options: {
+            '81': '81',
+            '98': '98',
+            '58.4': '58.4'
+        },
+        default: '81',
+        prereq: {
+            question: 'casing-grade',
+            answer: 'l80'
+        }
+    },
+    'casing-weight-p110': {
+        text: 'Indicar peso nominal de la tubería de revestimiento',
+        type: 'multi',
+        options: {
+            '85': '85',
+            '98': '98',
+            '47': '47'
+        },
+        default: '85',
+        prereq: {
+            question: 'casing-grade',
+            answer: 'p110'
+        }
+    },
+    'casing-weight-v150': {
+        text: 'Indicar peso nominal de la tubería de revestimiento',
+        type: 'multi',
+        options: {
+            '38': '38',
+            '41': '41',
+            '46': '46'
+        },
+        default: '38',
+        prereq: {
+            question: 'casing-grade',
+            answer: 'v150'
         }
     },
     'pressure-condition': {
@@ -695,6 +790,643 @@ var questions = {
     }
 };
 
+var recommendations = {
+    '1g': {
+        name: 'lpsd',
+        text: 'Tecnología LPSD(Low debris and Shock)'
+    },
+    '2g': {
+        name: 'tcp-propelente',
+        text: 'Tecnología TCP Propelente-Sobrebalance'
+    },
+    '3g': {
+        name: 'stimtube',
+        text: 'Tecnología Stimtube'
+    },
+    '4g': {
+        name: 'powr-perf',
+        text: 'Tecnología POWR/PERF'
+    },
+    '5g': {
+        name: 'perfstim',
+        text: 'Tecnología PerfStim'
+    },
+    '6g': {
+        name: 'plug-perf',
+        text: 'Tecnología de completamiento de cañón insertable (Plug and Perf)'
+    },
+    '7g': {
+        name: 'connex',
+        text: 'Tecnología de cargas CONNEX'
+    },
+    '8g': {
+        name: 'diametro-definido',
+        text: 'Tecnología de Carga de diámetro de perforado definido'
+    },
+    '9g': {
+        name: 'fragmenting-gun',
+        text: 'Tecnología Fragmenting Gun'
+    },
+    '10g': {
+        name: 'actf',
+        text: 'Tecnología ACTF (Annular Coiled Tubing Fracturing)'
+    },
+    '11g': {
+        name: 'jitp',
+        text: 'Tecnología JITP (Just in Time Perforating)'
+    },
+    '12g': {
+        name: 'reactive',
+        text: 'Tecnología Reactive Liner Shaped Charges'
+    },
+    '13g': {
+        name: 'triple-jet',
+        text: 'Tecnología Triple Jet Perforating'
+    },
+    '14g': {
+        name: 'converging',
+        text: 'Tecnología Converging Focused Perforating'
+    },
+    '15g': {
+        name: 'electrical-bar',
+        text: 'Tecnología Dropping Electrical Bar Perforating'
+    },
+    '16g': {
+        name: 'side-mounted',
+        text: 'Tecnología Side Mounted Gun Perforating'
+    },
+    '17g': {
+        name: 'hops',
+        text: 'Tecnología HOPS (Horizontal Oriented Perforating Sistems)'
+    },
+    '1r': {
+        name: 'cross-jet',
+        text: 'Cross-Linked Jet fluids'
+    },
+    '2r': {
+        name: 'ct-fracturing',
+        text: 'CT Pin-Point SandJet Annular Fracturing Technique'
+    },
+    '3r': {
+        name: 'hydro-jet',
+        text: 'Hydro-Jet'
+    },
+    '4r': {
+        name: 'radial-jet',
+        text: 'Radial Jet Drilling'
+    },
+    '5r': {
+        name: 'channel-stimulation',
+        text: 'Channel Stimulation technology'
+    },
+    '6r': {
+        name: 'slickwater',
+        text: 'Slickwater Hydraulic System'
+    },
+    '7r': {
+        name: 'cemented-plug-perf',
+        text: 'Cemented Liner Plug and Perf Completion'
+    },
+    '8r': {
+        name: 'fishbone',
+        text: 'Multilateral Technology for Stimulation (Fishbone)'
+    },
+    '9r': {
+        name: 'oh-multistage',
+        text: 'Open Hole Multistage Sistem'
+    },
+    '10r': {
+        name: 'hegf',
+        text: 'Tecnología HEGF'
+    }
+
+    /* eslint-disable curly */
+};function getValues(state) {
+    var phi = null;
+    if (state['have-phi'] === 'yes') {
+        phi = state['phi'];
+    } else {
+        if (state['ambient'] === 'conventional') {
+            if (state['reservoir'] === 'conventional') {
+                phi = 17.5;
+            } else if (state['reservoir'] === 'no-consolidated') {
+                phi = 25;
+            } else {
+                if (state['fraq'] === 'yes') {
+                    phi = 2.5;
+                } else {
+                    phi = 7.5;
+                }
+            }
+        } else {
+            if (state['multi-fraq'] === 'yes') {
+                phi = 2.5;
+            } else {
+                phi = 12.5;
+            }
+        }
+    }
+
+    var ucs = null;
+    if (state['have-ucs'] === 'yes') {
+        ucs = state['ucs'];
+    } else {
+        switch (state['ucs-range']) {
+            case 'lt2200':
+                ucs = 2200;break;
+            case 'lt4900':
+                ucs = 3550;break;
+            case 'lt6500':
+                ucs = 5700;break;
+            case 'lt13000':
+                ucs = 9750;break;
+            default:
+                ucs = 13000;
+        }
+    }
+
+    var py = state['py'];
+    var pc = state['pc'];
+
+    var a = 0.0967 * Math.pow(phi / 100, 0.428);
+    var b = ucs < 30000 ? 0.7336 - 1.813e-5 * ucs : 3.33 * Math.exp(-9.55e-5 * ucs);
+    var Peff = pc - a * py;
+    var Fbi = ucs + b * Peff;
+
+    var skin = null;
+    if (state['type-s'] === 'damaged') {
+        if (state['damage'] === 'yes') {
+            skin = 10;
+        } else {
+            skin = 2;
+        }
+    } else {
+        switch (state['estimulation']) {
+            case 'acid':
+                skin = -1;break;
+            case 'hydraulic':
+                skin = -3;break;
+            default:
+                skin = -5;
+        }
+    }
+
+    var k = null;
+    if (state['have-k'] === 'yes') {
+        k = state['k'];
+    } else {
+        if (state['formation-type'] === 'sand') {
+            switch (state['k-range-1']) {
+                case 'lt10':
+                    k = 10;break;
+                case 'lt100':
+                    k = 55;break;
+                default:
+                    k = 100;
+            }
+        } else {
+            switch (state['k-range-2']) {
+                case 'lt10':
+                    k = 10;break;
+                case 'lt100':
+                    k = 55;break;
+                case 'lt250':
+                    k = 225;break;
+                default:
+                    k = 250;
+            }
+        }
+    }
+
+    var angle = null;
+    if (state['have-angle'] === 'yes') {
+        angle = state['angle'];
+    } else {
+        switch (state['angle-range']) {
+            case 'low':
+                angle = 5;break;
+            case 'medium':
+                angle = 18;break;
+            default:
+                angle = 30;
+        }
+    }
+
+    var gasLayer = state['fluid'] === 'trifasic';
+
+    var temperature = null;
+    if (state['have-temperature']) {
+        temperature = state['temperature'];
+    } else {
+        var depth = state['depth-2'];
+        temperature = 2 * depth / 100;
+    }
+
+    var api = null;
+    if (state['have-api'] === 'yes') {
+        api = state['api'];
+    } else {
+        switch (state['oil-type']) {
+            case 'e-heavy':
+                api = 5;break;
+            case 'heavy':
+                api = 12;break;
+            case 'medium':
+                api = 24;break;
+            case 'light':
+                api = 35;break;
+            default:
+                api = 45;
+        }
+    }
+
+    var viscOil = null;
+    if (state['have-visc-oil'] === 'yes') {
+        viscOil = state['visc-oil'];
+    } else {
+        var T = temperature;
+        // Glaso
+        viscOil = 3.141e10 * Math.pow(T, -3.444) * Math.pow(Math.log10(api), 10.313 * Math.log10(T) - 36.4);
+    }
+
+    var saltWater = null;
+    if (state['have-salt-water'] === 'yes') {
+        saltWater = state['salt-water'];
+    } else {
+        switch (state['salt-water-range']) {
+            case 'high':
+                saltWater = 5;break;
+            case 'medium':
+                saltWater = 15;break;
+            default:
+                saltWater = 23;
+        }
+    }
+
+    var viscWater = null;
+    if (state['have-visc-water'] === 'yes') {
+        viscWater = state['visc-water'];
+    } else {
+        // McCain, W.D., Jr.
+        var S = saltWater;
+        var _T = temperature;
+        var A = 109.574 - 8.40564 * S + 0.313314 * Math.pow(S, 2) + 8.72213e-3 * Math.pow(S, 3);
+        var B = -1.12166 + 2.63951e-2 * S - 6.79461e-4 * Math.pow(S, 2) - 5.47119e-5 * Math.pow(S, 3) + 1.55586e-6 * Math.pow(S, 4);
+        viscWater = A * Math.pow(_T, B);
+    }
+
+    var deltaH = null;
+    if (state['have-interval'] === 'yes') {
+        deltaH = state['interval'];
+    } else {
+        switch (state['interval-range']) {
+            case 'lt30':
+                deltaH = 30;break;
+            case 'lt60':
+                deltaH = 45;break;
+            default:
+                deltaH = 60;
+        }
+    }
+
+    var dp = null;
+    var dpLookup = {
+        j55: {
+            xr: 152,
+            x: 209
+        },
+        k55: {
+            xr: 203,
+            x: 256
+        },
+        c55: {
+            xr: 203,
+            x: 261
+        },
+        l80: {
+            xr: 203,
+            x: 243
+        },
+        n80: {
+            xr: 209,
+            x: 254
+        },
+        c95: {
+            xr: 219,
+            x: 254
+        },
+        s95: {
+            xr: 238,
+            x: 294
+        },
+        p105: {
+            xr: 254,
+            x: 303
+        },
+        p110: {
+            xr: 265,
+            x: 327
+        }
+    };
+    if (state['have-diameter'] === 'yes') {
+        dp = state['diameter'];
+    } else {
+        var dr = state['ideal-diameter'];
+        var grade = state['casing-grade-0'];
+        var _dpLookup$grade = dpLookup[grade],
+            xr = _dpLookup$grade.xr,
+            x = _dpLookup$grade.x;
+
+        dp = Math.sqrt((2250 + 4.2 * xr) / (2250 + 4.2 * x)) * dr;
+    }
+
+    var di = null;
+    var diLookup = {
+        k55: {
+            '94': 19.124,
+            '133': 18.730,
+            '65': 15.250,
+            '75': 15.124,
+            '109': 14.688
+        },
+        l80: {
+            '81': 15.010,
+            '98': 11.937,
+            '58.4': 8.435
+        },
+        p110: {
+            '85': 12.159,
+            '98': 11.937,
+            '47': 8.681
+        },
+        v150: {
+            '38': 5.920,
+            '41': 5.820,
+            '46': 5.660
+        }
+
+    };
+    if (state['have-casing-id']) {
+        di = state['casing-id'];
+    } else {
+        var weight = null;
+        switch (state['casing-grade']) {
+            case 'k55':
+                weight = Number(state['casing-weight-k55']);
+                di = diLookup['k55'][weight];
+                break;
+            case 'l80':
+                weight = Number(state['casing-weight-l80']);
+                di = diLookup['l80'][weight];
+                break;
+            case 'p110':
+                weight = Number(state['casing-weight-p110']);
+                di = diLookup['p110'][weight];
+                break;
+            case 'v150':
+                weight = Number(state['casing-weight-v150']);
+                di = diLookup['v150'][weight];
+                break;
+            case 'mw155':
+                di = 5.920;break;
+            case 'soo140':
+                di = 5.660;break;
+            default:
+                di = 5.660;
+        }
+    }
+
+    var deltaP = null;
+    if (state['pressure-condition'] === 'underbalance') {
+        if (state['have-underbalance-pressure'] === 'yes') {
+            deltaP = state['underbalance-pressure'];
+        } else {
+            if (state['gas-oil'] === 'gas') {
+                deltaP = 3100 / Math.pow(k, 0.37);
+            } else {
+                deltaP = 3000 / Math.pow(k, 0.4);
+            }
+        }
+    } else {
+        // keep as null
+    }
+
+    var pr = null;
+    if (state['have-pr'] === 'yes') {
+        pr = state['pr'];
+    } else {
+        switch (state['pr-range']) {
+            case 'lt08':
+                pr = 0.65;break;
+            case 'lt12':
+                pr = 1;break;
+            default:
+                pr = 1.35;
+        }
+    }
+
+    return {
+        phi: phi,
+        ucs: ucs,
+        py: py,
+        Fbi: Fbi,
+        skin: skin,
+        k: k,
+        angle: angle,
+
+        gasLayer: gasLayer,
+        viscOil: viscOil,
+        viscWater: viscWater,
+
+        deltaH: deltaH,
+        dp: dp,
+        di: di,
+        deltaP: deltaP,
+        pr: pr
+    };
+}
+/* eslint-enable curly */
+
+function getRecommended(state) {
+    var data = getValues(state);
+    // console.log(data)
+    var phi = data.phi,
+        ucs = data.ucs,
+        py = data.py,
+        Fbi = data.Fbi,
+        skin = data.skin,
+        k = data.k,
+        angle = data.angle,
+        gasLayer = data.gasLayer,
+        viscOil = data.viscOil,
+        viscWater = data.viscWater,
+        deltaH = data.deltaH,
+        dp = data.dp,
+        di = data.di,
+        deltaP = data.deltaP,
+        pr = data.pr;
+
+
+    var constraints = [{
+        cond: phi < 5 && 2200 < ucs && py < 2000 && Fbi < 0 && 1 < skin && skin < 5 && k < 10 && angle < 5,
+        add: ['2g', '5g', '2r']
+    }, {
+        cond: phi < 10 && 2200 < ucs && ucs < 4900 && 2000 < py && py < 4000 && Fbi < 0 && 1 < skin && skin < 5 && 10 < k && k < 100 && angle < 5,
+        add: ['10g', '3g']
+    }, {
+        cond: phi < 15 && 4900 < ucs && ucs < 6500 && 4000 < py && py < 6000 && Fbi < 0 && 1 < skin && skin < 5 && 100 < k && k < 250 && angle < 5,
+        add: ['11g']
+    }, {
+        cond: phi < 20 && 6500 < ucs && ucs < 13000 && 6000 < py && py < 8000 && Fbi < 0 && 1 < skin && skin < 5 && k > 250 && angle < 5,
+        add: ['1g']
+    }, {
+        cond: phi < 25 && ucs > 13000 && 8000 < py && py < 10000 && Fbi < 0 && 1 < skin && skin < 5 && k > 250 && angle < 5,
+        add: ['1g']
+    }, {
+        cond: phi < 5 && ucs < 2200 && 2000 < py && Fbi < 0 && 5 < skin && 10 < k && k < 100 && angle < 5,
+        add: ['3g', '10r', '2r']
+    }, {
+        cond: 5 < phi && phi < 20 && 2200 < ucs && ucs < 6500 && 2000 < py && py < 4000 && Fbi < 0 && 5 < skin && 10 < k && k < 100 && angle < 5,
+        add: ['2g', '12g']
+    }, {
+        cond: 20 < phi && 6500 < ucs && ucs < 13000 && 4000 < py && py < 6000 && Fbi < 0 && 5 < skin && 250 < k && angle < 5,
+        add: ['4g']
+    }, {
+        cond: 20 < phi && 13000 < ucs && 6000 < py && py < 8000 && Fbi < 0 && 5 < skin && 250 < k && angle < 5,
+        add: ['17g', '1r']
+    }, {
+        cond: phi < 5 && ucs < 2200 && 4000 < py && Fbi < 0 && 5 < skin && 10 < k && k < 100 && 5 < angle && angle < 20,
+        add: ['3g', '10r', '3r']
+    }, {
+        cond: 5 < phi && phi < 20 && 2200 < ucs && ucs < 13000 && 4000 < py && py < 8000 && Fbi < 0 && 5 < skin && 100 < k && k < 250 && 5 < angle && angle < 20,
+        add: ['5g']
+    }, {
+        cond: 20 < phi && 13000 < ucs && 8000 < py && Fbi < 0 && 5 < skin && 250 < k && 5 < angle && angle < 20,
+        add: ['1g', '1r']
+    }, {
+        cond: phi < 5 && ucs < 2200 && 4000 < py && Fbi < 0 && 5 < skin && 10 < k && k < 100 && 25 < angle,
+        add: ['2g', '9g', '3r']
+    }, {
+        cond: 5 < phi && phi < 20 && 2200 < ucs && ucs < 13000 && 4000 < py && py < 8000 && Fbi < 0 && 5 < skin && 100 < k && k < 250 && 25 < angle,
+        add: ['10g']
+    }, {
+        cond: 20 < phi && 13000 < ucs && 8000 < py && Fbi < 0 && 5 < skin && 250 < k && 25 < angle,
+        add: ['4g']
+    }, {
+        cond: phi < 5 && ucs < 2200 && 4000 < py && Fbi > 0 && -3 < skin < -0.1 && 10 < k && k < 100 && 20 < angle,
+        add: ['5g', '16g', '5r']
+    }, {
+        cond: 5 < phi && phi < 20 && 2200 < ucs && ucs < 13000 && 4000 < py && py < 8000 && Fbi > 0 && -3 < skin < -0.1 && 100 < k && k < 250 && 20 < angle,
+        add: ['12g', '14g']
+    }, {
+        cond: 20 < phi && 13000 < ucs && 8000 < py && Fbi > 0 && -3 < skin < -0.1 && 250 < k && 20 < angle,
+        add: ['17g']
+    }, {
+        cond: phi < 5 && ucs < 2200 && 4000 < py && Fbi > 0 && skin < -3 && 10 < k && k < 100 && 20 < angle,
+        add: ['16g', '14g', '5r']
+    }, {
+        cond: 5 < phi && phi < 20 && 2200 < ucs && ucs < 13000 && 4000 < py && py < 8000 && Fbi && skin < -3 && 100 < k && k < 250 && 20 < angle,
+        add: ['7g', '8g']
+    }, {
+        cond: 20 < phi && 13000 < ucs && 8000 < py && Fbi > 0 && skin < -3 && 250 < k && 20 < angle,
+        add: ['17g']
+    }, {
+        cond: phi < 5 && ucs < 2200 && 4000 < py && Fbi > 0 && skin < -3 && 10 < k && k < 100 && 20 > angle,
+        add: ['7g', '8g', '4r']
+    }, {
+        cond: 5 < phi && phi < 20 && 2200 < ucs && ucs < 13000 && 4000 < py && py < 8000 && Fbi > 0 && skin < -3 && 100 < k && k < 250 && 20 > angle,
+        add: ['1g']
+    }, {
+        cond: 20 < phi && 13000 < ucs && 8000 < py && Fbi > 0 && skin < -3 && 250 < k && 20 > angle,
+        add: ['16g', '6g']
+    }, {
+        cond: phi < 5 && ucs < 2200 && 4000 < py && Fbi > 0 && -3 < skin < -0.1 && 10 < k && k < 100 && 20 > angle,
+        add: ['7g', '8g', '4r']
+    }, {
+        cond: 5 < phi && phi < 20 && 2200 < ucs && ucs < 13000 && 4000 < py && py < 8000 && Fbi > 0 && -3 < skin < -0.1 && 100 < k && k < 250 && 20 > angle,
+        add: ['1g']
+    }, {
+        cond: 20 < phi && 13000 < ucs && 8000 < py && Fbi > 0 && -3 < skin < -0.1 && 250 < k && 20 > angle,
+        add: ['6g', '15g']
+    }, {
+        cond: !gasLayer && viscOil > viscWater,
+        add: ['3g', '4g', '6r']
+    }, {
+        cond: gasLayer && viscOil > viscWater,
+        add: ['12g', '17g', '8r']
+    }, {
+        cond: !gasLayer && viscOil < viscWater,
+        add: ['17g', '9g', '2r']
+    }, {
+        cond: gasLayer && viscOil < viscWater,
+        add: ['14g', '17g', '1r']
+    }, {
+        cond: deltaH < 30 && 5 / 16 > dp && di < 3 + 1 / 8 && (!deltaP || deltaP < 250) && 0.65 < pr && pr < 1,
+        add: ['14g', '17g', '8r']
+    }, {
+        cond: 30 < deltaH && deltaH < 60 && 5 / 16 > dp && di < 3 + 1 / 8 && (!deltaP || deltaP < 250) && 0.65 < pr && pr < 1,
+        add: ['11g']
+    }, {
+        cond: 60 < deltaH && 5 / 16 > dp && di < 3 + 1 / 8 && (!deltaP || deltaP < 250) && 0.65 < pr && pr < 1,
+        add: ['9g', '16g', '7r']
+    }, {
+        cond: 30 < deltaH && deltaH < 60 && 5 / 16 > dp && di < 3 + 1 / 8 && (!deltaP || 250 < deltaP) && (!deltaP || deltaP < 750) && 0.65 < pr && pr < 1,
+        add: ['6g', '17g', '8r']
+    }, {
+        cond: 60 < deltaH && 5 / 16 > dp && di < 3 + 1 / 8 && (!deltaP || 750 < deltaP) && 0.65 < pr && pr < 1,
+        add: ['16g', '11g', '7r']
+    }, {
+        cond: deltaH < 30 && 5 / 16 > dp && di < 3 + 1 / 8 && (!deltaP || deltaP < 250) && 1 < pr && pr < 1.35,
+        add: ['14g', '5r']
+    }, {
+        cond: 30 < deltaH && deltaH < 60 && 5 / 16 > dp && di < 3 + 1 / 8 && (!deltaP || 250 < deltaP) && (!deltaP || deltaP < 750) && 1 < pr && pr < 1.35,
+        add: ['15g']
+    }, {
+        cond: 60 < deltaH && 5 / 16 > dp && di < 3 + 1 / 8 && (!deltaP || 750 < deltaP) && 1 < pr && pr < 1.35,
+        add: ['13g', '9r']
+    }, {
+        cond: 30 < deltaH && 5 / 16 < dp && dp < 7 / 32 && 3 + 1 / 8 < di && di < 4 && (!deltaP || 250 < deltaP) && (!deltaP || deltaP < 500) && 1.35 < pr,
+        add: ['15g']
+    }, {
+        cond: 30 < deltaH && deltaH < 60 && 7 / 32 < dp && 4 < di && di < 5 && (!deltaP || 500 < deltaP) && (!deltaP || deltaP < 1000) && 1.35 < pr,
+        add: ['11g', '4r']
+    }, {
+        cond: 60 < deltaH && 7 / 32 < dp && 5 < di && (!deltaP || deltaP > 1000) && 1.35 < pr,
+        add: ['4g', '10g', '6r']
+    }];
+
+    var res = new Set();
+
+    var _iteratorNormalCompletion = true;
+    var _didIteratorError = false;
+    var _iteratorError = undefined;
+
+    try {
+        for (var _iterator = constraints[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+            var constraint = _step.value;
+
+            if (constraint.cond) constraint.add.forEach(function (r) {
+                return res.add(r);
+            });
+        }
+    } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+    } finally {
+        try {
+            if (!_iteratorNormalCompletion && _iterator.return) {
+                _iterator.return();
+            }
+        } finally {
+            if (_didIteratorError) {
+                throw _iteratorError;
+            }
+        }
+    }
+
+    return [].concat(_toConsumableArray(res));
+}
+
 var NumericInput = function (_Component) {
     _inherits(NumericInput, _Component);
 
@@ -740,7 +1472,7 @@ var NumericInput = function (_Component) {
 function makeLink(name, text) {
     return _react2.default.createElement(
         'a',
-        { href: '#' + name },
+        { href: 'matriz-explicaciones#' + name },
         text
     );
 }
@@ -754,29 +1486,29 @@ var NTPerforateMatrix = function (_Component2) {
         var _this3 = _possibleConstructorReturn(this, (NTPerforateMatrix.__proto__ || Object.getPrototypeOf(NTPerforateMatrix)).call(this));
 
         var questionValues = {};
-        var _iteratorNormalCompletion = true;
-        var _didIteratorError = false;
-        var _iteratorError = undefined;
+        var _iteratorNormalCompletion2 = true;
+        var _didIteratorError2 = false;
+        var _iteratorError2 = undefined;
 
         try {
-            for (var _iterator = Object.entries(questions)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-                var _step$value = _slicedToArray(_step.value, 2),
-                    name = _step$value[0],
-                    question = _step$value[1];
+            for (var _iterator2 = Object.entries(questions)[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+                var _step2$value = _slicedToArray(_step2.value, 2),
+                    name = _step2$value[0],
+                    question = _step2$value[1];
 
                 questionValues[name] = question.default;
             }
         } catch (err) {
-            _didIteratorError = true;
-            _iteratorError = err;
+            _didIteratorError2 = true;
+            _iteratorError2 = err;
         } finally {
             try {
-                if (!_iteratorNormalCompletion && _iterator.return) {
-                    _iterator.return();
+                if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                    _iterator2.return();
                 }
             } finally {
-                if (_didIteratorError) {
-                    throw _iteratorError;
+                if (_didIteratorError2) {
+                    throw _iteratorError2;
                 }
             }
         }
@@ -882,13 +1614,21 @@ var NTPerforateMatrix = function (_Component2) {
             return this.makePretty(input, question);
         }
     }, {
+        key: 'renderRecommendation',
+        value: function renderRecommendation(_ref5) {
+            var name = _ref5.name,
+                text = _ref5.text;
+
+            return makeLink(name, text);
+        }
+    }, {
         key: 'render',
         value: function render() {
             var state = this.state;
 
-            var shouldBeShown = function shouldBeShown(_ref5) {
-                var _ref6 = _slicedToArray(_ref5, 2),
-                    question = _ref6[1];
+            var shouldBeShown = function shouldBeShown(_ref6) {
+                var _ref7 = _slicedToArray(_ref6, 2),
+                    question = _ref7[1];
 
                 if (!question.prereq) return true;
                 var prereqQuestion = question.prereq.question;
@@ -899,6 +1639,12 @@ var NTPerforateMatrix = function (_Component2) {
                 return answerShouldBe === answerIs && parentIsShown;
             };
             var shownQuestions = Object.entries(questions).filter(shouldBeShown);
+            var shownRecommendations = getRecommended(this.state.questionValues).map(function (id) {
+                return recommendations[id];
+            });
+            var renderedRecommendations = shownRecommendations.map(this.renderRecommendation);
+            var debug = window.location.search === '?debug=true';
+            var values = getValues(this.state.questionValues);
 
             return _react2.default.createElement(
                 'div',
@@ -908,7 +1654,12 @@ var NTPerforateMatrix = function (_Component2) {
                     null,
                     shownQuestions.map(this.renderQuestion)
                 ),
-                _react2.default.createElement(_Recommendations2.default, { recommendations: [makeLink('stimtube', 'Tecnología Stimtube'), makeLink('powr-perf', 'Tecnología POWR/PERF'), makeLink('perf-stim', 'Tecnología PerfStim'), makeLink('plug-and-perf', 'Tecnología de completamiento de cañón insertable (Plug and Perf)')] })
+                debug && _react2.default.createElement(
+                    'pre',
+                    null,
+                    JSON.stringify(values, null, 2)
+                ),
+                _react2.default.createElement(_Recommendations2.default, { recommendations: renderedRecommendations })
             );
         }
     }]);
