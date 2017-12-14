@@ -265,4 +265,5 @@ Route::group(['prefix' => '/admin'], function () {
 
 Route::group(['prefix' => '/nt_cañoneo'], function () {
     Route::get('/matriz', 'NTPerforateController@matrix');
+    Route::get('/matriz-explicaciones', 'NTPerforateController@matrixExplanations');
 });

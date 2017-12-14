@@ -12,4 +12,8 @@ class NTPerforateController extends Controller
     {
         return view('nt_perforate/matrix');
     }
+    public function matrixExplanations()
+    {
+        return view('nt_perforate/matrix_explanations');
+    }
 }

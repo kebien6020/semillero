@@ -7938,6 +7938,15 @@ table {
 .connectivity-matrix-explanations .img {
   text-align: center; }
 
+.nt-perforate-matrix-explanations h2 a {
+  color: inherit;
+  text-decoration: none; }
+
+.nt-perforate-matrix-explanations .img {
+  text-align: center; }
+  .nt-perforate-matrix-explanations .img img {
+    max-width: 100%; }
+
 .pipe-basins #plot {
   width: 100%;
   height: 70vh; }
