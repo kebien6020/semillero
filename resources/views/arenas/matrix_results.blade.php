@@ -51,28 +51,6 @@ $calculated = [
     ]
 ];
 
-$suggested = [
-    [
-        'display' => 'Mecanismo de control de arena sugerido 1',
-        'name' => 'suggested_1'
-    ],
-    [
-        'display' => 'Mecanismo de control de arena sugerido 2',
-        'name' => 'suggested_2'
-    ],
-    [
-        'display' => 'Tamaño de grava sugerido con base en el criterio de Saucier (in)',
-        'name' => 'average_gravel_size',
-        'decimals' => 3,
-        'cond' => 'recommended'
-    ],
-    [
-        'display' => 'Tamaño de grava US. Mesh',
-        'name' => 'us_gravel_mesh',
-        'cond' => 'recommended'
-    ],
-];
-
 ?>
 
 <header>
@@ -124,10 +102,29 @@ $suggested = [
                 Mecanismos de control de arena sugeridos
             </th>
         </tr>
-        {{ render_rows($suggested, $results) }}
+        @foreach ($results->suggested as $i => $mechanism)
+            <tr>
+                <td>Mecanismo de control de arena sugerido {{ $i + 1 }}</td>
+                <td>{{ $mechanism }}</td>
+            </tr>
+        @endforeach
+        @if (count($results->suggested) > 0)
+          <tr>
+              <td>Tamaño de grava sugerido con base en el criterio de Saucier (in)</td>
+              <td>{{ round($results->average_gravel_size, 3) }}</td>
+          </tr>
+          <tr>
+              <td>Tamaño de grava US. Mesh</td>
+              <td>{{ $results->us_gravel_mesh }}</td>
+          </tr>
+        @else
+          <tr>
+            <td colspan="2">No se recomienda control de arena tipo mecánico</td>
+          </tr>
+        @endif
     </tbody>
 </table>
-@if ($results->recommended)
+@if (count($results->suggested) > 0)
 <table id="config_mec">
     <thead>
         <tr>

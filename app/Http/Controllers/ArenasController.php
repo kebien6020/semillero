@@ -26,7 +26,7 @@ class ArenasController extends Controller
     {
         $this->middleware('auth');
     }
-    
+
     public function mapPozos()
     {
         return view('arenas.map_pozos');
@@ -129,7 +129,7 @@ class ArenasController extends Controller
         $well->save();
         return redirect('/arenas/map/' . $id);
     }
-    
+
     public function matrixSelect()
     {
         $tablas = SampleGroup::all();
@@ -168,7 +168,7 @@ class ArenasController extends Controller
         $x90 = $results->x90 = $plot_data->x90;
         $x50 = $results->x50 = $plot_data->x50;
         $x30 = $results->x30 = $plot_data->x30;
-        
+
         $results->average = $average;
         $results->grain_type = '';
         if ($average >= 62 and $average <= 125) {
@@ -201,22 +201,30 @@ class ArenasController extends Controller
         } else {
             $results->u_txt = 'Arena altamente no uniforme';
         }
-        
-        $results->recommended = true;
-        if ($results->u <= 1.5) {
-            $results->suggested_1 = 'Liner ranurado';
-            $results->suggested_2 = 'Empaque con Grava y Liner Ranurado';
-        } elseif ($results->u <= 3) {
-            $results->suggested_1 = 'Malla welded wire wrapped';
-            $results->suggested_2 = 'Empaque con grava y malla';
-        } elseif ($results->u <= 5) {
-            $results->suggested_1 = 'Malla premium';
-            $results->suggested_2 = 'Empaque con grava y malla';
-        } else {
-            $results->suggested_1 = 'No se recomienda control de arena tipo mecánico';
-            $results->suggested_2 = null;
-            $results->recommended = false;
+
+        $sug = [];
+        $u = $results->u;
+        $avg = $average;
+        if ($u <= 1.5 && $avg >= 62 && $avg <= 1000) {
+            $sug[] = 'Liner ranurado';
+        } elseif ($u >= 1.5 && $u <= 3 && $avg >= 126 && $avg <= 500) {
+            $sug[] = 'Malla welded wire wrapped';
+        } elseif ($u >= 3 && $u <=5 && $avg >= 251 && $avg <= 500) {
+            $sug[] = 'Malla premium';
+        } elseif ($u <= 1.5 && $avg >= 126 && $avg <= 1000) {
+            $sug[] = 'Empaque con Grava y Liner Ranurado';
+        } elseif ($u <= 5 && $avg >= 126 && $avg <= 1000) {
+            $sug[] = 'Empaque con grava y malla';
+        } elseif ($u >= 5 && $u <= 13 && $avg >= 50 && $avg <= 250) {
+            $sug[] = 'Frac Pack y Malla';
+        } elseif ($u >= 2.5 && $u <= 6.7 && $avg >= 80 && $avg <= 700) {
+            $sug[] = 'Malla Expandible';
+        } elseif ($u >= 2 && $u <= 11 && $avg >= 10 && $avg <= 500) {
+            $sug[] = 'Malla Cerámica';
+        } elseif ($u >= 2 && $u <= 12 && $avg >= 35 && $avg <= 250) {
+            $sug[] = 'Malla Meshrite';
         }
+        $results->suggested = $sug;
 
         $results->average_gravel_size = ($average*6)/25400;
 
