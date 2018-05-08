@@ -81,20 +81,25 @@ $field = ufirst($summary->field->name);
     </thead>
     <tbody>
         {{-- General content --}}
-        
+
         {{ render_rows($elems, $summary) }}
 
         {{-- Installed --}}
         <tr>
-            <th colspan="2"><strong>Tipo de Control de Arena Instalado</strong></th>
+            <th colspan="2"><strong>Tecnología de Control de Arena Instalada</strong></th>
         </tr>
-        
+
         {{ render_rows($installed, $summary) }}
 
         {{-- Recommended --}}
         @foreach ($summary->sandControlRecommendations as $i => $recommendation)
             <tr>
-                <th colspan="2"><strong>Tipo de Control de Arena Recomendado @if ($i>0) {{ $i+1 }} @endif</strong></th>
+                <th colspan="2"><strong>
+                  @if ($recommendation->is_new) Nueva Tecnología
+                  @else Tecnología Convencional
+                  @endif
+                  de Control de Arena Recomendada
+                </strong></th>
             </tr>
             {{ render_rows($recommended, $recommendation) }}
         @endforeach

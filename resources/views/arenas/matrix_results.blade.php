@@ -102,10 +102,14 @@ $calculated = [
                 Mecanismos de control de arena sugeridos
             </th>
         </tr>
-        @foreach ($results->suggested as $i => $mechanism)
+        @foreach ($results->suggested as $i => $recommendation)
             <tr>
-                <td>Mecanismo de control de arena sugerido {{ $i + 1 }}</td>
-                <td>{{ $mechanism }}</td>
+                <td>
+                  @if ($recommendation['is_new']) Nueva Tecnología
+                  @else Tecnología Convencional
+                  @endif
+                  de Control de Arena Recomendada {{ $i + 1 }}</td>
+                <td>{{ $recommendation['name'] }}</td>
             </tr>
         @endforeach
         @if (count($results->suggested) > 0)

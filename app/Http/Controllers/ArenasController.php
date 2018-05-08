@@ -206,23 +206,23 @@ class ArenasController extends Controller
         $u = $results->u;
         $avg = $average;
         if ($u <= 1.5 && $avg >= 62 && $avg <= 1000) {
-            $sug[] = 'Liner ranurado';
+            $sug[] = ['name' => 'Liner ranurado', 'is_new' => false];
         } elseif ($u >= 1.5 && $u <= 3 && $avg >= 126 && $avg <= 500) {
-            $sug[] = 'Malla welded wire wrapped';
+            $sug[] = ['name' => 'Malla welded wire wrapped', 'is_new' => false];
         } elseif ($u >= 3 && $u <=5 && $avg >= 251 && $avg <= 500) {
-            $sug[] = 'Malla premium';
+            $sug[] = ['name' => 'Malla premium', 'is_new' => false];
         } elseif ($u <= 1.5 && $avg >= 126 && $avg <= 1000) {
-            $sug[] = 'Empaque con Grava y Liner Ranurado';
+            $sug[] = ['name' => 'Empaque con Grava y Liner Ranurado', 'is_new' => false];
         } elseif ($u <= 5 && $avg >= 126 && $avg <= 1000) {
-            $sug[] = 'Empaque con grava y malla';
+            $sug[] = ['name' => 'Empaque con grava y malla', 'is_new' => false];
         } elseif ($u >= 5 && $u <= 13 && $avg >= 50 && $avg <= 250) {
-            $sug[] = 'Frac Pack y Malla';
+            $sug[] = ['name' => 'Frac Pack y Malla', 'is_new' => true];
         } elseif ($u >= 2.5 && $u <= 6.7 && $avg >= 80 && $avg <= 700) {
-            $sug[] = 'Malla Expandible';
+            $sug[] = ['name' => 'Malla Expandible', 'is_new' => true];
         } elseif ($u >= 2 && $u <= 11 && $avg >= 10 && $avg <= 500) {
-            $sug[] = 'Malla Cerámica';
+            $sug[] = ['name' => 'Malla Cerámica', 'is_new' => true];
         } elseif ($u >= 2 && $u <= 12 && $avg >= 35 && $avg <= 250) {
-            $sug[] = 'Malla Meshrite';
+            $sug[] = ['name' => 'Malla Meshrite', 'is_new' => true];
         }
         $results->suggested = $sug;
 
@@ -455,6 +455,28 @@ class ArenasController extends Controller
     {
         $sandControlSummary = SandControlSummary::where(['field_id' => $id])->first();
         $sandControlSummary->load('field', 'sandControlRecommendations');
+        // Add info of whether is new or not. Sort new tech to the top
+        $new_tech = collect([
+          'Frac Pack y Malla',
+          'Malla MeshRite',
+          'Malla Expandible',
+          'Malla Cerámica'
+        ]);
+        $sandControlSummary->sandControlRecommendations = $sandControlSummary
+          ->sandControlRecommendations
+          ->sortByDesc(function ($rec, $key) use ($new_tech) {
+            $new_tech_index = $new_tech->search($rec->recommended_mechanism);
+            if ($new_tech_index) {
+                return $new_tech_index + 100;
+            }
+            return $key;
+          })
+          ->map(function ($rec) use ($new_tech) {
+            $rec->is_new = (boolean) $new_tech->search($rec->recommended_mechanism);
+            return $rec;
+          })
+          ->values();
+
         $wells = Field::find($id)->wells()->has('sandControls')->get()->load('sandControls');
         return view('arenas.campos_detail', [
             'summary' => $sandControlSummary,
