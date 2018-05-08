@@ -95,10 +95,14 @@ $field = ufirst($summary->field->name);
         @foreach ($summary->sandControlRecommendations as $i => $recommendation)
             <tr>
                 <th colspan="2"><strong>
-                  @if ($recommendation->is_new) Nueva Tecnología
-                  @else Tecnología Convencional
+                  @if ($recommendation->recommended_mechanism !== 'No se recomienda mecanismo')
+                    @if ($recommendation->is_new) Nueva Tecnología
+                    @else Tecnología Convencional
+                    @endif
+                    de Control de Arena Recomendada
+                  @else
+                    Tecnología de Control de Arena Recomendada
                   @endif
-                  de Control de Arena Recomendada
                 </strong></th>
             </tr>
             {{ render_rows($recommended, $recommendation) }}

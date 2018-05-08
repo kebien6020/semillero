@@ -113,14 +113,16 @@ $calculated = [
             </tr>
         @endforeach
         @if (count($results->suggested) > 0)
-          <tr>
-              <td>Tamaño de grava sugerido con base en el criterio de Saucier (in)</td>
-              <td>{{ round($results->average_gravel_size, 3) }}</td>
-          </tr>
-          <tr>
-              <td>Tamaño de grava US. Mesh</td>
-              <td>{{ $results->us_gravel_mesh }}</td>
-          </tr>
+          @if ($results->uses_gravel)
+            <tr>
+                <td>Tamaño de grava sugerido con base en el criterio de Saucier (in)</td>
+                <td>{{ round($results->average_gravel_size, 3) }}</td>
+            </tr>
+            <tr>
+                <td>Tamaño de grava US. Mesh</td>
+                <td>{{ $results->us_gravel_mesh }}</td>
+            </tr>
+          @endif
         @else
           <tr>
             <td colspan="2">No se recomienda control de arena tipo mecánico</td>

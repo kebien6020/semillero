@@ -206,26 +206,27 @@ class ArenasController extends Controller
         $u = $results->u;
         $avg = $average;
         if ($u <= 1.5 && $avg >= 62 && $avg <= 1000) {
-            $sug[] = ['name' => 'Liner ranurado', 'is_new' => false];
+            $sug[] = ['name' => 'Liner ranurado', 'is_new' => false, 'is_gravel' => false];
         } elseif ($u >= 1.5 && $u <= 3 && $avg >= 126 && $avg <= 500) {
-            $sug[] = ['name' => 'Malla welded wire wrapped', 'is_new' => false];
+            $sug[] = ['name' => 'Malla welded wire wrapped', 'is_new' => false, 'is_gravel' => false];
         } elseif ($u >= 3 && $u <=5 && $avg >= 251 && $avg <= 500) {
-            $sug[] = ['name' => 'Malla premium', 'is_new' => false];
+            $sug[] = ['name' => 'Malla premium', 'is_new' => false, 'is_gravel' => false];
         } elseif ($u <= 1.5 && $avg >= 126 && $avg <= 1000) {
-            $sug[] = ['name' => 'Empaque con Grava y Liner Ranurado', 'is_new' => false];
+            $sug[] = ['name' => 'Empaque con Grava y Liner Ranurado', 'is_new' => false, 'is_gravel' => true];
         } elseif ($u <= 5 && $avg >= 126 && $avg <= 1000) {
-            $sug[] = ['name' => 'Empaque con grava y malla', 'is_new' => false];
+            $sug[] = ['name' => 'Empaque con grava y malla', 'is_new' => false, 'is_gravel' => true];
         } elseif ($u >= 5 && $u <= 13 && $avg >= 50 && $avg <= 250) {
-            $sug[] = ['name' => 'Frac Pack y Malla', 'is_new' => true];
+            $sug[] = ['name' => 'Frac Pack y Malla', 'is_new' => true, 'is_gravel' => true];
         } elseif ($u >= 2.5 && $u <= 6.7 && $avg >= 80 && $avg <= 700) {
-            $sug[] = ['name' => 'Malla Expandible', 'is_new' => true];
+            $sug[] = ['name' => 'Malla Expandible', 'is_new' => true, 'is_gravel' => false];
         } elseif ($u >= 2 && $u <= 11 && $avg >= 10 && $avg <= 500) {
-            $sug[] = ['name' => 'Malla Cerámica', 'is_new' => true];
+            $sug[] = ['name' => 'Malla Cerámica', 'is_new' => true, 'is_gravel' => false];
         } elseif ($u >= 2 && $u <= 12 && $avg >= 35 && $avg <= 250) {
-            $sug[] = ['name' => 'Malla Meshrite', 'is_new' => true];
+            $sug[] = ['name' => 'Malla Meshrite', 'is_new' => true, 'is_gravel' => false];
         }
         $results->suggested = $sug;
 
+        $results->uses_gravel = collect($sug)->contains('is_gravel', true);
         $results->average_gravel_size = ($average*6)/25400;
 
         $ags = $results->average_gravel_size;
@@ -472,7 +473,7 @@ class ArenasController extends Controller
             return $key;
           })
           ->map(function ($rec) use ($new_tech) {
-            $rec->is_new = (boolean) $new_tech->search($rec->recommended_mechanism);
+            $rec->is_new = $new_tech->contains($rec->recommended_mechanism);
             return $rec;
           })
           ->values();
