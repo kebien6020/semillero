@@ -207,21 +207,29 @@ class ArenasController extends Controller
         $avg = $average;
         if ($u <= 1.5 && $avg >= 62 && $avg <= 1000) {
             $sug[] = ['name' => 'Liner ranurado', 'is_new' => false, 'is_gravel' => false];
-        } elseif ($u >= 1.5 && $u <= 3 && $avg >= 126 && $avg <= 500) {
+        }
+        if ($u >= 1.5 && $u <= 3 && $avg >= 126 && $avg <= 500) {
             $sug[] = ['name' => 'Malla welded wire wrapped', 'is_new' => false, 'is_gravel' => false];
-        } elseif ($u >= 3 && $u <=5 && $avg >= 251 && $avg <= 500) {
+        }
+        if ($u >= 3 && $u <=5 && $avg >= 251 && $avg <= 500) {
             $sug[] = ['name' => 'Malla premium', 'is_new' => false, 'is_gravel' => false];
-        } elseif ($u <= 1.5 && $avg >= 126 && $avg <= 1000) {
+        }
+        if ($u <= 1.5 && $avg >= 126 && $avg <= 1000) {
             $sug[] = ['name' => 'Empaque con Grava y Liner Ranurado', 'is_new' => false, 'is_gravel' => true];
-        } elseif ($u <= 5 && $avg >= 126 && $avg <= 1000) {
+        }
+        if ($u <= 5 && $avg >= 126 && $avg <= 1000) {
             $sug[] = ['name' => 'Empaque con grava y malla', 'is_new' => false, 'is_gravel' => true];
-        } elseif ($u >= 5 && $u <= 13 && $avg >= 50 && $avg <= 250) {
+        }
+        if ($u >= 5 && $u <= 13 && $avg >= 50 && $avg <= 250) {
             $sug[] = ['name' => 'Frac Pack y Malla', 'is_new' => true, 'is_gravel' => true];
-        } elseif ($u >= 2.5 && $u <= 6.7 && $avg >= 80 && $avg <= 700) {
+        }
+        if ($u >= 2.5 && $u <= 6.7 && $avg >= 80 && $avg <= 700) {
             $sug[] = ['name' => 'Malla Expandible', 'is_new' => true, 'is_gravel' => false];
-        } elseif ($u >= 2 && $u <= 11 && $avg >= 10 && $avg <= 500) {
+        }
+        if ($u >= 2 && $u <= 11 && $avg >= 10 && $avg <= 500) {
             $sug[] = ['name' => 'Malla Cerámica', 'is_new' => true, 'is_gravel' => false];
-        } elseif ($u >= 2 && $u <= 12 && $avg >= 35 && $avg <= 250) {
+        }
+        if ($u >= 2 && $u <= 12 && $avg >= 35 && $avg <= 250) {
             $sug[] = ['name' => 'Malla Meshrite', 'is_new' => true, 'is_gravel' => false];
         }
         $results->suggested = $sug;
