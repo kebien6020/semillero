@@ -448,11 +448,11 @@ class ArenasController extends Controller
         $basins = Basin::with('fields.sandControlSummary')->get();
         foreach ($basins as $i => $basin) {
             foreach ($basin->fields as $j => $field) {
-                if (!count($field->sandControlSummary)) {
+                if (is_null($field->sandControlSummary)) {
                     $basins[$i]->fields->forget($j);
                 }
             }
-            if (!count($basin->fields)) {
+            if ($basin->fields->count() === 0) {
                 $basins->forget($i);
             }
         }
